@@ -1,13 +1,9 @@
-import './DeckCover.scss';
 import React from 'react';
+import './DeckCover.scss';
 import { FlipTile } from '../FlipTile/FlipTile';
-import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { Button } from '../Button/Button';
-
-interface Deck {
-  title: string;
-  summary: string;
-}
+import { ProgressBar } from '../ProgressBar/ProgressBar';
+import { Deck } from '../../models/Deck';
 
 interface DeckCoverProps {
   isActive: boolean;
@@ -39,12 +35,19 @@ export const DeckCover = ({
   }
 
   function getCoverBack() {
+    const percentStudied = 77;
     return (
       <div className="cover-back">
         <label>{deck.title}</label>
-        <p>{deck.summary}</p>
+        <p>{deck.desc}</p>
         <div className="button-strip">
-          <ProgressBar percentComplete={50} />
+          <div className="progress-bar">
+            <ProgressBar
+              percent={percentStudied}
+              label={`${percentStudied}% studied`}
+              variant="labelOnTop"
+            />
+          </div>
           <Button bubbleOnClickEvent={false} onClick={onEditClick}>
             edit
           </Button>

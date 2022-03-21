@@ -1,6 +1,6 @@
 .deck-cover {
-  width: 300px;
-  height: 175px;
+  width: 325px;
+  height: 200px;
 
   .cover-front,
   .cover-back {
@@ -29,12 +29,13 @@
       font-size: 20px;
     }
     p {
+      overflow: scroll;
       font-size: 12px;
       flex: 1;
     }
     .button-strip {
       display: flex;
-      div {
+      .progress-bar {
         flex: 1;
       }
 

@@ -2,12 +2,18 @@ import React from 'react';
 import './App.scss';
 import { useState } from 'react';
 import { DeckCover } from './components/DeckCover/DeckCover';
+import { Deck } from './models/Deck';
 
-const testDeck = {
+const testDeck: Deck = {
+  id: 0,
   title: 'English 101',
-  summary:
-    'The course concentrates primarily on expository, effective composing, revising, and editing strategies.',
+  desc: 'The course concentrates primarily on expository, effective composing, revising, and editing strategies.',
+  access: 'Private',
+  frontLang: 'English',
+  backLang: 'English',
+  cards: [],
 };
+
 function App() {
   const [isActive, setIsActive] = useState(false);
   return (

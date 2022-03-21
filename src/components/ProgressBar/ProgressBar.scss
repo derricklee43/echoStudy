@@ -1,0 +1,32 @@
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+
+  label.bar-label {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .outer-bar {
+    background-color: #ffff;
+    border: 1px solid #25283d;
+    border-radius: 10px;
+    height: 10px;
+    width: 100%;
+
+    .inner-bar {
+      background-color: #25283d;
+      border-radius: inherit;
+      height: 10px;
+      min-width: 5px;
+    }
+  }
+
+  &.labelOnRight {
+    flex-direction: row-reverse;
+
+    label.bar-label {
+      margin-left: 5px;
+    }
+  }
+}
