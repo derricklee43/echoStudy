@@ -45,10 +45,10 @@ export const DeckCover = ({
         <p>{deck.summary}</p>
         <div className="button-strip">
           <ProgressBar percentComplete={50} />
-          <Button variant="dark" bubbleOnClickEvent={false} onClick={onEditClick}>
+          <Button bubbleOnClickEvent={false} onClick={onEditClick}>
             edit
           </Button>
-          <Button variant="dark" bubbleOnClickEvent={false} onClick={onStudyClick}>
+          <Button bubbleOnClickEvent={false} onClick={onStudyClick}>
             study
           </Button>
         </div>
