@@ -1,8 +1,8 @@
-import './DeckCover.scss';
+import './deck-cover.scss';
 import React from 'react';
-import { FlipTile } from '../FlipTile/FlipTile';
-import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { Button } from '../Button/Button';
+import { FlipTile } from '../flip-tile/flip-tile';
+import { ProgressBar } from '../progress-bar/progress-bar';
+import { Button } from '../button/button';
 
 interface Deck {
   title: string;
@@ -45,10 +45,10 @@ export const DeckCover = ({
         <p>{deck.summary}</p>
         <div className="button-strip">
           <ProgressBar percentComplete={50} />
-          <Button bubbleOnClickEvent={false} onClick={onEditClick}>
+          <Button variant="dark" bubbleOnClickEvent={false} onClick={onEditClick}>
             edit
           </Button>
-          <Button bubbleOnClickEvent={false} onClick={onStudyClick}>
+          <Button variant="dark" bubbleOnClickEvent={false} onClick={onStudyClick}>
             study
           </Button>
         </div>
