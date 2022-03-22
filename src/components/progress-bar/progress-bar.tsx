@@ -1,5 +1,5 @@
+import './progress-bar.scss';
 import React from 'react';
-import './ProgressBar.scss';
 
 interface ProgressBarProps {
   percent: number;

@@ -25,22 +25,27 @@
     display: flex;
     flex-direction: column;
     background-color: #efefef;
+
     label {
       font-size: 20px;
     }
+
     p {
       overflow: scroll;
       font-size: 12px;
       flex: 1;
     }
+
     .button-strip {
       display: flex;
-      .progress-bar {
+
+      div {
         flex: 1;
       }
 
       button {
         margin-left: 15px;
+        border-color: transparent;
       }
     }
   }

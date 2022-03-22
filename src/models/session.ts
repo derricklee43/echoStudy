@@ -1,5 +1,5 @@
-import { Deck } from './Deck';
-import { User } from './User';
+import { Deck } from './deck';
+import { User } from './user';
 
 export type PlayOrder = 'Random' | 'Sequential';
 

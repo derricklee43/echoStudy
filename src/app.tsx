@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.scss';
+import './app.scss';
 import { useState } from 'react';
-import { DeckCover } from './components/DeckCover/DeckCover';
-import { Deck } from './models/Deck';
+import { DeckCover } from './components/deck-cover/deck-cover';
+import { Button } from './components/button/button';
+import { Deck } from './models/deck';
 
 const testDeck: Deck = {
   id: 0,
@@ -25,6 +26,14 @@ function App() {
         onEditClick={dummy}
         onStudyClick={dummy}
       />
+      <div>
+        <Button variant="dark" onClick={dummy}>
+          Hello
+        </Button>
+        <Button variant="light" onClick={dummy}>
+          World
+        </Button>
+      </div>
     </div>
   );
 }

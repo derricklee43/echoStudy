@@ -1,9 +1,9 @@
 import React from 'react';
-import './DeckCover.scss';
-import { FlipTile } from '../FlipTile/FlipTile';
-import { Button } from '../Button/Button';
-import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { Deck } from '../../models/Deck';
+import './deck-cover.scss';
+import { FlipTile } from '../flip-tile/flip-tile';
+import { ProgressBar } from '../progress-bar/progress-bar';
+import { Button } from '../button/button';
+import { Deck } from '../../models/deck';
 
 interface DeckCoverProps {
   isActive: boolean;
