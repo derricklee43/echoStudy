@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import './assets/colors';
 
 :root {
-  background-color: #1d1d21;
+  background-color: $black;
 }
 
 .App {
