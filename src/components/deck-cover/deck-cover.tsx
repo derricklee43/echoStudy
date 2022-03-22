@@ -35,7 +35,7 @@ export const DeckCover = ({
   }
 
   function getCoverBack() {
-    const percentStudied = 77;
+    const percentStudied = 1;
     return (
       <div className="cover-back">
         <label>{deck.title}</label>

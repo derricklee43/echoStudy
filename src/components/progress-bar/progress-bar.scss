@@ -15,10 +15,12 @@
     width: 100%;
 
     .inner-bar {
-      background-color: #25283d;
+      border: inherit;
       border-radius: inherit;
-      height: 10px;
-      min-width: 5px;
+      height: inherit;
+      margin-left: -1px;
+      min-width: 10px;
+      background-color: #25283d;
     }
   }
 

@@ -12,7 +12,7 @@ export const ProgressBar = ({ percent, label, variant }: ProgressBarProps) => {
     <div className={`progress-bar ${variant}`}>
       <label className="bar-label">{label}</label>
       <div className="outer-bar">
-        <div className="inner-bar" style={{ width: `${percent}%` }}></div>
+        {percent > 0 && <div className="inner-bar" style={{ width: `${percent}%` }}></div>}
       </div>
     </div>
   );
