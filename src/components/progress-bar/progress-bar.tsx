@@ -4,10 +4,10 @@ import React from 'react';
 interface ProgressBarProps {
   percent: number;
   label: string;
-  variant: 'labelOnTop' | 'labelOnRight';
+  variant?: 'label-on-top' | 'label-on-right';
 }
 
-export const ProgressBar = ({ percent, label, variant }: ProgressBarProps) => {
+export const ProgressBar = ({ percent, label, variant = 'label-on-top' }: ProgressBarProps) => {
   return (
     <div className={`progress-bar ${variant}`}>
       <label className="bar-label">{label}</label>

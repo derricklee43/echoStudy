@@ -42,11 +42,7 @@ export const DeckCover = ({
         <p>{deck.desc}</p>
         <div className="button-strip">
           <div className="progress-bar">
-            <ProgressBar
-              percent={percentStudied}
-              label={`${percentStudied}% studied`}
-              variant="labelOnTop"
-            />
+            <ProgressBar percent={percentStudied} label={`${percentStudied}% studied`} />
           </div>
           <Button bubbleOnClickEvent={false} onClick={onEditClick}>
             edit
