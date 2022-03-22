@@ -1,4 +1,4 @@
-import { CardContent } from './CardContent';
+import { CardContent } from './card-content';
 
 export interface Card {
   id: number;

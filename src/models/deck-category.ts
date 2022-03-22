@@ -1,4 +1,4 @@
-import { Deck } from './Deck';
+import { Deck } from './deck';
 
 export interface DeckCategory {
   id: number;

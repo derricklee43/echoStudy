@@ -1,9 +1,9 @@
-import './Button.scss';
+import './button.scss';
 import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary';
+  variant?: 'dark' | 'light';
   className?: string;
   bubbleOnClickEvent?: boolean;
   onClick: (event: React.MouseEvent) => void;
@@ -11,7 +11,7 @@ interface ButtonProps {
 
 export const Button = ({
   className,
-  variant = 'primary',
+  variant = 'dark',
   bubbleOnClickEvent = true,
   children,
   onClick,

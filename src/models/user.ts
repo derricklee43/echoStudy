@@ -1,7 +1,7 @@
-import { Language } from './CardContent';
-import { Deck } from './Deck';
-import { DeckCategory } from './DeckCategory';
-import { Session } from './Session';
+import { Language } from './card-content';
+import { Deck } from './deck';
+import { DeckCategory } from './deck-category';
+import { Session } from './session';
 
 // highly WIP, refers to EchoUser
 // iterate on this as backend is created [MS Identity]

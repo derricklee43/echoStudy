@@ -1,5 +1,5 @@
-import { Language } from './CardContent';
-import { Card } from './Card';
+import { Language } from './card-content';
+import { Card } from './card';
 
 export type Access = 'Public' | 'Private';
 

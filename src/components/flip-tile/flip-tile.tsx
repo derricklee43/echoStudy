@@ -1,4 +1,4 @@
-import './FlipTile.scss';
+import './flip-tile.scss';
 import React from 'react';
 
 interface FlipTileProps {

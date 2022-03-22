@@ -1,4 +1,4 @@
-import './ProgressBar.scss';
+import './progress-bar.scss';
 import React from 'react';
 
 interface ProgressBarProps {

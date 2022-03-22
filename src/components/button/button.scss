@@ -1,0 +1,30 @@
+.button {
+  padding: 3px 13px;
+  border-radius: 4px;
+  font-size: 15px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+
+  &:hover {
+    transition-duration: 200ms;
+  }
+
+  &.dark {
+    border-color: #8b92c0;
+    background-color: #25283d;
+    color: #ffff;
+    &:hover {
+      background-color: #1e1f31;
+    }
+  }
+
+  &.light {
+    background-color: #ffff;
+    border-color: #25283d;
+    color: #25283d;
+
+    &:hover {
+      background-color: #f4f1f8;
+    }
+  }
+}
