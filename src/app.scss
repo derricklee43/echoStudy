@@ -8,5 +8,15 @@
 .App {
   font-family: 'Comfortaa';
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+  }
 }

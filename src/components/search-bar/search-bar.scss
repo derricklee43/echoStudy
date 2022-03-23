@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import '../../assets/colors';
+
+// probably need to make all these props
+$height: 40px;
+$height-edge: ($height - 2); // offsets due to vertical border
+$font-size: 20px; 
+
+.search-bar-wrapper {
+    display: inline-flex;
+    justify-content: space-between;
+    border: 1px solid $lightBlue; 
+    width: 100%;
+    height: $height;
+    background-color: $black;
+
+    .search-icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        width: $height-edge;
+        height: $height-edge;
+
+        &.has-text {
+            border-right: 1px solid $lightBlue; 
+            background-color: $blue;
+        }
+
+        .search-icon {
+        }
+    }
+
+    .search-bar-input {
+        flex: auto;
+        font-family: 'Comfortaa';
+        border: none;
+        outline: none;
+        background-color: $black;
+        color: $flashcardWhite;
+        font-size: $font-size;
+        height: $height-edge;
+    }
+
+    .cancel-icon-container {
+        // visibility: hidden;
+        display: none;
+        width: $height-edge;
+        height: $height-edge;
+
+        &.has-text {
+            // visibility: visible;
+            display: flex;
+            justify-content: center;
+            align-items: center;   
+        }
+
+        .cancel-icon {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    
+}
