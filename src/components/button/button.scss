@@ -1,3 +1,5 @@
+@import '../../assets/colors';
+
 .button {
   padding: 3px 13px;
   border-radius: 4px;
@@ -10,21 +12,21 @@
   }
 
   &.dark {
-    border-color: #8b92c0;
-    background-color: #25283d;
-    color: #ffff;
+    border-color: $lightBlue;
+    background-color: $blue;
+    color: $white;
     &:hover {
-      background-color: #1e1f31;
+      background-color: $blueHover;
     }
   }
 
   &.light {
-    background-color: #ffff;
-    border-color: #25283d;
-    color: #25283d;
+    background-color: $white;
+    border-color: $blue;
+    color: $blue;
 
     &:hover {
-      background-color: #f4f1f8;
+      background-color: $whiteHover;
     }
   }
 }
