@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { DeckCover } from './components/deck-cover/deck-cover';
 import { Button } from './components/button/button';
 import { Deck } from './models/deck';
+import { SearchBar } from './components/search-bar/search-bar';
 
 const testDeck: Deck = {
   id: 0,
@@ -19,6 +20,13 @@ function App() {
   const [isActive, setIsActive] = useState(false);
   return (
     <div className="App">
+      <div className="search-bar">
+        <SearchBar
+          placeholder="search my decks"
+          onChange={() => console.log('changed')}
+          onEnterPressed={(value: string) => console.log('enter pressed: ' + value)}
+        />
+      </div>
       <DeckCover
         isActive={isActive}
         onClick={() => setIsActive(!isActive)}
