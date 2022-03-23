@@ -18,8 +18,8 @@ $font-size: 20px;
         display: flex;
         justify-content: center;
         align-items: center;   
-        width: $height-edge;
-        height: $height-edge;
+        width: $height;
+        height: $height;
 
         &.has-text {
             border-right: 1px solid $lightBlue; 
