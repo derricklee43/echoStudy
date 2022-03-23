@@ -20,10 +20,6 @@ export const SearchBar = ({
 }: SearchBarProps) => {
   const [value, setValue] = useState(initialText);
 
-  const hasText = useCallback(() => {
-    return !!value && value.length > 0;
-  }, [value]);
-
   const onChangeHandler = useCallback(
     (e) => {
       setValue(e.target.value);
@@ -43,6 +39,10 @@ export const SearchBar = ({
     [onEnterPressed]
   );
 
+  function hasText() {
+    return value && value.length > 0;
+  }
+
   return (
     <div className="search-bar-wrapper">
       <div className={`search-icon-container ${hasText() ? 'has-text' : ''}`}>
@@ -55,7 +55,7 @@ export const SearchBar = ({
         type="text"
         onChange={onChangeHandler}
         onKeyPress={onEnterPressHandler}
-        disabled={!!disabled}
+        disabled={disabled}
       />
       <div className={`cancel-icon-container ${hasText() ? 'has-text' : ''}`}>
         <CancelIcon className="cancel-icon" onClick={() => setValue('')} />
