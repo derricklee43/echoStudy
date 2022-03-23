@@ -38,7 +38,9 @@ $font-size: 20px;
         background-color: $black;
         color: $flashcardWhite;
         font-size: $font-size;
-        height: $height-edge;
+        height: $height;
+        padding-left: 8px;
+        box-sizing: border-box;
     }
 
     .cancel-icon-container {

@@ -51,7 +51,7 @@ export const SearchBar = ({
       <input
         className="search-bar-input"
         placeholder={placeholder ?? ''}
-        value={value}
+        value={value ?? ''}
         type="text"
         onChange={onChangeHandler}
         onKeyPress={onEnterPressHandler}
