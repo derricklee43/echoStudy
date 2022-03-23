@@ -44,8 +44,8 @@ $font-size: 20px;
     .cancel-icon-container {
         // visibility: hidden;
         display: none;
-        width: $height-edge;
-        height: $height-edge;
+        width: $height;
+        height: $height;
 
         &.has-text {
             // visibility: visible;
