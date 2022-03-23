@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState, KeyboardEvent, ChangeEvent } from 'react';
 import { ReactComponent as CancelIcon } from '../../assets/svg/cancel-icon.svg';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import './search-bar.scss';
@@ -20,29 +20,6 @@ export const SearchBar = ({
 }: SearchBarProps) => {
   const [value, setValue] = useState(initialText);
 
-  const onChangeHandler = useCallback(
-    (e) => {
-      setValue(e.target.value);
-      onChange?.(e.target.value);
-    },
-    [onChange, setValue]
-  );
-
-  const onEnterPressHandler = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        onEnterPressed?.(e.target.value);
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    },
-    [onEnterPressed]
-  );
-
-  function hasText() {
-    return value && value.length > 0;
-  }
-
   return (
     <div className="search-bar-wrapper">
       <div className={`search-icon-container ${hasText() ? 'has-text' : ''}`}>
@@ -62,4 +39,22 @@ export const SearchBar = ({
       </div>
     </div>
   );
+
+  function hasText() {
+    return value && value.length > 0;
+  }
+
+  function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
+    setValue(e.target.value);
+    onChange?.(e.target.value);
+  }
+
+  function onEnterPressHandler(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      const inputElement = e.target as HTMLInputElement;
+      onEnterPressed?.(inputElement.value);
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
 };
