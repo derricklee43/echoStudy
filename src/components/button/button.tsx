@@ -1,5 +1,5 @@
-import './button.scss';
 import React from 'react';
+import './button.scss';
 
 interface ButtonProps {
   children: React.ReactNode;

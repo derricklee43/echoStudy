@@ -3,12 +3,18 @@ import './app.scss';
 import { useState } from 'react';
 import { DeckCover } from './components/deck-cover/deck-cover';
 import { Button } from './components/button/button';
+import { Deck } from './models/deck';
 
-const testDeck = {
+const testDeck: Deck = {
+  id: 0,
   title: 'English 101',
-  summary:
-    'The course concentrates primarily on expository, effective composing, revising, and editing strategies.',
+  desc: 'The course concentrates primarily on expository, effective composing, revising, and editing strategies.',
+  access: 'Private',
+  frontLang: 'English',
+  backLang: 'English',
+  cards: [],
 };
+
 function App() {
   const [isActive, setIsActive] = useState(false);
   return (
