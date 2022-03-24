@@ -5,6 +5,7 @@ import { DeckCover } from './components/deck-cover/deck-cover';
 import { Button } from './components/button/button';
 import { Deck } from './models/deck';
 import { SearchBar } from './components/search-bar/search-bar';
+import { DropDown, DropDownOption } from './components/drop-down/drop-down';
 
 const testDeck: Deck = {
   id: 0,
@@ -18,6 +19,7 @@ const testDeck: Deck = {
 
 function App() {
   const [isActive, setIsActive] = useState(false);
+  const [selectedChoice, setSelectedOption] = useState(getOptions()[0]);
   return (
     <div className="App">
       <div className="search-bar">
@@ -34,16 +36,38 @@ function App() {
         onEditClick={dummy}
         onStudyClick={dummy}
       />
-      <div>
-        <Button variant="dark" onClick={dummy}>
-          Hello
-        </Button>
+      <div className="improvised-popup">
+        <DropDown
+          variant="light"
+          className="test-drop-down"
+          label="hello"
+          options={getOptions()}
+          buttonLabel={selectedChoice.value}
+          onOptionSelect={(choice) => {
+            setSelectedOption(choice);
+          }}
+        />
         <Button variant="light" onClick={dummy}>
           World
         </Button>
       </div>
+
+      <DropDown
+        variant="dark"
+        buttonLabel={selectedChoice.value}
+        options={getOptions()}
+        onOptionSelect={(choice) => setSelectedOption(choice)}
+      />
+      <Button variant="dark" onClick={dummy}>
+        Hello
+      </Button>
     </div>
   );
+}
+
+function getOptions(): DropDownOption[] {
+  const options = ['hello world', 'b', 'c', 'd'];
+  return options.map((option) => ({ id: option, value: option }));
 }
 
 function dummy() {

@@ -1,0 +1,69 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.drop-down {
+  @include flex-center;
+
+  & > label {
+    margin-right: 8px;
+
+    &.light {
+      color: $blue;
+    }
+
+    &.dark {
+      color: $white;
+    }
+  }
+}
+
+// avoid nesting in .drop-down to make menu more easily targetable
+.drop-down-menu {
+  position: relative;
+  width: 150px;
+
+  button {
+    width: 100%;
+    padding: 5px 0px 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .options {
+    width: 100%;
+    margin-top: 2px;
+    position: absolute;
+    z-index: 1;
+    background-color: $white;
+    border-radius: $standard-radius + 1px; //hides corners of div
+    @include box-shadow;
+
+    .option {
+      width: 100%;
+      box-sizing: border-box;
+      border-left: 1px solid $flashcard-white;
+      border-right: 1px solid $flashcard-white;
+      background-color: $white;
+      overflow: scroll;
+      padding: 5px;
+      @include white-hover;
+
+      &:first-child {
+        border-radius: $standard-radius $standard-radius 0px 0px;
+        border-top: 1px solid $flashcard-white;
+      }
+
+      &:last-child {
+        border-radius: 0px 0px $standard-radius $standard-radius;
+        border-bottom: 1px solid $flashcard-white;
+      }
+    }
+
+    &.hidden {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s 100ms, opacity 100ms ease-out;
+    }
+  }
+}

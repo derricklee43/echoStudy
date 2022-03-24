@@ -1,3 +1,7 @@
+@import '../../assets/colors';
+
+$height: 10px;
+
 .progress-bar {
   display: flex;
   flex-direction: column;
@@ -8,19 +12,19 @@
   }
 
   .outer-bar {
-    background-color: #ffff;
-    border: 1px solid #25283d;
-    border-radius: 10px;
-    height: 10px;
+    background-color: $white;
+    border: 1px solid $blue;
+    border-radius: $height;
+    height: $height;
     width: 100%;
 
     .inner-bar {
       border: inherit;
       border-radius: inherit;
-      height: inherit;
+      height: $height;
       margin-left: -1px;
       min-width: 10px;
-      background-color: #25283d;
+      background-color: $blue;
     }
   }
 

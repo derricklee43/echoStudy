@@ -1,0 +1,21 @@
+@import '../../assets/colors';
+
+$arrow-height: 14px;
+
+svg.arrow {
+  padding: 0px 10px;
+  width: $arrow-height;
+  height: $arrow-height;
+
+  &.dark {
+    fill: $white;
+  }
+
+  &.light {
+    fill: $blue;
+  }
+
+  &.up {
+    transform: rotate(180deg);
+  }
+}

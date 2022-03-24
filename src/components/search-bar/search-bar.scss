@@ -3,63 +3,62 @@
 
 // probably need to make all these props
 $height: 40px;
-$font-size: 20px; 
+$font-size: 20px;
 
 .search-bar-wrapper {
-    display: inline-flex;
-    justify-content: space-between;
-    border: 1px solid $lightBlue; 
-    width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  border: 1px solid $light-blue;
+  width: 100%;
+  height: $height;
+  background-color: $black;
+
+  .search-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $height;
     height: $height;
+
+    &.has-text {
+      border-right: 1px solid $light-blue;
+      background-color: $blue;
+    }
+
+    .search-icon {
+    }
+  }
+
+  .search-bar-input {
+    flex: auto;
+    font-family: 'Comfortaa';
+    border: none;
+    outline: none;
     background-color: $black;
+    color: $flashcard-white;
+    font-size: $font-size;
+    height: $height;
+    padding-left: 8px;
+    box-sizing: border-box;
+  }
 
-    .search-icon-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;   
-        width: $height;
-        height: $height;
+  .cancel-icon-container {
+    // visibility: hidden;
+    display: none;
+    width: $height;
+    height: $height;
 
-        &.has-text {
-            border-right: 1px solid $lightBlue; 
-            background-color: $blue;
-        }
-
-        .search-icon {
-        }
+    &.has-text {
+      // visibility: visible;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .search-bar-input {
-        flex: auto;
-        font-family: 'Comfortaa';
-        border: none;
-        outline: none;
-        background-color: $black;
-        color: $flashcardWhite;
-        font-size: $font-size;
-        height: $height;
-        padding-left: 8px;
-        box-sizing: border-box;
+    .cancel-icon {
+      &:hover {
+        cursor: pointer;
+      }
     }
-
-    .cancel-icon-container {
-        // visibility: hidden;
-        display: none;
-        width: $height;
-        height: $height;
-
-        &.has-text {
-            // visibility: visible;
-            display: flex;
-            justify-content: center;
-            align-items: center;   
-        }
-
-        .cancel-icon {
-            &:hover {
-                cursor: pointer;
-            }
-        }
-    }
-    
+  }
 }
