@@ -26,6 +26,8 @@ function App() {
         <SearchBar
           placeholder="search my decks"
           onChange={() => console.log('changed')}
+          debounceMs={500}
+          onDebouncedChange={(value: string) => console.log('debounce-changed: ' + value)}
           onEnterPressed={(value: string) => console.log('enter pressed: ' + value)}
         />
       </div>
