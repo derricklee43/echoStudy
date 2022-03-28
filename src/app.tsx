@@ -78,6 +78,7 @@ function App() {
           World
         </Button>
       </div>
+
       <DropDown
         variant="dark"
         buttonLabel={selectedChoice.value}
@@ -135,7 +136,7 @@ function App() {
 }
 
 function getOptions(): DropDownOption[] {
-  const options = ['hello world', 'b', 'c', 'd'];
+  const options = ['hello world', 'jsdflkahsdf;lasdkjfas;dlfkjasd;flkajsdf;laksdjfl;ks', 'c', 'd'];
   return options.map((option) => ({ id: option, value: option }));
 }
 

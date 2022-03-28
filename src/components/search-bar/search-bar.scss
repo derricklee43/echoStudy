@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
 @import '../../assets/colors';
+@import '../../assets/styles';
 
 // probably need to make all these props
 $height: 40px;
@@ -14,9 +15,7 @@ $font-size: 20px;
   background-color: $black;
 
   .search-icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-center;
     width: $height;
     height: $height;
 
@@ -43,16 +42,12 @@ $font-size: 20px;
   }
 
   .cancel-icon-container {
-    // visibility: hidden;
     display: none;
     width: $height;
     height: $height;
 
     &.has-text {
-      // visibility: visible;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @include flex-center;
     }
 
     .cancel-icon {

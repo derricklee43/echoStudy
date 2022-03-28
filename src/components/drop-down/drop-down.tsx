@@ -41,7 +41,9 @@ export const DropDown = ({
     return (
       <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
         <label>{buttonLabel}</label>
-        <Arrow variant={variant} orientation={isOpen ? 'up' : 'down'} />
+        <div>
+          <Arrow variant={variant} orientation={isOpen ? 'up' : 'down'} />
+        </div>
       </Button>
     );
   }
