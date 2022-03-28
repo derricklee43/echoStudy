@@ -2,8 +2,12 @@
 
 $standard-radius: 4px;
 
+@mixin standard-transition {
+  transition: 200ms;
+}
+
 @mixin hover($background-color) {
-  transition-duration: 200ms;
+  @include standard-transition;
   &:hover {
     background-color: $background-color;
   }

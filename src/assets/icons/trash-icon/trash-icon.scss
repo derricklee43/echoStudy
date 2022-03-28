@@ -1,0 +1,19 @@
+@import '../../colors';
+@import '../../styles';
+
+svg.trash-icon {
+  @include standard-transition;
+
+  &.inactive {
+    fill: $light-blue;
+    path:last-child {
+      stroke: $light-blue;
+    }
+  }
+  &.active {
+    fill: $flashcard-white;
+    path:last-child {
+      stroke: $flashcard-white;
+    }
+  }
+}

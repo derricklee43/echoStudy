@@ -1,0 +1,16 @@
+@import '../../colors';
+@import '../../styles';
+
+svg.flashcard-arrow-icon {
+  @include standard-transition;
+  &.up {
+    transform: rotate(180deg);
+  }
+
+  &.inactive {
+    fill: $light-blue;
+  }
+  &.active {
+    fill: $flashcard-white;
+  }
+}

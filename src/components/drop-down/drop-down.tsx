@@ -1,6 +1,6 @@
 import './drop-down.scss';
 import React, { useState } from 'react';
-import { Arrow } from '../arrow/arrow';
+import { Arrow } from '../../assets/icons/arrow/arrow';
 import { Button } from '../button/button';
 
 export interface DropDownOption {

@@ -6,35 +6,35 @@
   transition: 0.25s;
   min-width: 100px;
   min-height: 100px;
-}
 
-.card {
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  transition: -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+  .card {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    transition: -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      -webkit-transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
 
-.front,
-.back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
+  .front,
+  .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
 
-.back {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-.card.is-flipped {
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
+  .back {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+  .card.is-flipped {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
 }

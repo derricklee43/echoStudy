@@ -1,10 +1,10 @@
 import './arrow.scss';
 import React from 'react';
-import { ReactComponent as DownArrow } from '../../assets/svg/down-arrow.svg';
+import { ReactComponent as DownArrow } from '../../svg/down-arrow.svg';
 
 interface ArrowProps {
   variant?: 'dark' | 'light';
-  orientation: 'up' | 'down';
+  orientation?: 'up' | 'down';
   className?: string;
 }
 

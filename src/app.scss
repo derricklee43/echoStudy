@@ -11,13 +11,22 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 100vh;
 
   .search-bar {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 400px;
+  }
+
+  .flashcards-container {
+    width: 1200px;
+    ul {
+      list-style-type: none;
+      li {
+        margin: 30px 0px;
+      }
+    }
   }
 
   .improvised-popup {
