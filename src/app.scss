@@ -1,5 +1,6 @@
 @import './assets/colors';
 @import './assets/styles';
+
 :root {
   background-color: $black;
 }
@@ -10,6 +11,15 @@
   justify-content: space-evenly;
   align-items: center;
   height: 100vh;
+
+  .text-areas {
+    display: flex;
+    gap: 16px;
+    // so we can see the labels and stuff
+    background-color: white;
+    padding: 16px;
+    width: 800px;
+  }
 
   .search-bar {
     display: flex;
