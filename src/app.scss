@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
 @import './assets/colors';
-
+@import './assets/styles';
 :root {
   background-color: $black;
 }
 
 .App {
-  font-family: 'Comfortaa';
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -18,5 +16,19 @@
     align-items: center;
     justify-content: center;
     width: 400px;
+  }
+
+  .improvised-popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 200px;
+    padding: 0px 50px;
+    background-color: white;
+    border-radius: $standard-radius;
+  }
+  .test-drop-down {
+    width: 200px;
   }
 }

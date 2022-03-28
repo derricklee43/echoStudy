@@ -1,5 +1,5 @@
-import React from 'react';
 import './flip-tile.scss';
+import React from 'react';
 
 interface FlipTileProps {
   isFlipped: boolean;

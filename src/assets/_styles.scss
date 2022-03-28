@@ -1,0 +1,34 @@
+@import './colors';
+
+$standard-radius: 4px;
+
+@mixin hover($background-color) {
+  transition-duration: 200ms;
+  &:hover {
+    background-color: $background-color;
+  }
+}
+
+@mixin blue-hover {
+  @include hover($blue-hover);
+}
+
+@mixin white-hover {
+  @include hover($white-hover);
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin box-shadow {
+  box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+@mixin ellipsis-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
