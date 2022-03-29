@@ -17,7 +17,8 @@ $font-size: 20px;
   .search-icon-container {
     @include flex-center;
     width: $height;
-    height: $height;
+    height: $height; 
+    transition: all 100ms ease-in-out;
 
     &.has-text {
       border-right: 1px solid $light-blue;
