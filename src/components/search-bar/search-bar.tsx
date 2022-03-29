@@ -15,24 +15,24 @@ export interface SearchBarProps {
   initialText?: string;
   placeholder?: string;
   disabled?: boolean;
-  debounceMs?: number; // default: 250ms
+  debounceMs?: number;
   onChange?: (value: string) => void;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
 }
 
 export const SearchBar = ({
-  initialText,
+  initialText = '',
   placeholder,
   disabled,
-  debounceMs,
+  debounceMs = 250,
   onChange,
   onEnterPressed,
   onDebouncedChange,
 }: SearchBarProps) => {
   const [value, setValue] = useState(initialText);
   const debouncedChange = useMemo(
-    () => debounce(onDebouncedChange ?? noop, debounceMs ?? 250),
+    () => debounce(onDebouncedChange ?? noop, debounceMs),
     [onDebouncedChange, debounceMs]
   );
 
