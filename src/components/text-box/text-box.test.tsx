@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { TextBox } from './text-box';
+import { TextBox, TextBoxProps } from './text-box';
 
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
 const TEST_VALUE = 'TEST_VALUE';
 
 // text box state is lifted, use this component to propagate changes
-interface MockParentProps {
-  value?: string;
-  label?: string;
-  placeholder?: string;
-}
-
-const MockParent = ({ value, label, placeholder }: MockParentProps) => {
+const MockTextBox = ({ value, label, placeholder }: TextBoxProps) => {
   const [val, setVal] = useState(value ?? '');
   return (
     <TextBox
@@ -27,20 +21,20 @@ const MockParent = ({ value, label, placeholder }: MockParentProps) => {
 
 describe('TextBox', () => {
   it('should render correctly with default props', () => {
-    const { container } = render(<TextBox />);
+    const { container } = render(<MockTextBox />);
     const input = getTextBoxInput(container);
     expect(input).toHaveAttribute('type', 'text');
   });
 
   it('should render label', () => {
-    const { container } = render(<TextBox label={TEST_LABEL} />);
+    const { container } = render(<MockTextBox label={TEST_LABEL} />);
     const label = getTextBoxLabel(container);
     expect(label).toBeTruthy();
     expect(label).toBeInTheDocument();
   });
 
   it('should render placeholder', () => {
-    const { container } = render(<MockParent placeholder={TEST_PLACEHOLDER} />);
+    const { container } = render(<MockTextBox placeholder={TEST_PLACEHOLDER} />);
     const placeholder = screen.getByPlaceholderText(TEST_PLACEHOLDER);
     expect(placeholder).toBeInTheDocument();
 
@@ -52,14 +46,14 @@ describe('TextBox', () => {
   });
 
   it('should work nicely with placeholder when initial text is set', () => {
-    const { container } = render(<MockParent placeholder={TEST_PLACEHOLDER} value={TEST_VALUE} />);
+    const { container } = render(<MockTextBox placeholder={TEST_PLACEHOLDER} value={TEST_VALUE} />);
     const input = getTextBoxInput(container);
     expect(input).toHaveValue(TEST_VALUE);
     expect(input).not.toHaveValue(TEST_PLACEHOLDER);
   });
 
   it('should change label to legend view when input is focused or non-empty', () => {
-    const { container } = render(<MockParent label={TEST_LABEL} />);
+    const { container } = render(<MockTextBox label={TEST_LABEL} />);
     const input = getTextBoxInput(container);
     const label = getTextBoxLabel(container);
 
