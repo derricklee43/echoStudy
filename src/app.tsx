@@ -7,6 +7,7 @@ import { Deck } from './models/deck';
 import { SearchBar } from './components/search-bar/search-bar';
 import { DropDown, DropDownOption } from './components/drop-down/drop-down';
 import { TextArea } from './components/text-area/text-area';
+import { TextBox } from './components/text-box/text-box';
 
 const testDeck: Deck = {
   id: 0,
@@ -41,6 +42,12 @@ function App() {
           value="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
           readonly={true}
         />
+      </div>
+      <div className="text-box">
+        <TextBox label="username" onChange={() => console.log('changed')} />
+      </div>
+      <div className="text-box-dark">
+        <TextBox label="username" variant="dark" onChange={() => console.log('changed')} />
       </div>
       <div className="search-bar">
         <SearchBar

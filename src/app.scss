@@ -20,6 +20,18 @@
     padding: 16px;
     width: 800px;
   }
+  
+  .text-box {
+    width: 400px;
+    padding: 16px;
+    background-color: white;
+  }
+
+  .text-box-dark {
+    width: 400px;
+    padding: 16px;
+    background-color: $black;
+  }
 
   .search-bar {
     display: flex;
