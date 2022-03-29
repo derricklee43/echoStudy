@@ -2,7 +2,7 @@ import React, { useState, KeyboardEvent, ChangeEvent, useRef } from 'react';
 import './text-box.scss';
 
 export interface TextBoxProps {
-  initialText?: string;
+  value?: string;
   inputType?: string; // (e.g. 'text', 'password')
   label?: React.ReactNode;
   placeholder?: string;
@@ -13,7 +13,7 @@ export interface TextBoxProps {
 }
 
 export const TextBox = ({
-  initialText = '',
+  value = '',
   inputType = 'text',
   label,
   placeholder,
@@ -22,7 +22,6 @@ export const TextBox = ({
   className,
   onChange,
 }: TextBoxProps) => {
-  const [value, setValue] = useState(initialText);
   const [isFocused, setFocused] = useState(false);
 
   return (
@@ -51,7 +50,6 @@ export const TextBox = ({
   }
 
   function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-    setValue(e.target.value);
     onChange?.(e.target.value);
   }
 };

@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { TextBox } from './text-box';
 
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
-const TEST_INITIAL_TEXT = 'TEST_INITIAL_TEXT';
+const TEST_VALUE = 'TEST_VALUE';
+
+// text box state is lifted, use this component to propagate changes
+interface MockParentProps {
+  value?: string;
+  label?: string;
+  placeholder?: string;
+}
+
+const MockParent = ({ value, label, placeholder }: MockParentProps) => {
+  const [val, setVal] = useState(value ?? '');
+  return (
+    <TextBox
+      value={val}
+      label={label}
+      placeholder={placeholder}
+      onChange={(v: string) => setVal(v)}
+    />
+  );
+};
 
 describe('TextBox', () => {
   it('should render correctly with default props', () => {
@@ -21,7 +40,7 @@ describe('TextBox', () => {
   });
 
   it('should render placeholder', () => {
-    const { container } = render(<TextBox placeholder={TEST_PLACEHOLDER} />);
+    const { container } = render(<MockParent placeholder={TEST_PLACEHOLDER} />);
     const placeholder = screen.getByPlaceholderText(TEST_PLACEHOLDER);
     expect(placeholder).toBeInTheDocument();
 
@@ -33,16 +52,14 @@ describe('TextBox', () => {
   });
 
   it('should work nicely with placeholder when initial text is set', () => {
-    const { container } = render(
-      <TextBox placeholder={TEST_PLACEHOLDER} initialText={TEST_INITIAL_TEXT} />
-    );
+    const { container } = render(<MockParent placeholder={TEST_PLACEHOLDER} value={TEST_VALUE} />);
     const input = getTextBoxInput(container);
-    expect(input).toHaveValue(TEST_INITIAL_TEXT);
+    expect(input).toHaveValue(TEST_VALUE);
     expect(input).not.toHaveValue(TEST_PLACEHOLDER);
   });
 
   it('should change label to legend view when input is focused or non-empty', () => {
-    const { container } = render(<TextBox label={TEST_LABEL} />);
+    const { container } = render(<MockParent label={TEST_LABEL} />);
     const input = getTextBoxInput(container);
     const label = getTextBoxLabel(container);
 
