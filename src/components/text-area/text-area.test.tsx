@@ -5,7 +5,7 @@ import { TextArea } from './text-area';
 const LINES = 8;
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
-const TEST_INITIAL_TEXT = 'TEST_INITIAL_TEXT';
+const TEST_VALUE = 'TEST_VALUE';
 
 describe('TextArea', () => {
   it('should render correctly with default props', () => {
@@ -33,21 +33,19 @@ describe('TextArea', () => {
     expect(textArea).not.toHaveValue(TEST_PLACEHOLDER);
   });
 
-  it('should work nicely with placeholder when initial text is set', () => {
+  it('should work nicely with placeholder when value is set', () => {
     const { container } = render(
-      <TextArea lines={LINES} placeholder={TEST_PLACEHOLDER} initialText={TEST_INITIAL_TEXT} />
+      <TextArea lines={LINES} placeholder={TEST_PLACEHOLDER} value={TEST_VALUE} />
     );
     const textArea = getTextArea(container);
-    expect(textArea).toHaveValue(TEST_INITIAL_TEXT);
+    expect(textArea).toHaveValue(TEST_VALUE);
     expect(textArea).not.toHaveValue(TEST_PLACEHOLDER);
   });
 
   it('should be immutable and show footer when readonly', () => {
-    const { container } = render(
-      <TextArea lines={LINES} initialText={TEST_INITIAL_TEXT} readonly={true} />
-    );
+    const { container } = render(<TextArea lines={LINES} value={TEST_VALUE} readonly={true} />);
     const textArea = getTextArea(container);
-    expect(textArea).toHaveValue(TEST_INITIAL_TEXT);
+    expect(textArea).toHaveValue(TEST_VALUE);
 
     const readonlyFooter = getTextAreaFooter(container);
     expect(readonlyFooter).toBeTruthy();

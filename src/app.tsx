@@ -32,12 +32,13 @@ function App() {
           placeholder="copy and paste your cards here"
           lines={8}
           label="a cool label"
+          value={textAreaContent}
           onChange={(v: string) => setTextAreaContent(v)}
         />
         <TextArea
           lines={8}
           label="copy your cards"
-          initialText="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
+          value="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
           readonly={true}
         />
       </div>

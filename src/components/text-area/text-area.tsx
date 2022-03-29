@@ -4,7 +4,7 @@ import './text-area.scss';
 
 export interface TextAreaProps {
   lines: number;
-  initialText?: string;
+  value?: string;
   label?: React.ReactNode;
   placeholder?: string;
   readonly?: boolean;
@@ -14,15 +14,13 @@ export interface TextAreaProps {
 
 export const TextArea = ({
   lines,
-  initialText,
+  value = '',
   label,
   placeholder,
   readonly,
   resizable,
   onChange,
 }: TextAreaProps) => {
-  const [value, setValue] = useState(initialText);
-
   return (
     <div className="c-text-area-wrapper">
       {label && <label className="c-text-area-label">{label}</label>}
@@ -49,7 +47,6 @@ export const TextArea = ({
   }
 
   function onChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
-    setValue(e.target.value);
     onChange?.(e.target.value);
   }
 };
