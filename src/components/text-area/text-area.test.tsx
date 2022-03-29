@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { TextArea } from './text-area';
+import { TextArea, TextAreaProps } from './text-area';
 
 const LINES = 8;
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
 const TEST_VALUE = 'TEST_VALUE';
 
+// text box state is lifted, use this component to propagate changes
+const MockTextArea = ({ lines, value, label, placeholder, readonly, onChange }: TextAreaProps) => {
+  const [val, setVal] = useState(value ?? '');
+  return (
+    <TextArea
+      lines={lines}
+      value={val}
+      label={label}
+      placeholder={placeholder}
+      readonly={readonly}
+      onChange={(v: string) => {
+        setVal(v);
+        onChange?.(v);
+      }}
+    />
+  );
+};
+
 describe('TextArea', () => {
   it('should render correctly with default props', () => {
-    const { container } = render(<TextArea lines={LINES} />);
+    const { container } = render(<MockTextArea lines={LINES} />);
     const textArea = getTextArea(container);
     expect(textArea).toHaveAttribute('rows', `${LINES}`);
   });
 
   it('should render label', () => {
-    const { container } = render(<TextArea lines={LINES} label={TEST_LABEL} />);
+    const { container } = render(<MockTextArea lines={LINES} label={TEST_LABEL} />);
     const label = getTextAreaLabel(container);
     expect(label).toBeTruthy();
     expect(label).toBeInTheDocument();
   });
 
   it('should render placeholder', () => {
-    const { container } = render(<TextArea lines={LINES} placeholder={TEST_PLACEHOLDER} />);
+    const { container } = render(<MockTextArea lines={LINES} placeholder={TEST_PLACEHOLDER} />);
     const placeholder = screen.getByPlaceholderText(TEST_PLACEHOLDER);
     expect(placeholder).toBeInTheDocument();
 
@@ -35,7 +53,7 @@ describe('TextArea', () => {
 
   it('should work nicely with placeholder when value is set', () => {
     const { container } = render(
-      <TextArea lines={LINES} placeholder={TEST_PLACEHOLDER} value={TEST_VALUE} />
+      <MockTextArea lines={LINES} placeholder={TEST_PLACEHOLDER} value={TEST_VALUE} />
     );
     const textArea = getTextArea(container);
     expect(textArea).toHaveValue(TEST_VALUE);
@@ -43,7 +61,7 @@ describe('TextArea', () => {
   });
 
   it('should be immutable and show footer when readonly', () => {
-    const { container } = render(<TextArea lines={LINES} value={TEST_VALUE} readonly={true} />);
+    const { container } = render(<MockTextArea lines={LINES} value={TEST_VALUE} readonly={true} />);
     const textArea = getTextArea(container);
     expect(textArea).toHaveValue(TEST_VALUE);
 
@@ -54,7 +72,7 @@ describe('TextArea', () => {
   it('should propagate state changes through onChange', () => {
     const mockOnChangeCallback = jest.fn();
     const callsRef = mockOnChangeCallback.mock.calls;
-    const { container } = render(<TextArea lines={LINES} onChange={mockOnChangeCallback} />);
+    const { container } = render(<MockTextArea lines={LINES} onChange={mockOnChangeCallback} />);
     expect(callsRef.length).toBe(0);
 
     // type 'some text'
