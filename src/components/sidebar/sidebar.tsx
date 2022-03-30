@@ -6,7 +6,7 @@ interface SidebarProps {
 export const Sidebar = ({ onFlashcardDecksClick }: SidebarProps) => {
   return (
     <div className="c-sidebar">
-      <label className="c-title">
+      <label className="c-sidebar-title">
         echo<span>Study</span>
       </label>
       <hr className="c-sidebar-divider" />
