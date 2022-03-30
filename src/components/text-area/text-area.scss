@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+// textarea also supports a 'col' attribute: 'col=20' => fit 20 characters per row
+// using this attribute would mean being able to remove `width: 100%` definitions in CSS
+
+.c-text-area-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-sizing: border-box;
+    width: 100%;
+
+    .c-text-area-label {
+        color: $grey;
+    }
+
+    .c-text-area {
+        font-family: "Comfortaa";
+        color: $blue;
+        border-color: $grey;
+        border-radius: $standard-radius;
+        box-sizing: border-box;
+        padding: 16px;
+        width: 100%;
+
+        &.readonly {
+            background-color: $flashcard-white;
+        }
+
+        &:focus, &:focus-visible {
+            outline-color: $grey;
+        }
+    }
+
+    .c-text-area-footer {
+        display: flex;
+        padding: 0px 2px;
+        gap: 4px;
+
+        > label {
+            padding-top: 1px;
+            color: $grey;
+            font-size: 10px;
+        }
+    }
+}
