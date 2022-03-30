@@ -6,6 +6,7 @@ import { Button } from './components/button/button';
 import { Deck } from './models/deck';
 import { SearchBar } from './components/search-bar/search-bar';
 import { DropDown, DropDownOption } from './components/drop-down/drop-down';
+import { TEST_OPTIONS_LARGE } from './components/drop-down/options.mock';
 import { TextArea } from './components/text-area/text-area';
 import { TextBox } from './components/text-box/text-box';
 import { Sidebar } from './components/sidebar/sidebar';
@@ -72,41 +73,13 @@ function App() {
             <SearchBar
               placeholder="search my decks"
               onChange={() => console.log('changed')}
+              debounceMs={500}
+              onDebouncedChange={(value: string) => console.log('debounce-changed: ' + value)}
               onEnterPressed={(value: string) => console.log('enter pressed: ' + value)}
+              dropDownData={TEST_OPTIONS_LARGE}
+              onDropdownClick={(option: DropDownOption) => console.log(option)}
             />
           </div>
-          <DeckCover
-            isActive={isActive}
-            onClick={() => setIsActive(!isActive)}
-            deck={testDeck}
-            onEditClick={dummy}
-            onStudyClick={dummy}
-          />
-          <div className="improvised-popup">
-            <DropDown
-              variant="light"
-              className="test-drop-down"
-              label="hello"
-              options={getOptions()}
-              buttonLabel={selectedChoice.value}
-              onOptionSelect={(choice) => {
-                setSelectedOption(choice);
-              }}
-            />
-            <Button variant="light" onClick={dummy}>
-              World
-            </Button>
-          </div>
-
-          <DropDown
-            variant="dark"
-            buttonLabel={selectedChoice.value}
-            options={getOptions()}
-            onOptionSelect={(choice) => setSelectedOption(choice)}
-          />
-          <Button variant="dark" onClick={dummy}>
-            Hello
-          </Button>
         </div>
       </div>
     </div>
