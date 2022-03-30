@@ -1,0 +1,41 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.c-sidebar {
+  width: $sidebar-width;
+  box-sizing: border-box;
+  padding: 0px 20px;
+  height: 100vh;
+  position: fixed;
+  background-color: $blue;
+  color: $white;
+  border-right: 1px solid $light-blue;
+
+  .c-title {
+    margin: 10px 0px;
+    display: inline-block;
+    width: 100%;
+    font-size: 30px;
+    text-align: center;
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .c-sidebar-divider {
+    height: 1px;
+    background-color: $light-blue;
+    border: none;
+    margin: 0px;
+  }
+
+  > ul {
+    padding-left: 30px;
+    list-style-type: none;
+    font-size: 20px;
+    li {
+      margin-bottom: 20px;
+    }
+  }
+}
