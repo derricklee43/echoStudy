@@ -1,5 +1,6 @@
 import { DropDownOption } from './drop-down';
 
+// 0-indexed, (size = 1) generates [{id: 'test0', value: 'test0'}]
 export const createTestOptions = (size: number): DropDownOption[] =>
   [...Array(size)].map((_, index) => ({
     id: `test${index}`,
