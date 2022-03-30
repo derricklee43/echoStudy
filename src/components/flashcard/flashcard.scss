@@ -2,17 +2,14 @@
 @import '../../assets/styles';
 
 .flashcard {
-  width: 100%;
   height: 150px;
+  gap: 20px;
+  margin: 20px;
   @include flex-center;
   @include standard-transition;
 
-  .front {
-    margin-right: 30px;
-  }
-
   > .button-strip {
-    padding: 20px;
+    padding: 20px 0px;
     height: 100%;
     box-sizing: border-box;
     display: flex;

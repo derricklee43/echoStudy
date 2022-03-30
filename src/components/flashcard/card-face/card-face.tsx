@@ -3,65 +3,61 @@ import React from 'react';
 import { ReactComponent as Speaker } from '../../../assets/svg/speaker.svg';
 import { ReactComponent as KebabMenu } from '../../../assets/svg/kebab-menu.svg';
 import { Button } from '../../button/button';
-
-// Todo: overflow scroll
+import { CardContent } from '../../../models/card-content';
 
 interface CardFaceProps {
+  cardContent: CardContent;
   variant?: 'active' | 'inactive' | 'readonly';
   className?: string;
-  value: string;
-  onValueChange?: (event: React.FormEvent<HTMLInputElement>) => void;
-  onSpeakerClick?: (event: React.MouseEvent) => void;
-  onKebabMenuClick?: (event: React.MouseEvent) => void;
-  onFaceClick?: (event: React.MouseEvent) => void;
-  onFocus?: () => void;
+  placeholder?: string;
+  onChange?: (cardContent: CardContent) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export const CardFace = ({
+  cardContent,
   variant = 'inactive',
   className = '',
-  value,
-  onValueChange,
+  placeholder,
+  onChange,
   onFocus,
-  onFaceClick,
-  onSpeakerClick,
-  onKebabMenuClick,
 }: CardFaceProps) => {
   return (
-    <div className={`card-face ${variant} ${className}`} onClick={onFaceClick}>
-      <div className="button-strip">{variant === 'active' && getCardFaceButtons()}</div>
-      <input className="content" value={value} onChange={handleValueChange} onFocus={onFocus} />
+    <div className={`card-face ${className}`}>
+      {variant === 'active' && getButtonStrip()}
+      <input
+        disabled={variant === 'readonly'}
+        className={`content ${variant}`}
+        placeholder={placeholder}
+        value={cardContent.text}
+        onChange={handleCardTextChange}
+        onFocus={onFocus}
+      />
     </div>
   );
 
-  function getCardFaceButtons() {
+  function getButtonStrip() {
     return (
-      <>
-        <Button onClick={handleSpeakerClick} variant="invisible" bubbleOnClickEvent={false}>
+      <div className="button-strip">
+        <Button onClick={playAudio} variant="invisible" bubbleOnClickEvent={false}>
           <Speaker className="speaker" />
         </Button>
-        <Button onClick={handleKebabMenuClick} variant="invisible" bubbleOnClickEvent={false}>
+        <Button onClick={handleKebabClick} variant="invisible" bubbleOnClickEvent={false}>
           <KebabMenu className="kebab-menu" />
         </Button>
-      </>
+      </div>
     );
   }
 
-  function handleValueChange(event: React.FormEvent<HTMLInputElement>) {
-    if (onValueChange !== undefined) {
-      onValueChange(event);
-    }
+  function handleCardTextChange(event: React.FormEvent<HTMLInputElement>) {
+    onChange?.({ ...cardContent, text: event.currentTarget.value });
   }
 
-  function handleSpeakerClick(event: React.MouseEvent) {
-    if (onSpeakerClick !== undefined) {
-      onSpeakerClick(event);
-    }
+  function playAudio() {
+    cardContent.audio.play();
   }
 
-  function handleKebabMenuClick(event: React.MouseEvent) {
-    if (onKebabMenuClick !== undefined) {
-      onKebabMenuClick(event);
-    }
+  function handleKebabClick() {
+    console.log('kebab clicked!');
   }
 };

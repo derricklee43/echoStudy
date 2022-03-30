@@ -1,20 +1,18 @@
 import './flashcard.scss';
 import React from 'react';
 import { CardFace } from './card-face/card-face';
-import { ReactComponent as FlashCardDownArrow } from '../../assets/svg/flashcard-down-arrow.svg';
-import { ReactComponent as Trash } from '../../assets/svg/trash.svg';
 import { TrashIcon } from '../../assets/icons/trash-icon/trash-icon';
 import { FlashcardArrowIcon } from '../../assets/icons/flashcard-arrow-icon/flashcard-arrow-icon';
 import { Button } from '../button/button';
 import { Card } from '../../models/card';
+import { CardContent } from '../../models/card-content';
 
 interface FlashcardProps {
   card: Card;
-  index: number;
   variant: 'active' | 'inactive' | 'readonly';
-  onFocus?: () => void;
-  onCardClick?: (event: React.MouseEvent) => void;
-  onCardChange?: (newCard: Card) => void;
+  index?: number;
+  onCardChange?: (card: Card) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onUpClick?: (event: React.MouseEvent) => void;
   onDownClick?: (event: React.MouseEvent) => void;
   onRemoveClick?: (event: React.MouseEvent) => void;
@@ -26,7 +24,6 @@ export const Flashcard = ({
   card,
   onCardChange,
   onFocus,
-  onCardClick,
   onUpClick,
   onDownClick,
   onRemoveClick,
@@ -36,19 +33,19 @@ export const Flashcard = ({
       {variant !== 'readonly' && getLeftButtonStrip(variant)}
       <CardFace
         variant={variant}
+        placeholder="add term"
         className="front"
+        cardContent={card.front}
         onFocus={onFocus}
-        onFaceClick={handleCardClick}
-        onValueChange={setCardFront}
-        value={card.front.text}
+        onChange={handleFrontFaceChange}
       />
       <CardFace
         variant={variant}
+        placeholder="add definition"
         className="back"
+        cardContent={card.back}
         onFocus={onFocus}
-        onFaceClick={handleCardClick}
-        onValueChange={setCardBack}
-        value={card.back.text}
+        onChange={handleBackFaceChange}
       />
       {variant !== 'readonly' && getRightButtonStrip(variant)}
     </div>
@@ -57,67 +54,32 @@ export const Flashcard = ({
   function getLeftButtonStrip(variant: 'active' | 'inactive') {
     return (
       <div className="button-strip">
-        <Button onClick={handleUpClick} variant="invisible" bubbleOnClickEvent={false}>
+        <Button onClick={(e) => onUpClick?.(e)} variant="invisible">
           <FlashcardArrowIcon orientation="up" variant={variant} />
         </Button>
-        <label>{index}</label>
-        <Button onClick={handleDownClick} variant="invisible" bubbleOnClickEvent={false}>
+        <label>{index ?? ''}</label>
+        <Button onClick={(e) => onDownClick?.(e)} variant="invisible">
           <FlashcardArrowIcon variant={variant} />
         </Button>
       </div>
     );
   }
 
-  function setCardFront(event: React.FormEvent<HTMLInputElement>) {
-    const newCard = { ...card };
-    newCard.front = { ...card.front, text: event.currentTarget.value };
-    if (onCardChange !== undefined) {
-      onCardChange(newCard);
-    }
-  }
-  function setCardBack(event: React.FormEvent<HTMLInputElement>) {
-    const newCard = { ...card };
-    newCard.back = { ...card.back, text: event.currentTarget.value };
-    if (onCardChange !== undefined) {
-      onCardChange(newCard);
-    }
-  }
-
   function getRightButtonStrip(variant: 'active' | 'inactive') {
     return (
       <div className="button-strip right">
-        <Button onClick={handleRemoveClick} variant="invisible" bubbleOnClickEvent={false}>
+        <Button onClick={(e) => onRemoveClick?.(e)} variant="invisible">
           <TrashIcon variant={variant} />
         </Button>
       </div>
     );
   }
 
-  function handleCardClick(event: React.MouseEvent) {
-    if (onCardClick !== undefined && !isReadOnly()) {
-      onCardClick(event);
-    }
+  function handleFrontFaceChange(cardContent: CardContent) {
+    onCardChange?.({ ...card, front: cardContent });
   }
 
-  function handleUpClick(event: React.MouseEvent) {
-    if (onUpClick !== undefined && !isReadOnly()) {
-      onUpClick(event);
-    }
-  }
-
-  function handleDownClick(event: React.MouseEvent) {
-    if (onDownClick !== undefined && !isReadOnly()) {
-      onDownClick(event);
-    }
-  }
-
-  function handleRemoveClick(event: React.MouseEvent) {
-    if (onRemoveClick !== undefined && !isReadOnly()) {
-      onRemoveClick(event);
-    }
-  }
-
-  function isReadOnly() {
-    return variant === 'readonly';
+  function handleBackFaceChange(cardContent: CardContent) {
+    onCardChange?.({ ...card, back: cardContent });
   }
 };

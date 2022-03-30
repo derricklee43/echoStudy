@@ -6,6 +6,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input,
+button {
+  font-family: 'Comfortaa';
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

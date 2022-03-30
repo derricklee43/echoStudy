@@ -2,17 +2,13 @@
 
 $standard-radius: 4px;
 
-<<<<<<< HEAD
 @mixin standard-transition {
   transition: 200ms;
 }
 
 @mixin hover($background-color) {
   @include standard-transition;
-=======
-@mixin hover($background-color) {
-  transition-duration: 200ms;
->>>>>>> main
+
   &:hover {
     background-color: $background-color;
   }
@@ -35,12 +31,9 @@ $standard-radius: 4px;
 @mixin box-shadow {
   box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
 }
-<<<<<<< HEAD
-=======
 
 @mixin ellipsis-overflow {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
->>>>>>> main
