@@ -6,6 +6,7 @@ import { Button } from './components/button/button';
 import { Deck } from './models/deck';
 import { SearchBar } from './components/search-bar/search-bar';
 import { DropDown, DropDownOption } from './components/drop-down/drop-down';
+import { TextArea } from './components/text-area/text-area';
 
 const testDeck: Deck = {
   id: 0,
@@ -20,8 +21,27 @@ const testDeck: Deck = {
 function App() {
   const [isActive, setIsActive] = useState(false);
   const [selectedChoice, setSelectedOption] = useState(getOptions()[0]);
+
+  // (e.g.) read from textAreaContent when user submits a form
+  const [textAreaContent, setTextAreaContent] = useState('');
+
   return (
     <div className="App">
+      <div className="text-areas">
+        <TextArea
+          placeholder="copy and paste your cards here"
+          lines={8}
+          label="a cool label"
+          value={textAreaContent}
+          onChange={(v: string) => setTextAreaContent(v)}
+        />
+        <TextArea
+          lines={8}
+          label="copy your cards"
+          value="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
+          readonly={true}
+        />
+      </div>
       <div className="search-bar">
         <SearchBar
           placeholder="search my decks"
