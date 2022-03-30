@@ -9,6 +9,7 @@ import { SearchBar } from './components/search-bar/search-bar';
 import { DropDown, DropDownOption } from './components/drop-down/drop-down';
 import { Flashcard } from './components/flashcard/flashcard';
 import { Card } from './models/card';
+import { TEST_OPTIONS_LARGE } from './components/drop-down/options.mock';
 import { TextArea } from './components/text-area/text-area';
 import { TextBox } from './components/text-box/text-box';
 
@@ -126,7 +127,11 @@ function App() {
         <SearchBar
           placeholder="search my decks"
           onChange={() => console.log('changed')}
+          debounceMs={500}
+          onDebouncedChange={(value: string) => console.log('debounce-changed: ' + value)}
           onEnterPressed={(value: string) => console.log('enter pressed: ' + value)}
+          dropDownData={TEST_OPTIONS_LARGE}
+          onDropdownClick={(option: DropDownOption) => console.log(option)}
         />
       </div>
 
