@@ -6,54 +6,98 @@
 $height: 40px;
 $font-size: 20px;
 
-.search-bar-wrapper {
-  display: inline-flex;
-  justify-content: space-between;
+.c-search-bar-wrapper {
+  position: relative;
   border: 1px solid $light-blue;
   width: 100%;
   height: $height;
   background-color: $black;
 
-  .search-icon-container {
-    @include flex-center;
-    width: $height;
-    height: $height;
+  .c-search-bar-content {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
 
-    &.has-text {
-      border-right: 1px solid $light-blue;
-      background-color: $blue;
-    }
-
-    .search-icon {
-    }
-  }
-
-  .search-bar-input {
-    flex: auto;
-    font-family: 'Comfortaa';
-    border: none;
-    outline: none;
-    background-color: $black;
-    color: $flashcard-white;
-    font-size: $font-size;
-    height: $height;
-    padding-left: 8px;
-    box-sizing: border-box;
-  }
-
-  .cancel-icon-container {
-    display: none;
-    width: $height;
-    height: $height;
-
-    &.has-text {
+    .c-search-icon-container {
       @include flex-center;
+      width: $height;
+      height: $height; 
+      transition: all 100ms ease-in-out;
+  
+      &.has-text {
+        border-right: 1px solid $light-blue;
+        background-color: $blue;
+      }
+  
+      .c-search-icon {}
     }
-
-    .cancel-icon {
-      &:hover {
-        cursor: pointer;
+  
+    .c-search-bar-input {
+      flex: auto;
+      font-family: 'Comfortaa';
+      border: none;
+      outline: none;
+      background-color: $black;
+      color: $flashcard-white;
+      font-size: $font-size;
+      height: $height;
+      padding-left: 8px;
+      box-sizing: border-box;
+    }
+  
+    .c-cancel-icon-container {
+      display: none;
+      width: $height;
+      height: $height;
+  
+      &.has-text {
+        @include flex-center;
+      }
+  
+      .c-cancel-icon {
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
+  }
+}
+
+.c-drop-down {
+  position: absolute;
+  width: 100%;
+  max-height: 33vh;
+  overflow-y: auto;
+  margin-top: 2px;
+  z-index: 1;
+  background-color: $white;
+  border-radius: $standard-radius + 1px; //hides corners of div
+  @include box-shadow;
+
+  .c-drop-down-result {
+    width: 100%;
+    box-sizing: border-box;
+    border-left: 1px solid $flashcard-white;
+    border-right: 1px solid $flashcard-white;
+    background-color: $white;
+    padding: 5px;
+    @include white-hover;
+    @include ellipsis-overflow;
+
+    &:first-child {
+      border-radius: $standard-radius $standard-radius 0px 0px;
+      border-top: 1px solid $flashcard-white;
+    }
+
+    &:last-child {
+      border-radius: 0px 0px $standard-radius $standard-radius;
+      border-bottom: 1px solid $flashcard-white;
+    }
+  }
+  
+  &.hidden {
+    transition: visibility 0s 100ms, opacity 100ms ease-out;
+    visibility: hidden;
+    opacity: 0;
   }
 }
