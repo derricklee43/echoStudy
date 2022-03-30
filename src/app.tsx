@@ -71,7 +71,6 @@ function App() {
           </div>
           <div className="search-bar">
             <SearchBar
-              placeholder="search my decks"
               onChange={() => console.log('changed')}
               debounceMs={500}
               onDebouncedChange={(value: string) => console.log('debounce-changed: ' + value)}
