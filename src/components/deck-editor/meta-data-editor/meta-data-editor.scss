@@ -1,0 +1,40 @@
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+.deck-meta {
+  .editor-button {
+    padding: 20px 40px;
+    border-radius: 10px;
+  }
+  .deck-editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    label {
+      color: $white;
+      font-size: 30px;
+    }
+  }
+  input {
+    font-size: 30px;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 11px 8px;
+  }
+  .title,
+  .c-description-and-import-buttons {
+    margin-top: 16px;
+  }
+  .c-description-and-import-buttons {
+    margin-top: 16px;
+    @include flex-center;
+    gap: 16px;
+    button {
+      padding: 20px 15px;
+    }
+  }
+  .advanced-settings {
+    margin: 25px 0px;
+    color: $white;
+  }
+}

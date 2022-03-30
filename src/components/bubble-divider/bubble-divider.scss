@@ -1,0 +1,41 @@
+@import '../../assets/styles';
+@import '../../assets/colors';
+
+.c-bubble-divider {
+  // Todo add a transition
+  position: relative;
+  @include flex-center;
+
+  .c-bubble-button {
+    // Todo remove hover when component is divider
+    @include flex-center;
+    border-radius: 30px;
+    background-color: $black;
+    color: $light-blue;
+    z-index: 1;
+    padding: 10px 20px;
+
+    .c-bubble-divider-arrow {
+      height: 100%;
+      padding-left: 10px;
+      @include flex-center;
+      svg {
+        fill: $light-blue;
+      }
+    }
+  }
+
+  hr {
+    position: absolute;
+    width: 100%;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid $light-blue;
+    padding: 0;
+  }
+}
+
+.c-bubble-divider-children {
+  padding-top: 20px;
+}
