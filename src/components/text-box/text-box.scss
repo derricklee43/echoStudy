@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+// component is light-theme by default
+$gap: 4px;
+$label-font-size: 14px;
+$label-legend-font-size: 12px;
+
+.c-text-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+    box-sizing: border-box;
+    width: 100%;
+
+    &.dark {
+        background-color: $black;
+    }
+}
+
+.c-text-box-label {
+    width: fit-content;
+    min-height: $label-font-size;
+    padding: 0px 2px;
+    font-size: $label-font-size;
+    background-color: $white;
+    color: $grey;
+    transition: transform 100ms ease-in-out;
+
+    &.as-legend {
+        font-size: $label-legend-font-size;
+        padding: 0px 4px;
+        transform: translate(16px, $label-font-size - 2px);
+    }
+
+    .dark & {
+        background-color: $black;
+        color: $light-blue;
+    }
+}
+
+.c-text-box-input {
+    font-family: "Comfortaa";
+    color: $blue;
+    border: 2px solid $grey; 
+    border-radius: $standard-radius;
+    box-sizing: border-box;
+    padding: 8px;
+    width: 100%;
+
+    &:focus, &:focus-visible {
+        outline: none;
+        border: 2px solid $dark-grey;
+    }
+
+    .dark & {
+        color: $white;
+        background-color: $black;
+        border: 2px solid $light-blue;
+
+        &:focus, &:focus-visible {
+            outline: none;
+        }
+    }
+}

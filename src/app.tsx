@@ -7,6 +7,7 @@ import { Deck } from './models/deck';
 import { SearchBar } from './components/search-bar/search-bar';
 import { DropDown, DropDownOption } from './components/drop-down/drop-down';
 import { TextArea } from './components/text-area/text-area';
+import { TextBox } from './components/text-box/text-box';
 
 const testDeck: Deck = {
   id: 0,
@@ -25,6 +26,9 @@ function App() {
   // (e.g.) read from textAreaContent when user submits a form
   const [textAreaContent, setTextAreaContent] = useState('');
 
+  const [textBoxValue1, setTextBoxValue1] = useState('');
+  const [textBoxValue2, setTextBoxValue2] = useState('');
+
   return (
     <div className="App">
       <div className="text-areas">
@@ -40,6 +44,21 @@ function App() {
           label="copy your cards"
           value="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
           readonly={true}
+        />
+      </div>
+      <div className="text-box">
+        <TextBox
+          label="username"
+          value={textBoxValue1}
+          onChange={(v: string) => setTextBoxValue1(v)}
+        />
+      </div>
+      <div className="text-box-dark">
+        <TextBox
+          label="username"
+          variant="dark"
+          value={textBoxValue2}
+          onChange={(v: string) => setTextBoxValue2(v)}
         />
       </div>
       <div className="search-bar">
