@@ -2,41 +2,29 @@
 @import '../../assets/styles';
 
 .deck-editor {
-  .editor-button {
+  button.editor-button {
     padding: 20px 40px;
     border-radius: 10px;
   }
-  .deck-meta {
-    .deck-editor-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      label {
-        color: $white;
-        font-size: 30px;
-      }
-    }
-    input {
-      font-size: 30px;
-      border-radius: 10px;
-      border-width: 1px;
-      padding: 11px 8px;
-    }
-    .title,
-    .c-description-and-import-buttons {
-      margin-top: 16px;
-    }
-    .c-description-and-import-buttons {
-      margin-top: 16px;
-      @include flex-center;
-      gap: 16px;
-      button {
-        padding: 20px 15px;
-      }
-    }
-    .advanced-settings {
-      margin: 25px 0px;
-      color: $white;
+  .deck-editor-flashcard-set {
+    margin-bottom: 50px;
+  }
+
+  .flashcard-set-placeholder {
+    @include flex-center;
+    margin: 100px 0px;
+    color: $white;
+  }
+
+  .editor-sticky-bottom {
+    position: sticky;
+    bottom: 0px;
+  }
+
+  .right-footer-buttons {
+    float: right;
+    button:last-child {
+      margin-left: 20px;
     }
   }
 }

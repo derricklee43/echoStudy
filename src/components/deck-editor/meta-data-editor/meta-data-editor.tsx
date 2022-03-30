@@ -4,6 +4,16 @@ import { Deck } from '../../../models/deck';
 import { Button } from '../../button/button';
 import { TextBox } from '../../text-box/text-box';
 import { BubbleDivider } from '../../bubble-divider/bubble-divider';
+import { DropDown, DropDownOption } from '../../drop-down/drop-down';
+import { Language } from '../../../models/card-content';
+
+// Todo: maybe change Language to be enum instead of type
+enum Languages {
+  'English' = 'English',
+  'Spanish' = 'Spanish',
+  'German' = 'German',
+  'Japanese' = 'Japanese',
+}
 
 interface DeckEditorProps {
   deck: Deck;
@@ -44,20 +54,56 @@ export const MetaDataEditor = ({ deck, onDeckChange }: DeckEditorProps) => {
       <BubbleDivider
         variant="dark-drop-down"
         label="advanced settings"
-        className="advanced-settings"
+        className="advanced-settings-divider"
       >
-        hello world
+        <div className="advanced-settings">
+          <DropDown
+            label="default term language"
+            buttonLabel={deck.frontLang}
+            options={getLanguages()}
+            onOptionSelect={handleFrontLanguageSelect}
+          />
+
+          <DropDown
+            label="default definition language"
+            buttonLabel={deck.backLang}
+            options={getLanguages()}
+            onOptionSelect={handleBackLanguageSelect}
+          />
+          <Button onClick={handleDeckDeleteClick} className="meta-button">
+            delete deck
+          </Button>
+        </div>
       </BubbleDivider>
     </div>
   );
 
+  function handleDeckDeleteClick(event: React.MouseEvent) {
+    // Todo: finish
+    console.log('clicked!');
+  }
+
+  function handleFrontLanguageSelect(option: DropDownOption) {
+    const frontLang = option.value as Language;
+    onDeckChange({ ...deck, frontLang });
+  }
+
+  function handleBackLanguageSelect(option: DropDownOption) {
+    const backLang = option.value as Language;
+    onDeckChange({ ...deck, backLang });
+  }
+
+  function getLanguages(): DropDownOption[] {
+    return Object.values(Languages).map((l) => ({ id: l, value: l }));
+  }
+
   function handleDeckTitleChange(title: string) {
-    //Todo do deep copy
+    //Todo: do deep copy
     onDeckChange({ ...deck, title });
   }
 
   function handleDeckDescChange(desc: string) {
-    //Todo do deep copy
+    //Todo: do deep copy
     onDeckChange({ ...deck, desc });
   }
 

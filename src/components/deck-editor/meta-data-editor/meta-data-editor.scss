@@ -2,14 +2,21 @@
 @import '../../../assets/styles';
 
 .deck-meta {
-  .editor-button {
+  .study-button {
     padding: 20px 40px;
     border-radius: 10px;
   }
+
+  .meta-button {
+    padding: 20px 15px;
+    border-radius: 10px;
+  }
+
   .deck-editor-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     label {
       color: $white;
       font-size: 30px;
@@ -21,20 +28,27 @@
     border-width: 1px;
     padding: 11px 8px;
   }
+
   .title,
   .c-description-and-import-buttons {
     margin-top: 16px;
   }
+
   .c-description-and-import-buttons {
     margin-top: 16px;
     @include flex-center;
     gap: 16px;
-    button {
-      padding: 20px 15px;
-    }
   }
-  .advanced-settings {
+
+  .advanced-settings-divider {
     margin: 25px 0px;
     color: $white;
+
+    .advanced-settings {
+      margin-bottom: 10px;
+      > * {
+        margin-bottom: 20px;
+      }
+    }
   }
 }

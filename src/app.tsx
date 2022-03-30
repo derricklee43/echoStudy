@@ -11,16 +11,7 @@ import { Flashcard } from './components/flashcard/flashcard';
 import { Card } from './models/card';
 import { TextArea } from './components/text-area/text-area';
 import { TextBox } from './components/text-box/text-box';
-
-const testDeck: Deck = {
-  id: 0,
-  title: 'Japanese 101',
-  desc: 'The goal of this deck is to teach basic Japanese nouns, starting with animals.',
-  access: 'Private',
-  frontLang: 'English',
-  backLang: 'Japanese',
-  cards: [],
-};
+import { DeckEditor } from './components/deck-editor/deck-editor';
 
 const card1: Card = {
   front: {
@@ -78,20 +69,34 @@ const readonlyCard: Card = {
   id: 3,
 };
 
-function App() {
-  const [isActive, setIsActive] = useState(false);
-  const [selectedChoice, setSelectedOption] = useState(getOptions()[0]);
-  const [cards, setCards] = useState([card1, card2, card3]);
-  const [activeCard, setActiveCard] = useState(-1);
+const testDeck: Deck = {
+  id: 0,
+  title: 'Japanese 101',
+  desc: 'The goal of this deck is to teach basic Japanese nouns, starting with animals.',
+  access: 'Private',
+  frontLang: 'English',
+  backLang: 'Japanese',
+  cards: [card1, card2, card3],
+};
 
+function App() {
   // (e.g.) read from textAreaContent when user submits a form
   const [textAreaContent, setTextAreaContent] = useState('');
 
   const [textBoxValue1, setTextBoxValue1] = useState('');
   const [textBoxValue2, setTextBoxValue2] = useState('');
 
+  const [deck, setDeck] = useState(testDeck);
+  const [showDecks, setShowDecks] = useState(true);
+
   return (
     <div className="App">
+      <DeckEditor
+        initialDeck={deck}
+        onDeckChange={setDeck}
+        onLeaveClick={() => setShowDecks(false)}
+      />
+      {/*       
       <div className="text-areas">
         <TextArea
           placeholder="copy and paste your cards here"
@@ -168,68 +173,9 @@ function App() {
         <Reorder.Group axis="y" values={cards} onReorder={setCards}>
           {getFlashcards()}
         </Reorder.Group>
-      </div>
+      </div> */}
     </div>
   );
-
-  function getFlashcards() {
-    return cards.map((card, id) => {
-      const index = id + 1;
-      const value = (
-        <Flashcard
-          key={index}
-          card={card}
-          index={index}
-          variant={activeCard === card.id ? 'active' : 'inactive'}
-          onFocus={() => setActiveCard(card.id)}
-          onCardChange={(c) => handleCardChange(c, id)}
-          onDownClick={() => handleDownClick(id)}
-          onUpClick={() => handleUpClick(id)}
-          onRemoveClick={() => handleRemoveClick(id)}
-        />
-      );
-      return (
-        <Reorder.Item key={card.id} value={card}>
-          {value}
-        </Reorder.Item>
-      );
-    });
-
-    function handleRemoveClick(id: number) {
-      const newCards = [...cards];
-      newCards.splice(id, 1);
-      setCards(newCards);
-    }
-
-    function handleUpClick(id: number) {
-      // Todo handle up click when card is first
-      const newCards = [...cards];
-      newCards[id] = newCards.splice(id - 1, 1, cards[id])[0];
-      setCards(newCards);
-    }
-
-    function handleDownClick(id: number) {
-      //Todo handle down click when card is last
-      const newCards = [...cards];
-      newCards[id] = newCards.splice(id + 1, 1, cards[id])[0];
-      setCards(newCards);
-    }
-
-    function handleCardChange(newCard: Card, id: number) {
-      const newCards = [...cards];
-      newCards[id] = newCard;
-      setCards(newCards);
-    }
-  }
-}
-
-function getOptions(): DropDownOption[] {
-  const options = ['hello world', 'jsdflkahsdf;lasdkjfas;dlfkjasd;flkajsdf;laksdjfl;ks', 'c', 'd'];
-  return options.map((option) => ({ id: option, value: option }));
-}
-
-function dummy() {
-  console.log('hello world');
 }
 
 export default App;

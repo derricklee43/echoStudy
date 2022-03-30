@@ -4,7 +4,7 @@
 .flashcard {
   height: 150px;
   gap: 20px;
-  margin: 20px;
+  margin: 20px 0px;
   @include flex-center;
   @include standard-transition;
 

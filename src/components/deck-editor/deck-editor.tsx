@@ -1,79 +1,114 @@
 import './deck-editor.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import { Deck } from '../../models/deck';
-import { Flashcard } from '../flashcard/flashcard';
-import { Button } from '../button/button';
-import { TextBox } from '../text-box/text-box';
-import { TextArea } from '../text-area/text-area';
-import { BubbleDivider } from '../bubble-divider/bubble-divider';
-import { DropDown } from '../drop-down/drop-down';
-import { useState } from 'react';
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
-import { Reorder } from 'framer-motion';
 import { Card } from '../../models/card';
+import { FlashcardSet } from '../flashcard-set/flashcard-set';
+import { Button } from '../button/button';
+import { CardContent } from '../../models/card-content';
 
 interface DeckEditorProps {
-  deck: Deck;
+  initialDeck: Deck;
+  onLeaveClick: () => void; // Just for the demo, we will remove later
   onDeckChange: (deck: Deck) => void;
 }
 
-export const DeckEditor = ({ deck, onDeckChange }: DeckEditorProps) => {
-  const [activeCard, setActiveCard] = useState(-1);
+export const DeckEditor = ({
+  initialDeck,
+  onLeaveClick, // Just for the demo, we will remove later
+  onDeckChange,
+}: DeckEditorProps) => {
+  const [newDeck, setNewDeck] = useState(initialDeck);
+  const [idCount, setIdCount] = useState(0);
+  console.log(newDeck);
   return (
-    <div className="deck-editor">
-      <MetaDataEditor deck={deck} onDeckChange={onDeckChange} />
-      {getCards()}
-    </div>
+    <>
+      <div className="deck-editor">
+        <MetaDataEditor deck={newDeck} onDeckChange={setNewDeck} />
+        {newDeck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
+        {getButtonFooter()}
+      </div>
+    </>
   );
 
-  function getCards() {
-    return deck.cards.map((card, index) => {
-      return (
-        <Flashcard
-          key={index}
-          card={card}
-          index={index + 1}
-          variant={activeCard === card.id ? 'active' : 'inactive'}
-          onFocus={() => setActiveCard(card.id)}
-          onCardChange={(c) => handleCardChange(c, index)}
-          onDownClick={() => handleDownClick(index)}
-          onUpClick={() => handleUpClick(index)}
-          onRemoveClick={() => handleRemoveClick(index)}
-        />
-      );
-    });
-    //     <Reorder.Item key={card.id} value={card}>
-    //     {value}
-    //   </Reorder.Item>
+  function getFlashcardSetPlaceholder() {
+    return (
+      <div className="flashcard-set-placeholder">
+        <label>{'you currently have no cards. click "add card" to get started'}</label>
+      </div>
+    );
+  }
 
-    function handleRemoveClick(index: number) {
-      // Todo deep copy
-      const newCards = [...deck.cards];
-      newCards.splice(index, 1);
-      onDeckChange({ ...deck, cards: newCards });
-    }
+  function getFlashcardSet() {
+    return (
+      <FlashcardSet
+        cards={newDeck.cards}
+        className="deck-editor-flashcard-set"
+        onCardsChange={handleCardsChange}
+      />
+    );
+  }
 
-    function handleUpClick(index: number) {
-      // Todo handle up click when card is first
-      // Todo deep copy
-      const newCards = [...deck.cards];
-      newCards[index] = newCards.splice(index - 1, 1, deck.cards[index])[0];
-      onDeckChange({ ...deck, cards: newCards });
-    }
+  function getButtonFooter() {
+    return (
+      <>
+        <Button onClick={handleAddCardClick} className="editor-button editor-sticky-bottom">
+          add card
+        </Button>
+        <div className="right-footer-buttons editor-sticky-bottom">
+          <Button onClick={handleCancelClick} className="editor-button">
+            cancel
+          </Button>
+          <Button onClick={handleSaveClick} className="editor-button">
+            save
+          </Button>
+        </div>
+      </>
+    );
+  }
 
-    function handleDownClick(index: number) {
-      //Todo handle down click when card is last
-      // Todo deep copy
-      const newCards = [...deck.cards];
-      newCards[index] = newCards.splice(index + 1, 1, deck.cards[index])[0];
-      onDeckChange({ ...deck, cards: newCards });
-    }
+  function handleCardsChange(cards: Card[]) {
+    setNewDeck({ ...newDeck, cards });
+  }
 
-    function handleCardChange(newCard: Card, id: number) {
-      // Todo deep copy
-      const newCards = [...deck.cards];
-      newCards[id] = newCard;
-      onDeckChange({ ...deck, cards: newCards });
+  function handleAddCardClick() {
+    // Todo: add card
+    const front: CardContent = {
+      text: '',
+      audio: new Audio(),
+      language: newDeck.frontLang,
+    };
+
+    const back: CardContent = {
+      text: '',
+      audio: new Audio(),
+      language: newDeck.frontLang,
+    };
+
+    const card: Card = { id: generateId(), front, back };
+    const cards = [...newDeck.cards, card];
+
+    setNewDeck({ ...newDeck, cards });
+  }
+
+  // Todo: find a better way to generate number id's for cards
+  // maybe switch to a string and use uuid library
+  function generateId() {
+    let id = idCount;
+    while (newDeck.cards.find((card: Card) => card.id === id)) {
+      console.log('here');
+      id++;
     }
+    setIdCount(id + 1);
+    return id;
+  }
+
+  function handleCancelClick() {
+    onLeaveClick();
+  }
+
+  function handleSaveClick() {
+    onDeckChange(newDeck);
+    onLeaveClick();
   }
 };

@@ -5,7 +5,7 @@ import { Button } from '../button/button';
 import { Arrow } from '../arrow/arrow';
 
 interface BubbleDividerProps {
-  // Todo: add light variants (and optionally find a better way to have dark and light + dropdown and divider )
+  // Todo: add light variants (and find a better way to have dark and light + dropdown and divider )
   variant?: 'dark-divider' | 'dark-drop-down';
   className?: string;
   label: string;
@@ -19,15 +19,15 @@ export const BubbleDivider = ({
   children,
 }: BubbleDividerProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const isDropdown = variant === 'dark-drop-down';
+
   return (
-    <div className={className}>
+    <div className={`c-bubble-divider-container ${className}`}>
       {isOpen && getChildren()}
       <div className={`c-bubble-divider ${variant}`}>
         <hr />
         <Button className="c-bubble-button" onClick={handleBubbleClick}>
           {label}
-          {isDropdown && getArrow()}
+          {isDropDown() && getArrow()}
         </Button>
       </div>
     </div>
@@ -46,8 +46,12 @@ export const BubbleDivider = ({
   }
 
   function handleBubbleClick() {
-    if (variant === 'dark-drop-down') {
+    if (isDropDown()) {
       setIsOpen(!isOpen);
     }
+  }
+
+  function isDropDown() {
+    return variant === 'dark-drop-down';
   }
 };
