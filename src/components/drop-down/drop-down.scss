@@ -2,8 +2,6 @@
 @import '../../assets/styles';
 
 .drop-down {
-  @include flex-center;
-
   > label {
     margin-right: 8px;
 
@@ -20,6 +18,7 @@
 // avoid nesting in .drop-down to make menu more easily targetable
 .drop-down-menu {
   position: relative;
+  display: inline-block;
   width: 150px;
 
   > button {
@@ -33,7 +32,7 @@
       @include ellipsis-overflow;
     }
 
-    div {
+    > div {
       @include flex-center;
       margin: 0px 10px;
     }
@@ -54,6 +53,7 @@
       border-left: 1px solid $flashcard-white;
       border-right: 1px solid $flashcard-white;
       background-color: $white;
+      color: $blue;
       padding: 5px;
       @include white-hover;
       @include ellipsis-overflow;
