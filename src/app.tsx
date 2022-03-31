@@ -9,10 +9,10 @@ import { SearchBar } from './components/search-bar/search-bar';
 import { DropDown, DropDownOption } from './components/drop-down/drop-down';
 import { Flashcard } from './components/flashcard/flashcard';
 import { Card } from './models/card';
+import { TEST_OPTIONS_LARGE } from './components/drop-down/options.mock';
 import { TextArea } from './components/text-area/text-area';
 import { TextBox } from './components/text-box/text-box';
 import { DeckEditor } from './components/deck-editor/deck-editor';
-import { TEST_OPTIONS_LARGE } from './components/drop-down/options.mock';
 import { Sidebar } from './components/sidebar/sidebar';
 import { Header } from './components/header/header';
 
