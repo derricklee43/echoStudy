@@ -5,8 +5,7 @@ import { Button } from '../button/button';
 import { Arrow } from '../arrow/arrow';
 
 interface BubbleDividerProps {
-  // Todo: add light variants (and find a better way to have dark and light + dropdown and divider )
-  variant?: 'dark-divider' | 'dark-drop-down';
+  variant?: 'dark-divider' | 'dark-drop-down'; // Todo: add light variants (and find a better way to have dark and light + dropdown and divider )
   className?: string;
   label: string;
   children?: React.ReactNode;

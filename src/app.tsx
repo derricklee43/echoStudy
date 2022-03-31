@@ -12,6 +12,9 @@ import { Card } from './models/card';
 import { TextArea } from './components/text-area/text-area';
 import { TextBox } from './components/text-box/text-box';
 import { DeckEditor } from './components/deck-editor/deck-editor';
+import { TEST_OPTIONS_LARGE } from './components/drop-down/options.mock';
+import { Sidebar } from './components/sidebar/sidebar';
+import { Header } from './components/header/header';
 
 const card1: Card = {
   front: {
@@ -55,20 +58,6 @@ const card3: Card = {
   id: 3,
 };
 
-const readonlyCard: Card = {
-  front: {
-    language: 'English',
-    audio: new Audio('https://weblio.hs.llnwd.net/e7/img/dict/kenej/audio/S-A92E9A0_E-A9307A8.mp3'),
-    text: 'Readonly Front',
-  },
-  back: {
-    language: 'Japanese',
-    audio: new Audio('https://0.tqn.com/z/g/japanese/library/media/audio/saru.wav'),
-    text: 'Readonly Back',
-  },
-  id: 3,
-};
-
 const testDeck: Deck = {
   id: 0,
   title: 'Japanese 101',
@@ -91,89 +80,65 @@ function App() {
 
   return (
     <div className="App">
-      <DeckEditor
-        initialDeck={deck}
-        onDeckChange={setDeck}
-        onLeaveClick={() => setShowDecks(false)}
+      <Header />
+      <Sidebar
+        onFlashcardDecksClick={() => setShowDecks(true)}
+        onCreateClick={() => setShowDecks(false)}
       />
-      {/*       
-      <div className="text-areas">
-        <TextArea
-          placeholder="copy and paste your cards here"
-          lines={8}
-          label="a cool label"
-          value={textAreaContent}
-          onChange={(v: string) => setTextAreaContent(v)}
-        />
-        <TextArea
-          lines={8}
-          label="copy your cards"
-          value="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
-          readonly={true}
-        />
+      <div className="page-wrap">
+        <div className="content">
+          {!showDecks ? (
+            <DeckEditor
+              initialDeck={deck}
+              onDeckChange={setDeck}
+              onLeaveClick={() => setShowDecks(true)}
+            />
+          ) : (
+            <>
+              <div className="text-areas">
+                <TextArea
+                  placeholder="copy and paste your cards here"
+                  lines={8}
+                  label="a cool label"
+                  value={textAreaContent}
+                  onChange={(v: string) => setTextAreaContent(v)}
+                />
+                <TextArea
+                  lines={8}
+                  label="copy your cards"
+                  value="what is a gerund; what is a gerund; what is a gerund; what is a gerund;"
+                  readonly={true}
+                />
+              </div>
+              <div className="text-box">
+                <TextBox
+                  label="username"
+                  value={textBoxValue1}
+                  onChange={(v: string) => setTextBoxValue1(v)}
+                />
+              </div>
+              <div className="text-box-dark">
+                <TextBox
+                  label="username"
+                  variant="dark"
+                  value={textBoxValue2}
+                  onChange={(v: string) => setTextBoxValue2(v)}
+                />
+              </div>
+              <div className="search-bar">
+                <SearchBar
+                  onChange={() => console.log('changed')}
+                  debounceMs={500}
+                  onDebouncedChange={(value: string) => console.log('debounce-changed: ' + value)}
+                  onEnterPressed={(value: string) => console.log('enter pressed: ' + value)}
+                  dropDownData={TEST_OPTIONS_LARGE}
+                  onDropdownClick={(option: DropDownOption) => console.log(option)}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
-      <div className="text-box">
-        <TextBox
-          label="username"
-          value={textBoxValue1}
-          onChange={(v: string) => setTextBoxValue1(v)}
-        />
-      </div>
-      <div className="text-box-dark">
-        <TextBox
-          label="username"
-          variant="dark"
-          value={textBoxValue2}
-          onChange={(v: string) => setTextBoxValue2(v)}
-        />
-      </div>
-      <div className="search-bar">
-        <SearchBar
-          placeholder="search my decks"
-          onChange={() => console.log('changed')}
-          onEnterPressed={(value: string) => console.log('enter pressed: ' + value)}
-        />
-      </div>
-
-      <DeckCover
-        isActive={isActive}
-        onClick={() => setIsActive(!isActive)}
-        deck={testDeck}
-        onEditClick={dummy}
-        onStudyClick={dummy}
-      />
-      <div className="improvised-popup">
-        <DropDown
-          variant="light"
-          className="test-drop-down"
-          label="hello"
-          options={getOptions()}
-          buttonLabel={selectedChoice.value}
-          onOptionSelect={(choice) => {
-            setSelectedOption(choice);
-          }}
-        />
-        <Button variant="light" onClick={dummy}>
-          World
-        </Button>
-      </div>
-
-      <DropDown
-        variant="dark"
-        buttonLabel={selectedChoice.value}
-        options={getOptions()}
-        onOptionSelect={(choice) => setSelectedOption(choice)}
-      />
-      <Button variant="dark" onClick={dummy}>
-        Hello
-      </Button>
-
-      <div className="flashcards-container">
-        <Flashcard card={readonlyCard} variant={'readonly'} />
-        <Reorder.Group axis="y" values={cards} onReorder={setCards}>
-          {getFlashcards()}
-        </Reorder.Group>
-      </div> */}
     </div>
   );
 }

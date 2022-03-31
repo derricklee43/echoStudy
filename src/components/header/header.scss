@@ -1,0 +1,44 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.c-header {
+  // Todo dropdown appears above header, fix dropdown and remove
+  z-index: 2;
+  position: fixed;
+  height: $header-height;
+  width: 100%;
+  padding-left: $sidebar-width;
+  box-sizing: border-box;
+  background-color: $deck-cover-blue;
+  border-bottom: 1px solid $light-blue;
+
+  .c-header-content {
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    margin: 0px $content-padding;
+
+    .c-search-bar-container {
+      @include flex-center;
+      width: 500px;
+    }
+
+    .c-account-buttons {
+      @include flex-center;
+
+      button {
+        padding: 12px;
+        border: none;
+
+        &.sign-up-button {
+          background-color: transparent;
+        }
+
+        &.sign-in-button {
+          background-color: $electric-blue;
+        }
+      }
+    }
+  }
+}

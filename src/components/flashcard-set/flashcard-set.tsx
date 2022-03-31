@@ -60,7 +60,6 @@ export const FlashcardSet = ({
   }
 
   function handleUpClick(index: number) {
-    // Todo handle up click when card is first
     // Todo deep copy
     const newCards = [...cards];
     newCards[index] = newCards.splice(index - 1, 1, cards[index])[0];
@@ -68,11 +67,16 @@ export const FlashcardSet = ({
   }
 
   function handleDownClick(index: number) {
-    //Todo handle down click when card is last
     // Todo deep copy
-    const newCards = [...cards];
-    newCards[index] = newCards.splice(index + 1, 1, cards[index])[0];
-    handleCardsChange(newCards);
+    if (index === cards.length - 1) {
+      const newCards = [...cards];
+      const [lastCard] = newCards.splice(index, 1);
+      handleCardsChange([lastCard, ...newCards]);
+    } else {
+      const newCards = [...cards];
+      newCards[index] = newCards.splice(index + 1, 1, cards[index])[0];
+      handleCardsChange(newCards);
+    }
   }
 
   function handleCardChange(newCard: Card, id: number) {

@@ -6,15 +6,6 @@
 }
 
 .App {
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: space-evenly;
-  // align-items: center;
-  // gap: 32px;
-  // min-height: 100vh;
-  // height: 100%;
-  padding: 20px 50px;
-
   .text-areas {
     display: flex;
     gap: 16px;
@@ -23,46 +14,58 @@
     padding: 16px;
     width: 800px;
   }
+  .page-wrap {
+    margin-left: $sidebar-width;
+    padding-top: $header-height;
 
-  .text-box {
-    width: 400px;
-    padding: 16px;
-    background-color: white;
-  }
+    > .content {
+      align-items: center;
+      gap: 32px;
+      min-height: 100vh;
+      height: 100%;
+      padding: 20px $content-padding;
 
-  .text-box-dark {
-    width: 400px;
-    padding: 16px;
-    background-color: $black;
-  }
+      .text-areas {
+        display: flex;
+        gap: 16px;
+        // so we can see the labels and stuff
+        background-color: white;
+        padding: 16px;
+        width: 800px;
+      }
 
-  .search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 400px;
-  }
+      .text-box {
+        width: 400px;
+        padding: 16px;
+        background-color: white;
+      }
 
-  .flashcards-container {
-    width: 1200px;
-    ul {
-      list-style-type: none;
-      margin: 0px;
-      padding: 0px;
+      .text-box-dark {
+        width: 400px;
+        padding: 16px;
+        background-color: $black;
+      }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 400px;
+      }
+
+      .improvised-popup {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 200px;
+        padding: 0px 50px;
+        background-color: white;
+        border-radius: $standard-radius;
+      }
+      .test-drop-down {
+        width: 200px;
+      }
     }
-  }
-
-  .improvised-popup {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 200px;
-    padding: 0px 50px;
-    background-color: white;
-    border-radius: $standard-radius;
-  }
-  .test-drop-down {
-    width: 200px;
   }
 }

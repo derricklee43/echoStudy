@@ -1,6 +1,8 @@
 @import '../../../assets/colors';
 @import '../../../assets/styles';
 
+// Todo: clean up styling
+
 .deck-meta {
   .study-button {
     padding: 20px 40px;
@@ -22,7 +24,7 @@
       font-size: 30px;
     }
   }
-  input {
+  .deck-meta-title input {
     font-size: 30px;
     border-radius: 10px;
     border-width: 1px;
@@ -36,8 +38,19 @@
 
   .c-description-and-import-buttons {
     margin-top: 16px;
-    @include flex-center;
+    display: flex;
+    align-items: flex-end;
     gap: 16px;
+
+    // Todo add dark variant to text area
+    textarea {
+      background-color: $black;
+      color: $white;
+      border-color: $light-blue;
+      height: 58px;
+      border-radius: 10px;
+      outline: none;
+    }
   }
 
   .advanced-settings-divider {

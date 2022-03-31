@@ -9,22 +9,23 @@ import { CardContent } from '../../models/card-content';
 
 interface DeckEditorProps {
   initialDeck: Deck;
+  label?: string;
   onLeaveClick: () => void; // Just for the demo, we will remove later
   onDeckChange: (deck: Deck) => void;
 }
 
 export const DeckEditor = ({
   initialDeck,
+  label = 'edit a deck',
   onLeaveClick, // Just for the demo, we will remove later
   onDeckChange,
 }: DeckEditorProps) => {
   const [newDeck, setNewDeck] = useState(initialDeck);
   const [idCount, setIdCount] = useState(0);
-  console.log(newDeck);
   return (
     <>
       <div className="deck-editor">
-        <MetaDataEditor deck={newDeck} onDeckChange={setNewDeck} />
+        <MetaDataEditor label={label} deck={newDeck} onDeckChange={setNewDeck} />
         {newDeck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
         {getButtonFooter()}
       </div>
@@ -96,7 +97,6 @@ export const DeckEditor = ({
   function generateId() {
     let id = idCount;
     while (newDeck.cards.find((card: Card) => card.id === id)) {
-      console.log('here');
       id++;
     }
     setIdCount(id + 1);
@@ -104,10 +104,12 @@ export const DeckEditor = ({
   }
 
   function handleCancelClick() {
+    console.log('here');
     onLeaveClick();
   }
 
   function handleSaveClick() {
+    console.log('here');
     onDeckChange(newDeck);
     onLeaveClick();
   }

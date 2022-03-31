@@ -6,6 +6,7 @@ import { TextBox } from '../../text-box/text-box';
 import { BubbleDivider } from '../../bubble-divider/bubble-divider';
 import { DropDown, DropDownOption } from '../../drop-down/drop-down';
 import { Language } from '../../../models/card-content';
+import { TextArea } from '../../text-area/text-area';
 
 // Todo: maybe change Language to be enum instead of type
 enum Languages {
@@ -16,30 +17,32 @@ enum Languages {
 }
 
 interface DeckEditorProps {
+  label: string;
   deck: Deck;
   onDeckChange: (deck: Deck) => void;
 }
 
-export const MetaDataEditor = ({ deck, onDeckChange }: DeckEditorProps) => {
+export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) => {
   return (
     <div className="deck-meta">
       <div className="deck-editor-header">
-        <label>edit a deck</label>
+        <label>{label}</label>
         <Button onClick={handleStudyClick} className="editor-button">
           study
         </Button>
       </div>
-      <div className="title">
+      <div className="deck-meta-title">
         <TextBox
           variant="dark"
-          placeholder="title"
           onChange={handleDeckTitleChange}
           value={deck.title}
+          label="title"
+          placeholder="add a title..."
         />
       </div>
       <div className="c-description-and-import-buttons">
-        <TextBox
-          variant="dark"
+        <TextArea
+          lines={2}
           placeholder="add a description"
           value={deck.desc}
           onChange={handleDeckDescChange}
