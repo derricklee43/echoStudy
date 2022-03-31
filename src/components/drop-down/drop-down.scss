@@ -32,7 +32,7 @@
       @include ellipsis-overflow;
     }
 
-    div {
+    > div {
       @include flex-center;
       margin: 0px 10px;
     }
