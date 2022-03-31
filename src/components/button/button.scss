@@ -6,6 +6,7 @@
   font-size: 15px;
   box-sizing: border-box;
   border: 1px solid transparent;
+  white-space: nowrap;
 
   &.dark {
     border-color: $light-blue;
