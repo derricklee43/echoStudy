@@ -3,7 +3,7 @@ import './button.scss';
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'dark' | 'light';
+  variant?: 'dark' | 'light' | 'invisible';
   className?: string;
   bubbleOnClickEvent?: boolean;
   onClick: (event: React.MouseEvent) => void;

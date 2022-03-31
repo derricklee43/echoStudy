@@ -1,0 +1,29 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.flashcard {
+  height: 150px;
+  gap: 20px;
+  margin: 20px;
+  @include flex-center;
+  @include standard-transition;
+
+  > .button-strip {
+    padding: 20px 0px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $light-blue;
+    text-align: center;
+
+    &.right {
+      justify-content: center;
+    }
+  }
+
+  &.active > .button-strip {
+    color: $flashcard-white;
+  }
+}
