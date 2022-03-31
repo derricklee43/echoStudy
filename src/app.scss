@@ -6,14 +6,6 @@
 }
 
 .App {
-  .text-areas {
-    display: flex;
-    gap: 16px;
-    // so we can see the labels and stuff
-    background-color: white;
-    padding: 16px;
-    width: 800px;
-  }
   .page-wrap {
     margin-left: $sidebar-width;
     padding-top: $header-height;
