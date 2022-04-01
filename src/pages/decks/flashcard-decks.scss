@@ -37,7 +37,6 @@
     height: 100%;
 
     // ideally should have no more than 9-12 decks/pg to avoid overflow
-    // WORKAROUND to hide scrollbar flicker when flip card rotates by hiding the scrollbar
     overflow-x: hidden;
     overflow-y: auto;
 

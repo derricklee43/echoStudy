@@ -34,7 +34,7 @@ $height: 200px;
     }
 
     p {
-      overflow: scroll;
+      overflow-y: auto; // only show vertical scroll when needed
       font-size: 12px;
       flex: 1;
     }

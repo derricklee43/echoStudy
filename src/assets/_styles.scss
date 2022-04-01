@@ -17,6 +17,12 @@ $content-padding: 50px;
   }
 }
 
+@mixin hover-pointer() {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 @mixin blue-hover {
   @include hover($blue-hover);
 }

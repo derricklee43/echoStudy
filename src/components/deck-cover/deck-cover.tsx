@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './deck-cover.scss';
 import { FlipTile } from '../flip-tile/flip-tile';
 import { ProgressBar } from '../progress-bar/progress-bar';
@@ -6,29 +6,37 @@ import { Button } from '../button/button';
 import { Deck } from '../../models/deck';
 
 interface DeckCoverProps {
-  isActive: boolean;
+  flippable?: boolean;
   deck: Deck;
-  onClick: (event: React.MouseEvent) => void;
+  onClick?: (event: React.MouseEvent) => void;
   onStudyClick: () => void;
   onEditClick: () => void;
 }
 
 export const DeckCover = ({
+  flippable = true,
   deck,
-  isActive,
   onClick,
   onStudyClick,
   onEditClick,
 }: DeckCoverProps) => {
+  // false => show front; true => show back
+  const [flipped, setFlipped] = useState(false);
+
   return (
     <FlipTile
       className="deck-cover"
-      isFlipped={isActive}
+      isFlipped={flippable && flipped}
       front={getCoverFront()}
       back={getCoverBack()}
-      onClick={onClick}
+      onClick={onClickHandler}
     />
   );
+
+  function onClickHandler(event: React.MouseEvent) {
+    flippable && setFlipped(!flipped);
+    onClick?.(event);
+  }
 
   function getCoverFront() {
     return <div className="cover-front">{deck.title}</div>;

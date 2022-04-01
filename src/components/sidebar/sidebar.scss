@@ -36,8 +36,14 @@
     padding-left: 30px;
     list-style-type: none;
     font-size: 20px;
+
     li {
       margin-bottom: 20px;
+
+      @include hover-pointer;
+      &:hover {
+        color: $grey;
+      }
     }
   }
 }
