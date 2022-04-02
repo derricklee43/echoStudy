@@ -19,7 +19,9 @@
 .drop-down-menu {
   position: relative;
   display: inline-block;
-  width: 150px;
+
+  // consumer should set width manually if a fixed size is desired
+  width: fit-content;
 
   > button {
     width: 100%;

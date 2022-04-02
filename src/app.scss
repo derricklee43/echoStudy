@@ -1,49 +1,26 @@
 @import './assets/colors';
 @import './assets/styles';
 
+$height-without-header: calc(100vh - #{$header-height});
+$header-and-padding: $header-height + $content-padding;
+// height without header and padding adjustments
+$content-height: calc(100vh - #{$header-and-padding});
+
 :root {
   background-color: $black;
 }
 
 .App {
   .page-wrap {
+    height: $height-without-header;
     margin-left: $sidebar-width;
     padding-top: $header-height;
 
     > .content {
       align-items: center;
       gap: 32px;
-      min-height: 100vh;
-      height: 100%;
+      height: $content-height;
       padding: 20px $content-padding;
-
-      .text-areas {
-        display: flex;
-        gap: 16px;
-        // so we can see the labels and stuff
-        background-color: white;
-        padding: 16px;
-        width: 800px;
-      }
-
-      .text-box {
-        width: 400px;
-        padding: 16px;
-        background-color: white;
-      }
-
-      .text-box-dark {
-        width: 400px;
-        padding: 16px;
-        background-color: $black;
-      }
-
-      .search-bar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 400px;
-      }
 
       .improvised-popup {
         display: flex;

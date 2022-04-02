@@ -1,0 +1,62 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.pg-flashcard-decks {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 16px 0px;
+
+  .decks-page-header {
+    display: flex;
+    justify-content: space-between;
+
+    > label {
+      color: $white;
+      font-size: 30px;
+    }
+
+    .drop-down {
+      button,
+      label {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .deck-tile-container {
+    display: grid;
+    // 325px deck cover width + 10px deck cover margin
+    grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
+    justify-items: center;
+    grid-auto-rows: max-content;
+    column-gap: 56px;
+    row-gap: 32px;
+    margin: 32px 0px;
+    width: 100%;
+    height: 100%;
+
+    // ideally should have no more than 9-12 decks/pg to avoid overflow
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .deck-cover:first-child .cover-front {
+      background-color: $light-blue;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  .footer-page-number {
+    padding: 16px 0px;
+    margin-top: auto;
+    text-align: center;
+
+    > label {
+      color: $light-blue;
+      text-align: center;
+    }
+  }
+}
