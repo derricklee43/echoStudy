@@ -32,6 +32,7 @@
 
     label {
       @include ellipsis-overflow;
+      @include hover-pointer;
     }
 
     > div {
@@ -41,15 +42,18 @@
   }
 
   .options {
+    @include box-shadow;
+    @include hover-pointer;
     width: 100%;
     margin-top: 2px;
     position: absolute;
     z-index: 1;
     background-color: $white;
     border-radius: $standard-radius + 1px; //hides corners of div
-    @include box-shadow;
 
     .option {
+      @include white-hover;
+      @include ellipsis-overflow;
       width: 100%;
       box-sizing: border-box;
       border-left: 1px solid $flashcard-white;
@@ -57,8 +61,6 @@
       background-color: $white;
       color: $blue;
       padding: 5px;
-      @include white-hover;
-      @include ellipsis-overflow;
 
       &:first-child {
         border-radius: $standard-radius $standard-radius 0px 0px;

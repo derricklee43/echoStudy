@@ -2,13 +2,18 @@ import './header.scss';
 import React from 'react';
 import { SearchBar } from '../search-bar/search-bar';
 import { Button } from '../button/button';
+import { Deck } from '../../models/deck';
 
-export const Header = () => {
+interface HeaderProps {
+  decks: Deck[];
+}
+
+export const Header = ({ decks }: HeaderProps) => {
   return (
     <div className="c-header">
       <div className="c-header-content">
         <div className="c-search-bar-container">
-          <SearchBar placeholder="search my decks" />
+          <SearchBar placeholder="search my decks" dropDownData={getDeckOptions()} />
         </div>
         <div className="c-account-buttons">
           <Button onClick={handleSignUpClick} className="sign-up-button">
@@ -21,6 +26,10 @@ export const Header = () => {
       </div>
     </div>
   );
+
+  function getDeckOptions() {
+    return decks.map((deck) => ({ id: deck.id.toString(), value: deck.title }));
+  }
 
   function handleSignUpClick() {
     console.log('sign up');
