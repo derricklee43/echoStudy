@@ -30,6 +30,7 @@ $button-strip-height: 35px;
 
   .content {
     @include standard-transition;
+    @include hover-pointer;
     flex: 1;
     border-radius: 14px;
     display: flex;
@@ -44,6 +45,7 @@ $button-strip-height: 35px;
     }
 
     &.active {
+      @include hover-text;
       background-color: $flashcard-white;
       color: $blue;
 

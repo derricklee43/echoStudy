@@ -1,6 +1,7 @@
 @import '../../assets/colors';
 @import '../../assets/styles';
 .button {
+  @include hover-pointer;
   padding: 3px 13px;
   border-radius: $standard-radius;
   font-size: 15px;
@@ -9,17 +10,17 @@
   white-space: nowrap;
 
   &.dark {
+    @include blue-hover;
     border-color: $light-blue;
     background-color: $blue;
     color: $white;
-    @include blue-hover;
   }
 
   &.light {
+    @include white-hover;
     background-color: $white;
     border-color: $blue;
     color: $blue;
-    @include white-hover;
   }
 
   &.invisible {

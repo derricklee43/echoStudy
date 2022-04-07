@@ -7,6 +7,13 @@ import { DeckEditor } from './components/deck-editor/deck-editor';
 import { Sidebar } from './components/sidebar/sidebar';
 import { Header } from './components/header/header';
 import { FlashcardDecksPage } from './pages/decks/flashcard-decks';
+import {
+  testEnglishDeck,
+  testJapaneseVerbsDeck,
+  testNPTEPartNumberDeck,
+} from './models/mock/deck.mock';
+
+const testDecks = [testEnglishDeck(0), testJapaneseVerbsDeck(1), testNPTEPartNumberDeck(2, 1)];
 
 const card1: Card = {
   front: {
@@ -66,7 +73,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header decks={testDecks} />
       <Sidebar
         onFlashcardDecksClick={() => setShowDecks(true)}
         onCreateClick={() => setShowDecks(false)}

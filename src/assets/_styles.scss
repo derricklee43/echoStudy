@@ -17,6 +17,12 @@ $content-padding: 50px;
   }
 }
 
+@mixin hover-text() {
+  &:hover {
+    cursor: text;
+  }
+}
+
 @mixin hover-pointer() {
   &:hover {
     cursor: pointer;
