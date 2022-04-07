@@ -50,7 +50,7 @@ export const BubbleDivider = ({
         initial={'hidden'}
         exit={'hidden'}
         animate={'visible'}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
       >
         {children}
       </motion.div>

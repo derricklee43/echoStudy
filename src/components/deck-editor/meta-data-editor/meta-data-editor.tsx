@@ -55,7 +55,7 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
         </Button>
       </div>
       <BubbleDivider
-        variantType="divider"
+        variantType="drop-down"
         variantColor="dark"
         label="advanced settings"
         className="advanced-settings-divider"
