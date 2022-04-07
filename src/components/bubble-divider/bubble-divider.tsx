@@ -2,7 +2,7 @@ import './bubble-divider.scss';
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '../button/button';
-import { Arrow } from '../arrow/arrow';
+import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 
 interface BubbleDividerProps {
   variant?: 'dark-divider' | 'dark-drop-down'; // Todo: add light variants (and find a better way to have dark and light + dropdown and divider )
@@ -39,7 +39,7 @@ export const BubbleDivider = ({
   function getArrow() {
     return (
       <div className="c-bubble-divider-arrow">
-        <Arrow orientation={isOpen ? 'up' : 'down'} />
+        <ArrowIcon orientation={isOpen ? 'up' : 'down'} />
       </div>
     );
   }

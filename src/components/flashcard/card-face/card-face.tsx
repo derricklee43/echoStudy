@@ -1,9 +1,9 @@
 import './card-face.scss';
 import React from 'react';
-import { ReactComponent as SpeakerSvg } from '../../../assets/svg/speaker.svg';
-import { ReactComponent as KebabMenuSvg } from '../../../assets/svg/kebab-menu.svg';
 import { Button } from '../../button/button';
 import { CardContent } from '../../../models/card-content';
+import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
+import { KebabMenuIcon } from '../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
 
 interface CardFaceProps {
   cardContent: CardContent;
@@ -40,10 +40,10 @@ export const CardFace = ({
     return (
       <div className="button-strip">
         <Button onClick={playAudio} variant="invisible" bubbleOnClickEvent={false}>
-          <SpeakerSvg className="speaker" />
+          <SpeakerIcon className="speaker" />
         </Button>
         <Button onClick={handleKebabClick} variant="invisible" bubbleOnClickEvent={false}>
-          <KebabMenuSvg className="kebab-menu" />
+          <KebabMenuIcon className="kebab-menu" />
         </Button>
       </div>
     );

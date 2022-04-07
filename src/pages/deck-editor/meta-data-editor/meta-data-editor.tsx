@@ -1,12 +1,12 @@
 import './meta-data-editor.scss';
 import React from 'react';
 import { Deck } from '../../../models/deck';
-import { Button } from '../../button/button';
-import { TextBox } from '../../text-box/text-box';
-import { BubbleDivider } from '../../bubble-divider/bubble-divider';
-import { DropDown, DropDownOption } from '../../drop-down/drop-down';
+import { Button } from '../../../components/button/button';
+import { TextBox } from '../../../components/text-box/text-box';
+import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
+import { DropDown, DropDownOption } from '../../../components/drop-down/drop-down';
 import { Language } from '../../../models/card-content';
-import { TextArea } from '../../text-area/text-area';
+import { TextArea } from '../../../components/text-area/text-area';
 
 // Todo: maybe change Language to be enum instead of type
 enum Languages {
@@ -17,20 +17,14 @@ enum Languages {
 }
 
 interface DeckEditorProps {
-  label: string;
   deck: Deck;
   onDeckChange: (deck: Deck) => void;
+  onDeleteClick: (event: React.MouseEvent) => void;
 }
 
-export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) => {
+export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditorProps) => {
   return (
     <div className="deck-meta">
-      <div className="deck-editor-header">
-        <label>{label}</label>
-        <Button onClick={handleStudyClick} className="editor-button">
-          study
-        </Button>
-      </div>
       <div className="deck-meta-title">
         <TextBox
           variant="dark"
@@ -47,10 +41,10 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
           value={deck.desc}
           onChange={handleDeckDescChange}
         />
-        <Button onClick={handleImportClick} className="editor-button">
+        <Button onClick={handleImportClick} className="meta-button">
           import cards
         </Button>
-        <Button onClick={handleExportClick} className="editor-button">
+        <Button onClick={handleExportClick} className="meta-button">
           export deck
         </Button>
       </div>
@@ -73,18 +67,13 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
             options={getLanguages()}
             onOptionSelect={handleBackLanguageSelect}
           />
-          <Button onClick={handleDeckDeleteClick} className="meta-button">
+          <Button onClick={onDeleteClick} className="meta-button">
             delete deck
           </Button>
         </div>
       </BubbleDivider>
     </div>
   );
-
-  function handleDeckDeleteClick(event: React.MouseEvent) {
-    // Todo: finish
-    console.log('clicked!');
-  }
 
   function handleFrontLanguageSelect(option: DropDownOption) {
     const frontLang = option.value as Language;
@@ -116,11 +105,6 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
   }
 
   function handleExportClick() {
-    // Todo: finish
-    console.log('clicked!');
-  }
-
-  function handleStudyClick() {
     // Todo: finish
     console.log('clicked!');
   }

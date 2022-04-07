@@ -8,6 +8,10 @@ interface ArrowProps {
   className?: string;
 }
 
-export const Arrow = ({ className = '', variant = 'dark', orientation = 'down' }: ArrowProps) => {
+export const ArrowIcon = ({
+  className = '',
+  variant = 'dark',
+  orientation = 'down',
+}: ArrowProps) => {
   return <DownArrow className={`arrow ${variant} ${orientation} ${className}`} />;
 };
