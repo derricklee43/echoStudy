@@ -5,8 +5,6 @@ import { testEnglishDeck } from '../../../models/mock/deck.mock';
 import { MetaDataEditor } from './meta-data-editor';
 import { noop } from '../../../helpers/func';
 
-const TEST_LABEL = 'TEST_INITIAL_TEXT';
-
 describe('MetaDataEditor', () => {
   it('should render correctly with default props', () => {
     const testDeck = testEnglishDeck(1);

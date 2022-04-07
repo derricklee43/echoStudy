@@ -10,11 +10,11 @@ import {
   testJapaneseVerbsDeck,
   testNPTEPartNumberDeck,
 } from './models/mock/deck.mock';
-import { getTestFoxCard, getTestMonkeyCard } from './models/mock/card.mock';
+import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from './models/mock/card.mock';
 import { noop } from './helpers/func';
 
 const testDecks = [testEnglishDeck(0), testJapaneseVerbsDeck(1), testNPTEPartNumberDeck(2, 1)];
-testDecks[1].cards = [getTestMonkeyCard(0), getTestFoxCard(1), getTestFoxCard(2)];
+testDecks[1].cards = [getTestMonkeyCard(0), getTestFoxCard(1), getTestMouseCard(2)];
 
 function App() {
   const [savedDeck, setSavedDeck] = useState(testDecks[1]);

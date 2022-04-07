@@ -57,7 +57,7 @@ export const DeckEditor = ({
         >
           discard changes
         </Button>
-        <Button onClick={() => onDeckChange(deck)} className="editor-button">
+        <Button onClick={onSaveClick} className="editor-button">
           save
         </Button>
       </div>
