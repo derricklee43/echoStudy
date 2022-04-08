@@ -42,14 +42,10 @@
     align-items: flex-end;
     gap: 16px;
 
-    // Todo add dark variant to text area
     textarea {
-      background-color: $black;
-      color: $white;
-      border-color: $light-blue;
+      padding: 12px 12px;
       height: 58px;
       border-radius: 10px;
-      outline: none;
     }
   }
 

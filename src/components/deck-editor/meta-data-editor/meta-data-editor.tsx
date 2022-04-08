@@ -43,6 +43,8 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
       <div className="c-description-and-import-buttons">
         <TextArea
           lines={2}
+          label="description"
+          variant="dark"
           placeholder="add a description"
           value={deck.desc}
           onChange={handleDeckDescChange}
