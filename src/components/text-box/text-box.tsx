@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, ChangeEvent, useRef } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './text-box.scss';
 
 export interface TextBoxProps {

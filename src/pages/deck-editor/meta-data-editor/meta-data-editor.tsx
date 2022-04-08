@@ -37,6 +37,8 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
       <div className="c-description-and-import-buttons">
         <TextArea
           lines={2}
+          label="description"
+          variant="dark"
           placeholder="add a description"
           value={deck.desc}
           onChange={handleDeckDescChange}
@@ -49,7 +51,8 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
         </Button>
       </div>
       <BubbleDivider
-        variant="dark-drop-down"
+        variantType="drop-down"
+        variantColor="dark"
         label="advanced settings"
         className="advanced-settings-divider"
       >
