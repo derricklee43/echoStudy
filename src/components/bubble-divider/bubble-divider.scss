@@ -2,12 +2,10 @@
 @import '../../assets/colors';
 
 .c-bubble-divider {
-  // Todo add a transition
   position: relative;
   @include flex-center;
 
   .c-bubble-button {
-    // Todo remove hover when component is divider
     @include flex-center;
     border-radius: 30px;
     background-color: $black;
@@ -15,27 +13,50 @@
     padding: 10px 20px;
 
     .c-bubble-divider-arrow {
-      height: 100%;
-      padding-left: 10px;
-      @include flex-center;
-      svg {
+        @include flex-center;
+        height: 100%;
+        padding-left: 10px;
         fill: $light-blue;
-      }
+    }
+
+    &.divider:hover {
+      cursor: default;
+      background-color: $black;
     }
   }
 
   hr {
-    z-index: -1;
-    position: absolute;
     width: 100%;
-    display: block;
     height: 1px;
     border: 0;
     border-top: 1px solid $light-blue;
-    padding: 0;
+  }
+
+  &.light {
+    .c-bubble-button {
+      color: $grey;
+      border-color: $grey;
+      background-color: $white;
+      
+      &.divider:hover {
+        background-color: $white;
+      }
+  
+      &.drop-down {
+        @include white-hover;
+      }
+      
+      .c-bubble-divider-arrow {
+        fill: $grey;
+      }
+    }
+
+    hr {
+      border-color: $grey;
+    }
   }
 }
 
 .c-bubble-divider-children {
-  padding-top: 20px;
+  overflow: hidden;
 }
