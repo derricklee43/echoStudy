@@ -32,7 +32,6 @@ export const FlashcardSet = ({
       return (
         <Reorder.Item key={card.id} value={card}>
           <Flashcard
-            key={index}
             card={card}
             index={index + 1}
             variant={getCardVariant(card.id)}

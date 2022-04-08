@@ -7,28 +7,26 @@ import { FlashcardSet } from '../../components/flashcard-set/flashcard-set';
 import { Button } from '../../components/button/button';
 import { PlusIcon } from '../../assets/icons/plus-icon/plus-icon';
 import { PageHeader } from '../../components/page-header/page-header';
+import { testJapaneseVerbsDeck } from '../../models/mock/deck.mock';
+import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 
-interface DeckEditorProps {
-  deck: Deck;
+interface DeckEditorPageProps {
   label?: string;
-  isDeckSaved: boolean;
+  deckId: number;
   onGoBackClick: (event: React.MouseEvent) => void;
-  onDeckChange: (deck: Deck) => void;
-  onDeleteClick: (event: React.MouseEvent) => void;
-  onDiscardChangesClick: (event: React.MouseEvent) => void;
-  onSaveClick: (event: React.MouseEvent) => void;
 }
+const testDeck = testJapaneseVerbsDeck(0);
+testDeck.cards = [getTestMonkeyCard(0), getTestFoxCard(1), getTestMouseCard(2)];
 
-export const DeckEditor = ({
-  deck,
+export const DeckEditorPage = ({
   label = 'edit a deck',
-  isDeckSaved,
+  deckId,
   onGoBackClick,
-  onDeckChange,
-  onDeleteClick,
-  onSaveClick,
-  onDiscardChangesClick,
-}: DeckEditorProps) => {
+}: DeckEditorPageProps) => {
+  const [savedDeck, setSavedDeck] = useState(testDeck);
+  const [unsavedDeck, setUnsavedDeck] = useState(testDeck);
+  const isDeckSaved = savedDeck === unsavedDeck;
+
   const [idCount, setIdCount] = useState(0);
 
   return (
@@ -37,8 +35,12 @@ export const DeckEditor = ({
         <PageHeader label={label} onGoBackClick={onGoBackClick} />
         {getSaveButtonAndLabel()}
       </div>
-      <MetaDataEditor deck={deck} onDeckChange={onDeckChange} onDeleteClick={onDeleteClick} />
-      {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
+      <MetaDataEditor
+        deck={unsavedDeck}
+        onDeckChange={handleDeckChange}
+        onDeleteClick={handleDeleteDeckClick}
+      />
+      {unsavedDeck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
       <Button onClick={handleAddCardClick} className="add-card-button editor-button">
         <PlusIcon />
         <label>new card</label>
@@ -52,12 +54,12 @@ export const DeckEditor = ({
       <div>
         <Button
           variant="invisible"
-          onClick={onDiscardChangesClick}
-          className={`discard-changes-button editor-button ${className}`}
+          onClick={handleDiscardChangesClick}
+          className={`discard-changes-button ${className}`}
         >
           discard changes
         </Button>
-        <Button onClick={onSaveClick} className="editor-button">
+        <Button onClick={handleSaveClick} className="editor-button">
           save
         </Button>
       </div>
@@ -75,25 +77,41 @@ export const DeckEditor = ({
   function getFlashcardSet() {
     return (
       <FlashcardSet
-        cards={deck.cards}
+        cards={unsavedDeck.cards}
         className="deck-editor-flashcard-set"
-        onCardsChange={(cards: Card[]) => onDeckChange({ ...deck, cards })}
+        onCardsChange={(cards: Card[]) => handleDeckChange({ ...unsavedDeck, cards })}
       />
     );
   }
 
   function handleAddCardClick() {
-    const card = createNewCard(deck.frontLang, deck.backLang);
+    const card = createNewCard(unsavedDeck.frontLang, unsavedDeck.backLang);
     card.id = generateId();
 
-    onDeckChange({ ...deck, cards: [card, ...deck.cards] });
+    handleDeckChange({ ...unsavedDeck, cards: [card, ...unsavedDeck.cards] });
+  }
+
+  function handleDeckChange(newDeck: Deck) {
+    setUnsavedDeck(newDeck);
+  }
+
+  function handleSaveClick() {
+    setSavedDeck(unsavedDeck);
+  }
+
+  function handleDiscardChangesClick() {
+    setUnsavedDeck(savedDeck);
+  }
+
+  function handleDeleteDeckClick(event: React.MouseEvent) {
+    onGoBackClick(event);
   }
 
   // Todo: find a better way to generate number id's for cards
   // maybe switch to a string and use uuid library
   function generateId() {
     let id = idCount;
-    while (deck.cards.find((card: Card) => card.id === id)) {
+    while (testDeck.cards.find((card: Card) => card.id === id)) {
       id++;
     }
     setIdCount(id + 1);

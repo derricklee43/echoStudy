@@ -4,6 +4,8 @@ import { Button } from '../../button/button';
 import { CardContent } from '../../../models/card-content';
 import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
 import { KebabMenuIcon } from '../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
+import { text } from 'stream/consumers';
+import { useState } from 'react';
 
 interface CardFaceProps {
   cardContent: CardContent;
@@ -22,6 +24,25 @@ export const CardFace = ({
   onChange,
   onFocus,
 }: CardFaceProps) => {
+  const utterance = new SpeechSynthesisUtterance(cardContent.text);
+  const languageCodes = {
+    Japanese: 'jp-JP',
+    English: 'en-US',
+    Spanish: 'es-ES',
+    German: 'de-DE',
+  };
+  const allVoices = window.speechSynthesis.getVoices();
+  const voices = {
+    Japanese: allVoices[58],
+    English: allVoices[49],
+    Spanish: allVoices[52],
+    German: allVoices[48],
+  };
+
+  utterance.voice = voices[cardContent.language];
+  utterance.lang = languageCodes[cardContent.language];
+
+  const [cardSound, setCardSound] = useState(utterance);
   return (
     <div className={`card-face ${className}`}>
       {variant === 'active' && getButtonStrip()}
@@ -50,11 +71,31 @@ export const CardFace = ({
   }
 
   function handleCardTextChange(event: React.FormEvent<HTMLInputElement>) {
+    const utterance = new SpeechSynthesisUtterance(event.currentTarget.value);
+    const languageCodes = {
+      Japanese: 'jp-JP',
+      English: 'en-US',
+      Spanish: 'es-ES',
+      German: 'de-DE',
+    };
+    const allVoices = window.speechSynthesis.getVoices();
+    const voices = {
+      Japanese: allVoices[58],
+      English: allVoices[49],
+      Spanish: allVoices[52],
+      German: allVoices[48],
+    };
+
+    utterance.voice = voices[cardContent.language];
+    utterance.lang = languageCodes[cardContent.language];
+    setCardSound(utterance);
     onChange?.({ ...cardContent, text: event.currentTarget.value });
   }
 
   function playAudio() {
-    cardContent.audio.play();
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    // cardContent.audio.play();
   }
 
   function handleKebabClick() {
