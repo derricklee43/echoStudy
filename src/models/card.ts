@@ -1,7 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
 import { CardContent, Language } from './card-content';
 
 export interface Card {
-  id: number;
+  id?: number;
+  position?: number;
+  key: string;
   front: CardContent;
   back: CardContent;
 }
@@ -19,5 +22,5 @@ export function createNewCard(frontLang: Language, backLang: Language): Card {
     language: backLang,
   };
 
-  return { id: 0, front, back };
+  return { front, back, key: uuidv4() };
 }

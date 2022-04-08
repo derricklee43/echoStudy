@@ -18,7 +18,7 @@ export const FlashcardSet = ({
   cards,
   onCardsChange,
 }: FlashcardSetProps) => {
-  const [activeCard, setActiveCard] = useState(-1);
+  const [activeCard, setActiveCard] = useState('');
   return (
     <div className={`c-flashcard-set ${className}`}>
       <Reorder.Group axis="y" values={cards} onReorder={handleReorder}>
@@ -30,12 +30,12 @@ export const FlashcardSet = ({
   function getCards() {
     return cards.map((card, index) => {
       return (
-        <Reorder.Item key={card.id} value={card}>
+        <Reorder.Item key={card.key} value={card}>
           <Flashcard
             card={card}
             index={index + 1}
-            variant={getCardVariant(card.id)}
-            onFocus={() => setActiveCard(card.id)}
+            variant={getCardVariant(card.key)}
+            onFocus={() => setActiveCard(card.key)}
             onCardChange={(c) => handleCardChange(c, index)}
             onDownClick={() => handleDownClick(index)}
             onUpClick={() => handleUpClick(index)}
@@ -46,27 +46,24 @@ export const FlashcardSet = ({
     });
   }
 
-  function getCardVariant(cardId: number) {
+  function getCardVariant(cardKey: string) {
     if (variant === 'readonly') return 'readonly';
-    return activeCard === cardId ? 'active' : 'inactive';
+    return activeCard === cardKey ? 'active' : 'inactive';
   }
 
   function handleRemoveClick(index: number) {
-    // Todo deep copy
     const newCards = [...cards];
     newCards.splice(index, 1);
     handleCardsChange(newCards);
   }
 
   function handleUpClick(index: number) {
-    // Todo deep copy
     const newCards = [...cards];
     newCards[index] = newCards.splice(index - 1, 1, cards[index])[0];
     handleCardsChange(newCards);
   }
 
   function handleDownClick(index: number) {
-    // Todo deep copy
     if (index === cards.length - 1) {
       const newCards = [...cards];
       const [lastCard] = newCards.splice(index, 1);
@@ -78,10 +75,9 @@ export const FlashcardSet = ({
     }
   }
 
-  function handleCardChange(newCard: Card, id: number) {
-    // Todo deep copy
+  function handleCardChange(newCard: Card, index: number) {
     const newCards = [...cards];
-    newCards[id] = newCard;
+    newCards[index] = newCard;
     handleCardsChange(newCards);
   }
 

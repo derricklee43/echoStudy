@@ -9,14 +9,18 @@ import { PlusIcon } from '../../assets/icons/plus-icon/plus-icon';
 import { PageHeader } from '../../components/page-header/page-header';
 import { testJapaneseVerbsDeck } from '../../models/mock/deck.mock';
 import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
+import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../animations/fade';
+import { v4 as uuidv4 } from 'uuid';
+
+const testDeck = testJapaneseVerbsDeck(0);
+testDeck.cards = [getTestMonkeyCard(), getTestFoxCard(), getTestMouseCard()];
 
 interface DeckEditorPageProps {
   label?: string;
   deckId: number;
   onGoBackClick: (event: React.MouseEvent) => void;
 }
-const testDeck = testJapaneseVerbsDeck(0);
-testDeck.cards = [getTestMonkeyCard(0), getTestFoxCard(1), getTestMouseCard(2)];
 
 export const DeckEditorPage = ({
   label = 'edit a deck',
@@ -26,8 +30,6 @@ export const DeckEditorPage = ({
   const [savedDeck, setSavedDeck] = useState(testDeck);
   const [unsavedDeck, setUnsavedDeck] = useState(testDeck);
   const isDeckSaved = savedDeck === unsavedDeck;
-
-  const [idCount, setIdCount] = useState(0);
 
   return (
     <div className="deck-editor">
@@ -49,16 +51,22 @@ export const DeckEditorPage = ({
   );
 
   function getSaveButtonAndLabel() {
-    const className = isDeckSaved ? '' : 'visible';
     return (
       <div>
-        <Button
-          variant="invisible"
-          onClick={handleDiscardChangesClick}
-          className={`discard-changes-button ${className}`}
-        >
-          discard changes
-        </Button>
+        <AnimatePresence>
+          {!isDeckSaved && (
+            <Fade>
+              <Button
+                variant="invisible"
+                onClick={handleDiscardChangesClick}
+                className={`discard-changes-button`}
+              >
+                discard changes
+              </Button>
+            </Fade>
+          )}
+        </AnimatePresence>
+
         <Button onClick={handleSaveClick} className="editor-button">
           save
         </Button>
@@ -86,8 +94,6 @@ export const DeckEditorPage = ({
 
   function handleAddCardClick() {
     const card = createNewCard(unsavedDeck.frontLang, unsavedDeck.backLang);
-    card.id = generateId();
-
     handleDeckChange({ ...unsavedDeck, cards: [card, ...unsavedDeck.cards] });
   }
 
@@ -96,7 +102,10 @@ export const DeckEditorPage = ({
   }
 
   function handleSaveClick() {
-    setSavedDeck(unsavedDeck);
+    const cards = unsavedDeck.cards.map((card) => ({ ...card, key: uuidv4() }));
+    const newDeck = { ...unsavedDeck, cards };
+    setUnsavedDeck(newDeck);
+    setSavedDeck(newDeck);
   }
 
   function handleDiscardChangesClick() {
@@ -105,16 +114,5 @@ export const DeckEditorPage = ({
 
   function handleDeleteDeckClick(event: React.MouseEvent) {
     onGoBackClick(event);
-  }
-
-  // Todo: find a better way to generate number id's for cards
-  // maybe switch to a string and use uuid library
-  function generateId() {
-    let id = idCount;
-    while (testDeck.cards.find((card: Card) => card.id === id)) {
-      id++;
-    }
-    setIdCount(id + 1);
-    return id;
   }
 };

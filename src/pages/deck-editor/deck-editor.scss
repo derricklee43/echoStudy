@@ -10,17 +10,11 @@
     .discard-changes-button {
       @include standard-transition;
       margin-right: 15px;
-      color: transparent;
-      visibility: hidden;
       border: 1px solid transparent;
-
-      &.visible {
-        visibility: visible;
-        color: $light-blue;
-        
-        &:hover{
-          color: $white;
-        }
+      color: $light-blue;
+      
+      &:hover{
+        color: $white;
       }
     }
   }
