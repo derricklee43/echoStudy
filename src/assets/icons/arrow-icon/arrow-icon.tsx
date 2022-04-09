@@ -1,4 +1,4 @@
-import './arrow.scss';
+import './arrow-icon.scss';
 import React from 'react';
 import { ReactComponent as DownArrow } from '../../svg/down-arrow.svg';
 
@@ -13,5 +13,5 @@ export const ArrowIcon = ({
   variant = 'dark',
   orientation = 'down',
 }: ArrowProps) => {
-  return <DownArrow className={`arrow ${variant} ${orientation} ${className}`} />;
+  return <DownArrow className={`arrow-icon ${variant} ${orientation} ${className}`} />;
 };

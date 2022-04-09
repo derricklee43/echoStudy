@@ -43,10 +43,10 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
           value={deck.desc}
           onChange={handleDeckDescChange}
         />
-        <Button onClick={handleImportClick} className="meta-button">
+        <Button onClick={handleImportClick} size="medium">
           import cards
         </Button>
-        <Button onClick={handleExportClick} className="meta-button">
+        <Button onClick={handleExportClick} size="medium">
           export deck
         </Button>
       </div>
@@ -70,7 +70,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
             options={getLanguages()}
             onOptionSelect={handleBackLanguageSelect}
           />
-          <Button onClick={onDeleteClick} className="meta-button">
+          <Button onClick={onDeleteClick} size="medium">
             delete deck
           </Button>
         </div>

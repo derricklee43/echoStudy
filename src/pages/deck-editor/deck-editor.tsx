@@ -43,7 +43,7 @@ export const DeckEditorPage = ({
         onDeleteClick={handleDeleteDeckClick}
       />
       {unsavedDeck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
-      <Button onClick={handleAddCardClick} className="add-card-button editor-button">
+      <Button onClick={handleAddCardClick} size="medium" className="add-card-button">
         <PlusIcon />
         <label>new card</label>
       </Button>
@@ -67,7 +67,7 @@ export const DeckEditorPage = ({
           )}
         </AnimatePresence>
 
-        <Button onClick={handleSaveClick} className="editor-button">
+        <Button onClick={handleSaveClick} size="medium">
           save
         </Button>
       </div>
@@ -102,10 +102,7 @@ export const DeckEditorPage = ({
   }
 
   function handleSaveClick() {
-    const cards = unsavedDeck.cards.map((card) => ({ ...card, key: uuidv4() }));
-    const newDeck = { ...unsavedDeck, cards };
-    setUnsavedDeck(newDeck);
-    setSavedDeck(newDeck);
+    setSavedDeck(unsavedDeck);
   }
 
   function handleDiscardChangesClick() {

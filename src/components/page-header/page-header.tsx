@@ -3,12 +3,12 @@ import React from 'react';
 import { Button } from '../button/button';
 import { BackArrowIcon } from '../../assets/icons/back-arrow-icon/back-arrow-icon';
 
-interface BackArrowIconProps {
+interface PageHeaderProps {
   label: string;
   onGoBackClick: (event: React.MouseEvent) => void;
 }
 
-export const PageHeader = ({ label, onGoBackClick }: BackArrowIconProps) => {
+export const PageHeader = ({ label, onGoBackClick }: PageHeaderProps) => {
   return (
     <div className="page-header">
       <Button variant="invisible" onClick={onGoBackClick} className="go-back-button">

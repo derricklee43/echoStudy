@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-interface CardFaceProps {
+interface FadeProps {
   children: React.ReactNode;
 }
 
 // wrap in a AnimatePresence for exit animation
-export const Fade = ({ children }: CardFaceProps) => {
+export const Fade = ({ children }: FadeProps) => {
   const variants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },

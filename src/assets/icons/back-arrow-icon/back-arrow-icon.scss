@@ -1,6 +1,7 @@
 @import '../../colors';
 @import '../../styles';
-.back-arrow-icon{
+
+.back-arrow-icon {
   @include standard-transition;
-  fill: $light-blue
+  fill: $light-blue;
 }

@@ -13,10 +13,10 @@
     padding: 10px 20px;
 
     .c-bubble-divider-arrow {
-        @include flex-center;
-        height: 100%;
-        padding-left: 10px;
-        fill: $light-blue;
+      @include flex-center;
+      height: 100%;
+      padding-left: 10px;
+      fill: $light-blue;
     }
 
     &.divider:hover {
@@ -37,15 +37,15 @@
       color: $grey;
       border-color: $grey;
       background-color: $white;
-      
+
       &.divider:hover {
         background-color: $white;
       }
-  
+
       &.drop-down {
         @include white-hover;
       }
-      
+
       .c-bubble-divider-arrow {
         fill: $grey;
       }

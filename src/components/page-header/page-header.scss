@@ -3,6 +3,7 @@
 .page-header {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 
   .go-back-button {
     width: fit-content;
