@@ -6,6 +6,11 @@ import { MetaDataEditor } from './meta-data-editor';
 import { noop } from '../../../helpers/func';
 
 describe('MetaDataEditor', () => {
+  beforeEach(() => {
+    // setup portal element for modal to render on
+    document.body.innerHTML = `<div id="portal"></div>`;
+  });
+
   it('should render correctly with default props', () => {
     const testDeck = testEnglishDeck(1);
     render(<MetaDataEditor deck={testDeck} onDeckChange={noop} onDeleteClick={noop} />);

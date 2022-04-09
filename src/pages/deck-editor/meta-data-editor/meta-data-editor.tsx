@@ -99,11 +99,6 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
     );
   }
 
-  function handleDeckDeleteClick(event: React.MouseEvent) {
-    // Todo: finish
-    console.log('clicked!');
-  }
-
   function handleFrontLanguageSelect(option: DropDownOption) {
     const frontLang = option.value as Language;
     onDeckChange({ ...deck, frontLang });
@@ -119,23 +114,18 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
   }
 
   function handleDeckTitleChange(title: string) {
-    //Todo: do deep copy
     onDeckChange({ ...deck, title });
   }
 
   function handleDeckDescChange(desc: string) {
-    //Todo: do deep copy
     onDeckChange({ ...deck, desc });
   }
 
   function handleImportClick() {
-    //Todo: finish
-    console.log('clicked!');
     setShowImportModal(true);
   }
 
   function handleExportClick() {
-    // Todo: finish
     console.log('clicked!');
   }
 };
