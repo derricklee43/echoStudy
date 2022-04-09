@@ -1,6 +1,6 @@
 import './drop-down.scss';
 import React, { useState } from 'react';
-import { Arrow } from '../../assets/icons/arrow/arrow';
+import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { Button } from '../button/button';
 
 export interface DropDownOption {
@@ -43,7 +43,7 @@ export const DropDown = ({
       <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
         <label>{buttonLabel}</label>
         <div>
-          <Arrow variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
+          <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
         </div>
       </Button>
     );

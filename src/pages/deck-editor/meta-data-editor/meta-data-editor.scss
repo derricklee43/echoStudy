@@ -1,29 +1,12 @@
 @import '../../../assets/colors';
 @import '../../../assets/styles';
 
-// Todo: clean up styling
-
 .deck-meta {
   .study-button {
     padding: 20px 40px;
     border-radius: 10px;
   }
 
-  .meta-button {
-    padding: 20px 15px;
-    border-radius: 10px;
-  }
-
-  .deck-editor-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    label {
-      color: $white;
-      font-size: 30px;
-    }
-  }
   .deck-meta-title input {
     font-size: 30px;
     border-radius: 10px;
@@ -54,7 +37,6 @@
     color: $white;
 
     .advanced-settings {
-      margin-bottom: 10px;
       > * {
         margin-bottom: 20px;
       }

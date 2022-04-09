@@ -1,9 +1,11 @@
 import './card-face.scss';
 import React from 'react';
-import { ReactComponent as SpeakerSvg } from '../../../assets/svg/speaker.svg';
-import { ReactComponent as KebabMenuSvg } from '../../../assets/svg/kebab-menu.svg';
 import { Button } from '../../button/button';
 import { CardContent } from '../../../models/card-content';
+import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
+import { KebabMenuIcon } from '../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
+import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../../animations/fade';
 
 interface CardFaceProps {
   cardContent: CardContent;
@@ -39,12 +41,18 @@ export const CardFace = ({
   function getButtonStrip() {
     return (
       <div className="button-strip">
-        <Button onClick={playAudio} variant="invisible" bubbleOnClickEvent={false}>
-          <SpeakerSvg className="speaker" />
-        </Button>
         <Button onClick={handleKebabClick} variant="invisible" bubbleOnClickEvent={false}>
-          <KebabMenuSvg className="kebab-menu" />
+          <KebabMenuIcon className="kebab-menu" />
         </Button>
+        <AnimatePresence>
+          {cardContent.text.length > 0 && (
+            <Fade>
+              <Button onClick={playAudio} variant="invisible" bubbleOnClickEvent={false}>
+                <SpeakerIcon className="speaker" />
+              </Button>
+            </Fade>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
