@@ -26,7 +26,7 @@ export const PopupModal = ({
   useOutsideClick(contentRef, () => onClose(), outsideClickFiresOnClose);
 
   // trap accessibility controls (i.e. tabbing) in the content
-  useFocusTrap(contentRef);
+  useFocusTrap(contentRef, showTrigger); // hook/unhook when showTrigger changes
 
   // accessibility: auto-focus the first focusable element (if any)
   useFocusFirst(contentRef, showTrigger);

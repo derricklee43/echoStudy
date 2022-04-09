@@ -31,6 +31,8 @@ export const useFocusTrap = (
     const keyListener = (event: KeyboardEvent) => {
       // handle TAB key
       if (event.key === 'Tab') {
+        event.preventDefault();
+
         const focusableNodes = ref?.current?.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY);
         if (!focusableNodes) return;
 
@@ -40,19 +42,40 @@ export const useFocusTrap = (
         // was the only focusable element, keep focus
         if (firstFocusableElement === lastFocusableElement) {
           firstFocusableElement.focus();
-          event.preventDefault();
           return;
         }
 
         // handle SHIFT + TAB on first element (reverse wrap to end)
         if (event.shiftKey && document.activeElement === firstFocusableElement) {
-          event.preventDefault();
           lastFocusableElement.focus();
+          return;
         }
         // handle TAB on last element (wrap to first)
         else if (document.activeElement === lastFocusableElement) {
-          event.preventDefault();
           firstFocusableElement.focus();
+          return;
+        }
+
+        // handle cycling through the focus in the trap
+        // (focusableNodes.length >= 2 at this point)
+        let currFocusedIndex = -1;
+        const focusedInTrap = Array.from(focusableNodes).some((element, idx) => {
+          if (document.activeElement !== element) {
+            return false;
+          }
+          currFocusedIndex = idx;
+          return true;
+        });
+
+        // focus was outside ref, focus first
+        if (!focusedInTrap) {
+          firstFocusableElement.focus();
+        }
+        // otherwise, focus prev/next element in trap
+        else {
+          const offset = event.shiftKey ? -1 : 1;
+          const elementToFocus = focusableNodes.item(currFocusedIndex + offset) as HTMLElement;
+          elementToFocus.focus();
         }
       }
     };
