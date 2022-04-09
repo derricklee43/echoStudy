@@ -1,0 +1,40 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.deck-editor {
+  .deck-editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .discard-changes-button {
+      @include standard-transition;
+      margin-right: 15px;
+      border: 1px solid transparent;
+      color: $light-blue;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+
+  .deck-editor-flashcard-set {
+    margin-bottom: 50px;
+  }
+
+  .flashcard-set-placeholder {
+    @include flex-center;
+    margin: 100px 0px;
+    color: $white;
+  }
+
+  .add-card-button {
+    position: sticky;
+    bottom: 20px;
+
+    label {
+      margin-left: 10px;
+    }
+  }
+}

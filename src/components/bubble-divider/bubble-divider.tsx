@@ -2,7 +2,7 @@ import './bubble-divider.scss';
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '../button/button';
-import { Arrow } from '../../assets/icons/arrow/arrow';
+import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface BubbleDividerProps {
@@ -38,10 +38,7 @@ export const BubbleDivider = ({
 
   function getChildren() {
     const variants = {
-      visible: {
-        height: 'fit-content',
-        transitionEnd: { overflow: 'visible' },
-      },
+      visible: { height: 'fit-content', transitionEnd: { overflow: 'visible' } },
       hidden: { height: 0, overflow: 'hidden' },
     };
 
@@ -67,6 +64,6 @@ export const BubbleDivider = ({
   }
 
   function getArrow() {
-    return <Arrow className="c-bubble-divider-arrow" orientation={isOpen ? 'up' : 'down'} />;
+    return <ArrowIcon className="c-bubble-divider-arrow" orientation={isOpen ? 'up' : 'down'} />;
   }
 };

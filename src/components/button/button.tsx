@@ -4,20 +4,22 @@ import './button.scss';
 interface ButtonProps {
   children: React.ReactNode;
   variant?: 'dark' | 'light' | 'invisible';
+  size?: 'small' | 'medium';
   className?: string;
   bubbleOnClickEvent?: boolean;
   onClick: (event: React.MouseEvent) => void;
 }
 
 export const Button = ({
-  className,
+  className = '',
   variant = 'dark',
+  size = 'small',
   bubbleOnClickEvent = true,
   children,
   onClick,
 }: ButtonProps) => {
   return (
-    <button className={`button ${variant} ${className || ''}`} onClick={handleClick}>
+    <button className={`button ${variant} ${size} ${className}`} onClick={handleClick}>
       {children}
     </button>
   );

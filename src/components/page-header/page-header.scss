@@ -1,0 +1,17 @@
+@import '../../assets/styles';
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .go-back-button {
+    width: fit-content;
+    color: $light-blue;
+  }
+
+  label {
+    color: $white;
+    font-size: 30px;
+  }
+}

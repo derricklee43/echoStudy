@@ -18,6 +18,7 @@ $button-strip-height: 35px;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-direction: row-reverse;
     box-sizing: content-box;
     height: $button-strip-height;
 

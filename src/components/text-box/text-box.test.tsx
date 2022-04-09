@@ -7,7 +7,7 @@ const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
 const TEST_VALUE = 'TEST_VALUE';
 
 // text box state is lifted, use this component to propagate changes
-const MockTextBox = ({ value, label, placeholder }: TextBoxProps) => {
+const MockTextBox = ({ value, label, placeholder }: Partial<TextBoxProps>) => {
   const [val, setVal] = useState(value ?? '');
   return (
     <TextBox
