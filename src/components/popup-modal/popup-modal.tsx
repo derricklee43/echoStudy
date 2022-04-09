@@ -1,8 +1,8 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { useFocusFirst } from '../../hooks/use-focus-first';
-import { useFocusTrap, FOCUSABLE_ELEMENTS_QUERY } from '../../hooks/use-focus-trap';
+import { useFocusTrap } from '../../hooks/use-focus-trap';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import './popup-modal.scss';
 

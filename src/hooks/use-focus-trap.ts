@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useLayoutEffect } from 'react';
+import { RefObject, useEffect } from 'react';
 
 export const FOCUSABLE_ELEMENTS = [
   'a[href]',
@@ -32,7 +32,6 @@ export const useFocusTrap = (
       // handle TAB key
       if (event.key === 'Tab') {
         const focusableNodes = ref?.current?.querySelectorAll(FOCUSABLE_ELEMENTS_QUERY);
-        debugger;
         if (!focusableNodes) return;
 
         const firstFocusableElement = focusableNodes.item(0) as HTMLElement;
