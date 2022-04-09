@@ -26,10 +26,11 @@ export const DropDown = ({
   onOptionSelect,
 }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const accentVariant = variant === 'dark' ? 'light' : 'dark';
 
   return (
     <div className="drop-down">
-      <label className={variant}>{label}</label>
+      <label className={accentVariant}>{label}</label>
       <div className={`drop-down-menu ${className}`} onBlur={() => setIsOpen(false)}>
         {getDropDownButton()}
         <div className={`options ${isOpen ? '' : 'hidden'}`}>{getOptions()}</div>
@@ -42,7 +43,7 @@ export const DropDown = ({
       <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
         <label>{buttonLabel}</label>
         <div>
-          <ArrowIcon variant={variant} orientation={isOpen ? 'up' : 'down'} />
+          <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
         </div>
       </Button>
     );
