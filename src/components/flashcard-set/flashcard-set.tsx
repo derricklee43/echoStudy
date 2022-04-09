@@ -30,7 +30,7 @@ export const FlashcardSet = ({
   function getCards() {
     return cards.map((card, index) => {
       return (
-        <Reorder.Item key={card.key} value={card}>
+        <Reorder.Item key={card.id ?? card.key} value={card}>
           <Flashcard
             card={card}
             index={index + 1}
