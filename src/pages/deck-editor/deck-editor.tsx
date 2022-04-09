@@ -1,5 +1,5 @@
 import './deck-editor.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Deck } from '../../models/deck';
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
 import { Card, createNewCard } from '../../models/card';
@@ -12,21 +12,24 @@ import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../model
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../animations/fade';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate, useNavigationType, useParams } from 'react-router-dom';
 
 const testDeck = testJapaneseVerbsDeck(0);
 testDeck.cards = [getTestMonkeyCard(), getTestFoxCard(), getTestMouseCard()];
 
 interface DeckEditorPageProps {
   label?: string;
-  deckId: number;
-  onGoBackClick: (event: React.MouseEvent) => void;
 }
 
-export const DeckEditorPage = ({
-  label = 'edit a deck',
-  deckId,
-  onGoBackClick,
-}: DeckEditorPageProps) => {
+export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) => {
+  const navigate = useNavigate();
+  const { deckId } = useParams(); // via the param :deckId
+
+  // todo: delete this in a future PR, this is for debugging
+  useEffect(() => {
+    console.log(`navigated to DeckEditorPage with deckId: ${deckId}`);
+  }, [deckId]);
+
   const [savedDeck, setSavedDeck] = useState(testDeck);
   const [unsavedDeck, setUnsavedDeck] = useState(testDeck);
   const isDeckSaved = savedDeck === unsavedDeck;
@@ -34,7 +37,7 @@ export const DeckEditorPage = ({
   return (
     <div className="deck-editor">
       <div className="deck-editor-header">
-        <PageHeader label={label} onGoBackClick={onGoBackClick} />
+        <PageHeader label={label} onGoBackClick={onGoBackClickHandler} />
         {getSaveButtonAndLabel()}
       </div>
       <MetaDataEditor
@@ -110,6 +113,12 @@ export const DeckEditorPage = ({
   }
 
   function handleDeleteDeckClick(event: React.MouseEvent) {
-    onGoBackClick(event);
+    onGoBackClickHandler();
+  }
+
+  function onGoBackClickHandler() {
+    // todo: discuss what 'go back' should actually do
+    // can use navigate(-1) to go back a page, but this can have issues
+    navigate('/');
   }
 };
