@@ -99,7 +99,7 @@ describe('SearchBar', () => {
   }
 
   function getClearButton(container: HTMLElement): HTMLElement {
-    return container.getElementsByClassName('c-cancel-icon')[0] as HTMLElement;
+    return container.getElementsByClassName('cancel-icon')[0] as HTMLElement;
   }
 
   function getDropdown(container: HTMLElement): HTMLElement {

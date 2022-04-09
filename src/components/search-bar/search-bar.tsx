@@ -1,5 +1,5 @@
 import React, { useState, KeyboardEvent, ChangeEvent, useMemo, useRef } from 'react';
-import { ReactComponent as CancelIcon } from '../../assets/svg/cancel-icon.svg';
+import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import { debounce, noop } from '../../helpers/func';
 import { includesIgnoreCase } from '../../helpers/string';
@@ -61,7 +61,7 @@ export const SearchBar = ({
           disabled={disabled}
         />
         <div className={`c-cancel-icon-container ${hasText() ? 'has-text' : ''}`}>
-          <CancelIcon className="c-cancel-icon" onClick={() => setValue('')} />
+          <CancelIcon variant="light" onClick={() => setValue('')} />
         </div>
       </div>
       <div className={`c-drop-down ${shouldShowDropDown() ? '' : 'hidden'}`}>

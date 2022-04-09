@@ -1,5 +1,5 @@
 import './meta-data-editor.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import { Deck } from '../../../models/deck';
 import { Button } from '../../button/button';
 import { TextBox } from '../../text-box/text-box';
@@ -7,6 +7,7 @@ import { BubbleDivider } from '../../bubble-divider/bubble-divider';
 import { DropDown, DropDownOption } from '../../drop-down/drop-down';
 import { Language } from '../../../models/card-content';
 import { TextArea } from '../../text-area/text-area';
+import { PopupModal } from '../../popup-modal/popup-modal';
 
 // Todo: maybe change Language to be enum instead of type
 enum Languages {
@@ -23,6 +24,8 @@ interface DeckEditorProps {
 }
 
 export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) => {
+  const [showImportModal, setShowImportModal] = useState(false);
+
   return (
     <div className="deck-meta">
       <div className="deck-editor-header">
@@ -52,6 +55,7 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
         <Button onClick={handleImportClick} className="editor-button">
           import cards
         </Button>
+        {getImportPopupModal()}
         <Button onClick={handleExportClick} className="editor-button">
           export deck
         </Button>
@@ -83,6 +87,23 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
       </BubbleDivider>
     </div>
   );
+
+  function getImportPopupModal() {
+    return (
+      <PopupModal
+        headerLabel="Import Popup"
+        showTrigger={showImportModal}
+        onClose={() => setShowImportModal(false)}
+      >
+        <p>example popup example popup example popup example popup</p>
+        <p>
+          <textarea />
+        </p>
+        <button onClick={() => alert('clicked in content of modal')}>inner button</button>
+        <p>example popup example popup example popup example popup</p>
+      </PopupModal>
+    );
+  }
 
   function handleDeckDeleteClick(event: React.MouseEvent) {
     // Todo: finish
@@ -116,6 +137,7 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
   function handleImportClick() {
     //Todo: finish
     console.log('clicked!');
+    setShowImportModal(true);
   }
 
   function handleExportClick() {
