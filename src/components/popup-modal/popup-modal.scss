@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+$bg-opacity: 0.33; // opacity to set background if modal is open
+$x-axis: 50%; // where to place popup on x-axis
+$y-axis: 25%; // where to place popup on y-axis
+$modal-z-index: 1000;
+
+.c-popup-modal-overlay {
+  z-index: $modal-z-index;
+  position: fixed;
+  inset: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, $bg-opacity);
+  transition: visibility 150ms ease-out, opacity 150ms ease-out;
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.c-popup-modal-content {
+  z-index: $modal-z-index;
+  position: absolute;
+  left: $x-axis;
+  top: $y-axis;
+  transform: translate(-$x-axis, -$y-axis); // center on axis based on content size
+  background: $white;
+  padding: 16px 24px;
+  border-radius: 16px;
+
+  .c-popup-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $blue;
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
