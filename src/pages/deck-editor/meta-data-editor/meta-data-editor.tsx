@@ -1,5 +1,5 @@
 import './meta-data-editor.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import { Deck } from '../../../models/deck';
 import { Button } from '../../../components/button/button';
 import { TextBox } from '../../../components/text-box/text-box';
@@ -7,6 +7,7 @@ import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider
 import { DropDown, DropDownOption } from '../../../components/drop-down/drop-down';
 import { Language } from '../../../models/card-content';
 import { TextArea } from '../../../components/text-area/text-area';
+import { PopupModal } from '../../../components/popup-modal/popup-modal';
 
 // Todo: maybe change Language to be enum instead of type
 enum Languages {
@@ -23,6 +24,8 @@ interface DeckEditorProps {
 }
 
 export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditorProps) => {
+  const [showImportModal, setShowImportModal] = useState(false);
+
   return (
     <div className="deck-meta">
       <div className="deck-meta-title">
@@ -46,6 +49,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
         <Button onClick={handleImportClick} size="medium">
           import cards
         </Button>
+        {getImportPopupModal()}
         <Button onClick={handleExportClick} size="medium">
           export deck
         </Button>
@@ -78,6 +82,28 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
     </div>
   );
 
+  function getImportPopupModal() {
+    return (
+      <PopupModal
+        headerLabel="Import Popup"
+        showTrigger={showImportModal}
+        onClose={() => setShowImportModal(false)}
+      >
+        <p>example popup example popup example popup example popup</p>
+        <p>
+          <textarea />
+        </p>
+        <button onClick={() => alert('clicked in content of modal')}>inner button</button>
+        <p>example popup example popup example popup example popup</p>
+      </PopupModal>
+    );
+  }
+
+  function handleDeckDeleteClick(event: React.MouseEvent) {
+    // Todo: finish
+    console.log('clicked!');
+  }
+
   function handleFrontLanguageSelect(option: DropDownOption) {
     const frontLang = option.value as Language;
     onDeckChange({ ...deck, frontLang });
@@ -105,6 +131,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
   function handleImportClick() {
     //Todo: finish
     console.log('clicked!');
+    setShowImportModal(true);
   }
 
   function handleExportClick() {
