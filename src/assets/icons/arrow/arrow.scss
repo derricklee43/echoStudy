@@ -8,11 +8,11 @@ svg.arrow {
   height: $arrow-height;
 
   &.dark {
-    fill: $white;
+    fill: $blue;
   }
 
   &.light {
-    fill: $blue;
+    fill: $white;
   }
 
   &.up {
