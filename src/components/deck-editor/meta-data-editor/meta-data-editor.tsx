@@ -8,7 +8,6 @@ import { DropDown, DropDownOption } from '../../drop-down/drop-down';
 import { Language } from '../../../models/card-content';
 import { TextArea } from '../../text-area/text-area';
 import { PopupModal } from '../../popup-modal/popup-modal';
-import { findByLabelText } from '@testing-library/react';
 
 // Todo: maybe change Language to be enum instead of type
 enum Languages {
@@ -96,7 +95,10 @@ export const MetaDataEditor = ({ label, deck, onDeckChange }: DeckEditorProps) =
         onClose={() => setShowImportModal(false)}
       >
         <p>example popup example popup example popup example popup</p>
-        <BubbleDivider label="or" />
+        <p>
+          <textarea />
+        </p>
+        <button onClick={() => alert('clicked in content of modal')}>inner button</button>
         <p>example popup example popup example popup example popup</p>
       </PopupModal>
     );
