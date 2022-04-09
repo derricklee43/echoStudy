@@ -2,7 +2,7 @@ import { RefObject, useEffect } from 'react';
 import { FOCUSABLE_ELEMENTS_QUERY } from './use-focus-trap';
 
 /**
- * Trap accessibility focus within the ref object.
+ * Auto-focus the first focusable element (if any) within the ref object.
  *
  * @param ref a reference to an HTMLElement, attach object from `useRef` to this
  * @param active conditionally enable this hook (default: true [always enabled])
