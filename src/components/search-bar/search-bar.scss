@@ -21,17 +21,18 @@ $font-size: 20px;
     .c-search-icon-container {
       @include flex-center;
       width: $height;
-      height: $height; 
+      height: $height;
       transition: all 100ms ease-in-out;
-  
+
       &.has-text {
         border-right: 1px solid $light-blue;
         background-color: $blue;
       }
-  
-      .c-search-icon {}
+
+      .c-search-icon {
+      }
     }
-  
+
     .c-search-bar-input {
       flex: auto;
       font-family: 'Comfortaa';
@@ -44,20 +45,14 @@ $font-size: 20px;
       padding-left: 8px;
       box-sizing: border-box;
     }
-  
+
     .c-cancel-icon-container {
       display: none;
       width: $height;
       height: $height;
-  
+
       &.has-text {
         @include flex-center;
-      }
-  
-      .c-cancel-icon {
-        &:hover {
-          cursor: pointer;
-        }
       }
     }
   }
@@ -95,7 +90,7 @@ $font-size: 20px;
       border-bottom: 1px solid $flashcard-white;
     }
   }
-  
+
   &.hidden {
     transition: visibility 0s 100ms, opacity 100ms ease-out;
     visibility: hidden;
