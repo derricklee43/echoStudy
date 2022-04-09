@@ -38,8 +38,11 @@ export const BubbleDivider = ({
 
   function getChildren() {
     const variants = {
-      visible: { height: 'fit-content' },
-      hidden: { height: 0 },
+      visible: {
+        height: 'fit-content',
+        transitionEnd: { overflow: 'visible' },
+      },
+      hidden: { height: 0, overflow: 'hidden' },
     };
 
     return (
