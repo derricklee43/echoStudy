@@ -1,7 +1,15 @@
-export type Language = 'English' | 'Spanish' | 'German' | 'Japanese';
+import { getSupportedDeckLanguages } from './deck';
+
+const cardLanguages = getSupportedCardLanguages();
+
+export type CardLanguage = typeof cardLanguages[number];
 
 export interface CardContent {
   text: string;
   audio: HTMLAudioElement; // new Audio(...);
-  language: Language;
+  language: CardLanguage;
+}
+
+export function getSupportedCardLanguages() {
+  return ['Default', ...getSupportedDeckLanguages()];
 }

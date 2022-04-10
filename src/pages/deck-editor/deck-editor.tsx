@@ -11,7 +11,6 @@ import { testJapaneseVerbsDeck } from '../../models/mock/deck.mock';
 import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../animations/fade';
-import { v4 as uuidv4 } from 'uuid';
 
 const testDeck = testJapaneseVerbsDeck(0);
 testDeck.cards = [getTestMonkeyCard(), getTestFoxCard(), getTestMouseCard()];
@@ -93,7 +92,7 @@ export const DeckEditorPage = ({
   }
 
   function handleAddCardClick() {
-    const card = createNewCard(unsavedDeck.frontLang, unsavedDeck.backLang);
+    const card = createNewCard();
     handleDeckChange({ ...unsavedDeck, cards: [card, ...unsavedDeck.cards] });
   }
 

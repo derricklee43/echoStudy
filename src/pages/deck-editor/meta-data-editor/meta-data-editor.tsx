@@ -1,21 +1,12 @@
 import './meta-data-editor.scss';
 import React, { useState } from 'react';
-import { Deck } from '../../../models/deck';
+import { Deck, getSupportedDeckLanguages, Language } from '../../../models/deck';
 import { Button } from '../../../components/button/button';
 import { TextBox } from '../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
 import { DropDown, DropDownOption } from '../../../components/drop-down/drop-down';
-import { Language } from '../../../models/card-content';
 import { TextArea } from '../../../components/text-area/text-area';
 import { PopupModal } from '../../../components/popup-modal/popup-modal';
-
-// Todo: maybe change Language to be enum instead of type
-enum Languages {
-  'English' = 'English',
-  'Spanish' = 'Spanish',
-  'German' = 'German',
-  'Japanese' = 'Japanese',
-}
 
 interface DeckEditorProps {
   deck: Deck;
@@ -110,7 +101,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
   }
 
   function getLanguages(): DropDownOption[] {
-    return Object.values(Languages).map((l) => ({ id: l, value: l }));
+    return getSupportedDeckLanguages().map((lang) => ({ id: lang, value: lang }));
   }
 
   function handleDeckTitleChange(title: string) {
