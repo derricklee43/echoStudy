@@ -2,7 +2,6 @@
 @import '../../assets/colors';
 
 .c-bubble-divider {
-  position: relative;
   @include flex-center;
 
   .c-bubble-button {

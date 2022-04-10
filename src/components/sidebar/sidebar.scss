@@ -2,8 +2,7 @@
 @import '../../assets/styles';
 
 .c-sidebar {
-  // Todo dropdown appears above header, so z-index added to header fix header, dropdown and remove
-  z-index: 3;
+  z-index: 1;
   width: $sidebar-width;
   box-sizing: border-box;
   padding: 0px 20px;
