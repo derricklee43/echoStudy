@@ -1,14 +1,14 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DropDown } from './drop-down';
-import { TEST_OPTIONS_SMALL } from './options.mock';
+import { TEST_OPTIONS_SMALL, TEST_OPTIONS_SMALL_VALUES } from './options.mock';
 import { noop } from '../../helpers/func';
 
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_BUTTON_LABEL = 'TEST_BUTTON_LABEL';
 
-describe('BubbleDivider', () => {
+describe('DropDown', () => {
   it('should render correctly with default props', () => {
     render(
       <DropDown
@@ -19,29 +19,64 @@ describe('BubbleDivider', () => {
       />
     );
     expect(screen.queryByText(TEST_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(TEST_BUTTON_LABEL)).toBeInTheDocument();
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).not.toBeInTheDocument()
+    );
   });
 
-  //     }
-  //       expect(screen.queryByText(value?.toString())).not.toBeInTheDocument()
-  //     );
-  //     expect(screen.queryByText(TEST_)).not.toBeInTheDocument();
-  //   });
+  it('should show options on button click', () => {
+    render(
+      <DropDown
+        label={TEST_LABEL}
+        options={TEST_OPTIONS_SMALL}
+        onOptionSelect={noop}
+        buttonLabel={TEST_BUTTON_LABEL}
+      />
+    );
+    userEvent.click(screen.getByText(TEST_BUTTON_LABEL));
 
-  //   it('should show children when variantType is drop-down and is clicked', () => {
-  //     render(<BubbleDivider label={TEST_LABEL} variantType="drop-down" children={TEST_CHILDREN} />);
-  //     clickDropDown();
-  //     expect(screen.queryByText(TEST_CHILDREN)).toBeInTheDocument();
-  //   });
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).toBeInTheDocument()
+    );
+  });
 
-  //   it('should not show children when variantType is divider and is clicked', () => {
-  //     render(<BubbleDivider label={TEST_LABEL} variantType="divider" children={TEST_CHILDREN} />);
-  //     clickDropDown();
-  //     expect(screen.queryByText(TEST_CHILDREN)).not.toBeInTheDocument();
-  //   });
+  it('should hide buttons on outside click', async () => {
+    render(
+      <DropDown
+        label={TEST_LABEL}
+        options={TEST_OPTIONS_SMALL}
+        onOptionSelect={noop}
+        buttonLabel={TEST_BUTTON_LABEL}
+      />
+    );
+    userEvent.click(screen.getByText(TEST_BUTTON_LABEL));
 
-  //   function clickDropDown() {
-  //     userEvent.click(screen.getByText(TEST_LABEL));
-  //   }
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).toBeInTheDocument()
+    );
 
-  //   function
+    userEvent.click(screen.getByText(TEST_BUTTON_LABEL));
+    await waitForElementToBeRemoved(() => screen.queryByText(TEST_OPTIONS_SMALL_VALUES[0]));
+
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).not.toBeInTheDocument()
+    );
+  });
+
+  it('should call onOptionSelect when option is selected', () => {
+    const mockOnOptionSelect = jest.fn();
+    render(
+      <DropDown
+        label={TEST_LABEL}
+        options={TEST_OPTIONS_SMALL}
+        onOptionSelect={mockOnOptionSelect}
+        buttonLabel={TEST_BUTTON_LABEL}
+      />
+    );
+    userEvent.click(screen.getByText(TEST_BUTTON_LABEL));
+    userEvent.click(screen.getByText(TEST_OPTIONS_SMALL_VALUES[0]));
+
+    expect(mockOnOptionSelect).toHaveBeenCalledWith(TEST_OPTIONS_SMALL[0]);
+  });
 });

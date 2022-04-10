@@ -2,6 +2,11 @@ import './drop-down.scss';
 import React, { useState } from 'react';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { Button } from '../button/button';
+import { Fade } from '../../animations/fade';
+import { AnimatePresence } from 'framer-motion';
+import { useRef } from 'react';
+import { useOutsideClick } from '../../hooks/use-outside-click';
+import { useFocusTrap } from '../../hooks/use-focus-trap';
 
 export interface DropDownOption {
   id: string;
@@ -28,12 +33,16 @@ export const DropDown = ({
   const [isOpen, setIsOpen] = useState(false);
   const accentVariant = variant === 'dark' ? 'light' : 'dark';
 
+  const dropDownMenuRef = useRef(null);
+  useOutsideClick(dropDownMenuRef, () => setIsOpen(false));
+  useFocusTrap(dropDownMenuRef, isOpen);
+
   return (
     <div className="drop-down">
       <label className={accentVariant}>{label}</label>
-      <div className={`drop-down-menu ${className}`} onBlur={() => setIsOpen(false)}>
+      <div className={`drop-down-menu ${className}`} ref={dropDownMenuRef}>
         {getDropDownButton()}
-        <div className={`options ${isOpen ? '' : 'hidden'}`}>{getOptions()}</div>
+        <AnimatePresence>{isOpen && getOptions()}</AnimatePresence>
       </div>
     </div>
   );
@@ -42,19 +51,32 @@ export const DropDown = ({
     return (
       <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
         <label>{buttonLabel}</label>
-        <div>
-          <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
-        </div>
+        <ArrowIcon
+          className={'drop-down-arrow-icon'}
+          variant={accentVariant}
+          orientation={isOpen ? 'up' : 'down'}
+        />
       </Button>
     );
   }
 
   function getOptions() {
-    return options.map((option) => (
-      <div className="option" key={option.id} onClick={() => handleOptionSelect(option)}>
+    const menuOptions = options.map((option) => (
+      <Button
+        className="option"
+        variant="invisible"
+        key={option.id}
+        onClick={() => handleOptionSelect(option)}
+      >
         {option.value}
-      </div>
+      </Button>
     ));
+
+    return (
+      <Fade fadeIn={false} className="options">
+        {menuOptions}
+      </Fade>
+    );
   }
 
   function handleOptionSelect(option: DropDownOption) {
