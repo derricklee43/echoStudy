@@ -13,6 +13,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../animations/fade';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, useNavigationType, useParams } from 'react-router-dom';
+import { usePrompt } from '../../hooks/use-prompt';
 
 const testDeck = testJapaneseVerbsDeck(0);
 testDeck.cards = [getTestMonkeyCard(), getTestFoxCard(), getTestMouseCard()];
@@ -33,6 +34,9 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
   const [savedDeck, setSavedDeck] = useState(testDeck);
   const [unsavedDeck, setUnsavedDeck] = useState(testDeck);
   const isDeckSaved = savedDeck === unsavedDeck;
+
+  // prevent navigation if there are unsaved changes
+  usePrompt('Changes you made may not be saved.', !isDeckSaved);
 
   return (
     <div className="deck-editor">
