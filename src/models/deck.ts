@@ -1,8 +1,8 @@
 import { Card } from './card';
 
-const supportedDeckLanguages = getSupportedDeckLanguages();
+export const DeckLanguages = ['English', 'Spanish', 'German', 'Japanese'] as const;
 
-export type Language = typeof supportedDeckLanguages[number];
+export type Language = typeof DeckLanguages[number];
 
 export type Access = 'Public' | 'Private';
 
@@ -14,8 +14,4 @@ export interface Deck {
   frontLang: Language;
   backLang: Language;
   cards: Card[];
-}
-
-export function getSupportedDeckLanguages() {
-  return ['English', 'Spanish', 'German', 'Japanese'];
 }

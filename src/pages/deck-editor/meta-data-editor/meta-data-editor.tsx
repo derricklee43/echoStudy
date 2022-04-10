@@ -1,6 +1,6 @@
 import './meta-data-editor.scss';
 import React, { useState } from 'react';
-import { Deck, getSupportedDeckLanguages, Language } from '../../../models/deck';
+import { Deck, DeckLanguages, Language } from '../../../models/deck';
 import { Button } from '../../../components/button/button';
 import { TextBox } from '../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
@@ -101,7 +101,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
   }
 
   function getLanguages(): DropDownOption[] {
-    return getSupportedDeckLanguages().map((lang) => ({ id: lang, value: lang }));
+    return DeckLanguages.map((lang) => ({ id: lang, value: lang }));
   }
 
   function handleDeckTitleChange(title: string) {
