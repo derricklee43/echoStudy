@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DropDown } from './drop-down';
-import { TEST_OPTIONS_SMALL, TEST_OPTIONS_SMALL_VALUES } from './options.mock';
+import { TEST_OPTIONS_SMALL, TEST_OPTIONS_SMALL_VALUES } from '../drop-down-options/options.mock';
 import { noop } from '../../helpers/func';
 
 const TEST_LABEL = 'TEST_LABEL';

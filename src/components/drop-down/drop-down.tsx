@@ -2,16 +2,10 @@ import './drop-down.scss';
 import React, { useState } from 'react';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { Button } from '../button/button';
-import { Fade } from '../../animations/fade';
-import { AnimatePresence } from 'framer-motion';
 import { useRef } from 'react';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
-
-export interface DropDownOption {
-  id: string;
-  value: React.ReactNode;
-}
+import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
 
 interface DropDownProps {
   variant?: 'dark' | 'light';
@@ -42,7 +36,7 @@ export const DropDown = ({
       <label className={accentVariant}>{label}</label>
       <div className={`drop-down-menu ${className}`} ref={dropDownMenuRef}>
         {getDropDownButton()}
-        <AnimatePresence>{isOpen && getOptions()}</AnimatePresence>
+        <DropDownOptions show={isOpen} options={options} onOptionSelect={handleOptionSelect} />
       </div>
     </div>
   );
@@ -51,31 +45,8 @@ export const DropDown = ({
     return (
       <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
         <label>{buttonLabel}</label>
-        <ArrowIcon
-          className={'drop-down-arrow-icon'}
-          variant={accentVariant}
-          orientation={isOpen ? 'up' : 'down'}
-        />
+        <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
       </Button>
-    );
-  }
-
-  function getOptions() {
-    const menuOptions = options.map((option) => (
-      <Button
-        className="option"
-        variant="invisible"
-        key={option.id}
-        onClick={() => handleOptionSelect(option)}
-      >
-        {option.value}
-      </Button>
-    ));
-
-    return (
-      <Fade fadeIn={false} className="options">
-        {menuOptions}
-      </Fade>
     );
   }
 

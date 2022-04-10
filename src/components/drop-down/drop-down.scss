@@ -40,37 +40,4 @@
       margin: 0 10px 0 0;
     }
   }
-
-  .options {
-    @include box-shadow;
-    @include hover-pointer;
-    width: 100%;
-    margin-top: 2px;
-    position: absolute;
-    z-index: 1;
-    background-color: $white;
-    border-radius: $standard-radius + 1px; //hides corners of div
-
-    .option {
-      @include white-hover;
-      @include ellipsis-overflow;
-      width: 100%;
-      border-left: 1px solid $flashcard-white;
-      border-right: 1px solid $flashcard-white;
-      color: $blue;
-      padding: 5px;
-      border-radius: 0;
-      text-align: left;
-
-      &:first-child {
-        border-radius: $standard-radius $standard-radius 0px 0px;
-        border-top: 1px solid $flashcard-white;
-      }
-
-      &:last-child {
-        border-radius: 0px 0px $standard-radius $standard-radius;
-        border-bottom: 1px solid $flashcard-white;
-      }
-    }
-  }
 }

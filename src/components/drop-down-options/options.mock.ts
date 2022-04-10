@@ -1,5 +1,5 @@
 import { getValue } from '@testing-library/user-event/dist/utils';
-import { DropDownOption } from './drop-down';
+import { DropDownOption } from './drop-down-options';
 
 // 0-indexed, (size = 1) generates [{id: 'test0', value: 'test0'}]
 export const createTestOptions = (size: number): DropDownOption[] =>
