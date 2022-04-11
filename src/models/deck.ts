@@ -1,5 +1,8 @@
-import { Language } from './card-content';
 import { Card } from './card';
+
+export const DeckLanguages = ['English', 'Spanish', 'German', 'Japanese'] as const;
+
+export type Language = typeof DeckLanguages[number];
 
 export type Access = 'Public' | 'Private';
 

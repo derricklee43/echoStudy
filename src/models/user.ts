@@ -1,5 +1,4 @@
-import { Language } from './card-content';
-import { Deck } from './deck';
+import { Deck, Language } from './deck';
 import { DeckCategory } from './deck-category';
 import { Session } from './session';
 

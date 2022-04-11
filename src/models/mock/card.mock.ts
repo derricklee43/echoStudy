@@ -1,7 +1,7 @@
 import { Card, createNewCard } from '../card';
 
 export const getTestFoxCard = (): Card => {
-  const testCard = createNewCard('English', 'Japanese');
+  const testCard = createNewCard();
   testCard.front.text = 'fox';
   testCard.front.audio = new Audio(
     'https://weblio.hs.llnwd.net/e7/img/dict/kenej/audio/S-C3906E2_E-C392F5C.mp3'
@@ -14,7 +14,7 @@ export const getTestFoxCard = (): Card => {
 };
 
 export const getTestMouseCard = (): Card => {
-  const testCard = createNewCard('English', 'Japanese');
+  const testCard = createNewCard();
   testCard.front.text = 'mouse';
   testCard.front.audio = new Audio(
     'https://weblio.hs.llnwd.net/e7/img/dict/kenej/audio/S-CBE8B66_E-CBEB33E.mp3'
@@ -27,7 +27,7 @@ export const getTestMouseCard = (): Card => {
 };
 
 export const getTestMonkeyCard = (): Card => {
-  const testCard = createNewCard('English', 'Japanese');
+  const testCard = createNewCard();
   testCard.front.text = 'monkey';
   testCard.front.audio = new Audio(
     'https://weblio.hs.llnwd.net/e7/img/dict/kenej/audio/S-A92E9A0_E-A9307A8.mp3'

@@ -100,7 +100,7 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
   }
 
   function handleAddCardClick() {
-    const card = createNewCard(unsavedDeck.frontLang, unsavedDeck.backLang);
+    const card = createNewCard();
     handleDeckChange({ ...unsavedDeck, cards: [card, ...unsavedDeck.cards] });
   }
 

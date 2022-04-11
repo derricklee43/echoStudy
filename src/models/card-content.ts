@@ -1,7 +1,11 @@
-export type Language = 'English' | 'Spanish' | 'German' | 'Japanese';
+import { DeckLanguages } from './deck';
+
+export const CardLanguages = ['Default', ...DeckLanguages] as const;
+
+export type CardLanguage = typeof CardLanguages[number];
 
 export interface CardContent {
   text: string;
   audio: HTMLAudioElement; // new Audio(...);
-  language: Language;
+  language: CardLanguage;
 }
