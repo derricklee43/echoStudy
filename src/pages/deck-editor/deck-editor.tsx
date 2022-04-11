@@ -41,7 +41,7 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
   return (
     <div className="deck-editor">
       <div className="deck-editor-header">
-        <PageHeader label={label} onGoBackClick={onGoBackClickHandler} />
+        <PageHeader label={label} onGoBackClick={navigateBackToDecks} />
         {getSaveButtonAndLabel()}
       </div>
       <MetaDataEditor
@@ -117,12 +117,10 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
   }
 
   function handleDeleteDeckClick(event: React.MouseEvent) {
-    onGoBackClickHandler();
+    navigateBackToDecks();
   }
 
-  function onGoBackClickHandler() {
-    // todo: discuss what 'go back' should actually do
-    // can use navigate(-1) to go back a page, but this can have issues
-    navigate('/');
+  function navigateBackToDecks() {
+    navigate('/decks');
   }
 };
