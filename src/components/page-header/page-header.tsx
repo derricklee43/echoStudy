@@ -12,7 +12,7 @@ export const PageHeader = ({ label, onGoBackClick }: PageHeaderProps) => {
   return (
     <div className="page-header">
       <Button variant="invisible" onClick={onGoBackClick} className="go-back-button">
-        <BackArrowIcon /> go back
+        <BackArrowIcon /> back to decks
       </Button>
       <label>{label}</label>
     </div>

@@ -32,12 +32,25 @@
     margin: 0px;
   }
 
-  > ul {
+  .c-sidebar-items {
     padding-left: 30px;
     list-style-type: none;
     font-size: 20px;
 
-    li {
+    .c-sidebar-link {
+      color: inherit;
+      text-decoration: none;
+
+      // todo: change this to have a better style
+      // custom style when link is active
+      &.active {
+        text-decoration: underline;
+        text-decoration-color: $grey;
+        text-underline-offset: 3px;
+      }
+    }
+
+    .c-sidebar-item {
       margin-bottom: 20px;
 
       @include hover-pointer;
