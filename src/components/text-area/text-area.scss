@@ -9,84 +9,85 @@ $label-font-size: 14px;
 $label-legend-font-size: 12px;
 
 .c-text-area-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    box-sizing: border-box;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .c-text-area-label {
-    width: fit-content;
-    min-height: $label-font-size;
-    padding: 0px 2px;
-    font-size: $label-font-size;
-    transition: transform 100ms ease-in-out;
+  width: fit-content;
+  min-height: $label-font-size + 2; // account for textarea border
+  padding: 0px 2px;
+  font-size: $label-font-size;
+  transition: transform 100ms ease-in-out;
 
-    &.as-legend {
-        font-size: $label-legend-font-size;
-        padding: 0px 4px;
-        transform: translate(16px, $label-font-size - 2px);
-    }
+  &.as-legend {
+    font-size: $label-legend-font-size;
+    padding: 0px 4px;
+    transform: translate(16px, $label-font-size - 2px);
+  }
 
-    .light & {
-        background-color: $white;
-        color: $grey;
-    }
+  .light & {
+    background-color: $white;
+    color: $grey;
+  }
 
-    .dark & {
-        background-color: $black;
-        color: $light-blue;
-    }
+  .dark & {
+    background-color: $black;
+    color: $light-blue;
+  }
 }
 
 .c-text-area {
-    font-family: "Comfortaa";
-    border: 1px solid $white;
-    border-radius: $standard-radius;
-    box-sizing: border-box;
-    outline: none;
-    padding: 16px;
-    width: 100%;
+  font-family: 'Comfortaa';
+  border: 1px solid $white;
+  border-radius: $standard-radius;
+  box-sizing: border-box;
+  outline: none;
+  padding: 16px;
+  width: 100%;
 
-    .light & {
-        background-color: $white;
-        border-color: $grey;
-        color: $blue;
+  .light & {
+    background-color: $white;
+    border-color: $grey;
+    color: $blue;
 
-        &:focus, &:focus-visible {
-            outline: auto;
-            outline-color: $grey;
-        }
+    &:focus,
+    &:focus-visible {
+      outline: auto;
+      outline-color: $grey;
     }
+  }
 
-    .dark & {
-        border-color: $light-blue;
-        color: $white;
-        background-color: $black;
-    }
+  .dark & {
+    border-color: $light-blue;
+    color: $white;
+    background-color: $black;
+  }
 
-    &.readonly {
-        background-color: $flashcard-white;
-        color: $blue;
-    }
+  &.readonly {
+    background-color: $flashcard-white;
+    color: $blue;
+  }
 }
 
 .c-text-area-footer {
-    display: flex;
-    padding: 0px 2px;
-    gap: 4px;
+  display: flex;
+  padding: 0px 2px;
+  gap: 4px;
 
-    > label {
-        padding-top: 1px;
-        font-size: 10px;
+  > label {
+    padding-top: 1px;
+    font-size: 10px;
 
-        .light & {
-            color: $grey;
-        }
-
-        .dark & {
-            color: $light-blue;
-        }
+    .light & {
+      color: $grey;
     }
+
+    .dark & {
+      color: $light-blue;
+    }
+  }
 }
