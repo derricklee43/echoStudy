@@ -4,10 +4,11 @@ import { Deck } from '../../../models/deck';
 import { Button } from '../../../components/button/button';
 import { TextBox } from '../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
-import { DropDown, DropDownOption } from '../../../components/drop-down/drop-down';
+import { DropDown } from '../../../components/drop-down/drop-down';
 import { Language } from '../../../models/card-content';
 import { TextArea } from '../../../components/text-area/text-area';
 import { PopupModal } from '../../../components/popup-modal/popup-modal';
+import { DropDownOption } from '../../../components/drop-down-options/drop-down-options';
 
 // Todo: maybe change Language to be enum instead of type
 enum Languages {

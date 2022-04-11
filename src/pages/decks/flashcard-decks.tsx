@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DeckCover } from '../../components/deck-cover/deck-cover';
-import { DropDown, DropDownOption } from '../../components/drop-down/drop-down';
+import { DropDownOption } from '../../components/drop-down-options/drop-down-options';
+import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { Deck } from '../../models/deck';
 import {

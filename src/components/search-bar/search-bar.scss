@@ -7,6 +7,7 @@ $height: 40px;
 $font-size: 20px;
 
 .c-search-bar-wrapper {
+  border-radius: $standard-radius;
   position: relative;
   border: 1px solid $light-blue;
   width: 100%;
@@ -20,6 +21,8 @@ $font-size: 20px;
 
     .c-search-icon-container {
       @include flex-center;
+      border-top-left-radius: $standard-radius;
+      border-bottom-left-radius: $standard-radius;
       width: $height;
       height: $height;
       transition: all 100ms ease-in-out;
@@ -34,6 +37,7 @@ $font-size: 20px;
     }
 
     .c-search-bar-input {
+      border-radius: $standard-radius;
       flex: auto;
       font-family: 'Comfortaa';
       border: none;
@@ -55,45 +59,5 @@ $font-size: 20px;
         @include flex-center;
       }
     }
-  }
-}
-
-.c-drop-down {
-  @include box-shadow;
-  @include hover-pointer;
-  position: absolute;
-  width: 100%;
-  max-height: 33vh;
-  overflow-y: auto;
-  margin-top: 2px;
-  z-index: 1;
-  background-color: $white;
-  border-radius: $standard-radius + 1px; //hides corners of div
-
-  .c-drop-down-result {
-    @include white-hover;
-    @include ellipsis-overflow;
-    width: 100%;
-    box-sizing: border-box;
-    border-left: 1px solid $flashcard-white;
-    border-right: 1px solid $flashcard-white;
-    background-color: $white;
-    padding: 5px;
-
-    &:first-child {
-      border-radius: $standard-radius $standard-radius 0px 0px;
-      border-top: 1px solid $flashcard-white;
-    }
-
-    &:last-child {
-      border-radius: 0px 0px $standard-radius $standard-radius;
-      border-bottom: 1px solid $flashcard-white;
-    }
-  }
-
-  &.hidden {
-    transition: visibility 0s 100ms, opacity 100ms ease-out;
-    visibility: hidden;
-    opacity: 0;
   }
 }

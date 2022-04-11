@@ -3,8 +3,10 @@ import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import { debounce, noop } from '../../helpers/func';
 import { includesIgnoreCase } from '../../helpers/string';
+import { useFocusTrap } from '../../hooks/use-focus-trap';
 import { useOutsideClick } from '../../hooks/use-outside-click';
-import { DropDownOption } from '../drop-down/drop-down';
+import { Button } from '../button/button';
+import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
 import './search-bar.scss';
 
 export interface SearchBarProps {
@@ -43,6 +45,7 @@ export const SearchBar = ({
   // hide dropdown after clicking outside the search bar wrapper div
   const wrapperDivRef = useRef(null);
   useOutsideClick(wrapperDivRef, () => setHasClickedSinceLastChange(true));
+  useFocusTrap(wrapperDivRef, shouldShowDropDown());
 
   return (
     <div className="c-search-bar-wrapper" ref={wrapperDivRef}>
@@ -60,13 +63,15 @@ export const SearchBar = ({
           onKeyPress={onEnterPressHandler}
           disabled={disabled}
         />
-        <div className={`c-cancel-icon-container ${hasText() ? 'has-text' : ''}`}>
-          <CancelIcon variant="light" onClick={() => setValue('')} />
-        </div>
+        <Button
+          onClick={() => setValue('')}
+          variant="invisible"
+          className={`c-cancel-icon-container ${hasText() ? 'has-text' : ''}`}
+        >
+          <CancelIcon variant="light" />
+        </Button>
       </div>
-      <div className={`c-drop-down ${shouldShowDropDown() ? '' : 'hidden'}`}>
-        {getSearchResults()}
-      </div>
+      <div>{getSearchResults()}</div>
     </div>
   );
 
@@ -80,22 +85,19 @@ export const SearchBar = ({
   }
 
   function getSearchResults() {
-    if (!dropDownData || !value) return null;
-    return dropDownData.filter(optionIncludesValueFilter).map((option) => (
-      <div
-        className="c-drop-down-result"
-        key={option.id}
-        onClick={() => {
+    return (
+      <DropDownOptions
+        show={shouldShowDropDown()}
+        options={dropDownData?.filter(optionIncludesValueFilter)}
+        onOptionSelect={(option) => {
           const changedValue = option.value?.toString() ?? value;
           setValue(changedValue);
           informChange(changedValue);
           onDropdownClick?.(option);
           setHasClickedSinceLastChange(true); // hide since clicked
         }}
-      >
-        {option.value}
-      </div>
-    ));
+      />
+    );
   }
 
   function optionIncludesValueFilter(option: DropDownOption) {
