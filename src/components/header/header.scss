@@ -2,8 +2,7 @@
 @import '../../assets/styles';
 
 .c-header {
-  // Todo dropdown appears above header, fix dropdown and remove
-  z-index: 2;
+  z-index: 1;
   position: fixed;
   height: $header-height;
   width: 100%;
