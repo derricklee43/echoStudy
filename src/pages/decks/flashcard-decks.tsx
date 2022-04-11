@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DeckCover } from '../../components/deck-cover/deck-cover';
-import { DropDown, DropDownOption } from '../../components/drop-down/drop-down';
+import { DropDownOption } from '../../components/drop-down-options/drop-down-options';
+import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { Deck } from '../../models/deck';
 import {
@@ -34,11 +36,8 @@ const decks = [
 const sortRules = ['sequential', 'last created', 'random'];
 const sortRuleOptions = sortRules.map((item): DropDownOption => ({ id: item, value: item }));
 
-export interface FlashcardDecksPageProps {
-  onAddDeckClicked: () => void;
-}
-
-export const FlashcardDecksPage = ({ onAddDeckClicked }: FlashcardDecksPageProps) => {
+export const FlashcardDecksPage = () => {
+  const navigate = useNavigate();
   const [sortOption, setSortOption] = useState(sortRules[1]);
 
   return (
@@ -74,5 +73,10 @@ export const FlashcardDecksPage = ({ onAddDeckClicked }: FlashcardDecksPageProps
     return decks.map((deck) => (
       <DeckCover key={deck.id} deck={deck} onStudyClick={noop} onEditClick={noop} />
     ));
+  }
+
+  function onAddDeckClicked() {
+    // todo: maybe different route without any params (:deckId) since there is no 'deck' yet
+    navigate('/deck-editor/0');
   }
 };

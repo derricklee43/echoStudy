@@ -4,9 +4,10 @@ import { Deck, DeckLanguages, Language } from '../../../models/deck';
 import { Button } from '../../../components/button/button';
 import { TextBox } from '../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
-import { DropDown, DropDownOption } from '../../../components/drop-down/drop-down';
+import { DropDown } from '../../../components/drop-down/drop-down';
 import { TextArea } from '../../../components/text-area/text-area';
 import { PopupModal } from '../../../components/popup-modal/popup-modal';
+import { DropDownOption } from '../../../components/drop-down-options/drop-down-options';
 
 interface DeckEditorProps {
   deck: Deck;

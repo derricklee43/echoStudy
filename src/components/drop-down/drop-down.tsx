@@ -2,11 +2,10 @@ import './drop-down.scss';
 import React, { useState } from 'react';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { Button } from '../button/button';
-
-export interface DropDownOption {
-  id: string;
-  value: React.ReactNode;
-}
+import { useRef } from 'react';
+import { useOutsideClick } from '../../hooks/use-outside-click';
+import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
 
 interface DropDownProps {
   variant?: 'dark' | 'light';
@@ -28,12 +27,16 @@ export const DropDown = ({
   const [isOpen, setIsOpen] = useState(false);
   const accentVariant = variant === 'dark' ? 'light' : 'dark';
 
+  const dropDownMenuRef = useRef(null);
+  useOutsideClick(dropDownMenuRef, () => setIsOpen(false));
+  useFocusTrap(dropDownMenuRef, isOpen);
+
   return (
     <div className="drop-down">
       <label className={accentVariant}>{label}</label>
-      <div className={`drop-down-menu ${className}`} onBlur={() => setIsOpen(false)}>
+      <div className={`drop-down-menu ${className}`} ref={dropDownMenuRef}>
         {getDropDownButton()}
-        <div className={`options ${isOpen ? '' : 'hidden'}`}>{getOptions()}</div>
+        <DropDownOptions show={isOpen} options={options} onOptionSelect={handleOptionSelect} />
       </div>
     </div>
   );
@@ -42,19 +45,9 @@ export const DropDown = ({
     return (
       <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
         <label>{buttonLabel}</label>
-        <div>
-          <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
-        </div>
+        <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
       </Button>
     );
-  }
-
-  function getOptions() {
-    return options.map((option) => (
-      <div className="option" key={option.id} onClick={() => handleOptionSelect(option)}>
-        {option.value}
-      </div>
-    ));
   }
 
   function handleOptionSelect(option: DropDownOption) {

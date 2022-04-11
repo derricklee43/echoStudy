@@ -1,7 +1,11 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { SearchBar } from './search-bar';
-import { TEST_OPTIONS_SINGLE, TEST_OPTIONS_SMALL } from '../drop-down/options.mock';
+import {
+  TEST_OPTIONS_SINGLE,
+  TEST_OPTIONS_SMALL,
+  TEST_OPTIONS_SMALL_VALUES,
+} from '../drop-down-options/options.mock';
 import userEvent from '@testing-library/user-event';
 
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
@@ -52,46 +56,58 @@ describe('SearchBar', () => {
   it('should show dropdown when search matches', () => {
     const { container } = render(<SearchBar dropDownData={TEST_OPTIONS_SINGLE} />);
     const input = getSearchBarInput(container);
-    const dropdown = getDropdown(container);
-    expect(dropdown).toHaveClass('hidden');
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).not.toBeInTheDocument()
+    );
 
     // type 'test' which should reveal 'test0' option
     fireEvent.change(input, { target: { value: 'test' } });
-    expect(dropdown).not.toHaveClass('hidden');
+    expect(screen.getByText(TEST_OPTIONS_SINGLE[0].value as string)).toBeInTheDocument();
   });
 
   it('should autocomplete search and hide dropdown when result clicked', () => {
     const { container } = render(<SearchBar dropDownData={TEST_OPTIONS_SINGLE} />);
     const input = getSearchBarInput(container);
-    const dropdown = getDropdown(container);
 
-    // search 'test' and click the 'test0' option
+    // // search 'test' and click the 'test0' option
     fireEvent.change(input, { target: { value: 'test' } });
     const optionTest0 = screen.getByText('test0');
     fireEvent.click(optionTest0);
 
-    // check for autocomplete and hidden dropdown
+    // // check for autocomplete and hidden dropdown
     expect(input).toHaveValue('test0');
-    expect(dropdown).toHaveClass('hidden');
+
+    TEST_OPTIONS_SMALL_VALUES.splice(1).forEach((option) =>
+      expect(screen.queryByText(option)).not.toBeInTheDocument()
+    );
   });
 
-  it('should hide dropdown when clicking outside and reshow when clicking input', () => {
+  it('should hide dropdown when clicking outside and reshow when clicking input', async () => {
     const { container } = render(<SearchBar dropDownData={TEST_OPTIONS_SMALL} />);
     const input = getSearchBarInput(container);
-    const dropdown = getDropdown(container);
 
     // dropdown should be shown after searching 'test'
     fireEvent.change(input, { target: { value: 'test' } });
-    expect(dropdown).not.toHaveClass('hidden');
+
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).toBeInTheDocument()
+    );
 
     // click outside component; use userEvent since hook requires 'mousedown'
     // alternatively, fireEvent.mouseDown(...) could have been used
     userEvent.click(document.body);
-    expect(dropdown).toHaveClass('hidden');
+
+    await waitForElementToBeRemoved(() => screen.queryByText(TEST_OPTIONS_SMALL_VALUES[0]));
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).not.toBeInTheDocument()
+    );
 
     // click back into input; use userEvent to focus input as well
     userEvent.click(input);
-    expect(dropdown).not.toHaveClass('hidden');
+
+    TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
+      expect(screen.queryByText(value)).toBeInTheDocument()
+    );
   });
 
   function getSearchBarInput(container: HTMLElement): HTMLElement {
@@ -100,9 +116,5 @@ describe('SearchBar', () => {
 
   function getClearButton(container: HTMLElement): HTMLElement {
     return container.getElementsByClassName('cancel-icon')[0] as HTMLElement;
-  }
-
-  function getDropdown(container: HTMLElement): HTMLElement {
-    return container.getElementsByClassName('c-drop-down')[0] as HTMLElement;
   }
 });

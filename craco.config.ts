@@ -7,5 +7,5 @@
 const CracoEsbuildPlugin = require('craco-esbuild');
 
 export default () => ({
-  plugins: [{ plugin: CracoEsbuildPlugin }],
+  plugins: [{ plugin: CracoEsbuildPlugin, options: { skipEsbuildJest: true } }],
 });

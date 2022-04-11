@@ -1,0 +1,37 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.c-drop-down-options {
+  @include box-shadow;
+  @include hover-pointer;
+  width: 100%;
+  margin-top: 2px;
+  position: absolute;
+  z-index: 1;
+  background-color: $white;
+  border-radius: $standard-radius + 1px; //hides corners of div
+
+  .c-drop-down-option {
+    @include white-hover;
+    @include ellipsis-overflow;
+    width: 100%;
+    border-left: 1px solid $flashcard-white;
+    border-right: 1px solid $flashcard-white;
+    color: $blue;
+    padding: 5px;
+    border-radius: 0;
+    text-align: left;
+
+    &:first-child {
+      border-top-left-radius: $standard-radius;
+      border-top-right-radius: $standard-radius;
+      border-top: 1px solid $flashcard-white;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $standard-radius;
+      border-bottom-right-radius: $standard-radius;
+      border-bottom: 1px solid $flashcard-white;
+    }
+  }
+}
