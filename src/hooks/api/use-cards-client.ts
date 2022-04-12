@@ -1,5 +1,4 @@
 import { Card } from '../../models/card';
-import { getTestFoxCard } from '../../models/mock/card.mock';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
