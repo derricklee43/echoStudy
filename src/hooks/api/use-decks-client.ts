@@ -1,4 +1,7 @@
 import { Deck } from '../../models/deck';
+import { useFetchWrapper } from './use-fetch-wrapper';
+import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import { DeckCover } from '../../components/deck-cover/deck-cover';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -6,6 +9,8 @@ import { Deck } from '../../models/deck';
  * Client targetting endpoints for /Decks
  */
 export function useDecksClient() {
+  const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
+
   return {
     // queries
     getDeckById,
@@ -52,12 +57,44 @@ export function useDecksClient() {
 
   // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
-    throw new Error('Not implemented');
+    const response = await fetchWrapper.get('/Decks');
+    const decksData = JSON.parse(response);
+
+    // todo perhaps make Deck a class, and implement a fromJson
+    const decks: Deck[] = decksData.map((obj: any): Deck => {
+      return {
+        id: obj['id'],
+        title: obj['title'],
+        desc: obj['description'],
+        access: obj['access'],
+        frontLang: obj['default_flang'],
+        backLang: obj['default_blang'],
+        cards: obj['cards'],
+      };
+    });
+
+    return decks;
   }
 
   // GET: /Decks/Public
   async function getPublicDecks(): Promise<Deck[]> {
-    throw new Error('Not implemented');
+    const response = await fetchWrapper.get('/Decks/Public');
+    const decksData = JSON.parse(response);
+
+    // todo perhaps make Deck a class, and implement a fromJson
+    const decks: Deck[] = decksData.map((obj: any): Deck => {
+      return {
+        id: obj['id'],
+        title: obj['title'],
+        desc: obj['description'],
+        access: obj['access'],
+        frontLang: obj['default_flang'],
+        backLang: obj['default_blang'],
+        cards: obj['cards'],
+      };
+    });
+
+    return decks;
   }
 
   //////////////////////
