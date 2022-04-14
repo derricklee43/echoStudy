@@ -142,8 +142,8 @@ function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch)
 
       return {
         ...state,
-        addedCards: card.id ? addCardToMap(card, addedCards) : addedCards,
-        updatedCards: !card.id ? addCardToMap(card, updatedCards) : updatedCards,
+        addedCards: !card.id ? addCardToMap(card, addedCards) : addedCards,
+        updatedCards: card.id ? addCardToMap(card, updatedCards) : updatedCards,
         hasUnsavedChanges: true,
         currentDeck: updateCardInDeck(card, currentDeck),
       };
