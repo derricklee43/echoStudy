@@ -3,7 +3,7 @@ import { Deck } from '../../models/deck';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /**
- * Client targetting endpoints for /api/Decks
+ * Client targetting endpoints for /Decks
  */
 export function useDecksClient() {
   return {
@@ -30,32 +30,32 @@ export function useDecksClient() {
   /// queries ///
   ///////////////
 
-  // GET: /api/Decks/{id}
+  // GET: /Decks/{id}
   async function getDeckById(id: number): Promise<Deck> {
     throw new Error('Not implemented');
   }
 
-  // GET: /api/Decks/UserEmail={userEmail}
+  // GET: /Decks/UserEmail={userEmail}
   async function getDecksByEmail(userEmail: string): Promise<Deck[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: /api/Decks/User={userId}
+  // GET: /Decks/User={userId}
   async function getDecksByUserId(userId: number): Promise<Deck[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: ​/api​/Decks​/DeckCategory={categoryId}
+  // GET: ​/Decks​/DeckCategory={categoryId}
   async function getDecksByCategoryId(categoryId: number): Promise<Deck[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: /api/Decks
+  // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: /api/Decks/Public
+  // GET: /Decks/Public
   async function getPublicDecks(): Promise<Deck[]> {
     throw new Error('Not implemented');
   }
@@ -64,17 +64,17 @@ export function useDecksClient() {
   /// adds & updates ///
   //////////////////////
 
-  // POST: /api/Decks
+  // POST: /Decks
   async function addDeck(deck: Deck): Promise<Deck> {
     throw new Error('Not implemented');
   }
 
-  // PUT: /api/Decks/{id}
+  // PUT: /Decks/{id}
   async function updateDeckById(id: number, deck: Deck): Promise<void> {
     throw new Error('Not implemented');
   }
 
-  // PATCH: /api/Decks/Touch={id}
+  // PATCH: /Decks/Touch={id}
   async function touchDeckById(id: number): Promise<void> {
     // note: potentially might be POST in the future
     throw new Error('Not implemented');
@@ -84,17 +84,17 @@ export function useDecksClient() {
   /// deletions ///
   /////////////////
 
-  // DELETE: /api/Decks/{id}
+  // DELETE: /Decks/{id}
   async function deleteDeckById(id: number): Promise<void> {
     throw new Error('Not implemented');
   }
 
-  // DELETE: /api/Decks/DeleteUserDecks={userId}
+  // DELETE: /Decks/DeleteUserDecks={userId}
   async function deleteDecksByUserId(userId: number): Promise<void> {
     throw new Error('Not implemented');
   }
 
-  // DELETE: /api/Decks/DeleteUserDecksByEmail={userEmail}
+  // DELETE: /Decks/DeleteUserDecksByEmail={userEmail}
   async function deleteDecksByEmail(userEmail: string): Promise<void> {
     throw new Error('Not implemented');
   }

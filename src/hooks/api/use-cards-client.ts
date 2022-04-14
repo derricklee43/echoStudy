@@ -3,7 +3,7 @@ import { Card } from '../../models/card';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /**
- * Client targetting endpoints for /api/Cards
+ * Client targetting endpoints for /Cards
  */
 export function useCardsClient() {
   return {
@@ -30,27 +30,27 @@ export function useCardsClient() {
   /// queries ///
   ///////////////
 
-  // GET: /api/Cards/{id}
+  // GET: /Cards/{id}
   async function getCardById(id: number): Promise<Card> {
     throw new Error('Not implemented');
   }
 
-  // GET: /api/Cards/UserEmail={userEmail}
+  // GET: /Cards/UserEmail={userEmail}
   async function getCardsByEmail(userEmail: string): Promise<Card[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: ​/api​/Cards​/User={userId}
+  // GET: ​/Cards​/User={userId}
   async function getCardsByUserId(userId: number): Promise<Card[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: ​/api​/Cards​/Deck={deckId}
+  // GET: /Cards​/Deck={deckId}
   async function getCardsByDeckId(deckId: number): Promise<Card[]> {
     throw new Error('Not implemented');
   }
 
-  // GET: /api/Cards
+  // GET: /Cards
   async function getAllCards(): Promise<Card[]> {
     throw new Error('Not implemented');
   }
@@ -59,17 +59,17 @@ export function useCardsClient() {
   /// adds & updates ///
   //////////////////////
 
-  // POST: /api/Cards
+  // POST: /Cards
   async function addCard(card: Card): Promise<Card> {
     throw new Error('Not implemented');
   }
 
-  // PUT: /api/Cards/{id}
+  // PUT: /Cards/{id}
   async function updateCardById(id: number, card: Card): Promise<Card> {
     throw new Error('Not implemented');
   }
 
-  // PATCH: /api/Cards/Touch={id}&{score}
+  // PATCH: /Cards/Touch={id}&{score}
   async function updateCardScoreById(id: number, score: number): Promise<void> {
     // note: potentially might be POST in the future
     throw new Error('Not implemented');
@@ -79,22 +79,22 @@ export function useCardsClient() {
   /// deletions ///
   /////////////////
 
-  // DELETE: /api/Cards/{id}
+  // DELETE: /Cards/{id}
   async function deleteCardById(id: number): Promise<void> {
     throw new Error('Not implemented');
   }
 
-  // DELETE: /api/Cards/DeleteUserCards={userId}
+  // DELETE: /Cards/DeleteUserCards={userId}
   async function deleteCardsByUserId(userId: number): Promise<void> {
     throw new Error('Not implemented');
   }
 
-  // DELETE: ​/api​/Cards​/DeleteUserCardsByEmail={userEmail}
+  // DELETE: /Cards​/DeleteUserCardsByEmail={userEmail}
   async function deleteCardsByEmail(userEmail: string): Promise<void> {
     throw new Error('Not implemented');
   }
 
-  // DELETE: /api/Cards/DeleteDeckCards={deckId}
+  // DELETE: /Cards/DeleteDeckCards={deckId}
   async function deleteCardsByDeckId(deckId: number): Promise<void> {
     throw new Error('Not implemented');
   }
