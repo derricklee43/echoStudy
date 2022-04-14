@@ -1,6 +1,6 @@
 import './meta-data-editor.scss';
 import React, { useState } from 'react';
-import { Deck, DeckLanguages, Language } from '../../../models/deck';
+import { DeckLanguages, DeckMetaData, Language } from '../../../models/deck';
 import { Button } from '../../../components/button/button';
 import { TextBox } from '../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
@@ -10,12 +10,16 @@ import { PopupModal } from '../../../components/popup-modal/popup-modal';
 import { DropDownOption } from '../../../components/drop-down-options/drop-down-options';
 
 interface DeckEditorProps {
-  deck: Deck;
-  onDeckChange: (deck: Deck) => void;
+  deckMetaData: DeckMetaData;
+  onDeckMetaDataChange: (metaData: DeckMetaData) => void;
   onDeleteClick: (event: React.MouseEvent) => void;
 }
 
-export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditorProps) => {
+export const MetaDataEditor = ({
+  deckMetaData,
+  onDeckMetaDataChange,
+  onDeleteClick,
+}: DeckEditorProps) => {
   const [showImportModal, setShowImportModal] = useState(false);
 
   return (
@@ -24,7 +28,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
         <TextBox
           variant="dark"
           onChange={handleDeckTitleChange}
-          value={deck.title}
+          value={deckMetaData.title}
           label="title"
           placeholder="add a title..."
         />
@@ -35,7 +39,7 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
           label="description"
           variant="dark"
           placeholder="add a description"
-          value={deck.desc}
+          value={deckMetaData.desc}
           onChange={handleDeckDescChange}
         />
         <Button onClick={handleImportClick} size="medium">
@@ -55,14 +59,14 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
         <div className="advanced-settings">
           <DropDown
             label="default term language"
-            buttonLabel={deck.frontLang}
+            buttonLabel={deckMetaData.frontLang}
             options={getLanguages()}
             onOptionSelect={handleFrontLanguageSelect}
           />
 
           <DropDown
             label="default definition language"
-            buttonLabel={deck.backLang}
+            buttonLabel={deckMetaData.backLang}
             options={getLanguages()}
             onOptionSelect={handleBackLanguageSelect}
           />
@@ -93,12 +97,12 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
 
   function handleFrontLanguageSelect(option: DropDownOption) {
     const frontLang = option.value as Language;
-    onDeckChange({ ...deck, frontLang });
+    onDeckMetaDataChange({ ...deckMetaData, frontLang });
   }
 
   function handleBackLanguageSelect(option: DropDownOption) {
     const backLang = option.value as Language;
-    onDeckChange({ ...deck, backLang });
+    onDeckMetaDataChange({ ...deckMetaData, backLang });
   }
 
   function getLanguages(): DropDownOption[] {
@@ -106,11 +110,11 @@ export const MetaDataEditor = ({ deck, onDeckChange, onDeleteClick }: DeckEditor
   }
 
   function handleDeckTitleChange(title: string) {
-    onDeckChange({ ...deck, title });
+    onDeckMetaDataChange({ ...deckMetaData, title });
   }
 
   function handleDeckDescChange(desc: string) {
-    onDeckChange({ ...deck, desc });
+    onDeckMetaDataChange({ ...deckMetaData, desc });
   }
 
   function handleImportClick() {

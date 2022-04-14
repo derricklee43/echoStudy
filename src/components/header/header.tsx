@@ -28,7 +28,7 @@ export const Header = ({ decks }: HeaderProps) => {
   );
 
   function getDeckOptions() {
-    return decks.map((deck) => ({ id: deck.id.toString(), value: deck.title }));
+    return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
   }
 
   function handleSignUpClick() {

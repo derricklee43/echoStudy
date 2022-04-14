@@ -9,19 +9,23 @@ interface FlashcardSetProps {
   variant?: 'readonly' | 'editable';
   className?: string;
   cards: Card[];
-  onCardsChange?: (cards: Card[]) => void;
+  onDeleteCardClick?: (card: Card) => void;
+  onCardReorder?: (cards: Card[]) => void;
+  onCardChange?: (card: Card) => void;
 }
 
 export const FlashcardSet = ({
   variant = 'editable',
   className = '',
   cards,
-  onCardsChange,
+  onCardReorder,
+  onDeleteCardClick,
+  onCardChange,
 }: FlashcardSetProps) => {
   const [activeCard, setActiveCard] = useState('');
   return (
     <div className={`c-flashcard-set ${className}`}>
-      <Reorder.Group axis="y" values={cards} onReorder={handleReorder}>
+      <Reorder.Group axis="y" values={cards} onReorder={handleCardReorder}>
         {getCards()}
       </Reorder.Group>
     </div>
@@ -30,16 +34,16 @@ export const FlashcardSet = ({
   function getCards() {
     return cards.map((card, index) => {
       return (
-        <Reorder.Item key={card.id ?? card.key} value={card}>
+        <Reorder.Item key={card.key} value={card}>
           <Flashcard
             card={card}
             index={index + 1}
             variant={getCardVariant(card.key)}
             onFocus={() => setActiveCard(card.key)}
-            onCardChange={(c) => handleCardChange(c, index)}
+            onCardChange={(card) => variant === 'editable' && onCardChange?.(card)}
             onDownClick={() => handleDownClick(index)}
             onUpClick={() => handleUpClick(index)}
-            onRemoveClick={() => handleRemoveClick(index)}
+            onRemoveClick={() => variant === 'editable' && onDeleteCardClick?.(card)}
           />
         </Reorder.Item>
       );
@@ -51,43 +55,27 @@ export const FlashcardSet = ({
     return activeCard === cardKey ? 'active' : 'inactive';
   }
 
-  function handleRemoveClick(index: number) {
-    const newCards = [...cards];
-    newCards.splice(index, 1);
-    handleCardsChange(newCards);
-  }
-
   function handleUpClick(index: number) {
     const newCards = [...cards];
     newCards[index] = newCards.splice(index - 1, 1, cards[index])[0];
-    handleCardsChange(newCards);
+    handleCardReorder(newCards);
   }
 
   function handleDownClick(index: number) {
     if (index === cards.length - 1) {
       const newCards = [...cards];
       const [lastCard] = newCards.splice(index, 1);
-      handleCardsChange([lastCard, ...newCards]);
+      handleCardReorder([lastCard, ...newCards]);
     } else {
       const newCards = [...cards];
       newCards[index] = newCards.splice(index + 1, 1, cards[index])[0];
-      handleCardsChange(newCards);
+      handleCardReorder(newCards);
     }
   }
 
-  function handleCardChange(newCard: Card, index: number) {
-    const newCards = [...cards];
-    newCards[index] = newCard;
-    handleCardsChange(newCards);
-  }
-
-  function handleReorder(newCards: Card[]) {
-    handleCardsChange(newCards);
-  }
-
-  function handleCardsChange(newCards: Card[]) {
+  function handleCardReorder(newCards: Card[]) {
     if (variant === 'editable') {
-      onCardsChange?.(newCards);
+      onCardReorder?.(newCards);
     }
   }
 };
