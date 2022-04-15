@@ -3,21 +3,16 @@ import './app.scss';
 import { useState } from 'react';
 import { Sidebar } from './components/sidebar/sidebar';
 import { Header } from './components/header/header';
-import {
-  testEnglishDeck,
-  testJapaneseVerbsDeck,
-  testNPTEPartNumberDeck,
-} from './models/mock/deck.mock';
 import { PageRoutes } from './routes';
-
-const testDecks = [testEnglishDeck(0), testJapaneseVerbsDeck(1), testNPTEPartNumberDeck(2, 1)];
+import { userDecksState } from './state/user-decks';
+import { useRecoilValue } from 'recoil';
 
 function App() {
-  const [showDecks, setShowDecks] = useState(true);
+  const userDecks = useRecoilValue(userDecksState);
 
   return (
     <div className="App">
-      <Header decks={testDecks} />
+      <Header decks={userDecks} />
       <Sidebar />
       <div className="page-wrap">
         <div className="content">
