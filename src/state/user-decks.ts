@@ -31,7 +31,7 @@ export const userDecksSortedState = selector<Deck[]>({
         return decks.sort(); // natural ordering
 
       case 'last created':
-        return decks.sort((a, b) => compare(a.metaData.dateCreated, b.metaData.dateCreated));
+        return decks.sort((a, b) => compare(b.metaData.dateCreated, a.metaData.dateCreated)); // descending
 
       case 'random':
         return shuffle(decks);
