@@ -1,7 +1,9 @@
 /**
  * fetch() wrapper with useful helper functions
+ *
+ * @param prependApiUrl url to prepend to all requests
  */
-export function useFetchWrapper() {
+export function useFetchWrapper(prependApiUrl?: string) {
   // https://jasonwatmore.com/post/2021/09/07/react-recoil-jwt-authentication-tutorial-and-example
   /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -13,17 +15,36 @@ export function useFetchWrapper() {
   };
 
   function request(method: string) {
-    // todo: fetch and then handleResponse
-    throw new Error('Not implemented');
+    return async function (url: string, body?: object) {
+      // only include header if `body` is non-empty
+      const contentTypeHeader = body ? { 'Content-Type': 'application/json' } : undefined;
+      const resolvedUrl = prependApiUrl ? prependApiUrl + url : url;
+
+      const response = await fetch(resolvedUrl, {
+        method: method,
+        headers: { ...contentTypeHeader }, // todo: use auth header which includes JWT
+        body: body && JSON.stringify(body),
+      });
+
+      return await handleResponse(response);
+    };
   }
 
   ////////////////////////
   /// helper functions ///
   ////////////////////////
 
-  function handleResponse(response: Response) {
-    // todo: handle response by converting to text()
-    throw new Error('Not implemented');
+  async function handleResponse(response: Response) {
+    const data = await response.json();
+
+    if (!response.ok) {
+      // todo: handle 401/403 for user auth, verify JWT token, if not redirect to /login
+      const error = data?.message ?? response.statusText;
+      console.error(error);
+      return Promise.reject(error);
+    }
+
+    return data;
   }
 
   function authHeader(url: string): Record<string, string> {

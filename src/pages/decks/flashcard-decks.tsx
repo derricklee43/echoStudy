@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DeckCover } from '../../components/deck-cover/deck-cover';
 import { DropDownOption } from '../../components/drop-down-options/drop-down-options';
 import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
+import { useDecksClient } from '../../hooks/api/use-decks-client';
+import { useFetchWrapper } from '../../hooks/api/use-fetch-wrapper';
 import { createNewDeck, Deck } from '../../models/deck';
 import {
   testEnglishDeck,
@@ -18,7 +20,7 @@ const addNewDeckEntity: Deck = createNewDeck();
 addNewDeckEntity.metaData.title = '+ add new deck';
 
 let id = 0;
-const decks = [
+const testDecks = [
   testEnglishDeck(id++),
   testJapaneseVerbsDeck(id++),
   testNPTEPartNumberDeck(id++, 1),
@@ -32,7 +34,15 @@ const sortRuleOptions = sortRules.map((item): DropDownOption => ({ id: item, val
 
 export const FlashcardDecksPage = () => {
   const navigate = useNavigate();
+  const decksClient = useDecksClient();
+
+  const [decks, setDecks] = useState(testDecks);
   const [sortOption, setSortOption] = useState(sortRules[1]);
+
+  // fetch flashcard decks on load
+  useEffect(() => {
+    fetchDecksAndRefresh();
+  }, []);
 
   return (
     <div className="pg-flashcard-decks">
@@ -72,5 +82,11 @@ export const FlashcardDecksPage = () => {
   function onAddDeckClicked() {
     // todo: maybe different route without any params (:deckId) since there is no 'deck' yet
     navigate('/deck-editor/0');
+  }
+
+  async function fetchDecksAndRefresh() {
+    // todo: should get deck by user id in the future
+    const fetchedDecks = await decksClient.getAllDecks();
+    setDecks(fetchedDecks);
   }
 };
