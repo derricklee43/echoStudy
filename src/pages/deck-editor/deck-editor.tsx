@@ -1,8 +1,6 @@
 import './deck-editor.scss';
-import React, { useEffect, useState } from 'react';
-import { Deck } from '../../models/deck';
+import React, { useEffect } from 'react';
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
-import { Card, createNewCard } from '../../models/card';
 import { FlashcardSet } from '../../components/flashcard-set/flashcard-set';
 import { Button } from '../../components/button/button';
 import { PlusIcon } from '../../assets/icons/plus-icon/plus-icon';
@@ -11,12 +9,15 @@ import { testJapaneseVerbsDeck } from '../../models/mock/deck.mock';
 import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../animations/fade';
-import { v4 as uuidv4 } from 'uuid';
-import { useNavigate, useNavigationType, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { usePrompt } from '../../hooks/use-prompt';
+import { useDeckEditor } from '../../hooks/use-deck-editor';
 
 const testDeck = testJapaneseVerbsDeck(0);
 testDeck.cards = [getTestMonkeyCard(), getTestFoxCard(), getTestMouseCard()];
+
+// used to test deck in deck-editor.test.tsx
+const testEmptyDeck = testJapaneseVerbsDeck(0);
 
 interface DeckEditorPageProps {
   label?: string;
@@ -26,17 +27,18 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
   const navigate = useNavigate();
   const { deckId } = useParams(); // via the param :deckId
 
+  const [
+    { deck, hasUnsavedChanges },
+    { updateCard, updateMetaData, addCard, deleteCard, save, discardChanges, reorderCards },
+  ] = useDeckEditor(deckId ? testDeck : testEmptyDeck); // get real deck and update tests
+
   // todo: delete this in a future PR, this is for debugging
   useEffect(() => {
     console.log(`navigated to DeckEditorPage with deckId: ${deckId}`);
   }, [deckId]);
 
-  const [savedDeck, setSavedDeck] = useState(testDeck);
-  const [unsavedDeck, setUnsavedDeck] = useState(testDeck);
-  const isDeckSaved = savedDeck === unsavedDeck;
-
   // prevent navigation if there are unsaved changes
-  usePrompt('Changes you made may not be saved.', !isDeckSaved);
+  usePrompt('Changes you made may not be saved.', hasUnsavedChanges);
 
   return (
     <div className="deck-editor">
@@ -45,12 +47,12 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
         {getSaveButtonAndLabel()}
       </div>
       <MetaDataEditor
-        deck={unsavedDeck}
-        onDeckChange={handleDeckChange}
+        deckMetaData={deck.metaData}
+        onDeckMetaDataChange={updateMetaData}
         onDeleteClick={handleDeleteDeckClick}
       />
-      {unsavedDeck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
-      <Button onClick={handleAddCardClick} size="medium" className="add-card-button">
+      {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
+      <Button onClick={addCard} size="medium" className="add-card-button">
         <PlusIcon />
         <label>new card</label>
       </Button>
@@ -61,11 +63,11 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
     return (
       <div>
         <AnimatePresence>
-          {!isDeckSaved && (
+          {hasUnsavedChanges && (
             <Fade>
               <Button
                 variant="invisible"
-                onClick={handleDiscardChangesClick}
+                onClick={discardChanges}
                 className={`discard-changes-button`}
               >
                 discard changes
@@ -74,7 +76,7 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
           )}
         </AnimatePresence>
 
-        <Button onClick={handleSaveClick} size="medium">
+        <Button onClick={save} size="medium">
           save
         </Button>
       </div>
@@ -92,31 +94,16 @@ export const DeckEditorPage = ({ label = 'edit a deck' }: DeckEditorPageProps) =
   function getFlashcardSet() {
     return (
       <FlashcardSet
-        cards={unsavedDeck.cards}
+        cards={deck.cards}
         className="deck-editor-flashcard-set"
-        onCardsChange={(cards: Card[]) => handleDeckChange({ ...unsavedDeck, cards })}
+        onCardReorder={reorderCards}
+        onCardChange={updateCard}
+        onDeleteCardClick={deleteCard}
       />
     );
   }
 
-  function handleAddCardClick() {
-    const card = createNewCard();
-    handleDeckChange({ ...unsavedDeck, cards: [card, ...unsavedDeck.cards] });
-  }
-
-  function handleDeckChange(newDeck: Deck) {
-    setUnsavedDeck(newDeck);
-  }
-
-  function handleSaveClick() {
-    setSavedDeck(unsavedDeck);
-  }
-
-  function handleDiscardChangesClick() {
-    setUnsavedDeck(savedDeck);
-  }
-
-  function handleDeleteDeckClick(event: React.MouseEvent) {
+  function handleDeleteDeckClick() {
     navigateBackToDecks();
   }
 
