@@ -35,8 +35,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
   ////////////////////////
 
   async function handleResponse(response: Response) {
-    const text = await response.text();
-    const data = text && JSON.parse(text);
+    const data = await response.json();
 
     if (!response.ok) {
       // todo: handle 401/403 for user auth, verify JWT token, if not redirect to /login

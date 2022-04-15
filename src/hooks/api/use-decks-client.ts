@@ -57,8 +57,7 @@ export function useDecksClient() {
 
   // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
-    const response = await fetchWrapper.get('/Decks');
-    const decksData = JSON.parse(response);
+    const decksData = await fetchWrapper.get('/Decks');
 
     // todo perhaps make Deck a class, and implement a fromJson
     const decks: Deck[] = decksData.map((obj: any): Deck => {
@@ -78,8 +77,7 @@ export function useDecksClient() {
 
   // GET: /Decks/Public
   async function getPublicDecks(): Promise<Deck[]> {
-    const response = await fetchWrapper.get('/Decks/Public');
-    const decksData = JSON.parse(response);
+    const decksData = await fetchWrapper.get('/Decks/Public');
 
     // todo perhaps make Deck a class, and implement a fromJson
     const decks: Deck[] = decksData.map((obj: any): Deck => {
