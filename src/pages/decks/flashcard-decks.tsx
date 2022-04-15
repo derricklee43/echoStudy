@@ -7,7 +7,7 @@ import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { useFetchWrapper } from '../../hooks/api/use-fetch-wrapper';
-import { Deck } from '../../models/deck';
+import { createNewDeck, Deck } from '../../models/deck';
 import {
   testEnglishDeck,
   testJapaneseVerbsDeck,
@@ -16,15 +16,9 @@ import {
 import './flashcard-decks.scss';
 
 // (+ add new deck) and (all decks)
-const addNewDeckEntity: Deck = {
-  id: -1,
-  title: '+ add new deck',
-  desc: '',
-  access: 'Private',
-  frontLang: 'English',
-  backLang: 'English',
-  cards: [],
-};
+const addNewDeckEntity: Deck = createNewDeck();
+addNewDeckEntity.metaData.title = '+ add new deck';
+
 let id = 0;
 const testDecks = [
   testEnglishDeck(id++),
@@ -81,7 +75,7 @@ export const FlashcardDecksPage = () => {
 
   function getDeckCovers() {
     return decks.map((deck) => (
-      <DeckCover key={deck.id} deck={deck} onStudyClick={noop} onEditClick={noop} />
+      <DeckCover key={deck.metaData.id} deck={deck} onStudyClick={noop} onEditClick={noop} />
     ));
   }
 
