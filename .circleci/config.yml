@@ -2,30 +2,50 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+aliases:
+  env_var: &docker_env
+    docker:
+      - image: cimg/node:15.1
+    resource_class: large
+  save_cache_var: &save_cache
+    save_cache:
+      key: node-deps-v2-{{ checksum "package.json" }}-{{checksum "package-lock.json"}}
+      paths:
+        - ./node_modules
+  restore_cache_var: &restore_cache
+    restore_cache:
+      keys:
+        - node-deps-v2-{{ checksum "package.json" }}-{{checksum "package-lock.json"}}
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  test:
-    docker:
-      - image: cimg/node:15.1
-    # See: https://circleci.com/product/features/resource-classes/
-    # medium is 2 CPU, 4GB Ram at 10 credits/min (3000 minutes a month)
-    resource_class: large
+  install-deps:
+    <<: *docker_env
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - node-deps-v1-{{ checksum "package.json" }}-{{checksum "package-lock.json"}}
+      - *restore_cache
       - run:
           name: Install packages
-          command: "[ ! -d node_modules ] && npm ci --loglevel warn --yes || echo using cache -- checksum match [package.json, package-lock.json]"
-      - save_cache:
-          key: node-deps-v1-{{ checksum "package.json" }}-{{checksum "package-lock.json"}}
-          paths:
-            - ~/.npm
-            - ./node_modules
+          command: '[ ! -d node_modules ] && npm ci --loglevel warn --yes || echo using cache -- checksum match [package.json, package-lock.json]'
+      - *save_cache
+
+  build:
+    <<: *docker_env
+    steps:
+      - checkout
+      - *restore_cache
       - run:
-          name: Run tests
+          name: Run build
+          command: CI=false npm run build # CI=true will treat warnings as errors
+
+  unit-tests:
+    <<: *docker_env
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          name: Run unit tests
           command: npm run test
 
 # Invoke jobs via workflows
@@ -33,4 +53,10 @@ jobs:
 workflows:
   orb-free-workflow:
     jobs:
-      - test
+      - install-deps
+      - build:
+          requires:
+            - install-deps
+      - unit-tests:
+          requires:
+            - install-deps
