@@ -6,11 +6,9 @@ import { motion } from 'framer-motion';
 interface LoadingPageProps {
   className?: string;
   label?: string;
-  size?: 'small' | 'medium' | 'large';
-  fadeIn?: boolean;
 }
 
-export const LoadingPage = ({ className = '', label = 'loading deck...' }: LoadingPageProps) => {
+export const LoadingPage = ({ className = '', label = '' }: LoadingPageProps) => {
   const variants = {
     invisible: {
       opacity: 0,
