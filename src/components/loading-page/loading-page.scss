@@ -1,0 +1,14 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+.c-loading-page {
+  margin-top: 150px;
+  width: 100%;
+  flex-direction: column;
+  gap: 40px;
+  @include flex-center;
+
+  .c-loading-page-label {
+    color: $light-blue;
+    font-size: 20px;
+  }
+}
