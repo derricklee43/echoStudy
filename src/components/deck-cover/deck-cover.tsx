@@ -10,7 +10,7 @@ interface DeckCoverProps {
   deck: Deck;
   onClick?: (event: React.MouseEvent) => void;
   onStudyClick: () => void;
-  onViewClick: () => void;
+  onEditClick: () => void;
 }
 
 export const DeckCover = ({
@@ -18,7 +18,7 @@ export const DeckCover = ({
   deck,
   onClick,
   onStudyClick,
-  onViewClick,
+  onEditClick,
 }: DeckCoverProps) => {
   // false => show front; true => show back
   const [flipped, setFlipped] = useState(false);
@@ -52,8 +52,8 @@ export const DeckCover = ({
           <div className="progress-bar">
             <ProgressBar percent={percentStudied} label={`${percentStudied}% studied`} />
           </div>
-          <Button bubbleOnClickEvent={false} onClick={onViewClick}>
-            view
+          <Button bubbleOnClickEvent={false} onClick={onEditClick}>
+            edit
           </Button>
           <Button bubbleOnClickEvent={false} onClick={onStudyClick}>
             study

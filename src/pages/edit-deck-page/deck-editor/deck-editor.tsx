@@ -100,7 +100,6 @@ export const DeckEditor = ({
   function getFlashcardSet() {
     return (
       <FlashcardSet
-        variant="editable"
         cards={deck.cards}
         className="deck-editor-flashcard-set"
         onCardReorder={reorderCards}

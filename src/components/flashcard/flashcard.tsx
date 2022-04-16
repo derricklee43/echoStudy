@@ -16,7 +16,6 @@ interface FlashcardProps {
   onUpClick?: (event: React.MouseEvent) => void;
   onDownClick?: (event: React.MouseEvent) => void;
   onRemoveClick?: (event: React.MouseEvent) => void;
-  onSpeakerClick?: (audioFile: HTMLAudioElement) => void;
 }
 
 export const Flashcard = ({
@@ -28,7 +27,6 @@ export const Flashcard = ({
   onUpClick,
   onDownClick,
   onRemoveClick,
-  onSpeakerClick,
 }: FlashcardProps) => {
   return (
     <div className={`flashcard ${variant}`}>
@@ -40,7 +38,6 @@ export const Flashcard = ({
         cardContent={card.front}
         onFocus={onFocus}
         onChange={handleFrontFaceChange}
-        onSpeakerClick={onSpeakerClick}
       />
       <CardFace
         variant={variant}
@@ -49,7 +46,6 @@ export const Flashcard = ({
         cardContent={card.back}
         onFocus={onFocus}
         onChange={handleBackFaceChange}
-        onSpeakerClick={onSpeakerClick}
       />
       {variant !== 'readonly' && getRightButtonStrip(variant)}
     </div>
@@ -58,11 +54,11 @@ export const Flashcard = ({
   function getLeftButtonStrip(variant: 'active' | 'inactive') {
     return (
       <div className="button-strip">
-        <Button onClick={(e) => onUpClick?.(e)} variant="invisible" ariaLabel="up-arrow">
+        <Button onClick={(e) => onUpClick?.(e)} variant="invisible">
           <FlashcardArrowIcon orientation="up" variant={variant} />
         </Button>
         <label>{index ?? ''}</label>
-        <Button onClick={(e) => onDownClick?.(e)} variant="invisible" ariaLabel="down-arrow">
+        <Button onClick={(e) => onDownClick?.(e)} variant="invisible">
           <FlashcardArrowIcon variant={variant} />
         </Button>
       </div>
@@ -72,7 +68,7 @@ export const Flashcard = ({
   function getRightButtonStrip(variant: 'active' | 'inactive') {
     return (
       <div className="button-strip right">
-        <Button onClick={(e) => onRemoveClick?.(e)} variant="invisible" ariaLabel="trash">
+        <Button onClick={(e) => onRemoveClick?.(e)} variant="invisible">
           <TrashIcon variant={variant} />
         </Button>
       </div>

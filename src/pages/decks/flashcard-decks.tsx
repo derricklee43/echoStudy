@@ -55,7 +55,7 @@ export const FlashcardDecksPage = () => {
           onClick={onAddDeckClicked}
           deck={addNewDeckEntity}
           onStudyClick={noop}
-          onViewClick={noop}
+          onEditClick={noop}
         />
         {getDeckCovers()}
       </div>
@@ -72,13 +72,13 @@ export const FlashcardDecksPage = () => {
         key={deck.metaData.id}
         deck={deck}
         onStudyClick={noop}
-        onViewClick={() => handleViewClick(deck.metaData.id)}
+        onEditClick={() => handleEditClicked(deck.metaData.id)}
       />
     ));
   }
 
-  function handleViewClick(id: number) {
-    navigate(`${paths.deck}/${id}`);
+  function handleEditClicked(id: number) {
+    navigate(`${paths.editDeck}/${id}`);
   }
 
   function onAddDeckClicked() {

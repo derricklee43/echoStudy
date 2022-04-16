@@ -13,17 +13,19 @@ $button-strip-height: 35px;
   flex: 1;
   transition: 200ms;
 
-  .card-face-button {
+  .button-strip {
     position: absolute;
-
-    &.card-face-kebab-menu {
-      right: 0;
-    }
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    box-sizing: content-box;
+    height: $button-strip-height;
 
     svg {
       height: 30px;
-      padding-top: 5px;
-      padding-left: 5px;
+      padding-top: 3px;
+      padding-left: 3px;
     }
   }
 
@@ -58,9 +60,6 @@ $button-strip-height: 35px;
       background-color: $black;
       border: 1px solid $light-blue;
       color: $light-blue;
-    }
-    &.readonly {
-      cursor: default;
     }
   }
 }

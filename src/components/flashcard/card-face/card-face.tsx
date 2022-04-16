@@ -4,6 +4,8 @@ import { Button } from '../../button/button';
 import { CardContent } from '../../../models/card-content';
 import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
 import { KebabMenuIcon } from '../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
+import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../../animations/fade';
 
 interface CardFaceProps {
   cardContent: CardContent;
@@ -12,7 +14,6 @@ interface CardFaceProps {
   placeholder?: string;
   onChange?: (cardContent: CardContent) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onSpeakerClick?: (audioFile: HTMLAudioElement) => void;
 }
 
 export const CardFace = ({
@@ -20,14 +21,12 @@ export const CardFace = ({
   variant = 'inactive',
   className = '',
   placeholder,
-  onSpeakerClick,
   onChange,
   onFocus,
 }: CardFaceProps) => {
   return (
     <div className={`card-face ${className}`}>
-      {variant === 'readonly' && getSpeaker()}
-      {variant === 'active' && getKababMenu()}
+      {variant === 'active' && getButtonStrip()}
       <input
         disabled={variant === 'readonly'}
         className={`content ${variant}`}
@@ -39,36 +38,31 @@ export const CardFace = ({
     </div>
   );
 
-  function getSpeaker() {
+  function getButtonStrip() {
     return (
-      <Button
-        onClick={() => onSpeakerClick?.(cardContent.audio)}
-        variant="invisible"
-        bubbleOnClickEvent={false}
-        className="card-face-button"
-        ariaLabel="speaker"
-      >
-        <SpeakerIcon />
-      </Button>
-    );
-  }
-
-  function getKababMenu() {
-    return (
-      <Button
-        onClick={handleKebabClick}
-        variant="invisible"
-        bubbleOnClickEvent={false}
-        className="card-face-button card-face-kebab-menu"
-        ariaLabel="kebab-menu"
-      >
-        <KebabMenuIcon />
-      </Button>
+      <div className="button-strip">
+        <Button onClick={handleKebabClick} variant="invisible" bubbleOnClickEvent={false}>
+          <KebabMenuIcon className="kebab-menu" />
+        </Button>
+        <AnimatePresence>
+          {cardContent.text.length > 0 && (
+            <Fade>
+              <Button onClick={playAudio} variant="invisible" bubbleOnClickEvent={false}>
+                <SpeakerIcon className="speaker" />
+              </Button>
+            </Fade>
+          )}
+        </AnimatePresence>
+      </div>
     );
   }
 
   function handleCardTextChange(event: React.FormEvent<HTMLInputElement>) {
     onChange?.({ ...cardContent, text: event.currentTarget.value });
+  }
+
+  function playAudio() {
+    cardContent.audio.play();
   }
 
   function handleKebabClick() {
