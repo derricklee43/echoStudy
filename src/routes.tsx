@@ -2,10 +2,12 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { EditDeckPage } from './pages/edit-deck-page/edit-deck-page';
 import { FlashcardDecksPage } from './pages/decks/flashcard-decks';
+import { ViewDeckPage } from './pages/view-deck-page/view-deck-page';
 
 export const enum paths {
   home = '/',
   decks = '/decks',
+  deck = '/deck',
   editDeck = '/edit-deck',
   createDeck = '/create-deck',
   study = '/study',
@@ -19,6 +21,7 @@ export const PageRoutes = () => {
     <Routes>
       <Route path={paths.home} element={<FlashcardDecksPage />} />
       <Route path={paths.decks} element={<FlashcardDecksPage />} />
+      <Route path={`${paths.deck}/:deckId`} element={<ViewDeckPage />} />
       <Route path={`${paths.editDeck}/:deckId`} element={<EditDeckPage />} />
       <Route path={paths.createDeck} element={<EditDeckPage />} />
       {/* <Route path="*" element={<TODO: some 404 page should go here />} /> */}

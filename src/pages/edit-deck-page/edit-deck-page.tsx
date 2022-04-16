@@ -56,7 +56,7 @@ export const EditDeckPage = () => {
   function handleCreateDeckClick() {
     // Todo: create deck
     // Todo: navigate to view-deck page
-    navigate('/decks');
+    navigateBackToDecks;
   }
 
   function handleDeleteDeckClick() {
@@ -65,6 +65,6 @@ export const EditDeckPage = () => {
   }
 
   function navigateBackToDecks() {
-    navigate('/decks');
+    navigate(paths.decks);
   }
 };
