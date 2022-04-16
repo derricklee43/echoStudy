@@ -1,3 +1,5 @@
+import { paths } from '../../routes';
+
 interface SidebarRouteItemProps {
   name: string;
   route: string;
@@ -8,18 +10,18 @@ interface SidebarRouteItemProps {
 export const SIDEBAR_ROUTE_ITEMS: SidebarRouteItemProps[] = [
   {
     name: 'flashcard decks',
-    route: '/decks',
+    route: paths.decks,
   },
   {
     name: 'create',
-    route: '/deck-editor/0', // todo: maybe different route without any params (:deckId)
+    route: paths.createDeck,
   },
   {
     name: 'study',
-    route: '/study',
+    route: paths.study,
   },
   {
     name: 'search',
-    route: '/search',
+    route: paths.search,
   },
 ];
