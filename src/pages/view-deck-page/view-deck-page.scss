@@ -1,0 +1,16 @@
+@import '../../assets/colors';
+.view-deck-page {
+  width: 100%;
+  color: $white;
+  .view-deck-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    button:first-child {
+      margin-right: 15px;
+    }
+  }
+  .view-deck-divider {
+    padding: 20px 0px;
+  }
+}
