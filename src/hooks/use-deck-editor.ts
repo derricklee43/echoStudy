@@ -9,7 +9,7 @@ interface DeckEditorReturn {
   hasUnsavedChanges: boolean;
   save: () => void;
   discardChanges: () => void;
-  addCard: () => void;
+  addCard: (card: Card) => void;
   deleteCard: (card: Card) => void;
   updateCard: (card: Card) => void;
   updateMetaData: (metaData: DeckMetaData) => void;
@@ -64,8 +64,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
   function updateMetaData(metaData: DeckMetaData) {
     dispatch({ type: DECK_REDUCER_TYPE.UPDATE_META_DATA, metaData });
   }
-  function addCard() {
-    dispatch({ type: DECK_REDUCER_TYPE.ADD_CARD });
+  function addCard(card: Card) {
+    dispatch({ type: DECK_REDUCER_TYPE.ADD_CARD, card });
   }
   function deleteCard(card: Card) {
     dispatch({ type: DECK_REDUCER_TYPE.DELETE_CARD, card });
@@ -100,11 +100,13 @@ function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch)
 
   switch (type) {
     case DECK_REDUCER_TYPE.ADD_CARD:
-      const newCard = createNewCard();
+      if (card === undefined) {
+        throw new Error('action.card must not be undefined');
+      }
       return {
         ...state,
-        currentDeck: addCardToDeck(newCard, currentDeck),
-        addedCards: addCardToMap(newCard, addedCards),
+        currentDeck: addCardToDeck(card, currentDeck),
+        addedCards: addCardToMap(card, addedCards),
         hasUnsavedChanges: true,
       };
 
@@ -212,5 +214,5 @@ function updateCardInDeck(card: Card, deck: Deck) {
 }
 
 function addCardToDeck(card: Card, deck: Deck) {
-  return { ...deck, cards: [card, ...deck.cards] };
+  return { ...deck, cards: [...deck.cards, card] };
 }

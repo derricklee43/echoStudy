@@ -6,6 +6,8 @@ import { FlashcardArrowIcon } from '../../assets/icons/flashcard-arrow-icon/flas
 import { Button } from '../button/button';
 import { Card } from '../../models/card';
 import { CardContent } from '../../models/card-content';
+import { useEffect } from 'react';
+import { useRef } from 'react';
 
 interface FlashcardProps {
   card: Card;
@@ -30,8 +32,23 @@ export const Flashcard = ({
   onRemoveClick,
   onSpeakerClick,
 }: FlashcardProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (cardRef.current === null || variant !== 'active') {
+      return;
+    }
+
+    if (!isCardTopInViewPort(cardRef.current)) {
+      cardRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  }, [variant]);
+
   return (
-    <div className={`flashcard ${variant}`}>
+    <div ref={cardRef} className={`flashcard ${variant}`}>
       {variant !== 'readonly' && getLeftButtonStrip(variant)}
       <CardFace
         variant={variant}
@@ -85,5 +102,10 @@ export const Flashcard = ({
 
   function handleBackFaceChange(cardContent: CardContent) {
     onCardChange?.({ ...card, back: cardContent });
+  }
+
+  function isCardTopInViewPort(cardDiv: HTMLDivElement) {
+    const { top } = cardDiv.getBoundingClientRect();
+    return top <= (window.innerHeight || document.documentElement.clientHeight);
   }
 };
