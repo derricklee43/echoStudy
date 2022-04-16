@@ -13,6 +13,7 @@ import {
   testJapaneseVerbsDeck,
   testNPTEPartNumberDeck,
 } from '../../models/mock/deck.mock';
+import { paths } from '../../routes';
 import './flashcard-decks.scss';
 
 // (+ add new deck) and (all decks)
@@ -75,13 +76,22 @@ export const FlashcardDecksPage = () => {
 
   function getDeckCovers() {
     return decks.map((deck) => (
-      <DeckCover key={deck.metaData.id} deck={deck} onStudyClick={noop} onEditClick={noop} />
+      <DeckCover
+        key={deck.metaData.id}
+        deck={deck}
+        onStudyClick={noop}
+        onEditClick={() => handleStudyClicked(deck.metaData.id)}
+      />
     ));
+  }
+
+  function handleStudyClicked(id: number) {
+    navigate(`${paths.editDeck}/${id}`);
   }
 
   function onAddDeckClicked() {
     // todo: maybe different route without any params (:deckId) since there is no 'deck' yet
-    navigate('/deck-editor/0');
+    navigate(paths.createDeck);
   }
 
   async function fetchDecksAndRefresh() {

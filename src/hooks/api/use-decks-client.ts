@@ -36,8 +36,19 @@ export function useDecksClient() {
   ///////////////
 
   // GET: /Decks/{id}
-  async function getDeckById(id: number): Promise<Deck> {
-    throw new Error('Not implemented');
+  async function getDeckById(id: string): Promise<Deck> {
+    const deckData = await fetchWrapper.get(`/Decks/${id}`);
+    return {
+      metaData: {
+        id: deckData['id'],
+        title: deckData['title'],
+        desc: deckData['description'],
+        access: deckData['access'],
+        frontLang: deckData['default_flang'],
+        backLang: deckData['default_blang'],
+      },
+      cards: [],
+    };
   }
 
   // GET: /Decks/UserEmail={userEmail}

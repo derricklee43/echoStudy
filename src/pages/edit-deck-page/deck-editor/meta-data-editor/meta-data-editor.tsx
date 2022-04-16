@@ -1,13 +1,13 @@
 import './meta-data-editor.scss';
 import React, { useState } from 'react';
-import { DeckLanguages, DeckMetaData, Language } from '../../../models/deck';
-import { Button } from '../../../components/button/button';
-import { TextBox } from '../../../components/text-box/text-box';
-import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
-import { DropDown } from '../../../components/drop-down/drop-down';
-import { TextArea } from '../../../components/text-area/text-area';
-import { PopupModal } from '../../../components/popup-modal/popup-modal';
-import { DropDownOption } from '../../../components/drop-down-options/drop-down-options';
+import { DeckLanguages, DeckMetaData, Language } from '../../../../models/deck';
+import { Button } from '../../../../components/button/button';
+import { TextBox } from '../../../../components/text-box/text-box';
+import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
+import { DropDown } from '../../../../components/drop-down/drop-down';
+import { TextArea } from '../../../../components/text-area/text-area';
+import { PopupModal } from '../../../../components/popup-modal/popup-modal';
+import { DropDownOption } from '../../../../components/drop-down-options/drop-down-options';
 
 interface DeckEditorProps {
   deckMetaData: DeckMetaData;
@@ -30,7 +30,7 @@ export const MetaDataEditor = ({
           onChange={handleDeckTitleChange}
           value={deckMetaData.title}
           label="title"
-          placeholder="add a title..."
+          placeholder="add a title"
         />
       </div>
       <div className="c-description-and-import-buttons">
