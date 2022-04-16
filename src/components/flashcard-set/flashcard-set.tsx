@@ -17,7 +17,7 @@ interface FlashcardSetProps {
 }
 
 export const FlashcardSet = ({
-  variant = 'editable',
+  variant = 'readonly',
   className = '',
   cards,
   initialActiveCardKey = '',
