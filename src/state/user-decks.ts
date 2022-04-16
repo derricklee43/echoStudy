@@ -9,7 +9,13 @@ export const userDecksState = atom<Deck[]>({
   default: [testEnglishDeck(0)],
 });
 
-export const SortRules = ['sequential', 'last created', 'random'] as const;
+export const SortRules = [
+  'sequential',
+  'last created',
+  'last updated',
+  'last studied',
+  'random',
+] as const;
 export type SortRule = typeof SortRules[number];
 
 // mutatable: sort order
@@ -33,11 +39,17 @@ export const userDecksSortedState = selector<Deck[]>({
       case 'last created':
         return decks.sort((a, b) => compare(b.metaData.dateCreated, a.metaData.dateCreated)); // descending
 
+      case 'last updated':
+        return decks.sort((a, b) => compare(b.metaData.dateUpdated, a.metaData.dateUpdated)); // descending
+
+      case 'last studied':
+        return decks.sort((a, b) => compare(b.metaData.dateTouched, a.metaData.dateTouched)); // descending
+
       case 'random':
         return shuffle(decks);
     }
   },
   cachePolicy_UNSTABLE: {
-    eviction: 'most-recent', // should evict when atoms since 'random' sort isn't determistic
+    eviction: 'most-recent', // should evict when atoms since 'random' sort isn't deterministic
   },
 });
