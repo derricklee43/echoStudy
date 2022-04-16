@@ -56,7 +56,7 @@ export const EditDeckPage = () => {
   function handleCreateDeckClick() {
     // Todo: create deck
     // Todo: navigate to view-deck page
-    navigateBackToDecks;
+    navigateBackToDecks();
   }
 
   function handleDeleteDeckClick() {

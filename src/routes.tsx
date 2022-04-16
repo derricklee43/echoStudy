@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { EditDeckPage } from './pages/edit-deck-page/edit-deck-page';
 import { FlashcardDecksPage } from './pages/decks/flashcard-decks';
+import { EditDeckPage } from './pages/edit-deck-page/edit-deck-page';
 import { ViewDeckPage } from './pages/view-deck-page/view-deck-page';
 
 export const enum paths {
