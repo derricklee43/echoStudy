@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { Card, createNewCard } from '../models/card';
+import { Card } from '../models/card';
 import { Deck, DeckMetaData } from '../models/deck';
 
 type CardMap = { [id: string]: Card };

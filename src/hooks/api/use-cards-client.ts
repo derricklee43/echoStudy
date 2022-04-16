@@ -1,6 +1,5 @@
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { Card, createNewCard } from '../../models/card';
-import { CardContent } from '../../models/card-content';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
