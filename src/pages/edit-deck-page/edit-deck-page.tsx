@@ -35,7 +35,7 @@ export const EditDeckPage = () => {
   return (
     <Fade className="edit-deck-page">
       <DeckEditor
-        isNewDeck={false}
+        isNewDeck={isNewDeck}
         initialDeck={deck}
         onCreateDeckClick={handleCreateDeckClick}
         onDeleteDeckClick={handleDeleteDeckClick}
