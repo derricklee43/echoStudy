@@ -51,8 +51,8 @@ export const ViewDeckPage = () => {
       <p className="view-deck-deck-description">{deck.metaData.desc}</p>
       <div>{`${deck.cards.length} cards`}</div>
       <div>{`created ${getFormattedDate(deck.metaData.dateCreated)}`}</div>
-
-      <BubbleDivider label="cards" className="view-deck-divider" />
+      <hr className="view-deck-divider" />
+      {/* <BubbleDivider label="cards" /> */}
       <FlashcardSet cards={deck.cards} />
     </Fade>
   );
