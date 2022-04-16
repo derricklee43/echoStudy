@@ -44,6 +44,7 @@ export const FlashcardSet = ({
             onDownClick={() => handleDownClick(index)}
             onUpClick={() => handleUpClick(index)}
             onRemoveClick={() => variant === 'editable' && onDeleteCardClick?.(card)}
+            onSpeakerClick={handleSpeakerClick}
           />
         </Reorder.Item>
       );
@@ -76,6 +77,15 @@ export const FlashcardSet = ({
   function handleCardReorder(newCards: Card[]) {
     if (variant === 'editable') {
       onCardReorder?.(newCards);
+    }
+  }
+
+  function handleSpeakerClick(audioFile: HTMLAudioElement) {
+    if (variant === 'readonly') {
+      // Todo: play audio
+      // I assume we are going to need some kind of audio orchestration to allow only one audio file to play
+      // and not queue them
+      console.log('Speaker clicked');
     }
   }
 };

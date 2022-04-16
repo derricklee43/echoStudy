@@ -3,6 +3,7 @@ import './button.scss';
 
 interface ButtonProps {
   children: React.ReactNode;
+  ariaLabel?: string;
   variant?: 'dark' | 'light' | 'invisible';
   size?: 'small' | 'medium';
   className?: string;
@@ -16,10 +17,15 @@ export const Button = ({
   size = 'small',
   bubbleOnClickEvent = true,
   children,
+  ariaLabel,
   onClick,
 }: ButtonProps) => {
   return (
-    <button className={`button ${variant} ${size} ${className}`} onClick={handleClick}>
+    <button
+      className={`button ${variant} ${size} ${className}`}
+      onClick={handleClick}
+      aria-label={ariaLabel}
+    >
       {children}
     </button>
   );
