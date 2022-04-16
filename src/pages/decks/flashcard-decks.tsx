@@ -1,43 +1,35 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Button } from '../../components/button/button';
 import { DeckCover } from '../../components/deck-cover/deck-cover';
 import { DropDownOption } from '../../components/drop-down-options/drop-down-options';
 import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { useFetchWrapper } from '../../hooks/api/use-fetch-wrapper';
 import { createNewDeck, Deck } from '../../models/deck';
 import {
-  testEnglishDeck,
-  testJapaneseVerbsDeck,
-  testNPTEPartNumberDeck,
-} from '../../models/mock/deck.mock';
+  userDecksState,
+  userDecksSortRuleState,
+  userDecksSortedState,
+  SortRule,
+  SortRules,
+} from '../../state/user-decks';
 import './flashcard-decks.scss';
 
 // (+ add new deck) and (all decks)
 const addNewDeckEntity: Deck = createNewDeck();
 addNewDeckEntity.metaData.title = '+ add new deck';
 
-let id = 0;
-const testDecks = [
-  testEnglishDeck(id++),
-  testJapaneseVerbsDeck(id++),
-  testNPTEPartNumberDeck(id++, 1),
-  testNPTEPartNumberDeck(id++, 2),
-  testNPTEPartNumberDeck(id++, 3),
-];
-
-// sort deck rules
-const sortRules = ['sequential', 'last created', 'random'];
-const sortRuleOptions = sortRules.map((item): DropDownOption => ({ id: item, value: item }));
-
 export const FlashcardDecksPage = () => {
   const navigate = useNavigate();
   const decksClient = useDecksClient();
 
-  const [decks, setDecks] = useState(testDecks);
-  const [sortOption, setSortOption] = useState(sortRules[1]);
+  const setUserDecks = useSetRecoilState(userDecksState); // global user decks
+
+  // sort rule & the deck with the sort rule applied
+  const [sortOption, setSortOption] = useRecoilState(userDecksSortRuleState);
+  const sortedDecks = useRecoilValue(userDecksSortedState);
 
   // fetch flashcard decks on load
   useEffect(() => {
@@ -50,10 +42,10 @@ export const FlashcardDecksPage = () => {
         <label>flashcard decks</label>
         <DropDown
           variant="dark"
-          options={sortRuleOptions}
+          options={SortRules.map((item) => ({ id: item, value: item }))}
           label="sort by"
           buttonLabel={sortOption}
-          onOptionSelect={(option: DropDownOption) => setSortOption(option.value as string)}
+          onOptionSelect={(option: DropDownOption) => setSortOption(option.value as SortRule)}
         />
       </div>
       <div className="deck-tile-container">
@@ -74,7 +66,7 @@ export const FlashcardDecksPage = () => {
   );
 
   function getDeckCovers() {
-    return decks.map((deck) => (
+    return sortedDecks.map((deck) => (
       <DeckCover key={deck.metaData.id} deck={deck} onStudyClick={noop} onEditClick={noop} />
     ));
   }
@@ -87,6 +79,6 @@ export const FlashcardDecksPage = () => {
   async function fetchDecksAndRefresh() {
     // todo: should get deck by user id in the future
     const fetchedDecks = await decksClient.getAllDecks();
-    setDecks(fetchedDecks);
+    setUserDecks(fetchedDecks);
   }
 };

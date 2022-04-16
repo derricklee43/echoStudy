@@ -1,5 +1,11 @@
 import { Deck, DeckMetaData } from '../deck';
 
+const mockDates = {
+  dateCreated: new Date(),
+  dateUpdated: new Date(),
+  dateTouched: new Date(),
+};
+
 export const testEnglishDeck = (id: number): Deck => {
   const metaData: DeckMetaData = {
     id: id,
@@ -8,6 +14,8 @@ export const testEnglishDeck = (id: number): Deck => {
     access: 'Private',
     frontLang: 'English',
     backLang: 'English',
+    ownerId: 'test-id',
+    ...mockDates,
   };
   return { metaData, cards: [] };
 };
@@ -20,6 +28,8 @@ export const testJapaneseVerbsDeck = (id: number): Deck => {
     access: 'Private',
     frontLang: 'English',
     backLang: 'English',
+    ownerId: 'test-id',
+    ...mockDates,
   };
   return { metaData, cards: [] };
 };
@@ -32,6 +42,8 @@ export const testNPTEPartNumberDeck = (id: number, partNumber: number): Deck => 
     access: 'Private',
     frontLang: 'English',
     backLang: 'English',
+    ownerId: 'test-id',
+    ...mockDates,
   };
   return { metaData, cards: [] };
 };
