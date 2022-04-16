@@ -8,6 +8,7 @@ import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { createNewDeck, Deck } from '../../models/deck';
+import { paths } from '../../routes';
 import {
   userDecksState,
   userDecksSortRuleState,
@@ -67,13 +68,22 @@ export const FlashcardDecksPage = () => {
 
   function getDeckCovers() {
     return sortedDecks.map((deck) => (
-      <DeckCover key={deck.metaData.id} deck={deck} onStudyClick={noop} onEditClick={noop} />
+      <DeckCover
+        key={deck.metaData.id}
+        deck={deck}
+        onStudyClick={noop}
+        onEditClick={() => handleEditClicked(deck.metaData.id)}
+      />
     ));
+  }
+
+  function handleEditClicked(id: number) {
+    navigate(`${paths.editDeck}/${id}`);
   }
 
   function onAddDeckClicked() {
     // todo: maybe different route without any params (:deckId) since there is no 'deck' yet
-    navigate('/deck-editor/0');
+    navigate(paths.createDeck);
   }
 
   async function fetchDecksAndRefresh() {

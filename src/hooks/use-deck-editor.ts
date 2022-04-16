@@ -4,12 +4,9 @@ import { Deck, DeckMetaData } from '../models/deck';
 
 type CardMap = { [id: string]: Card };
 
-interface DeckEditorState {
+interface DeckEditorReturn {
   deck: Deck;
   hasUnsavedChanges: boolean;
-}
-
-interface DeckEditorMethods {
   save: () => void;
   discardChanges: () => void;
   addCard: () => void;
@@ -17,6 +14,7 @@ interface DeckEditorMethods {
   updateCard: (card: Card) => void;
   updateMetaData: (metaData: DeckMetaData) => void;
   reorderCards: (cards: Card[]) => void;
+  setDeck: (newDeck: Deck) => void;
 }
 
 interface DeckReducerState {
@@ -33,6 +31,7 @@ interface DeckReducerDispatch {
   card?: Card;
   metaData?: DeckMetaData;
   cards?: Card[];
+  newDeck?: Deck;
 }
 
 const enum DECK_REDUCER_TYPE {
@@ -43,9 +42,10 @@ const enum DECK_REDUCER_TYPE {
   DELETE_CARD = 'DELETE_CARD',
   UPDATE_CARD = 'UPDATE_CARD',
   REORDER_CARDS = 'REORDER_CARDS',
+  SET_DECK = 'SET_DECK',
 }
 
-export const useDeckEditor = (deck: Deck): [state: DeckEditorState, methods: DeckEditorMethods] => {
+export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
   const [state, dispatch] = useReducer(deckEditorReducer, {
     currentDeck: deck,
     savedDeck: deck,
@@ -76,16 +76,27 @@ export const useDeckEditor = (deck: Deck): [state: DeckEditorState, methods: Dec
   function reorderCards(cards: Card[]) {
     dispatch({ type: DECK_REDUCER_TYPE.REORDER_CARDS, cards });
   }
+  function setDeck(newDeck: Deck) {
+    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck });
+  }
 
-  return [
-    { deck: state.currentDeck, hasUnsavedChanges: state.hasUnsavedChanges },
-    { addCard, deleteCard, updateCard, updateMetaData, save, discardChanges, reorderCards },
-  ];
+  return {
+    deck: state.currentDeck,
+    hasUnsavedChanges: state.hasUnsavedChanges,
+    addCard,
+    deleteCard,
+    updateCard,
+    updateMetaData,
+    save,
+    discardChanges,
+    reorderCards,
+    setDeck,
+  };
 };
 
 function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch): DeckReducerState {
   const { currentDeck, savedDeck, addedCards, deletedCards, updatedCards } = state;
-  const { type, card, cards, metaData } = action;
+  const { type, newDeck, card, cards, metaData } = action;
 
   switch (type) {
     case DECK_REDUCER_TYPE.ADD_CARD:
@@ -159,6 +170,18 @@ function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch)
         currentDeck: { ...currentDeck, cards: cards },
         hasUnsavedChanges: true,
       };
+
+    case DECK_REDUCER_TYPE.SET_DECK:
+      if (newDeck === undefined) throw new Error('action.deck must not be undefined');
+      return {
+        savedDeck: newDeck,
+        currentDeck: newDeck,
+        addedCards: {},
+        deletedCards: {},
+        updatedCards: {},
+        hasUnsavedChanges: false,
+      };
+
     default:
       throw new Error('unrecognized dispatch action type');
   }
