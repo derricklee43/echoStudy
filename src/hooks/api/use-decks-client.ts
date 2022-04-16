@@ -46,6 +46,10 @@ export function useDecksClient() {
         access: deckData['access'],
         frontLang: deckData['default_flang'],
         backLang: deckData['default_blang'],
+        ownerId: deckData['ownerId'],
+        dateCreated: new Date(deckData['date_created']),
+        dateUpdated: new Date(deckData['date_updated']),
+        dateTouched: new Date(deckData['date_touched']),
       },
       cards: [],
     };
