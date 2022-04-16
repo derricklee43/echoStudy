@@ -80,6 +80,10 @@ export function useDecksClient() {
           access: obj['access'],
           frontLang: obj['default_flang'],
           backLang: obj['default_blang'],
+          ownerId: obj['ownerId'],
+          dateCreated: new Date(obj['date_created']),
+          dateUpdated: new Date(obj['date_updated']),
+          dateTouched: new Date(obj['date_touched']),
         },
         cards: obj['cards'],
       };
@@ -102,6 +106,10 @@ export function useDecksClient() {
           access: obj['access'],
           frontLang: obj['default_flang'],
           backLang: obj['default_blang'],
+          ownerId: obj['ownerId'],
+          dateCreated: new Date(obj['date_created']),
+          dateUpdated: new Date(obj['date_updated']),
+          dateTouched: new Date(obj['date_touched']),
         },
         cards: obj['cards'],
       };

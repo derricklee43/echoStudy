@@ -13,6 +13,10 @@ export interface DeckMetaData {
   access: Access;
   frontLang: Language;
   backLang: Language;
+  ownerId: string;
+  dateCreated: Date;
+  dateUpdated: Date;
+  dateTouched: Date;
 }
 export interface Deck {
   metaData: DeckMetaData;
@@ -27,6 +31,10 @@ export function createNewDeck(): Deck {
     access: 'Private',
     frontLang: 'English',
     backLang: 'English',
+    ownerId: 'unknown-user',
+    dateCreated: new Date(),
+    dateUpdated: new Date(),
+    dateTouched: new Date(),
   };
   return { cards: [], metaData };
 }
