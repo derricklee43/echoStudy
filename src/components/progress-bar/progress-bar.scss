@@ -2,23 +2,23 @@
 
 $height: 10px;
 
-.progress-bar {
+.c-progress-bar {
   display: flex;
   flex-direction: column;
 
-  label.bar-label {
+  label.c-bar-label {
     font-size: 10px;
     white-space: nowrap;
   }
 
-  .outer-bar {
+  .c-outer-bar {
     background-color: $white;
     border: 1px solid $blue;
     border-radius: $height;
     height: $height;
     width: 100%;
 
-    .inner-bar {
+    .c-inner-bar {
       border: inherit;
       border-radius: inherit;
       height: $height;
@@ -31,7 +31,7 @@ $height: 10px;
   &.label-on-right {
     flex-direction: row-reverse;
 
-    label.bar-label {
+    label.c-bar-label {
       margin-left: 5px;
     }
   }

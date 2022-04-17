@@ -27,6 +27,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "coverage": "npm run test -- --coverage .",
     "lint": "npx eslint src test",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier src test --check",

@@ -66,8 +66,13 @@ export const FlashcardSet = ({
 
   function handleUpClick(index: number) {
     const newCards = [...cards];
-    newCards[index] = newCards.splice(index - 1, 1, cards[index])[0];
-    handleCardReorder(newCards);
+    if (index === 0) {
+      const [firstCard] = newCards.splice(index, 1);
+      handleCardReorder([...newCards, firstCard]);
+    } else {
+      newCards[index] = newCards.splice(index - 1, 1, cards[index])[0];
+      handleCardReorder(newCards);
+    }
   }
 
   function handleDownClick(index: number) {

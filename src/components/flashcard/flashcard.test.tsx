@@ -17,7 +17,7 @@ describe('Flashcard', () => {
     expect(screen.queryByRole('button', { name: 'trash' })).not.toBeInTheDocument();
   });
 
-  it('should show arrows and trash when not readonly', () => {
+  it('should show arrows and trash when not readonly (editable)', () => {
     const testCard = getTestFoxCard();
     render(<Flashcard variant="active" card={testCard} />);
     expect(screen.queryByRole('button', { name: 'up-arrow' })).toBeInTheDocument();

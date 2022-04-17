@@ -48,7 +48,7 @@ describe('CardFace', () => {
       />
     );
     userEvent.click(screen.getByRole('button', { name: 'speaker' }));
-    expect(mockOnSpeakerClick).toHaveBeenCalled();
+    expect(mockOnSpeakerClick).toBeCalled();
   });
 
   it('should call onFocus on focus', () => {
@@ -63,7 +63,7 @@ describe('CardFace', () => {
       />
     );
     userEvent.click(screen.getByPlaceholderText(TEST_PLACEHOLDER));
-    expect(mockOnFocus).toHaveBeenCalled();
+    expect(mockOnFocus).toBeCalled();
   });
 
   it('should call onChange on text change', () => {
@@ -78,6 +78,6 @@ describe('CardFace', () => {
       />
     );
     userEvent.type(screen.getByPlaceholderText(TEST_PLACEHOLDER), 't');
-    expect(mockOnChange).toHaveBeenCalledWith({ ...createNewCardContent(), text: 't' });
+    expect(mockOnChange).toBeCalledWith({ ...createNewCardContent(), text: 't' });
   });
 });

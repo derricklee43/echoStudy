@@ -9,18 +9,17 @@ export const createTestOptions = (size: number): DropDownOption[] =>
   }));
 
 export const TEST_OPTIONS_SINGLE: DropDownOption[] = createTestOptions(1);
-export const TEST_OPTIONS_SINGLE_VALUES: string[] = TEST_OPTIONS_SINGLE.map(getValueAsString)
+export const TEST_OPTIONS_SINGLE_VALUES: string[] = TEST_OPTIONS_SINGLE.map(getValueAsString);
 
 export const TEST_OPTIONS_SMALL: DropDownOption[] = createTestOptions(10);
-export const TEST_OPTIONS_SMALL_VALUES: string[] = TEST_OPTIONS_SMALL.map(getValueAsString)
+export const TEST_OPTIONS_SMALL_VALUES: string[] = TEST_OPTIONS_SMALL.map(getValueAsString);
 
 export const TEST_OPTIONS_MEDIUM: DropDownOption[] = createTestOptions(100);
-export const TEST_OPTIONS_MEDIUM_VALUES: string[] = TEST_OPTIONS_MEDIUM.map(getValueAsString)
+export const TEST_OPTIONS_MEDIUM_VALUES: string[] = TEST_OPTIONS_MEDIUM.map(getValueAsString);
 
 export const TEST_OPTIONS_LARGE: DropDownOption[] = createTestOptions(1000);
-export const TEST_OPTIONS_LARGE_VALUES: string[] = TEST_OPTIONS_LARGE.map(getValueAsString)
+export const TEST_OPTIONS_LARGE_VALUES: string[] = TEST_OPTIONS_LARGE.map(getValueAsString);
 
-
-function getValueAsString(option: DropDownOption){
+function getValueAsString(option: DropDownOption) {
   return option.value as string;
 }

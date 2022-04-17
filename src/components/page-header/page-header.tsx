@@ -10,7 +10,7 @@ interface PageHeaderProps {
 
 export const PageHeader = ({ label, onGoBackClick }: PageHeaderProps) => {
   return (
-    <div className="page-header">
+    <div className="c-page-header">
       <Button variant="invisible" onClick={onGoBackClick} className="go-back-button">
         <BackArrowIcon /> back to decks
       </Button>

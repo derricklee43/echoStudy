@@ -9,10 +9,10 @@ interface ProgressBarProps {
 
 export const ProgressBar = ({ percent, label, variant = 'label-on-top' }: ProgressBarProps) => {
   return (
-    <div className={`progress-bar ${variant}`}>
-      <label className="bar-label">{label}</label>
-      <div className="outer-bar">
-        {percent > 0 && <div className="inner-bar" style={{ width: `${percent}%` }}></div>}
+    <div className={`c-progress-bar ${variant}`}>
+      <label className="c-bar-label">{label}</label>
+      <div className="c-outer-bar">
+        {percent > 0 && <div className="c-inner-bar" style={{ width: `${percent}%` }}></div>}
       </div>
     </div>
   );
