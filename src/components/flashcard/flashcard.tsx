@@ -38,7 +38,7 @@ export const Flashcard = ({
       return;
     }
 
-    if (!isCardTopInViewPort(cardRef.current)) {
+    if (!isCardInViewPort(cardRef.current)) {
       cardRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
@@ -104,8 +104,8 @@ export const Flashcard = ({
     onCardChange?.({ ...card, back: cardContent });
   }
 
-  function isCardTopInViewPort(cardDiv: HTMLDivElement) {
+  function isCardInViewPort(cardDiv: HTMLDivElement) {
     const { top, bottom } = cardDiv.getBoundingClientRect();
-    return bottom >= 0 || top <= (window.innerHeight || document.documentElement.clientHeight);
+    return bottom >= 0 && top <= (window.innerHeight || document.documentElement.clientHeight);
   }
 };
