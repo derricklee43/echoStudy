@@ -69,11 +69,11 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       // Todo: add batching
     ];
     await Promise.all(promises);
-    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
+    setDeck(state.currentDeck);
   }
 
   function discardChanges() {
-    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.savedDeck });
+    setDeck(state.savedDeck);
   }
 
   function updateMetaData(metaData: DeckMetaData) {
