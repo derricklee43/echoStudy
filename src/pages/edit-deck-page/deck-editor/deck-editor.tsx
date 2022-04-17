@@ -11,6 +11,8 @@ import { usePrompt } from '../../../hooks/use-prompt';
 import { useDeckEditor } from '../../../hooks/use-deck-editor';
 import { Deck } from '../../../models/deck';
 import { useEffect } from 'react';
+import { useState } from 'react';
+import { createNewCard } from '../../../models/card';
 
 interface DeckEditorProps {
   initialDeck: Deck;
@@ -39,7 +41,7 @@ export const DeckEditor = ({
     reorderCards,
     setDeck,
   } = useDeckEditor(initialDeck); // get real deck and update tests
-
+  const [activeCardKey, setActiveCardKey] = useState('');
   usePrompt('Changes you made may not be saved.', hasUnsavedChanges); // prevent navigation if there are unsaved changes
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export const DeckEditor = ({
         onDeleteClick={onDeleteDeckClick}
       />
       {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
-      <Button onClick={addCard} size="medium" className="add-card-button">
+      <Button onClick={handleAddClick} size="medium" className="add-card-button">
         <PlusIcon />
         <label>new card</label>
       </Button>
@@ -103,11 +105,18 @@ export const DeckEditor = ({
         variant="editable"
         cards={deck.cards}
         className="deck-editor-flashcard-set"
+        initialActiveCardKey={activeCardKey}
         onCardReorder={reorderCards}
         onCardChange={updateCard}
         onDeleteCardClick={deleteCard}
       />
     );
+  }
+
+  function handleAddClick() {
+    const newCard = createNewCard();
+    setActiveCardKey(newCard.key);
+    addCard(newCard);
   }
 
   function handleSubmitClick() {
