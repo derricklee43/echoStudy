@@ -1,6 +1,5 @@
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { Card, createNewCard } from '../../models/card';
-import { CardContent } from '../../models/card-content';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -53,24 +52,7 @@ export function useCardsClient() {
   // GET: /Cards​/Deck={deckId}
   async function getCardsByDeckId(deckId: string): Promise<Card[]> {
     const cardsData = await fetchWrapper.get(`/Cards/Deck=${deckId}`);
-
-    const cards: Card[] = cardsData.map((obj: any): Card => {
-      const card = createNewCard();
-      card.id = obj['id'];
-      card.front = {
-        language: obj['flang'],
-        text: obj['ftext'],
-        audio: obj['faud'],
-      };
-      card.back = {
-        language: obj['blang'],
-        text: obj['btext'],
-        audio: obj['baud'],
-      };
-      return card;
-    });
-
-    return cards;
+    return cardsData.map(JsonToCard);
   }
 
   // GET: /Cards
@@ -121,4 +103,20 @@ export function useCardsClient() {
   async function deleteCardsByDeckId(deckId: number): Promise<void> {
     throw new Error('Not implemented');
   }
+}
+
+function JsonToCard(obj: any) {
+  const card = createNewCard();
+  card.id = obj['id'];
+  card.front = {
+    language: obj['flang'],
+    text: obj['ftext'],
+    audio: obj['faud'],
+  };
+  card.back = {
+    language: obj['blang'],
+    text: obj['btext'],
+    audio: obj['baud'],
+  };
+  return card;
 }
