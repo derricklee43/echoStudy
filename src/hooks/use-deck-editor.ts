@@ -1,6 +1,8 @@
 import { useReducer } from 'react';
 import { Card, createNewCard } from '../models/card';
 import { Deck, DeckMetaData } from '../models/deck';
+import { useCardsClient } from './api/use-cards-client';
+import { useDecksClient } from './api/use-decks-client';
 
 type CardMap = { [id: string]: Card };
 
@@ -35,8 +37,6 @@ interface DeckReducerDispatch {
 }
 
 const enum DECK_REDUCER_TYPE {
-  SAVE = 'SAVE',
-  DISCARD_CHANGES = 'DISCARD_CHANGES',
   UPDATE_META_DATA = 'UPDATE_META_DATA',
   ADD_CARD = 'ADD_CARD',
   DELETE_CARD = 'DELETE_CARD',
@@ -55,27 +55,47 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     deletedCards: {},
   });
 
-  function save() {
-    dispatch({ type: DECK_REDUCER_TYPE.SAVE });
+  const decksClient = useDecksClient();
+  const cardsClient = useCardsClient();
+
+  async function save() {
+    const deckId = state.currentDeck.metaData.id;
+    const promises = [
+      decksClient.updateDeckById(deckId, state.currentDeck),
+      ...Object.values(state.addedCards).map((card) => cardsClient.addCard(deckId, card)),
+      ...Object.values(state.updatedCards).map((card) => cardsClient.updateCardById(deckId, card)),
+      ...Object.values(state.deletedCards).map((card) => cardsClient.deleteCard(card)),
+      // Todo: we need to send the reordered cards too
+      // Todo: add batching
+    ];
+    await Promise.all(promises);
+    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
   }
+
   function discardChanges() {
-    dispatch({ type: DECK_REDUCER_TYPE.DISCARD_CHANGES });
+    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.savedDeck });
   }
+
   function updateMetaData(metaData: DeckMetaData) {
     dispatch({ type: DECK_REDUCER_TYPE.UPDATE_META_DATA, metaData });
   }
+
   function addCard() {
-    dispatch({ type: DECK_REDUCER_TYPE.ADD_CARD });
+    dispatch({ type: DECK_REDUCER_TYPE.ADD_CARD, card: createNewCard() });
   }
+
   function deleteCard(card: Card) {
     dispatch({ type: DECK_REDUCER_TYPE.DELETE_CARD, card });
   }
+
   function updateCard(card: Card) {
     dispatch({ type: DECK_REDUCER_TYPE.UPDATE_CARD, card });
   }
+
   function reorderCards(cards: Card[]) {
     dispatch({ type: DECK_REDUCER_TYPE.REORDER_CARDS, cards });
   }
+
   function setDeck(newDeck: Deck) {
     dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck });
   }
@@ -95,73 +115,46 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
 };
 
 function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch): DeckReducerState {
-  const { currentDeck, savedDeck, addedCards, deletedCards, updatedCards } = state;
+  const { currentDeck, addedCards, deletedCards, updatedCards } = state;
   const { type, newDeck, card, cards, metaData } = action;
 
   switch (type) {
     case DECK_REDUCER_TYPE.ADD_CARD:
-      const newCard = createNewCard();
+      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: addCardToDeck(newCard, currentDeck),
-        addedCards: addCardToMap(newCard, addedCards),
+        currentDeck: addCardToDeck(card, currentDeck),
+        addedCards: addCardToMap(card, addedCards),
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.DELETE_CARD:
-      if (card === undefined) {
-        throw new Error('action.card must not be undefined');
-      }
+      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
+        currentDeck: removeCardFromDeck(card, currentDeck),
         addedCards: removeCardFromMap(card, addedCards),
         updatedCards: removeCardFromMap(card, updatedCards),
         deletedCards: addCardToMap(card, deletedCards),
-        currentDeck: removeCardFromDeck(card, currentDeck),
         hasUnsavedChanges: true,
-      };
-
-    case DECK_REDUCER_TYPE.SAVE:
-      // Todo: make the API calls
-      // Todo: update the id's of new cards
-      return {
-        ...state,
-        savedDeck: currentDeck,
-        addedCards: {},
-        deletedCards: {},
-        updatedCards: {},
-        hasUnsavedChanges: false,
-      };
-
-    case DECK_REDUCER_TYPE.DISCARD_CHANGES:
-      return {
-        ...state,
-        currentDeck: savedDeck,
-        addedCards: {},
-        deletedCards: {},
-        updatedCards: {},
-        hasUnsavedChanges: false,
       };
 
     case DECK_REDUCER_TYPE.UPDATE_META_DATA:
       if (metaData === undefined) throw new Error('action.metaData must not be undefined');
-
       return { ...state, currentDeck: { ...currentDeck, metaData }, hasUnsavedChanges: true };
 
     case DECK_REDUCER_TYPE.UPDATE_CARD:
       if (card === undefined) throw new Error('action.card must not be undefined');
-
       return {
         ...state,
+        currentDeck: updateCardInDeck(card, currentDeck),
         addedCards: !card.id ? addCardToMap(card, addedCards) : addedCards,
         updatedCards: card.id ? addCardToMap(card, updatedCards) : updatedCards,
         hasUnsavedChanges: true,
-        currentDeck: updateCardInDeck(card, currentDeck),
       };
 
     case DECK_REDUCER_TYPE.REORDER_CARDS:
       if (cards === undefined) throw new Error('action.cards must not be undefined');
-
       // Todo: find reordered card
       // Todo: update reordered card
       // Todo: add card to updatedCards map
