@@ -105,7 +105,7 @@ export const Flashcard = ({
   }
 
   function isCardTopInViewPort(cardDiv: HTMLDivElement) {
-    const { top } = cardDiv.getBoundingClientRect();
-    return top <= (window.innerHeight || document.documentElement.clientHeight);
+    const { top, bottom } = cardDiv.getBoundingClientRect();
+    return bottom >= 0 || top <= (window.innerHeight || document.documentElement.clientHeight);
   }
 };
