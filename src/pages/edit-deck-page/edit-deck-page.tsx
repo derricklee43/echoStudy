@@ -60,12 +60,7 @@ export const EditDeckPage = () => {
 
   async function handleDeleteDeckClick() {
     if (!isNewDeck && deck !== undefined) {
-      // Todo: always throws. It looks like the response is bad but the deck is still deleted
-      try {
-        await deleteDeckById(deck.metaData.id);
-      } catch (e) {
-        console.error(e);
-      }
+      await deleteDeckById(deck.metaData.id);
     }
     navigateBackToDecks();
   }
