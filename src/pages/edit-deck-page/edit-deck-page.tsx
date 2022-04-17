@@ -15,7 +15,7 @@ export const EditDeckPage = () => {
   const { deckId } = useParams(); // via the param :deckId
   const location = useLocation();
   const navigate = useNavigate();
-  const { getDeckById } = useDecksClient();
+  const { getDeckById, deleteDeckById, addDeck } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
 
   const isNewDeck = location.pathname === paths.createDeck;
@@ -53,14 +53,20 @@ export const EditDeckPage = () => {
     setDeck(deck);
   }
 
-  function handleCreateDeckClick() {
-    // Todo: create deck
-    // Todo: navigate to view-deck page
-    navigateBackToDecks();
+  async function handleCreateDeckClick(deck: Deck) {
+    const addedDeck = await addDeck(deck);
+    navigate(`${paths.deck}/${addedDeck.metaData.id}`);
   }
 
-  function handleDeleteDeckClick() {
-    // Todo: delete deck
+  async function handleDeleteDeckClick() {
+    if (!isNewDeck && deck !== undefined) {
+      // Todo: always throws. It looks like the response is bad but the deck is still deleted
+      try {
+        await deleteDeckById(deck.metaData.id);
+      } catch (e) {
+        console.error(e);
+      }
+    }
     navigateBackToDecks();
   }
 

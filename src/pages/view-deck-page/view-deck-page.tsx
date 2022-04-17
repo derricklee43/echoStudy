@@ -43,7 +43,7 @@ export const ViewDeckPage = () => {
           <Button onClick={noop} size="medium">
             study
           </Button>
-          <Button onClick={() => navigate(`${paths.editDeck}\\${deckId}`)} size="medium">
+          <Button onClick={() => navigate(`${paths.editDeck}/${deckId}`)} size="medium">
             edit
           </Button>
         </div>
@@ -52,7 +52,6 @@ export const ViewDeckPage = () => {
       <div>{`${deck.cards.length} cards`}</div>
       <div>{`created ${getFormattedDate(deck.metaData.dateCreated)}`}</div>
       <hr className="view-deck-divider" />
-      {/* <BubbleDivider label="cards" /> */}
       <FlashcardSet cards={deck.cards} />
     </Fade>
   );

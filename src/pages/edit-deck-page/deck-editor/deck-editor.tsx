@@ -11,6 +11,7 @@ import { usePrompt } from '../../../hooks/use-prompt';
 import { useDeckEditor } from '../../../hooks/use-deck-editor';
 import { Deck } from '../../../models/deck';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 interface DeckEditorProps {
   initialDeck: Deck;
@@ -39,8 +40,9 @@ export const DeckEditor = ({
     reorderCards,
     setDeck,
   } = useDeckEditor(initialDeck); // get real deck and update tests
+  const [enablePrompt, setEnablePrompt] = useState(true);
 
-  usePrompt('Changes you made may not be saved.', hasUnsavedChanges); // prevent navigation if there are unsaved changes
+  usePrompt('Changes you made may not be saved.', enablePrompt && hasUnsavedChanges); // prevent navigation if there are unsaved changes
 
   useEffect(() => {
     setDeck(initialDeck);
@@ -110,13 +112,12 @@ export const DeckEditor = ({
     );
   }
 
-  function handleSubmitClick() {
+  async function handleSubmitClick() {
     if (isNewDeck) {
-      // Todo: await response and handle error
-      onCreateDeckClick(deck);
+      setEnablePrompt(false);
+      onCreateDeckClick(deck); // Todo: await and handle errors
     } else {
-      // Todo: await response and handle error
-      save();
+      save(); // Todo: await and handle errors
     }
   }
 };
