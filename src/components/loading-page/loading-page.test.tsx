@@ -11,7 +11,7 @@ describe('LoadingPage', () => {
   });
 
   it('should show label after delay', async () => {
-    render(<LoadingPage label={TEST_LABEL} delay={0.05} />); // 50 ms
+    render(<LoadingPage label={TEST_LABEL} labelDelay={0.05} />); // 50 ms
     expect(screen.queryByText(TEST_LABEL)).not.toBeVisible();
 
     await waitFor(() => expect(screen.queryByText(TEST_LABEL)).toBeVisible(), { timeout: 500 });
