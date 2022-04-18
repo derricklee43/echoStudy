@@ -1,6 +1,6 @@
 import React from 'react';
 import { DropDownOption, DropDownOptions } from './drop-down-options';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { noop } from '../../helpers/func';
 import {
@@ -16,15 +16,16 @@ describe('Button', () => {
     expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
   });
 
-  it('should hide when component rerenders with show as false', () => {
-    const { rerender, unmount } = render(
+  it('should hide when component rerenders with show as false', async () => {
+    const { rerender } = render(
       <DropDownOptions show={true} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />
     );
     expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
 
-    unmount(); // i think this is needed since AnimatePresence keeps old component alive despite wait(...)
     rerender(<DropDownOptions show={false} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />);
-    expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeNull();
+    await waitForElementToBeRemoved(() => screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0]), {
+      timeout: 500, // wrt `Fade` having transition duration of 0.2 (200ms)
+    });
   });
 
   it('should click the right dropdown option', () => {
