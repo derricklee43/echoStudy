@@ -6,9 +6,10 @@ import { motion } from 'framer-motion';
 interface LoadingPageProps {
   className?: string;
   label?: string;
+  labelDelay?: number; // in seconds
 }
 
-export const LoadingPage = ({ className = '', label = '' }: LoadingPageProps) => {
+export const LoadingPage = ({ className = '', label = '', labelDelay = 1.5 }: LoadingPageProps) => {
   const variants = {
     invisible: {
       opacity: 0,
@@ -16,7 +17,7 @@ export const LoadingPage = ({ className = '', label = '' }: LoadingPageProps) =>
     },
     visible: {
       opacity: 1,
-      transition: { delay: 1.5 },
+      transition: { delay: labelDelay },
       y: 0,
     },
   };

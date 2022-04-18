@@ -1,5 +1,11 @@
 import React from 'react';
-import { fireEvent, render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import { SearchBar } from './search-bar';
 import {
   TEST_OPTIONS_SINGLE,
@@ -69,12 +75,12 @@ describe('SearchBar', () => {
     const { container } = render(<SearchBar dropDownData={TEST_OPTIONS_SINGLE} />);
     const input = getSearchBarInput(container);
 
-    // // search 'test' and click the 'test0' option
+    // search 'test' and click the 'test0' option
     fireEvent.change(input, { target: { value: 'test' } });
     const optionTest0 = screen.getByText('test0');
     fireEvent.click(optionTest0);
 
-    // // check for autocomplete and hidden dropdown
+    // check for autocomplete and hidden dropdown
     expect(input).toHaveValue('test0');
 
     TEST_OPTIONS_SMALL_VALUES.splice(1).forEach((option) =>
@@ -108,6 +114,47 @@ describe('SearchBar', () => {
     TEST_OPTIONS_SMALL_VALUES.forEach((value) =>
       expect(screen.queryByText(value)).toBeInTheDocument()
     );
+  });
+
+  it('should fire `onEnterPressed` when the `enter` key is pressed', () => {
+    const mockOnEnter = jest.fn();
+    const { container } = render(
+      <SearchBar dropDownData={TEST_OPTIONS_SINGLE} onEnterPressed={mockOnEnter} />
+    );
+    const input = getSearchBarInput(container);
+
+    // type the word 'test'
+    fireEvent.change(input, { target: { value: 'test' } });
+    fireEvent.keyPress(input, { key: 'Enter', keyCode: 13 });
+    expect(mockOnEnter).toBeCalledWith('test');
+  });
+
+  it('should fire `onChange` when input is changed', () => {
+    const mockOnChange = jest.fn();
+    const { container } = render(
+      <SearchBar dropDownData={TEST_OPTIONS_SINGLE} onChange={mockOnChange} />
+    );
+    const input = getSearchBarInput(container);
+
+    // type the word 'test' character by chararacter
+    userEvent.type(input, 'test');
+    expect(mockOnChange).toBeCalledTimes(4);
+  });
+
+  it('should debounce `onDebouncedChange` when input is changed', async () => {
+    const mockOnDebouncedChange = jest.fn();
+    const { container } = render(
+      <SearchBar
+        dropDownData={TEST_OPTIONS_SINGLE}
+        onDebouncedChange={mockOnDebouncedChange}
+        debounceMs={50}
+      />
+    );
+    const input = getSearchBarInput(container);
+
+    // type the word 'test' character by chararacter
+    userEvent.type(input, 'test');
+    await waitFor(() => expect(mockOnDebouncedChange).toBeCalledWith('test'), { timeout: 500 });
   });
 
   function getSearchBarInput(container: HTMLElement): HTMLElement {

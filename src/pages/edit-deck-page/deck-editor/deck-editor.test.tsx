@@ -119,7 +119,7 @@ describe('DeckEditor', () => {
     userEvent.click(screen.getByText('advanced settings'));
     userEvent.click(screen.getByText('delete deck'));
 
-    expect(mockOnDeleteDeckClick).toHaveBeenCalled();
+    expect(mockOnDeleteDeckClick).toBeCalled();
   });
 
   it('should call onGoBackClick when go back is clicked', () => {
@@ -135,7 +135,7 @@ describe('DeckEditor', () => {
     );
     userEvent.click(screen.getByText('back to decks'));
 
-    expect(mockOnGoBackClick).toHaveBeenCalled();
+    expect(mockOnGoBackClick).toBeCalled();
   });
 
   it('should call onCreateDeckClick when create is clicked', () => {
@@ -151,7 +151,7 @@ describe('DeckEditor', () => {
     );
     userEvent.click(screen.getByText('create'));
 
-    expect(mockOnCreateDeckClick).toHaveBeenCalled();
+    expect(mockOnCreateDeckClick).toBeCalled();
   });
 
   it('should be reset when initialDeck is changed', () => {

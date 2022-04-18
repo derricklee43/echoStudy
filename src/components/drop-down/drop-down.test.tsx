@@ -77,6 +77,6 @@ describe('DropDown', () => {
     userEvent.click(screen.getByText(TEST_BUTTON_LABEL));
     userEvent.click(screen.getByText(TEST_OPTIONS_SMALL_VALUES[0]));
 
-    expect(mockOnOptionSelect).toHaveBeenCalledWith(TEST_OPTIONS_SMALL[0]);
+    expect(mockOnOptionSelect).toBeCalledWith(TEST_OPTIONS_SMALL[0]);
   });
 });
