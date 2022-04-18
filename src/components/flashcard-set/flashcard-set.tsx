@@ -4,11 +4,13 @@ import { Flashcard } from '../flashcard/flashcard';
 import { useState } from 'react';
 import { Reorder } from 'framer-motion';
 import { Card } from '../../models/card';
+import { useEffect } from 'react';
 
 interface FlashcardSetProps {
   variant?: 'readonly' | 'editable';
   className?: string;
   cards: Card[];
+  initialActiveCardKey?: string;
   onDeleteCardClick?: (card: Card) => void;
   onCardReorder?: (cards: Card[]) => void;
   onCardChange?: (card: Card) => void;
@@ -18,11 +20,17 @@ export const FlashcardSet = ({
   variant = 'readonly',
   className = '',
   cards,
+  initialActiveCardKey = '',
   onCardReorder,
   onDeleteCardClick,
   onCardChange,
 }: FlashcardSetProps) => {
-  const [activeCard, setActiveCard] = useState('');
+  const [activeCardKey, setActiveCardKey] = useState(initialActiveCardKey);
+
+  useEffect(() => {
+    setActiveCardKey(initialActiveCardKey);
+  }, [initialActiveCardKey]);
+
   return (
     <div className={`c-flashcard-set ${className}`}>
       <Reorder.Group axis="y" values={cards} onReorder={handleCardReorder}>
@@ -39,7 +47,7 @@ export const FlashcardSet = ({
             card={card}
             index={index + 1}
             variant={getCardVariant(card.key)}
-            onFocus={() => setActiveCard(card.key)}
+            onFocus={() => setActiveCardKey(card.key)}
             onCardChange={(card) => variant === 'editable' && onCardChange?.(card)}
             onDownClick={() => handleDownClick(index)}
             onUpClick={() => handleUpClick(index)}
@@ -53,7 +61,7 @@ export const FlashcardSet = ({
 
   function getCardVariant(cardKey: string) {
     if (variant === 'readonly') return 'readonly';
-    return activeCard === cardKey ? 'active' : 'inactive';
+    return activeCardKey === cardKey ? 'active' : 'inactive';
   }
 
   function handleUpClick(index: number) {

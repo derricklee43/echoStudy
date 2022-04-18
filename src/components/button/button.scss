@@ -34,4 +34,11 @@
     border: none;
     background-color: transparent;
   }
+
+  &.disabled {
+    cursor: default;
+    border-color: $light-blue;
+    color: $light-blue;
+    background-color: $dark-grey-blue;
+  }
 }

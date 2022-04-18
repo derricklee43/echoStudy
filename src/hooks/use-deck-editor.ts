@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useReducer } from 'react';
-import { Card, createNewCard } from '../models/card';
+import { Card } from '../models/card';
 import { Deck, DeckMetaData } from '../models/deck';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
@@ -9,9 +10,10 @@ type CardMap = { [id: string]: Card };
 interface DeckEditorReturn {
   deck: Deck;
   hasUnsavedChanges: boolean;
+  isSaving: boolean;
   save: () => void;
   discardChanges: () => void;
-  addCard: () => void;
+  addCard: (card: Card) => void;
   deleteCard: (card: Card) => void;
   updateCard: (card: Card) => void;
   updateMetaData: (metaData: DeckMetaData) => void;
@@ -46,6 +48,7 @@ const enum DECK_REDUCER_TYPE {
 }
 
 export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
+  const [isSaving, setIsSaving] = useState(false);
   const [state, dispatch] = useReducer(deckEditorReducer, {
     currentDeck: deck,
     savedDeck: deck,
@@ -69,7 +72,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       // Todo: add batching
     ];
     await Promise.all(promises);
-    setDeck(state.currentDeck);
+
+    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
   }
 
   function discardChanges() {
@@ -77,32 +81,38 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
   }
 
   function updateMetaData(metaData: DeckMetaData) {
-    dispatch({ type: DECK_REDUCER_TYPE.UPDATE_META_DATA, metaData });
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.UPDATE_META_DATA, metaData });
   }
-
-  function addCard() {
-    dispatch({ type: DECK_REDUCER_TYPE.ADD_CARD, card: createNewCard() });
+  function addCard(card: Card) {
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.ADD_CARD, card });
   }
 
   function deleteCard(card: Card) {
-    dispatch({ type: DECK_REDUCER_TYPE.DELETE_CARD, card });
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.DELETE_CARD, card });
   }
 
   function updateCard(card: Card) {
-    dispatch({ type: DECK_REDUCER_TYPE.UPDATE_CARD, card });
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.UPDATE_CARD, card });
   }
 
   function reorderCards(cards: Card[]) {
-    dispatch({ type: DECK_REDUCER_TYPE.REORDER_CARDS, cards });
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.REORDER_CARDS, cards });
   }
 
   function setDeck(newDeck: Deck) {
-    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck });
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck });
+  }
+
+  function dispatchIfSafe(dispatchArgs: DeckReducerDispatch) {
+    if (!isSaving) {
+      dispatch(dispatchArgs);
+    }
   }
 
   return {
     deck: state.currentDeck,
     hasUnsavedChanges: state.hasUnsavedChanges,
+    isSaving,
     addCard,
     deleteCard,
     updateCard,
@@ -205,5 +215,5 @@ function updateCardInDeck(card: Card, deck: Deck) {
 }
 
 function addCardToDeck(card: Card, deck: Deck) {
-  return { ...deck, cards: [card, ...deck.cards] };
+  return { ...deck, cards: [...deck.cards, card] };
 }

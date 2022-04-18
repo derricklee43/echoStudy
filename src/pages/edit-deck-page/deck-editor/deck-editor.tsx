@@ -11,6 +11,10 @@ import { usePrompt } from '../../../hooks/use-prompt';
 import { useDeckEditor } from '../../../hooks/use-deck-editor';
 import { Deck } from '../../../models/deck';
 import { useEffect } from 'react';
+import { useState } from 'react';
+import { createNewCard } from '../../../models/card';
+import { UpToggle } from '../../../animations/up-toggle';
+import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
 
 interface DeckEditorProps {
   initialDeck: Deck;
@@ -30,6 +34,7 @@ export const DeckEditor = ({
   const {
     deck,
     hasUnsavedChanges,
+    isSaving,
     updateCard,
     updateMetaData,
     addCard,
@@ -39,7 +44,7 @@ export const DeckEditor = ({
     reorderCards,
     setDeck,
   } = useDeckEditor(initialDeck); // get real deck and update tests
-
+  const [activeCardKey, setActiveCardKey] = useState('');
   usePrompt('Changes you made may not be saved.', hasUnsavedChanges); // prevent navigation if there are unsaved changes
 
   useEffect(() => {
@@ -50,7 +55,10 @@ export const DeckEditor = ({
     <div className="deck-editor">
       <div className="deck-editor-header">
         <PageHeader label={isNewDeck ? 'create deck' : 'edit deck'} onGoBackClick={onGoBackClick} />
-        {getSaveButtonAndLabel()}
+        <div className="deck-editor-save-buttons">
+          {getDiscardChangesButton()}
+          {getSaveButton()}
+        </div>
       </div>
       <MetaDataEditor
         deckMetaData={deck.metaData}
@@ -58,34 +66,51 @@ export const DeckEditor = ({
         onDeleteClick={onDeleteDeckClick}
       />
       {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
-      <Button onClick={addCard} size="medium" className="add-card-button">
+      <Button onClick={handleAddClick} size="medium" className="add-card-button">
         <PlusIcon />
         <label>new card</label>
       </Button>
     </div>
   );
 
-  function getSaveButtonAndLabel() {
+  function getSaveButton() {
     return (
-      <div>
-        <AnimatePresence>
-          {hasUnsavedChanges && (
-            <Fade>
-              <Button
-                variant="invisible"
-                onClick={discardChanges}
-                className={`discard-changes-button`}
-              >
-                discard changes
-              </Button>
-            </Fade>
-          )}
-        </AnimatePresence>
+      <Button
+        onClick={handleSubmitClick}
+        className="save-changes-button"
+        size="medium"
+        variant={isSaving ? 'disabled' : 'dark'}
+      >
+        <UpToggle
+          className="save-changes-content-container"
+          showDefault={!isSaving}
+          defaultContent="save"
+          alternateContent={
+            <div className="save-changes-loading">
+              <LoadingIcon />
+              <label>saving</label>
+            </div>
+          }
+        />
+      </Button>
+    );
+  }
 
-        <Button onClick={handleSubmitClick} size="medium">
-          {isNewDeck ? 'create' : 'save'}
-        </Button>
-      </div>
+  function getDiscardChangesButton() {
+    return (
+      <AnimatePresence>
+        {hasUnsavedChanges && !isSaving && (
+          <Fade>
+            <Button
+              variant="invisible"
+              onClick={discardChanges}
+              className={`discard-changes-button`}
+            >
+              discard changes
+            </Button>
+          </Fade>
+        )}
+      </AnimatePresence>
     );
   }
 
@@ -103,11 +128,18 @@ export const DeckEditor = ({
         variant="editable"
         cards={deck.cards}
         className="deck-editor-flashcard-set"
+        initialActiveCardKey={activeCardKey}
         onCardReorder={reorderCards}
         onCardChange={updateCard}
         onDeleteCardClick={deleteCard}
       />
     );
+  }
+
+  function handleAddClick() {
+    const newCard = createNewCard();
+    setActiveCardKey(newCard.key);
+    addCard(newCard);
   }
 
   function handleSubmitClick() {
