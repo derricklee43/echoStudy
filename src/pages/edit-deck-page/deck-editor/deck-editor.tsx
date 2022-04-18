@@ -57,7 +57,14 @@ export const DeckEditor = ({
         <PageHeader label={isNewDeck ? 'create deck' : 'edit deck'} onGoBackClick={onGoBackClick} />
         <div className="deck-editor-save-buttons">
           {getDiscardChangesButton()}
-          {getSaveButton()}
+          <Button
+            onClick={handleSubmitClick}
+            className="save-changes-button"
+            size="medium"
+            variant={isSaving ? 'disabled' : 'dark'}
+          >
+            {isNewDeck ? 'create' : getSaveButtonToggle()}
+          </Button>
         </div>
       </div>
       <MetaDataEditor
@@ -73,26 +80,19 @@ export const DeckEditor = ({
     </div>
   );
 
-  function getSaveButton() {
+  function getSaveButtonToggle() {
     return (
-      <Button
-        onClick={handleSubmitClick}
-        className="save-changes-button"
-        size="medium"
-        variant={isSaving ? 'disabled' : 'dark'}
-      >
-        <UpToggle
-          className="save-changes-content-container"
-          showDefault={!isSaving}
-          defaultContent="save"
-          alternateContent={
-            <div className="save-changes-loading">
-              <LoadingIcon />
-              <label>saving</label>
-            </div>
-          }
-        />
-      </Button>
+      <UpToggle
+        className="save-changes-content-container"
+        showDefault={!isSaving}
+        defaultContent="save"
+        alternateContent={
+          <div className="save-changes-loading">
+            <LoadingIcon />
+            <label>saving</label>
+          </div>
+        }
+      />
     );
   }
 
@@ -101,11 +101,7 @@ export const DeckEditor = ({
       <AnimatePresence>
         {hasUnsavedChanges && !isSaving && (
           <Fade>
-            <Button
-              variant="invisible"
-              onClick={discardChanges}
-              className={`discard-changes-button`}
-            >
+            <Button variant="invisible" onClick={discardChanges} className="discard-changes-button">
               discard changes
             </Button>
           </Fade>
