@@ -24,14 +24,11 @@ export const UpToggle = ({
     setIsFirstRender(false);
   }, []);
 
-  const yOffset = 30;
-  const activeVariant = { y: 0, opacity: 1 };
-  const inactiveVariant = isFirstRender ? activeVariant : { y: yOffset, opacity: 0 };
-
+  const inactiveVariant = { y: 30, opacity: 0 };
   const variants = {
-    active: activeVariant,
+    active: { y: 0, opacity: 1 },
     inactiveDefault: inactiveVariant,
-    inactiveAlternate: { ...inactiveVariant, y: yOffset * -1 },
+    inactiveAlternate: { ...inactiveVariant, y: inactiveVariant.y * -1 },
   };
 
   return (
@@ -41,12 +38,13 @@ export const UpToggle = ({
   );
 
   function getToggleContent(isDefaultContent: boolean) {
+    const inactiveAnimation = isDefaultContent ? 'inactiveDefault' : 'inactiveAlternate';
     return (
       <motion.div
         className="up-toggle-content"
         variants={variants}
         animate="active"
-        initial={isDefaultContent ? 'inactiveDefault' : 'inactiveAlternate'}
+        initial={!isFirstRender && inactiveAnimation}
         key={isDefaultContent ? 'default' : 'alternate'}
       >
         {isDefaultContent ? defaultContent : alternateContent}
