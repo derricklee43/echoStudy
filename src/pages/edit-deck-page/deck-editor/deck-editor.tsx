@@ -13,6 +13,8 @@ import { Deck } from '../../../models/deck';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { createNewCard } from '../../../models/card';
+import { UpToggle } from '../../../animations/up-toggle';
+import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
 
 interface DeckEditorProps {
   initialDeck: Deck;
@@ -32,6 +34,7 @@ export const DeckEditor = ({
   const {
     deck,
     hasUnsavedChanges,
+    isSaving,
     updateCard,
     updateMetaData,
     addCard,
@@ -52,7 +55,17 @@ export const DeckEditor = ({
     <div className="deck-editor">
       <div className="deck-editor-header">
         <PageHeader label={isNewDeck ? 'create deck' : 'edit deck'} onGoBackClick={onGoBackClick} />
-        {getSaveButtonAndLabel()}
+        <div className="deck-editor-save-buttons">
+          {getDiscardChangesButton()}
+          <Button
+            onClick={handleSubmitClick}
+            className={isNewDeck ? '' : 'save-changes-button'}
+            size="medium"
+            variant={isSaving ? 'disabled' : 'dark'}
+          >
+            {isNewDeck ? 'create' : getSaveButtonToggle()}
+          </Button>
+        </div>
       </div>
       <MetaDataEditor
         deckMetaData={deck.metaData}
@@ -67,27 +80,33 @@ export const DeckEditor = ({
     </div>
   );
 
-  function getSaveButtonAndLabel() {
+  function getSaveButtonToggle() {
     return (
-      <div>
-        <AnimatePresence>
-          {hasUnsavedChanges && (
-            <Fade>
-              <Button
-                variant="invisible"
-                onClick={discardChanges}
-                className={`discard-changes-button`}
-              >
-                discard changes
-              </Button>
-            </Fade>
-          )}
-        </AnimatePresence>
+      <UpToggle
+        className="save-changes-content-container"
+        showDefault={!isSaving}
+        defaultContent="save"
+        alternateContent={
+          <div className="save-changes-loading">
+            <LoadingIcon />
+            <label>saving</label>
+          </div>
+        }
+      />
+    );
+  }
 
-        <Button onClick={handleSubmitClick} size="medium">
-          {isNewDeck ? 'create' : 'save'}
-        </Button>
-      </div>
+  function getDiscardChangesButton() {
+    return (
+      <AnimatePresence>
+        {hasUnsavedChanges && !isSaving && (
+          <Fade>
+            <Button variant="invisible" onClick={discardChanges} className="discard-changes-button">
+              discard changes
+            </Button>
+          </Fade>
+        )}
+      </AnimatePresence>
     );
   }
 

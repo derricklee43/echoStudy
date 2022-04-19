@@ -24,7 +24,7 @@ export function useCardsClient() {
     updateCardScoreById,
 
     // removals
-    deleteCardById,
+    deleteCard,
     deleteCardsByUserId,
     deleteCardsByEmail,
     deleteCardsByDeckId,
@@ -82,7 +82,7 @@ export function useCardsClient() {
   //////////////////////
 
   // POST: /Cards
-  async function addCard(card: Card): Promise<Card> {
+  async function addCard(deckId: number, card: Card): Promise<Card> {
     throw new Error('Not implemented');
   }
 
@@ -102,7 +102,10 @@ export function useCardsClient() {
   /////////////////
 
   // DELETE: /Cards/{id}
-  async function deleteCardById(id: number): Promise<void> {
+  async function deleteCard(card: Card): Promise<void> {
+    if (card.id === undefined) {
+      throw new Error('card id cannot be undefined');
+    }
     throw new Error('Not implemented');
   }
 
