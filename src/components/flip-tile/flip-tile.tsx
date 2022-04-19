@@ -11,10 +11,10 @@ interface FlipTileProps {
 
 export const FlipTile = ({ isFlipped, front, back, className, onClick }: FlipTileProps) => {
   return (
-    <div className={`flip-tile ${className || ''}`} onClick={onClick}>
-      <div className={`card ${isFlipped ? 'is-flipped' : ''}`}>
-        <div className="front">{front}</div>
-        <div className="back">{back}</div>
+    <div className={`c-flip-tile ${className || ''}`} onClick={onClick}>
+      <div className={`c-card ${isFlipped ? 'is-flipped' : ''}`}>
+        <div className="c-front">{front}</div>
+        <div className="c-back">{back}</div>
       </div>
     </div>
   );

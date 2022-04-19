@@ -7,14 +7,34 @@
     align-items: center;
     justify-content: space-between;
 
-    .discard-changes-button {
-      @include standard-transition;
-      margin-right: 15px;
-      border: 1px solid transparent;
-      color: $light-blue;
+    .deck-editor-save-buttons {
+      @include flex-center;
+      .discard-changes-button {
+        @include standard-transition;
+        margin-right: 15px;
+        border: 1px solid transparent;
+        color: $light-blue;
 
-      &:hover {
-        color: $white;
+        &:hover {
+          color: $white;
+        }
+      }
+
+      .save-changes-button {
+        padding: 16px 12px;
+
+        .save-changes-content-container {
+          @include flex-center;
+          width: 75px;
+          height: 25px;
+
+          .save-changes-loading {
+            @include flex-center;
+            label {
+              padding-left: 5px;
+            }
+          }
+        }
       }
     }
   }

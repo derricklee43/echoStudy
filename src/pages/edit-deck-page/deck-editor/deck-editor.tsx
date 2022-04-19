@@ -12,6 +12,9 @@ import { useDeckEditor } from '../../../hooks/use-deck-editor';
 import { Deck } from '../../../models/deck';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { createNewCard } from '../../../models/card';
+import { UpToggle } from '../../../animations/up-toggle';
+import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
 
 interface DeckEditorProps {
   initialDeck: Deck;
@@ -31,6 +34,7 @@ export const DeckEditor = ({
   const {
     deck,
     hasUnsavedChanges,
+    isSaving,
     updateCard,
     updateMetaData,
     addCard,
@@ -40,9 +44,10 @@ export const DeckEditor = ({
     reorderCards,
     setDeck,
   } = useDeckEditor(initialDeck); // get real deck and update tests
-  const [enablePrompt, setEnablePrompt] = useState(true);
+  const [isPromptEnabled, setIsPromptEnabled] = useState(true);
+  const [activeCardKey, setActiveCardKey] = useState('');
 
-  usePrompt('Changes you made may not be saved.', enablePrompt && hasUnsavedChanges); // prevent navigation if there are unsaved changes
+  usePrompt('Changes you made may not be saved.', isPromptEnabled && hasUnsavedChanges); // prevent navigation if there are unsaved changes
 
   useEffect(() => {
     setDeck(initialDeck);
@@ -52,7 +57,17 @@ export const DeckEditor = ({
     <div className="deck-editor">
       <div className="deck-editor-header">
         <PageHeader label={isNewDeck ? 'create deck' : 'edit deck'} onGoBackClick={onGoBackClick} />
-        {getSaveButtonAndLabel()}
+        <div className="deck-editor-save-buttons">
+          {getDiscardChangesButton()}
+          <Button
+            onClick={handleSubmitClick}
+            className={isNewDeck ? '' : 'save-changes-button'}
+            size="medium"
+            variant={isSaving ? 'disabled' : 'dark'}
+          >
+            {isNewDeck ? 'create' : getSaveButtonToggle()}
+          </Button>
+        </div>
       </div>
       <MetaDataEditor
         deckMetaData={deck.metaData}
@@ -60,34 +75,40 @@ export const DeckEditor = ({
         onDeleteClick={onDeleteDeckClick}
       />
       {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
-      <Button onClick={addCard} size="medium" className="add-card-button">
+      <Button onClick={handleAddClick} size="medium" className="add-card-button">
         <PlusIcon />
         <label>new card</label>
       </Button>
     </div>
   );
 
-  function getSaveButtonAndLabel() {
+  function getSaveButtonToggle() {
     return (
-      <div>
-        <AnimatePresence>
-          {hasUnsavedChanges && (
-            <Fade>
-              <Button
-                variant="invisible"
-                onClick={discardChanges}
-                className={`discard-changes-button`}
-              >
-                discard changes
-              </Button>
-            </Fade>
-          )}
-        </AnimatePresence>
+      <UpToggle
+        className="save-changes-content-container"
+        showDefault={!isSaving}
+        defaultContent="save"
+        alternateContent={
+          <div className="save-changes-loading">
+            <LoadingIcon />
+            <label>saving</label>
+          </div>
+        }
+      />
+    );
+  }
 
-        <Button onClick={handleSubmitClick} size="medium">
-          {isNewDeck ? 'create' : 'save'}
-        </Button>
-      </div>
+  function getDiscardChangesButton() {
+    return (
+      <AnimatePresence>
+        {hasUnsavedChanges && !isSaving && (
+          <Fade>
+            <Button variant="invisible" onClick={discardChanges} className="discard-changes-button">
+              discard changes
+            </Button>
+          </Fade>
+        )}
+      </AnimatePresence>
     );
   }
 
@@ -105,6 +126,7 @@ export const DeckEditor = ({
         variant="editable"
         cards={deck.cards}
         className="deck-editor-flashcard-set"
+        initialActiveCardKey={activeCardKey}
         onCardReorder={reorderCards}
         onCardChange={updateCard}
         onDeleteCardClick={deleteCard}
@@ -112,9 +134,15 @@ export const DeckEditor = ({
     );
   }
 
-  async function handleSubmitClick() {
+  function handleAddClick() {
+    const newCard = createNewCard();
+    setActiveCardKey(newCard.key);
+    addCard(newCard);
+  }
+
+  function handleSubmitClick() {
     if (isNewDeck) {
-      setEnablePrompt(false);
+      setIsPromptEnabled(false);
       onCreateDeckClick(deck); // Todo: await and handle errors
     } else {
       save(); // Todo: await and handle errors

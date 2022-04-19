@@ -49,7 +49,7 @@ describe('MetaDataEditor', () => {
       />
     );
     userEvent.type(screen.getByDisplayValue(metaData.title), 't');
-    expect(mockOnDeckChange).toHaveBeenCalled();
+    expect(mockOnDeckChange).toBeCalled();
   });
 
   it('should call onDeckChange when meta data is changed', () => {
@@ -65,6 +65,6 @@ describe('MetaDataEditor', () => {
     userEvent.click(screen.getByText('advanced settings'));
     userEvent.click(screen.getByText('delete deck'));
 
-    expect(mockOnDeleteClick).toHaveBeenCalled();
+    expect(mockOnDeleteClick).toBeCalled();
   });
 });
