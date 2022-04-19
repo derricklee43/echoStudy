@@ -17,19 +17,21 @@ export const UpToggle = ({
   alternateContent,
 }: UpToggleProps) => {
   // prevents transition on mount
-  const [inactiveY, setInactiveY] = useState(0);
-  const [inactiveOpacity, setInactiveOpacity] = useState(1);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   // enables transition after mount
   useEffect(() => {
-    setInactiveY(-30);
-    setInactiveOpacity(0);
+    setIsFirstRender(false);
   }, []);
 
+  const yOffset = 30;
+  const activeVariant = { y: 0, opacity: 1 };
+  const inactiveVariant = isFirstRender ? activeVariant : { y: yOffset, opacity: 0 };
+
   const variants = {
-    active: { y: 0, opacity: 1 },
-    inactiveDefault: { y: inactiveY, opacity: inactiveOpacity },
-    inactiveAlternate: { y: -1 * inactiveY, opacity: inactiveOpacity },
+    active: activeVariant,
+    inactiveDefault: inactiveVariant,
+    inactiveAlternate: { ...inactiveVariant, y: yOffset * -1 },
   };
 
   return (

@@ -59,7 +59,7 @@ export const DeckEditor = ({
           {getDiscardChangesButton()}
           <Button
             onClick={handleSubmitClick}
-            className="save-changes-button"
+            className={isNewDeck ? '' : 'save-changes-button'}
             size="medium"
             variant={isSaving ? 'disabled' : 'dark'}
           >
