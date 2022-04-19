@@ -54,8 +54,8 @@ export const EditDeckPage = () => {
   }
 
   async function handleCreateDeckClick(deck: Deck) {
-    const addedDeck = await addDeck(deck);
-    navigate(`${paths.deck}/${addedDeck.metaData.id}`);
+    const newDeckId = await addDeck(deck);
+    navigate(`${paths.deck}/${newDeckId}`);
   }
 
   async function handleDeleteDeckClick() {

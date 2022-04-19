@@ -51,7 +51,7 @@ export function useCardsClient() {
 
   // GET: /Cards​/Deck={deckId}
   async function getCardsByDeckId(deckId: string): Promise<Card[]> {
-    const cardsData = await fetchWrapper.get(`/Cards/Deck=${deckId}`);
+    const cardsData = await fetchWrapper.get(`/Cards?deckId=${deckId}`);
     return cardsData.map(JsonToCard);
   }
 

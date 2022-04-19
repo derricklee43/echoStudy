@@ -73,32 +73,23 @@ export function useDecksClient() {
   //////////////////////
 
   // POST: /Decks
-  async function addDeck(deck: Deck) {
+  async function addDeck(deck: Deck): Promise<number> {
     const jsonDeck = {
       title: deck.metaData.title,
       description: deck.metaData.desc,
       access: 'Public',
       default_flang: deck.metaData.frontLang,
       default_blang: deck.metaData.backLang,
-      userEmail: 'JANEDOE@GMAIL.COM', // Todo: replace with real user
-      cardIds: [],
+      userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0', // Todo: replace with id/token
     };
-    const response = await fetchWrapper.post('/Decks', jsonDeck);
-    return {
-      metaData: {
-        id: response['deckID'], // when adding a deck response use deckId instead of id: request change
-        title: response['title'],
-        desc: response['description'],
-        access: response['access'],
-        frontLang: response['default_flang'],
-        backLang: response['default_blang'],
-        ownerId: response['ownerId'],
-        dateCreated: new Date(response['date_created']),
-        dateUpdated: new Date(response['date_updated']),
-        dateTouched: new Date(response['date_touched']),
-      },
-      cards: [],
-    };
+
+    const { id } = await fetchWrapper.post('/Decks', jsonDeck);
+
+    if (isNaN(id)) {
+      throw new Error('received id was not a number');
+    }
+
+    return id;
   }
 
   // PUT: /Decks/{id}
@@ -118,7 +109,7 @@ export function useDecksClient() {
 
   // DELETE: /Decks/{id}
   async function deleteDeckById(id: number): Promise<void> {
-    return await fetchWrapper.delete(`/Decks/${id}`);
+    return fetchWrapper.post(`/Decks/Delete/${id}`);
   }
 
   // DELETE: /Decks/DeleteUserDecks={userId}
