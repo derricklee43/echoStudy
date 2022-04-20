@@ -47,6 +47,8 @@ export const DeckEditor = ({
   const [isPromptEnabled, setIsPromptEnabled] = useState(true);
   const [activeCardKey, setActiveCardKey] = useState('');
 
+  const isSaveButtonDisabled = isSaving || !deck.metaData.title || !deck.metaData.desc;
+
   usePrompt('Changes you made may not be saved.', isPromptEnabled && hasUnsavedChanges); // prevent navigation if there are unsaved changes
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export const DeckEditor = ({
             onClick={handleSubmitClick}
             className={isNewDeck ? '' : 'save-changes-button'}
             size="medium"
-            variant={isSaving ? 'disabled' : 'dark'}
+            variant={isSaveButtonDisabled ? 'disabled' : 'dark'}
           >
             {isNewDeck ? 'create' : getSaveButtonToggle()}
           </Button>

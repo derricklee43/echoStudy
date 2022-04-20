@@ -24,14 +24,17 @@ export const CardFace = ({
   onChange,
   onFocus,
 }: CardFaceProps) => {
+  const isReadonly = variant === 'readonly';
+  const hasText = cardContent.text.length !== 0;
+
   return (
     <div className={`card-face ${className}`}>
-      {variant === 'readonly' && getSpeaker()}
+      {isReadonly && hasText && getSpeaker()}
       {variant === 'active' && getKababMenu()}
       <input
-        disabled={variant === 'readonly'}
+        disabled={isReadonly}
         className={`content ${variant}`}
-        placeholder={placeholder}
+        placeholder={!isReadonly ? placeholder : undefined}
         value={cardContent.text}
         onChange={handleCardTextChange}
         onFocus={onFocus}
