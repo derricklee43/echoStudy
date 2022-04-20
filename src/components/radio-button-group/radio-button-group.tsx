@@ -1,34 +1,32 @@
 import './radio-button-group.scss';
 import React from 'react';
 import { Button } from '../../components/button/button';
-import { DropDownOption } from '../drop-down-options/drop-down-options';
 
-// Todo: they are the same, maybe generalize??
-export type RadioButtonOption = DropDownOption;
+export type RadioButtonOptions = Record<string, React.ReactNode>;
 
 interface ImportCardsPopupProps {
   className?: string;
-  radioButtonOptions: RadioButtonOption[];
-  selectedButton: RadioButtonOption;
-  onButtonSelect: (radioButton: RadioButtonOption) => void;
+  radioButtonOptions: RadioButtonOptions;
+  selectedButtonKey: string;
+  onButtonSelect: (radioButtonKey: string) => void;
 }
 
 export const RadioButtonGroup = ({
   className = '',
   radioButtonOptions,
-  selectedButton,
+  selectedButtonKey,
   onButtonSelect,
 }: ImportCardsPopupProps) => {
   return (
     <div className={`radio-button-group ${className}`}>
-      {radioButtonOptions.map((option) => (
+      {Object.entries(radioButtonOptions).map(([key, buttonContent]) => (
         <Button
-          key={option.id}
+          key={key}
           className="button-group-radio-button"
-          variant={option.id === selectedButton.id ? 'dark' : 'light'}
-          onClick={() => onButtonSelect(option)}
+          variant={key === selectedButtonKey ? 'dark' : 'light'}
+          onClick={() => onButtonSelect(key)}
         >
-          {option.value}
+          {buttonContent}
         </Button>
       ))}
     </div>

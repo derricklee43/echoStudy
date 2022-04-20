@@ -8,7 +8,7 @@ import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
 import { Card, createNewCard } from '../../models/card';
 import {
   RadioButtonGroup,
-  RadioButtonOption,
+  RadioButtonOptions,
 } from '../../components/radio-button-group/radio-button-group';
 
 interface ImportCardsPopupProps {
@@ -16,18 +16,19 @@ interface ImportCardsPopupProps {
   onClose: (importedCards: Card[]) => void;
 }
 
-const termDefSeparatorOptions: RadioButtonOption[] = [
-  { id: ',', value: 'commas' },
-  { id: ' ', value: 'spaces' },
-];
-const cardSeparatorOptions: RadioButtonOption[] = [
-  { id: ';', value: 'semicolons' },
-  { id: '\n', value: 'new lines' },
-];
+const termDefSeparatorOptions: RadioButtonOptions = {
+  ',': 'commas',
+  ' ': 'spaces',
+};
+
+const cardSeparatorOptions: RadioButtonOptions = {
+  ';': 'semicolons',
+  '\n': 'new lines',
+};
 
 export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) => {
-  const [termDefSeparator, setTermDefSeparator] = useState(termDefSeparatorOptions[0]);
-  const [cardSeparator, setCardSeparator] = useState(cardSeparatorOptions[0]);
+  const [termDefSeparator, setTermDefSeparator] = useState('');
+  const [cardSeparator, setCardSeparator] = useState('');
   const [textAreaValue, setTextAreaValue] = useState('');
 
   const isImportable = termDefSeparator && cardSeparator && textAreaValue.length !== 0;
@@ -40,13 +41,13 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
         </div>
         <RadioButtonGroup
           radioButtonOptions={termDefSeparatorOptions}
-          selectedButton={termDefSeparator}
+          selectedButtonKey={termDefSeparator}
           onButtonSelect={setTermDefSeparator}
         />
         <div className="import-cards-list-item-label">2. what separates each card?</div>
         <RadioButtonGroup
           radioButtonOptions={cardSeparatorOptions}
-          selectedButton={cardSeparator}
+          selectedButtonKey={cardSeparator}
           onButtonSelect={setCardSeparator}
         />
         <div className="import-cards-list-item-label">3. add your cards</div>
@@ -84,13 +85,21 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
   );
 
   function handleImportClick() {
-    const newCards = textAreaValue.split(cardSeparator.id).map((cardText) => {
-      const [frontText, backText] = cardText.split(termDefSeparator.id);
+    const cardTextArrays = textAreaValue.split(cardSeparator).map((cardText) => {
+      return cardText.split(termDefSeparator);
+    });
+
+    const wellFormedCardTextArr = cardTextArrays.filter(
+      (cardTextArr) => cardTextArr.length >= 2 && (cardTextArr[0] || cardTextArr[1])
+    );
+
+    const newCards = wellFormedCardTextArr.map(([frontText, backText]) => {
       const card = createNewCard();
       card.front.text = frontText;
       card.back.text = backText;
       return card;
     });
+
     setTextAreaValue('');
     onClose(newCards);
   }

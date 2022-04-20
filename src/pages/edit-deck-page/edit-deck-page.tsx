@@ -27,7 +27,7 @@ export const EditDeckPage = () => {
     } else {
       fetchDeckAndRefresh();
     }
-  }, [location]);
+  }, [location, deckId]);
 
   if (deck === undefined) {
     return <LoadingPage label="loading deck..." />;
@@ -40,12 +40,13 @@ export const EditDeckPage = () => {
         initialDeck={deck}
         onCreateDeckClick={handleCreateDeckClick}
         onDeleteDeckClick={handleDeleteDeckClick}
-        onGoBackClick={navigateBackToDecks}
+        onGoBackClick={handleGoBackClick}
       />
     </Fade>
   );
 
   async function fetchDeckAndRefresh() {
+    setDeck(undefined);
     if (deckId === undefined) {
       throw new Error('deckId cannot be undefined');
     }
@@ -57,7 +58,7 @@ export const EditDeckPage = () => {
   async function handleCreateDeckClick(deck: Deck) {
     const newDeckId = await addDeck(deck);
     await addCards(deck.cards, newDeckId);
-    navigate(`${paths.deck}/${newDeckId}`);
+    navigateToViewDeck(newDeckId);
   }
 
   async function handleDeleteDeckClick() {
@@ -67,7 +68,17 @@ export const EditDeckPage = () => {
     navigateBackToDecks();
   }
 
+  function handleGoBackClick() {
+    !isNewDeck && deck !== undefined
+      ? navigateToViewDeck(deck?.metaData.id)
+      : navigateBackToDecks();
+  }
+
   function navigateBackToDecks() {
     navigate(paths.decks);
+  }
+
+  function navigateToViewDeck(id: number) {
+    navigate(`${paths.deck}/${id}`);
   }
 };

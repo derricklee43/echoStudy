@@ -58,7 +58,11 @@ export const DeckEditor = ({
   return (
     <div className="deck-editor">
       <div className="deck-editor-header">
-        <PageHeader label={isNewDeck ? 'create deck' : 'edit deck'} onGoBackClick={onGoBackClick} />
+        <PageHeader
+          label={isNewDeck ? 'create deck' : 'edit deck'}
+          goBackLabel={isNewDeck ? 'back to decks' : 'back to deck'}
+          onGoBackClick={onGoBackClick}
+        />
         <div className="deck-editor-save-buttons">
           {getDiscardChangesButton()}
           <Button
@@ -139,7 +143,7 @@ export const DeckEditor = ({
   }
 
   function handleImportedCards(cards: Card[]) {
-    cards.reverse().forEach((card) => addCard(card));
+    cards.forEach((card) => addCard(card));
   }
 
   function handleAddClick() {
