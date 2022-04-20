@@ -4,6 +4,7 @@ import { FlipTile } from '../flip-tile/flip-tile';
 import { ProgressBar } from '../progress-bar/progress-bar';
 import { Button } from '../button/button';
 import { Deck } from '../../models/deck';
+import { motion } from 'framer-motion';
 
 interface DeckCoverProps {
   flippable?: boolean;
@@ -23,14 +24,21 @@ export const DeckCover = ({
   // false => show front; true => show back
   const [flipped, setFlipped] = useState(false);
 
+  const springTransition = {
+    type: 'spring',
+    damping: 25,
+    stiffness: 120,
+  };
+
   return (
-    <FlipTile
-      className="deck-cover"
-      isFlipped={flippable && flipped}
-      front={getCoverFront()}
-      back={getCoverBack()}
-      onClick={onClickHandler}
-    />
+    <motion.div key={deck.metaData.id} layout transition={springTransition} className="deck-cover">
+      <FlipTile
+        isFlipped={flippable && flipped}
+        front={getCoverFront()}
+        back={getCoverBack()}
+        onClick={onClickHandler}
+      />
+    </motion.div>
   );
 
   function onClickHandler(event: React.MouseEvent) {
