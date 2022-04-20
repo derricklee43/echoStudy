@@ -17,6 +17,7 @@ export const EditDeckPage = () => {
   const navigate = useNavigate();
   const { getDeckById, deleteDeckById, addDeck } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
+  const { addCards } = useCardsClient();
 
   const isNewDeck = location.pathname === paths.createDeck;
 
@@ -55,6 +56,7 @@ export const EditDeckPage = () => {
 
   async function handleCreateDeckClick(deck: Deck) {
     const newDeckId = await addDeck(deck);
+    await addCards(deck.cards, newDeckId);
     navigate(`${paths.deck}/${newDeckId}`);
   }
 

@@ -10,5 +10,5 @@ export interface CardContent {
 }
 
 export function createNewCardContent(): CardContent {
-  return { text: '', audio: new Audio(), language: 'Default' };
+  return { text: '', audio: new Audio(), language: 'English' }; // Todo change default language back to 'Default'
 }

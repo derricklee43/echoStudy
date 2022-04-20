@@ -62,18 +62,23 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
   const cardsClient = useCardsClient();
 
   async function save() {
-    const deckId = state.currentDeck.metaData.id;
-    const promises = [
-      decksClient.updateDeckById(deckId, state.currentDeck),
-      ...Object.values(state.addedCards).map((card) => cardsClient.addCard(deckId, card)),
-      ...Object.values(state.updatedCards).map((card) => cardsClient.updateCardById(deckId, card)),
-      ...Object.values(state.deletedCards).map((card) => cardsClient.deleteCard(card)),
-      // Todo: we need to send the reordered cards too
-      // Todo: add batching
-    ];
-    await Promise.all(promises);
-
-    dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
+    setIsSaving(true);
+    try {
+      const deckId = state.currentDeck.metaData.id;
+      const promises = [
+        decksClient.updateDeckById(state.currentDeck),
+        cardsClient.addCards(Object.values(state.addedCards), deckId),
+        cardsClient.updateCardsById(Object.values(state.updatedCards)),
+        cardsClient.deleteCards(Object.values(state.deletedCards)),
+        // Todo: we need to send the reordered cards too
+        // Todo: add batching
+      ];
+      await Promise.all(promises);
+      dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
+    } catch (e) {
+      console.error(e);
+    }
+    setIsSaving(false);
   }
 
   function discardChanges() {
