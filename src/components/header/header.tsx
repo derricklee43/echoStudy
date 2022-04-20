@@ -12,6 +12,7 @@ interface HeaderProps {
 
 export const Header = ({ decks }: HeaderProps) => {
   const navigate = useNavigate();
+
   return (
     <div className="c-header">
       <div className="c-header-content">

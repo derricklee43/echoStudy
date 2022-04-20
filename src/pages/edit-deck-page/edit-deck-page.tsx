@@ -27,7 +27,7 @@ export const EditDeckPage = () => {
     } else {
       fetchDeckAndRefresh();
     }
-  }, [location]);
+  }, [location, deckId]);
 
   if (deck === undefined) {
     return <LoadingPage label="loading deck..." />;
@@ -46,6 +46,7 @@ export const EditDeckPage = () => {
   );
 
   async function fetchDeckAndRefresh() {
+    setDeck(undefined);
     if (deckId === undefined) {
       throw new Error('deckId cannot be undefined');
     }
