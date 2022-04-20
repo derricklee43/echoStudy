@@ -2,7 +2,7 @@ import './view-deck-page.scss';
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { createNewDeck, Deck } from '../../models/deck';
+import { Deck } from '../../models/deck';
 import { useCardsClient } from '../../hooks/api/use-cards-client';
 import { LoadingPage } from '../../components/loading-page/loading-page';
 import { useState } from 'react';
@@ -11,7 +11,6 @@ import { paths } from '../../routes';
 import { PageHeader } from '../../components/page-header/page-header';
 import { Button } from '../../components/button/button';
 import { noop } from '../../helpers/func';
-import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
 import { FlashcardSet } from '../../components/flashcard-set/flashcard-set';
 
 export const ViewDeckPage = () => {
@@ -21,15 +20,9 @@ export const ViewDeckPage = () => {
   const { getDeckById } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
 
-  const isNewDeck = location.pathname === paths.createDeck;
-
   useEffect(() => {
-    if (isNewDeck) {
-      setDeck(createNewDeck());
-    } else {
-      fetchDeckAndRefresh();
-    }
-  }, [location]);
+    fetchDeckAndRefresh();
+  }, [location, deckId]);
 
   if (deck === undefined) {
     return <LoadingPage label="loading deck..." />;
@@ -38,7 +31,11 @@ export const ViewDeckPage = () => {
   return (
     <Fade className="view-deck-page">
       <div className="view-deck-header">
-        <PageHeader label={deck.metaData.title} onGoBackClick={navigateBackToDecks} />
+        <PageHeader
+          label={deck.metaData.title}
+          onGoBackClick={navigateBackToDecks}
+          goBackLabel="back to decks"
+        />
         <div>
           <Button onClick={noop} size="medium">
             study
@@ -63,6 +60,7 @@ export const ViewDeckPage = () => {
   }
 
   async function fetchDeckAndRefresh() {
+    setDeck(undefined);
     if (deckId === undefined) {
       throw new Error('deckId cannot be undefined'); // Todo: maybe route to a 404 page??
     }
