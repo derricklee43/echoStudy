@@ -5,14 +5,15 @@ import { BackArrowIcon } from '../../assets/icons/back-arrow-icon/back-arrow-ico
 
 interface PageHeaderProps {
   label: string;
+  goBackLabel: string;
   onGoBackClick: (event: React.MouseEvent) => void;
 }
 
-export const PageHeader = ({ label, onGoBackClick }: PageHeaderProps) => {
+export const PageHeader = ({ label, goBackLabel, onGoBackClick }: PageHeaderProps) => {
   return (
     <div className="c-page-header">
       <Button variant="invisible" onClick={onGoBackClick} className="go-back-button">
-        <BackArrowIcon /> back to decks
+        <BackArrowIcon /> {goBackLabel}
       </Button>
       <label>{label}</label>
     </div>

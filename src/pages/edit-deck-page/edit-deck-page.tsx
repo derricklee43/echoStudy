@@ -40,7 +40,7 @@ export const EditDeckPage = () => {
         initialDeck={deck}
         onCreateDeckClick={handleCreateDeckClick}
         onDeleteDeckClick={handleDeleteDeckClick}
-        onGoBackClick={navigateBackToDecks}
+        onGoBackClick={handleGoBackClick}
       />
     </Fade>
   );
@@ -57,7 +57,7 @@ export const EditDeckPage = () => {
   async function handleCreateDeckClick(deck: Deck) {
     const newDeckId = await addDeck(deck);
     await addCards(deck.cards, newDeckId);
-    navigate(`${paths.deck}/${newDeckId}`);
+    navigateToViewDeck(newDeckId);
   }
 
   async function handleDeleteDeckClick() {
@@ -67,7 +67,17 @@ export const EditDeckPage = () => {
     navigateBackToDecks();
   }
 
+  function handleGoBackClick() {
+    !isNewDeck && deck !== undefined
+      ? navigateToViewDeck(deck?.metaData.id)
+      : navigateBackToDecks();
+  }
+
   function navigateBackToDecks() {
     navigate(paths.decks);
+  }
+
+  function navigateToViewDeck(id: number) {
+    navigate(`${paths.deck}/${id}`);
   }
 };

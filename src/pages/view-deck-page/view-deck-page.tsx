@@ -21,15 +21,9 @@ export const ViewDeckPage = () => {
   const { getDeckById } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
 
-  const isNewDeck = location.pathname === paths.createDeck;
-
   useEffect(() => {
-    if (isNewDeck) {
-      setDeck(createNewDeck());
-    } else {
-      fetchDeckAndRefresh();
-    }
-  }, [location]);
+    fetchDeckAndRefresh();
+  }, [location, deckId]);
 
   if (deck === undefined) {
     return <LoadingPage label="loading deck..." />;
@@ -38,7 +32,11 @@ export const ViewDeckPage = () => {
   return (
     <Fade className="view-deck-page">
       <div className="view-deck-header">
-        <PageHeader label={deck.metaData.title} onGoBackClick={navigateBackToDecks} />
+        <PageHeader
+          label={deck.metaData.title}
+          onGoBackClick={navigateBackToDecks}
+          goBackLabel="back to decks"
+        />
         <div>
           <Button onClick={noop} size="medium">
             study
