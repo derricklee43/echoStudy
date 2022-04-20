@@ -26,7 +26,7 @@ describe('Flashcard', () => {
   });
 
   it('should show placeholder when card is empty', () => {
-    render(<Flashcard variant="readonly" card={createNewCard()} />);
+    render(<Flashcard variant="active" card={createNewCard()} />);
     expect(screen.queryByPlaceholderText('add term')).toBeInTheDocument();
     expect(screen.queryByPlaceholderText('add definition')).toBeInTheDocument();
   });
