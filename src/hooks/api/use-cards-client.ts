@@ -20,11 +20,14 @@ export function useCardsClient() {
 
     // adds & updates
     addCard,
-    updateCardById, // there exists the same endpoint for PATCH, but logic seems to be quite similar
+    addCards,
+    updateCardById,
+    updateCardsById,
     updateCardScoreById,
 
     // removals
     deleteCard,
+    deleteCards,
     deleteCardsByUserId,
     deleteCardsByEmail,
     deleteCardsByDeckId,
@@ -65,13 +68,28 @@ export function useCardsClient() {
   //////////////////////
 
   // POST: /Cards
-  async function addCard(deckId: number, card: Card): Promise<Card> {
-    throw new Error('Not implemented');
+  async function addCard(card: Card, deckId: number): Promise<number> {
+    const { id } = await fetchWrapper.post('/Cards', cardToJson(card, deckId));
+    return id;
   }
 
-  // PUT: /Cards/{id}
-  async function updateCardById(id: number, card: Card): Promise<Card> {
-    throw new Error('Not implemented');
+  // POST: /Cards
+  // Todo: Add batching
+  async function addCards(cards: Card[], deckId: number): Promise<number[]> {
+    return Promise.all(cards.map((card) => addCard(card, deckId)));
+  }
+
+  // POST: /Cards/{id}
+  async function updateCardById(card: Card): Promise<number> {
+    assertIdIsNumber(card.id);
+    const { id } = await fetchWrapper.post(`/Cards/${card.id}`, cardToJson(card));
+    return id;
+  }
+
+  // POST: /Cards/{id}
+  // Todo: Add batching
+  async function updateCardsById(cards: Card[]): Promise<number[]> {
+    return Promise.all(cards.map((card) => updateCardById(card)));
   }
 
   // PATCH: /Cards/Touch={id}&{score}
@@ -84,12 +102,16 @@ export function useCardsClient() {
   /// deletions ///
   /////////////////
 
-  // DELETE: /Cards/{id}
+  // POST: /Cards/Delete/{id}
   async function deleteCard(card: Card): Promise<void> {
-    if (card.id === undefined) {
-      throw new Error('card id cannot be undefined');
-    }
-    throw new Error('Not implemented');
+    assertIdIsNumber(card.id);
+    fetchWrapper.post(`/Cards/Delete/${card.id}`);
+  }
+
+  // POST: /Cards/Delete/{id}
+  // Todo: Add Batching
+  async function deleteCards(cards: Card[]): Promise<void> {
+    Promise.all(cards.map((card) => deleteCard(card)));
   }
 
   // DELETE: /Cards/DeleteUserCards={userId}
@@ -108,6 +130,17 @@ export function useCardsClient() {
   }
 }
 
+function cardToJson(card: Card, deckId?: number) {
+  return {
+    frontText: card.front.text,
+    backText: card.back.text,
+    frontLang: card.front.language,
+    backLang: card.back.language,
+    userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0',
+    deckId,
+  };
+}
+
 function JsonToCard(obj: any) {
   const card = createNewCard();
   card.id = obj['id'];
@@ -122,4 +155,10 @@ function JsonToCard(obj: any) {
     audio: obj['baud'],
   };
   return card;
+}
+
+function assertIdIsNumber(num: any) {
+  if (isNaN(num)) {
+    throw new Error(`received id was not a number: ${num}`);
+  }
 }
