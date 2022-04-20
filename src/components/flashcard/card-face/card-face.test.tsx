@@ -40,15 +40,30 @@ describe('CardFace', () => {
 
   it('should call onSpeakerClick on speaker click', () => {
     const mockOnSpeakerClick = jest.fn();
+    const content = createNewCardContent();
+    content.text = 'TEST_TEXT';
+    render(
+      <CardFace cardContent={content} variant="readonly" onSpeakerClick={mockOnSpeakerClick} />
+    );
+    userEvent.click(screen.getByRole('button', { name: 'speaker' }));
+    expect(mockOnSpeakerClick).toBeCalled();
+  });
+
+  it('should hide placeholder text when readonly', () => {
+    const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
     render(
       <CardFace
         cardContent={createNewCardContent()}
         variant="readonly"
-        onSpeakerClick={mockOnSpeakerClick}
+        placeholder={TEST_PLACEHOLDER}
       />
     );
-    userEvent.click(screen.getByRole('button', { name: 'speaker' }));
-    expect(mockOnSpeakerClick).toBeCalled();
+    expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).not.toBeInTheDocument();
+  });
+
+  it('should hide speaker when text is empty', () => {
+    render(<CardFace cardContent={createNewCardContent()} variant="readonly" />);
+    expect(screen.queryByRole('button', { name: 'speaker' })).not.toBeInTheDocument();
   });
 
   it('should call onFocus on focus', () => {

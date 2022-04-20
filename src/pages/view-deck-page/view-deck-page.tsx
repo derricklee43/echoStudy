@@ -52,9 +52,15 @@ export const ViewDeckPage = () => {
       <div>{`${deck.cards.length} cards`}</div>
       <div>{`created ${getFormattedDate(deck.metaData.dateCreated)}`}</div>
       <hr className="view-deck-divider" />
-      <FlashcardSet cards={deck.cards} />
+      {deck.cards.length > 0 ? <FlashcardSet cards={deck.cards} /> : getEmptyCardSetPlaceholder()}
     </Fade>
   );
+
+  function getEmptyCardSetPlaceholder() {
+    return (
+      <div className="empty-card-set-placeholder">you currently have no cards in this deck</div>
+    );
+  }
 
   async function fetchDeckAndRefresh() {
     if (deckId === undefined) {

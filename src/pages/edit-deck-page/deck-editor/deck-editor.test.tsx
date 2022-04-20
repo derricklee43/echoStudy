@@ -141,6 +141,25 @@ describe('DeckEditor', () => {
 
   it('should call onCreateDeckClick when create is clicked', () => {
     const mockOnCreateDeckClick = jest.fn();
+    const deck = createNewDeck();
+    deck.metaData.title = 'TEST_TITLE';
+    deck.metaData.desc = 'TEST_DESC';
+    render(
+      <DeckEditor
+        initialDeck={deck}
+        isNewDeck={true}
+        onCreateDeckClick={mockOnCreateDeckClick}
+        onDeleteDeckClick={noop}
+        onGoBackClick={noop}
+      />
+    );
+    userEvent.click(screen.getByText('create'));
+
+    expect(mockOnCreateDeckClick).toBeCalled();
+  });
+
+  it('should call disable create button when title is empty', () => {
+    const mockOnCreateDeckClick = jest.fn();
     render(
       <DeckEditor
         initialDeck={createNewDeck()}
@@ -152,7 +171,7 @@ describe('DeckEditor', () => {
     );
     userEvent.click(screen.getByText('create'));
 
-    expect(mockOnCreateDeckClick).toBeCalled();
+    expect(mockOnCreateDeckClick).not.toBeCalled();
   });
 
   it('should be reset when initialDeck is changed', () => {
