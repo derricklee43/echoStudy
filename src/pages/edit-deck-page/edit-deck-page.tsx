@@ -46,7 +46,7 @@ export const EditDeckPage = () => {
 
   async function fetchDeckAndRefresh() {
     if (deckId === undefined) {
-      throw new Error('deckId cannot be undefined'); // Todo: maybe route to a 404 page??
+      throw new Error('deckId cannot be undefined');
     }
     const deck = await getDeckById(deckId);
     deck.cards = await getCardsByDeckId(deckId);
