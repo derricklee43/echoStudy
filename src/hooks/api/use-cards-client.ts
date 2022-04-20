@@ -49,7 +49,7 @@ export function useCardsClient() {
     throw new Error('Not implemented');
   }
 
-  // GET: /Cards​/Deck={deckId}
+  // GET: /Cards​?deckId={deckId}
   async function getCardsByDeckId(deckId: string): Promise<Card[]> {
     const cardsData = await fetchWrapper.get(`/Cards?deckId=${deckId}`);
     return cardsData.map(JsonToCard);

@@ -107,7 +107,7 @@ export function useDecksClient() {
   /// deletions ///
   /////////////////
 
-  // DELETE: /Decks/{id}
+  // Post: /Decks/Delete/{id}
   async function deleteDeckById(id: number): Promise<void> {
     return fetchWrapper.post(`/Decks/Delete/${id}`);
   }
