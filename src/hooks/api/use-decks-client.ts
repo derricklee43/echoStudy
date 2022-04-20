@@ -38,21 +38,7 @@ export function useDecksClient() {
   // GET: /Decks/{id}
   async function getDeckById(id: string): Promise<Deck> {
     const deckData = await fetchWrapper.get(`/Decks/${id}`);
-    return {
-      metaData: {
-        id: deckData['id'],
-        title: deckData['title'],
-        desc: deckData['description'],
-        access: deckData['access'],
-        frontLang: deckData['default_flang'],
-        backLang: deckData['default_blang'],
-        ownerId: deckData['ownerId'],
-        dateCreated: new Date(deckData['date_created']),
-        dateUpdated: new Date(deckData['date_updated']),
-        dateTouched: new Date(deckData['date_touched']),
-      },
-      cards: [],
-    };
+    return JsonToDeck(deckData); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   // GET: /Decks/UserEmail={userEmail}
@@ -73,53 +59,13 @@ export function useDecksClient() {
   // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
     const decksData = await fetchWrapper.get('/Decks');
-
-    // todo perhaps make Deck a class, and implement a fromJson
-    const decks: Deck[] = decksData.map((obj: any): Deck => {
-      return {
-        metaData: {
-          id: obj['id'],
-          title: obj['title'],
-          desc: obj['description'],
-          access: obj['access'],
-          frontLang: obj['default_flang'],
-          backLang: obj['default_blang'],
-          ownerId: obj['ownerId'],
-          dateCreated: new Date(obj['date_created']),
-          dateUpdated: new Date(obj['date_updated']),
-          dateTouched: new Date(obj['date_touched']),
-        },
-        cards: obj['cards'],
-      };
-    });
-
-    return decks;
+    return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   // GET: /Decks/Public
   async function getPublicDecks(): Promise<Deck[]> {
     const decksData = await fetchWrapper.get('/Decks/Public');
-
-    // todo perhaps make Deck a class, and implement a fromJson
-    const decks: Deck[] = decksData.map((obj: any): Deck => {
-      return {
-        metaData: {
-          id: obj['id'],
-          title: obj['title'],
-          desc: obj['description'],
-          access: obj['access'],
-          frontLang: obj['default_flang'],
-          backLang: obj['default_blang'],
-          ownerId: obj['ownerId'],
-          dateCreated: new Date(obj['date_created']),
-          dateUpdated: new Date(obj['date_updated']),
-          dateTouched: new Date(obj['date_touched']),
-        },
-        cards: obj['cards'],
-      };
-    });
-
-    return decks;
+    return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   //////////////////////
@@ -127,8 +73,23 @@ export function useDecksClient() {
   //////////////////////
 
   // POST: /Decks
-  async function addDeck(deck: Deck): Promise<Deck> {
-    throw new Error('Not implemented');
+  async function addDeck(deck: Deck): Promise<number> {
+    const jsonDeck = {
+      title: deck.metaData.title,
+      description: deck.metaData.desc,
+      access: 'Public',
+      default_flang: deck.metaData.frontLang,
+      default_blang: deck.metaData.backLang,
+      userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0', // Todo: replace with id/token
+    };
+
+    const { id } = await fetchWrapper.post('/Decks', jsonDeck);
+
+    if (isNaN(id)) {
+      throw new Error('received id was not a number');
+    }
+
+    return id;
   }
 
   // PUT: /Decks/{id}
@@ -146,9 +107,9 @@ export function useDecksClient() {
   /// deletions ///
   /////////////////
 
-  // DELETE: /Decks/{id}
+  // Post: /Decks/Delete/{id}
   async function deleteDeckById(id: number): Promise<void> {
-    throw new Error('Not implemented');
+    return fetchWrapper.post(`/Decks/Delete/${id}`);
   }
 
   // DELETE: /Decks/DeleteUserDecks={userId}
@@ -160,4 +121,22 @@ export function useDecksClient() {
   async function deleteDecksByEmail(userEmail: string): Promise<void> {
     throw new Error('Not implemented');
   }
+}
+
+function JsonToDeck(obj: any): Deck {
+  return {
+    metaData: {
+      id: obj['id'],
+      title: obj['title'],
+      desc: obj['description'],
+      access: obj['access'],
+      frontLang: obj['default_flang'],
+      backLang: obj['default_blang'],
+      ownerId: obj['ownerId'],
+      dateCreated: new Date(obj['date_created']),
+      dateUpdated: new Date(obj['date_updated']),
+      dateTouched: new Date(obj['date_touched']),
+    },
+    cards: [],
+  };
 }

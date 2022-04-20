@@ -44,8 +44,10 @@ export const DeckEditor = ({
     reorderCards,
     setDeck,
   } = useDeckEditor(initialDeck); // get real deck and update tests
+  const [isPromptEnabled, setIsPromptEnabled] = useState(true);
   const [activeCardKey, setActiveCardKey] = useState('');
-  usePrompt('Changes you made may not be saved.', hasUnsavedChanges); // prevent navigation if there are unsaved changes
+
+  usePrompt('Changes you made may not be saved.', isPromptEnabled && hasUnsavedChanges); // prevent navigation if there are unsaved changes
 
   useEffect(() => {
     setDeck(initialDeck);
@@ -140,11 +142,10 @@ export const DeckEditor = ({
 
   function handleSubmitClick() {
     if (isNewDeck) {
-      // Todo: await response and handle error
-      onCreateDeckClick(deck);
+      setIsPromptEnabled(false);
+      onCreateDeckClick(deck); // Todo: await and handle errors
     } else {
-      // Todo: await response and handle error
-      save();
+      save(); // Todo: await and handle errors
     }
   }
 };
