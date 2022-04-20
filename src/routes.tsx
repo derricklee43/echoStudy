@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { FlashcardDecksPage } from './pages/decks/flashcard-decks';
 import { EditDeckPage } from './pages/edit-deck-page/edit-deck-page';
+import { NotFoundPage } from './pages/not-found-page/not-found-page';
 import { ViewDeckPage } from './pages/view-deck-page/view-deck-page';
 
 export const enum paths {
@@ -24,7 +25,7 @@ export const PageRoutes = () => {
       <Route path={`${paths.deck}/:deckId`} element={<ViewDeckPage />} />
       <Route path={`${paths.editDeck}/:deckId`} element={<EditDeckPage />} />
       <Route path={paths.createDeck} element={<EditDeckPage />} />
-      {/* <Route path="*" element={<TODO: some 404 page should go here />} /> */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
