@@ -2,6 +2,8 @@ import React from 'react';
 import { Header } from './header';
 import { render, screen } from '@testing-library/react';
 
+jest.mock('react-router-dom');
+
 describe('Header', () => {
   it('should render correctly with default props', () => {
     render(<Header decks={[]} />);
