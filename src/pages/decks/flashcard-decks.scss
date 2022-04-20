@@ -30,7 +30,7 @@
     grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
     justify-items: center;
     grid-auto-rows: max-content;
-    column-gap: 56px;
+    column-gap: 32px;
     row-gap: 32px;
     margin: 32px 0px;
     width: 100%;
@@ -41,6 +41,7 @@
     overflow-y: auto;
 
     .deck-cover:first-child .cover-front {
+      @include standard-transition;
       background-color: $light-blue;
 
       &:hover {
