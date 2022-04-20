@@ -26,7 +26,7 @@
     padding: 0px 25px;
 
     .browse-files-button-container {
-      margin: auto;
+      @include flex-center;
     }
   }
 }
