@@ -12,7 +12,7 @@ import { useDeckEditor } from '../../../hooks/use-deck-editor';
 import { Deck } from '../../../models/deck';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { createNewCard } from '../../../models/card';
+import { Card, createNewCard } from '../../../models/card';
 import { UpToggle } from '../../../animations/up-toggle';
 import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
 
@@ -65,7 +65,8 @@ export const DeckEditor = ({
             onClick={handleSubmitClick}
             className={isNewDeck ? '' : 'save-changes-button'}
             size="medium"
-            variant={isSaveButtonDisabled ? 'disabled' : 'dark'}
+            disabled={isSaveButtonDisabled}
+            variant="dark"
           >
             {isNewDeck ? 'create' : getSaveButtonToggle()}
           </Button>
@@ -75,6 +76,7 @@ export const DeckEditor = ({
         deckMetaData={deck.metaData}
         onDeckMetaDataChange={updateMetaData}
         onDeleteClick={onDeleteDeckClick}
+        onImportedCardsAdd={handleImportedCards}
       />
       {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
       <Button onClick={handleAddClick} size="medium" className="add-card-button">
@@ -134,6 +136,10 @@ export const DeckEditor = ({
         onDeleteCardClick={deleteCard}
       />
     );
+  }
+
+  function handleImportedCards(cards: Card[]) {
+    cards.reverse().forEach((card) => addCard(card));
   }
 
   function handleAddClick() {

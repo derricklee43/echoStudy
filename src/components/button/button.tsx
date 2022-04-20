@@ -4,7 +4,8 @@ import './button.scss';
 interface ButtonProps {
   children: React.ReactNode;
   ariaLabel?: string;
-  variant?: 'dark' | 'light' | 'invisible' | 'disabled';
+  variant?: 'dark' | 'light' | 'invisible';
+  disabled?: boolean;
   size?: 'small' | 'medium';
   className?: string;
   bubbleOnClickEvent?: boolean;
@@ -13,6 +14,7 @@ interface ButtonProps {
 
 export const Button = ({
   className = '',
+  disabled,
   variant = 'dark',
   size = 'small',
   bubbleOnClickEvent = true,
@@ -22,6 +24,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <button
+      disabled={disabled}
       className={`button ${variant} ${size} ${className}`}
       onClick={handleClick}
       aria-label={ariaLabel}
@@ -31,7 +34,7 @@ export const Button = ({
   );
 
   function handleClick(event: React.MouseEvent) {
-    if (variant !== 'disabled') {
+    if (!disabled) {
       if (!bubbleOnClickEvent) {
         event.stopPropagation();
       }

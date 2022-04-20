@@ -9,6 +9,7 @@ interface BubbleDividerProps {
   variantColor?: 'dark' | 'light';
   variantType?: 'divider' | 'drop-down';
   className?: string;
+  buttonClassName?: string;
   label: string;
   children?: React.ReactNode;
 }
@@ -17,6 +18,7 @@ export const BubbleDivider = ({
   variantColor = 'dark',
   variantType = 'divider',
   className = '',
+  buttonClassName = '',
   label,
   children,
 }: BubbleDividerProps) => {
@@ -27,7 +29,10 @@ export const BubbleDivider = ({
       <AnimatePresence>{isOpen && getChildren()}</AnimatePresence>
       <div className={`c-bubble-divider ${variantColor}`}>
         <hr />
-        <Button className={`c-bubble-button ${variantType}`} onClick={handleBubbleClick}>
+        <Button
+          className={`c-bubble-button ${variantType} ${buttonClassName}`}
+          onClick={handleBubbleClick}
+        >
           {label}
           {variantType === 'drop-down' && getArrow()}
         </Button>

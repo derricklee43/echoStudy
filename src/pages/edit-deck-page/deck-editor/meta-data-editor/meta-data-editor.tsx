@@ -6,19 +6,22 @@ import { TextBox } from '../../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
 import { DropDown } from '../../../../components/drop-down/drop-down';
 import { TextArea } from '../../../../components/text-area/text-area';
-import { PopupModal } from '../../../../components/popup-modal/popup-modal';
 import { DropDownOption } from '../../../../components/drop-down-options/drop-down-options';
+import { ImportCardsPopup } from '../../../import-cards-popup/import-cards-popup';
+import { Card } from '../../../../models/card';
 
 interface DeckEditorProps {
   deckMetaData: DeckMetaData;
   onDeckMetaDataChange: (metaData: DeckMetaData) => void;
   onDeleteClick: (event: React.MouseEvent) => void;
+  onImportedCardsAdd: (cards: Card[]) => void;
 }
 
 export const MetaDataEditor = ({
   deckMetaData,
   onDeckMetaDataChange,
   onDeleteClick,
+  onImportedCardsAdd,
 }: DeckEditorProps) => {
   const [showImportModal, setShowImportModal] = useState(false);
 
@@ -45,7 +48,7 @@ export const MetaDataEditor = ({
         <Button onClick={handleImportClick} size="medium">
           import cards
         </Button>
-        {getImportPopupModal()}
+        <ImportCardsPopup showPopup={showImportModal} onClose={handleImportCardsPopupClose} />
         <Button onClick={handleExportClick} size="medium">
           export deck
         </Button>
@@ -78,23 +81,6 @@ export const MetaDataEditor = ({
     </div>
   );
 
-  function getImportPopupModal() {
-    return (
-      <PopupModal
-        headerLabel="Import Popup"
-        showTrigger={showImportModal}
-        onClose={() => setShowImportModal(false)}
-      >
-        <p>example popup example popup example popup example popup</p>
-        <p>
-          <textarea />
-        </p>
-        <button onClick={() => alert('clicked in content of modal')}>inner button</button>
-        <p>example popup example popup example popup example popup</p>
-      </PopupModal>
-    );
-  }
-
   function handleFrontLanguageSelect(option: DropDownOption) {
     const frontLang = option.value as Language;
     onDeckMetaDataChange({ ...deckMetaData, frontLang });
@@ -119,6 +105,11 @@ export const MetaDataEditor = ({
 
   function handleImportClick() {
     setShowImportModal(true);
+  }
+
+  function handleImportCardsPopupClose(cards: Card[]) {
+    setShowImportModal(false);
+    onImportedCardsAdd(cards);
   }
 
   function handleExportClick() {

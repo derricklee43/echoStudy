@@ -9,11 +9,20 @@
   border: 1px solid transparent;
   white-space: nowrap;
 
+  &:disabled {
+    cursor: default;
+  }
+
   &.dark {
     @include blue-hover;
     border-color: $light-blue;
     background-color: $blue;
     color: $white;
+
+    &:disabled {
+      color: $light-blue;
+      background-color: $dark-grey-blue;
+    }
   }
 
   &.light {
@@ -21,6 +30,15 @@
     background-color: $white;
     border-color: $blue;
     color: $blue;
+
+    &:disabled {
+      border-color: $grey;
+      color: $grey;
+
+      &:hover {
+        background-color: $white;
+      }
+    }
   }
 
   &.medium {
@@ -33,12 +51,5 @@
     padding: 0px;
     border: none;
     background-color: transparent;
-  }
-
-  &.disabled {
-    cursor: default;
-    border-color: $light-blue;
-    color: $light-blue;
-    background-color: $dark-grey-blue;
   }
 }
