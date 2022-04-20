@@ -23,13 +23,16 @@ export const ViewDeckPage = () => {
 
   const isNewDeck = location.pathname === paths.createDeck;
 
+  // update deck instance when route changes
   useEffect(() => {
+    setDeck(undefined);
+
     if (isNewDeck) {
       setDeck(createNewDeck());
     } else {
       fetchDeckAndRefresh();
     }
-  }, [location]);
+  }, [location, deckId]);
 
   if (deck === undefined) {
     return <LoadingPage label="loading deck..." />;

@@ -19,7 +19,7 @@ export interface SearchBarProps {
   onChange?: (value: string) => void;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
-  onDropdownClick?: (option: DropDownOption) => void;
+  onDropdownOptionClick?: (option: DropDownOption) => void;
 }
 
 export const SearchBar = ({
@@ -32,7 +32,7 @@ export const SearchBar = ({
   onChange,
   onEnterPressed,
   onDebouncedChange,
-  onDropdownClick,
+  onDropdownOptionClick,
 }: SearchBarProps) => {
   const [value, setValue] = useState(initialText);
   const [hasClickedSinceLastChange, setHasClickedSinceLastChange] = useState(false);
@@ -93,7 +93,7 @@ export const SearchBar = ({
           const changedValue = option.value?.toString() ?? value;
           setValue(changedValue);
           informChange(changedValue);
-          onDropdownClick?.(option);
+          onDropdownOptionClick?.(option);
           setHasClickedSinceLastChange(true); // hide since clicked
         }}
       />

@@ -3,17 +3,26 @@ import React from 'react';
 import { SearchBar } from '../search-bar/search-bar';
 import { Button } from '../button/button';
 import { Deck } from '../../models/deck';
+import { DropDownOption } from '../drop-down-options/drop-down-options';
+import { useNavigate } from 'react-router-dom';
+import { paths } from '../../routes';
 
 interface HeaderProps {
   decks: Deck[];
 }
 
 export const Header = ({ decks }: HeaderProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="c-header">
       <div className="c-header-content">
         <div className="c-search-bar-container">
-          <SearchBar placeholder="search my decks" dropDownData={getDeckOptions()} />
+          <SearchBar
+            placeholder="search my decks"
+            dropDownData={getDeckOptions()}
+            onDropdownOptionClick={navigateViewDeck}
+          />
         </div>
         <div className="c-account-buttons">
           <Button onClick={handleSignUpClick} className="sign-up-button">
@@ -29,6 +38,11 @@ export const Header = ({ decks }: HeaderProps) => {
 
   function getDeckOptions() {
     return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
+  }
+
+  function navigateViewDeck(option: DropDownOption) {
+    const deckId = option.id;
+    navigate(`${paths.deck}/${deckId}`);
   }
 
   function handleSignUpClick() {
