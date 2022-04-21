@@ -93,12 +93,15 @@ export const FlashcardSet = ({
     }
   }
 
-  function handleSpeakerClick(audioFile: HTMLAudioElement) {
+  function handleSpeakerClick(audioFile?: HTMLAudioElement) {
+    if (audioFile === undefined) {
+      console.log('Audio file was undefined');
+      return;
+    }
+
     if (variant === 'readonly') {
-      // Todo: play audio
-      // I assume we are going to need some kind of audio orchestration to allow only one audio file to play
-      // and not queue them
-      console.log('Speaker clicked');
+      console.log('played audio', audioFile);
+      audioFile?.play();
     }
   }
 };

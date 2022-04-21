@@ -18,7 +18,7 @@ interface FlashcardProps {
   onUpClick?: (event: React.MouseEvent) => void;
   onDownClick?: (event: React.MouseEvent) => void;
   onRemoveClick?: (event: React.MouseEvent) => void;
-  onSpeakerClick?: (audioFile: HTMLAudioElement) => void;
+  onSpeakerClick?: (audioFile?: HTMLAudioElement) => void;
 }
 
 export const Flashcard = ({
