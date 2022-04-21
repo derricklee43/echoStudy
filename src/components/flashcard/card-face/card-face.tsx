@@ -12,7 +12,7 @@ interface CardFaceProps {
   placeholder?: string;
   onChange?: (cardContent: CardContent) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  onSpeakerClick?: (audioFile: HTMLAudioElement) => void;
+  onSpeakerClick?: (audioFile?: HTMLAudioElement) => void;
 }
 
 export const CardFace = ({

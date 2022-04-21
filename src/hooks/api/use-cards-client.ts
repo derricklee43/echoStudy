@@ -1,4 +1,4 @@
-import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import { ECHOSTUDY_API_URL, ECHOSTUDY_AUDIO_S3_URL } from '../../helpers/api';
 import { Card, createNewCard } from '../../models/card';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
@@ -147,12 +147,12 @@ function JsonToCard(obj: any) {
   card.front = {
     language: obj['flang'],
     text: obj['ftext'],
-    audio: obj['faud'],
+    audio: new Audio(`${ECHOSTUDY_AUDIO_S3_URL}/${obj['faud']}`), // todo: defer new Audio bc some pages don't need it
   };
   card.back = {
     language: obj['blang'],
     text: obj['btext'],
-    audio: obj['baud'],
+    audio: new Audio(`${ECHOSTUDY_AUDIO_S3_URL}/${obj['baud']}`), // todo: defer new Audio bc some pages don't need it
   };
   return card;
 }
