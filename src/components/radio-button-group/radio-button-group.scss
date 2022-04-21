@@ -1,0 +1,13 @@
+@import '../../assets/styles';
+.radio-button-group {
+  @include flex-center;
+  gap: 10px;
+  padding: 8px 20px;
+
+  .button-group-radio-button {
+    padding: 8px 20px;
+    &.dark {
+      border-color: transparent;
+    }
+  }
+}

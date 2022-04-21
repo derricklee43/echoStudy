@@ -14,9 +14,14 @@ describe('MetaDataEditor', () => {
   it('should render correctly with default props', () => {
     const { metaData } = testEnglishDeck(1);
     render(
-      <MetaDataEditor deckMetaData={metaData} onDeckMetaDataChange={noop} onDeleteClick={noop} />
+      <MetaDataEditor
+        deckMetaData={metaData}
+        onDeckMetaDataChange={noop}
+        onDeleteClick={noop}
+        onImportedCardsAdd={noop}
+      />
     );
-    expect(screen.queryByText('import cards')).toBeInTheDocument();
+    expect(screen.queryAllByText('import cards').length).toEqual(2);
     expect(screen.queryByText('export deck')).toBeInTheDocument();
     expect(screen.queryByText('advanced settings')).toBeInTheDocument();
     expect(screen.queryByDisplayValue(metaData.title)).toBeInTheDocument();
@@ -26,7 +31,12 @@ describe('MetaDataEditor', () => {
   it('should hide advanced settings until dropdown is clicked', () => {
     const { metaData } = testEnglishDeck(1);
     render(
-      <MetaDataEditor deckMetaData={metaData} onDeckMetaDataChange={noop} onDeleteClick={noop} />
+      <MetaDataEditor
+        deckMetaData={metaData}
+        onDeckMetaDataChange={noop}
+        onDeleteClick={noop}
+        onImportedCardsAdd={noop}
+      />
     );
 
     expect(screen.queryByText('default term language')).not.toBeInTheDocument();
@@ -46,6 +56,7 @@ describe('MetaDataEditor', () => {
         deckMetaData={metaData}
         onDeckMetaDataChange={mockOnDeckChange}
         onDeleteClick={noop}
+        onImportedCardsAdd={noop}
       />
     );
     userEvent.type(screen.getByDisplayValue(metaData.title), 't');
@@ -60,6 +71,7 @@ describe('MetaDataEditor', () => {
         deckMetaData={metaData}
         onDeckMetaDataChange={noop}
         onDeleteClick={mockOnDeleteClick}
+        onImportedCardsAdd={noop}
       />
     );
     userEvent.click(screen.getByText('advanced settings'));

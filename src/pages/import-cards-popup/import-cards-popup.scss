@@ -1,0 +1,44 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+.import-cards-popup-content {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  color: $grey;
+
+  .import-cards-list-item-label {
+    margin-top: 22px;
+    margin-bottom: 12px;
+
+    &:first-child {
+      margin-top: 0px;
+    }
+  }
+
+  .import-cards-divider {
+    margin: 25px 0px;
+
+    .import-cards-divider-button {
+      padding: 5px 25px;
+    }
+  }
+
+  .import-cards-input-container {
+    padding: 0px 25px;
+
+    .browse-files-button-container {
+      @include flex-center;
+    }
+  }
+}
+
+.import-cards-submit-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.import-cards-popup-button {
+  padding: 8px 20px;
+  &.dark {
+    border-color: transparent;
+  }
+}
