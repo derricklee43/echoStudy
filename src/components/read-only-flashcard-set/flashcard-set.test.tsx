@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlashcardSet } from './flashcard-set';
+import { ReadOnlyFlashcardSet } from './read-only-flashcard-set';
 import { render, screen } from '@testing-library/react';
 import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 import userEvent from '@testing-library/user-event';
@@ -14,13 +14,13 @@ const FOX_MONKEY_MOUSE = [TEST_FOX_CARD, TEST_MONKEY_CARD, TEST_MOUSE_CARD];
 
 describe('FlashcardSet', () => {
   // it('should render correctly with default props', () => {
-  //   render(<FlashcardSet cards={[TEST_FOX_CARD]} />);
+  //   render(<ReadOnlyFlashcardSet cards={[TEST_FOX_CARD]} />);
   //   expect(screen.queryByDisplayValue(TEST_FOX_CARD.front.text)).toBeInTheDocument();
   //   expect(screen.queryByDisplayValue(TEST_FOX_CARD.back.text)).toBeInTheDocument();
   // });
 
   // it('should render correctly with multiple cards', () => {
-  //   render(<FlashcardSet cards={FOX_MONKEY_MOUSE} />);
+  //   render(<ReadOnlyFlashcardSet cards={FOX_MONKEY_MOUSE} />);
   //   expect(screen.queryAllByDisplayValue(TEST_MONKEY_CARD.front.text).length).toBe(1);
   //   expect(screen.queryAllByDisplayValue(TEST_MONKEY_CARD.front.text).length).toBe(1);
   //   expect(screen.queryAllByDisplayValue(TEST_MOUSE_CARD.front.text).length).toBe(1);
@@ -29,7 +29,7 @@ describe('FlashcardSet', () => {
   // it('should call `onDeleteCardClick` when trash icon is clicked', () => {
   //   const mockOnDeleteCard = jest.fn();
   //   render(
-  //     <FlashcardSet
+  //     <ReadOnlyFlashcardSet
   //       variant="editable"
   //       cards={FOX_MONKEY_MOUSE}
   //       onDeleteCardClick={mockOnDeleteCard}
@@ -45,7 +45,7 @@ describe('FlashcardSet', () => {
   // it('should move card up and wrap around when up-arrow clicked', () => {
   //   const mockOnCardReorder = jest.fn();
   //   render(
-  //     <FlashcardSet
+  //     <ReadOnlyFlashcardSet
   //       variant="editable"
   //       cards={FOX_MONKEY_MOUSE}
   //       onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
@@ -60,7 +60,7 @@ describe('FlashcardSet', () => {
   // it('should wrap around if up-arrow clicked on topmost card', () => {
   //   const mockOnCardReorder = jest.fn();
   //   render(
-  //     <FlashcardSet
+  //     <ReadOnlyFlashcardSet
   //       variant="editable"
   //       cards={FOX_MONKEY_MOUSE}
   //       onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
@@ -75,7 +75,7 @@ describe('FlashcardSet', () => {
   // it('should move card down when down-arrow clicked', () => {
   //   const mockOnCardReorder = jest.fn();
   //   render(
-  //     <FlashcardSet
+  //     <ReadOnlyFlashcardSet
   //       variant="editable"
   //       cards={FOX_MONKEY_MOUSE}
   //       onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
@@ -90,7 +90,7 @@ describe('FlashcardSet', () => {
   // it('should wrap around if down-arrow clicked on bottommost card', () => {
   //   const mockOnCardReorder = jest.fn();
   //   render(
-  //     <FlashcardSet
+  //     <ReadOnlyFlashcardSet
   //       variant="editable"
   //       cards={FOX_MONKEY_MOUSE}
   //       onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
