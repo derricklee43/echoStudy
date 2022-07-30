@@ -24,7 +24,7 @@ describe('Button', () => {
 
     rerender(<DropDownOptions show={false} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />);
     await waitForElementToBeRemoved(() => screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0]), {
-      timeout: 500, // wrt `Fade` having transition duration of 0.2 (200ms)
+      timeout: 1000, // wrt `Fade` having transition duration of 0.2 (200ms)
     });
   });
 
