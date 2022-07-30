@@ -31,9 +31,7 @@ export const FlashcardSet = ({
   const [activeCardKey, setActiveCardKey] = useState(initialActiveCardKey);
   const [draggingKey, setDraggingKey] = useState('');
   const dragControls = useDragControls();
-  const dragClass = draggingKey && 'dragging';
-
-  console.log(dragClass);
+  const dragClass = draggingKey ? 'dragging' : '';
 
   useEffect(() => {
     setActiveCardKey(initialActiveCardKey);

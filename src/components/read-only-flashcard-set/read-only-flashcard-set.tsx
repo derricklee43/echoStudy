@@ -11,7 +11,7 @@ interface ReadOnlyFlashcardSetProps {
 export const ReadOnlyFlashcardSet = ({ className = '', cards }: ReadOnlyFlashcardSetProps) => {
   const flashcards = cards.map((card) => (
     <div key={card.key}>
-      <Flashcard card={card} variant="inactive" />
+      <Flashcard card={card} variant="readonly" />
     </div>
   ));
   return <div className={`c-read-only-flashcard-set ${className}`}>{flashcards}</div>;
