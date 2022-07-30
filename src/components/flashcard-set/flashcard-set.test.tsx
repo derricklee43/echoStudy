@@ -133,7 +133,7 @@ describe('FlashcardSet', () => {
     expect(mockOnCardReorder).toBeCalledWith(['mouse', 'fox', 'monkey']);
   });
 
-  it('should show arrows and trash when not readonly (editable)', () => {
+  it('should show arrows and trash', () => {
     const testCard = getTestFoxCard();
     render(
       <FlashcardSet
