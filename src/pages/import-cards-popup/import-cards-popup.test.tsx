@@ -42,7 +42,7 @@ describe('ImportCardsPopup', () => {
   it('should show FileInput when upload file is clicked', () => {
     render(<ImportCardsPopup showPopup={true} onClose={noop} />);
     userEvent.click(screen.getByText('upload file'));
-    expect(screen.queryByText('browse your files')).toBeInTheDocument();
+    expect(screen.queryByText('choose a file')).toBeInTheDocument();
   });
 
   it('should import configured cards on import click', () => {

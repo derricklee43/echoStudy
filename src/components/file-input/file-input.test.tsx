@@ -29,7 +29,7 @@ describe('FileInput', () => {
     render(
       <FileInput onImportedFileChange={noop} label={testLabel} importedFile={testImportedFile} />
     );
-    expect(screen.queryByText(testLabel)).not.toBeInTheDocument();
+    expect(screen.queryByText(testLabel)).toBeInTheDocument();
     expect(screen.queryByText(testImportedFile.name)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'remove-file' })).toBeInTheDocument();
   });
