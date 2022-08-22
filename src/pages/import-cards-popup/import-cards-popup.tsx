@@ -81,10 +81,13 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
     </PopupModal>
   );
 
-  function onImportMethodChange(importMethod: string) {
+  function onImportMethodChange(newImportMethod: string) {
+    if (newImportMethod == importMethod) {
+      return;
+    }
     setImportedFile(undefined);
     setTextAreaValue('');
-    setImportMethod(importMethod);
+    setImportMethod(newImportMethod);
   }
 
   function getImportComponent() {
