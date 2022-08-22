@@ -7,12 +7,13 @@ function readTxtFile(txtFile: File) {
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
       const content = fileReader.result as string;
-      resolve(content), false;
+      resolve(content);
     });
-    try {
-      fileReader.readAsText(txtFile);
-    } catch (e) {
-      reject(e);
-    }
+
+    fileReader.addEventListener('error', () => {
+      reject('unable to read text file');
+    });
+
+    fileReader.readAsText(txtFile);
   });
 }

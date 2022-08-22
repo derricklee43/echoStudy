@@ -6,13 +6,9 @@ import { ImportCardsPopup } from './import-cards-popup';
 import { Card } from '../../models/card';
 
 describe('ImportCardsPopup', () => {
-  let mockOnClose: jest.Mock<void, [Card[]]>;
-
   beforeEach(() => {
     // setup portal element for modal to render on
     document.body.innerHTML = `<div id="portal"></div>`;
-
-    mockOnClose = jest.fn();
   });
 
   it('should render with default elements', () => {
@@ -50,6 +46,7 @@ describe('ImportCardsPopup', () => {
   });
 
   it('should import configured cards on import click', () => {
+    const mockOnClose: jest.Mock<void, [Card[]]> = jest.fn();
     const cardText = 'a,b;c,d';
     render(<ImportCardsPopup showPopup={true} onClose={mockOnClose} />);
     userEvent.click(screen.getByText('commas'));

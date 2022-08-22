@@ -1,6 +1,9 @@
 @import '../../assets/colors';
 @import '../../assets/styles';
 .c-file-input {
+  border: 1px solid $grey;
+  padding: 10px 15px;
+  border-radius: 5px;
   input {
     display: none;
   }
@@ -13,13 +16,12 @@
     }
   }
   .c-selected-file {
+    margin-left: 15px;
     color: $blue;
     @include flex-center;
-    .imported-file-name {
-      margin-right: 8px;
-    }
     .remove-file-button {
       margin-top: 3px;
+      margin-left: 10px;
 
       .remove-file-icon {
         width: 25px;

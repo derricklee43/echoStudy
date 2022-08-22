@@ -28,25 +28,25 @@ export const FileInput = ({
 }: FileInputProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const id = uuidv4();
+
   return (
     <div className={`c-file-input ${className}`}>
-      {importedFile ? getSelectedFile() : getSelectFileButton()}
-      <input key={id} type="file" id={id} name="myfile" onChange={importFile} />
-    </div>
-  );
-
-  function getSelectFileButton() {
-    return (
       <Button variant="light" onClick={noop} className="c-file-input-button">
         <label htmlFor={id}>{label}</label>
       </Button>
-    );
+      <div className="c-selected-file">
+        {getSelectedFileIcon()}
+        {getSelectedFile()}
+      </div>
+      <input key={id} type="file" accept=".txt" id={id} name="myfile" onChange={importFile} />
+    </div>
+  );
+
+  function getSelectedFileIcon() {
+    return isLoading ? <LoadingIcon /> : <DocIcon variant="dark" />;
   }
 
   function getSelectedFile() {
-    if (importedFile === undefined) {
-      return undefined;
-    }
     const removeFileIcon = (
       <Button
         variant="invisible"
@@ -57,13 +57,11 @@ export const FileInput = ({
         <CancelIcon variant="dark" className="remove-file-icon" />
       </Button>
     );
-    const rightIcon = isLoading ? <LoadingIcon /> : removeFileIcon;
     return (
-      <div className="c-selected-file">
-        <DocIcon variant="dark" />
-        <label className="imported-file-name">{importedFile.name}</label>
-        {rightIcon}
-      </div>
+      <>
+        <label className="imported-file-name">{importedFile?.name ?? 'no file chosen'}</label>
+        {importedFile !== undefined && removeFileIcon}
+      </>
     );
   }
 

@@ -64,7 +64,7 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
         <RadioButtonGroup
           radioButtonOptions={importMethodOptions}
           selectedButtonKey={importMethod}
-          onButtonSelect={setImportMethod}
+          onButtonSelect={onImportMethodChange}
         />
         <div className="import-cards-input-container"> {getImportComponent()}</div>
       </div>
@@ -81,6 +81,12 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
     </PopupModal>
   );
 
+  function onImportMethodChange(importMethod: string) {
+    setImportedFile(undefined);
+    setTextAreaValue('');
+    setImportMethod(importMethod);
+  }
+
   function getImportComponent() {
     if (importMethod === IMPORT_METHODS.CLIPBOARD) {
       return (
@@ -96,7 +102,7 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
       return (
         <FileInput
           className="browse-files-button-container"
-          label="browse your files"
+          label="choose a file"
           importedFile={importedFile}
           onImportedFileChange={setImportedFile}
         />
