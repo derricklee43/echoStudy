@@ -1,0 +1,32 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+.c-file-input {
+  border: 1px solid $grey;
+  padding: 10px 15px;
+  border-radius: 5px;
+  input {
+    display: none;
+  }
+  .c-file-input-button {
+    padding: 0;
+    label {
+      display: inline-block;
+      padding: 8px 20px;
+      cursor: pointer;
+    }
+  }
+  .c-selected-file {
+    margin-left: 15px;
+    color: $blue;
+    @include flex-center;
+    .remove-file-button {
+      margin-top: 3px;
+      margin-left: 10px;
+
+      .remove-file-icon {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+}

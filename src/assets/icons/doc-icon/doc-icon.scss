@@ -1,0 +1,15 @@
+@import '../../colors';
+@import '../../styles';
+
+svg.doc-icon {
+  @include standard-transition;
+  @include hover-pointer;
+
+  &.dark path {
+    stroke: $blue;
+  }
+
+  &.light path {
+    stroke: $white;
+  }
+}
