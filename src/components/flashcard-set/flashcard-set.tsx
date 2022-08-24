@@ -70,7 +70,6 @@ export const FlashcardSet = ({
             variant={variant}
             onFocus={() => setActiveCardKey(card.key)}
             onCardChange={onCardChange}
-            onSpeakerClick={handleSpeakerClick}
           />
           <Button onClick={() => onDeleteCardClick(card)} variant="invisible" ariaLabel="trash">
             <TrashIcon variant={variant} />
@@ -111,14 +110,5 @@ export const FlashcardSet = ({
       newCards[index] = newCards.splice(index + 1, 1, cards[index])[0];
       onCardReorder(newCards);
     }
-  }
-
-  function handleSpeakerClick(audioFile?: HTMLAudioElement) {
-    if (audioFile === undefined) {
-      console.log('Audio file was undefined');
-      return;
-    }
-    console.log('played audio', audioFile);
-    audioFile?.play();
   }
 };
