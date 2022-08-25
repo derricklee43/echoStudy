@@ -152,7 +152,7 @@ describe('SearchBar', () => {
     );
     const input = getSearchBarInput(container);
 
-    // type the word 'test' character by chararacter
+    // type the word 'test' character by character
     userEvent.type(input, 'test');
     await waitFor(() => expect(mockOnDebouncedChange).toBeCalledWith('test'), { timeout: 500 });
   });
