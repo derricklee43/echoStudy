@@ -34,7 +34,7 @@ describe('Button', () => {
       <DropDownOptions
         show={true}
         options={TEST_OPTIONS_SMALL}
-        onOptionSelect={(option: DropDownOption) => mockOnOptionSelect(option.value)}
+        onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
       />
     );
 

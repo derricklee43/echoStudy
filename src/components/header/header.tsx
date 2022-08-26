@@ -5,6 +5,7 @@ import { Button } from '../button/button';
 import { Deck } from '../../models/deck';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../routes';
+import { DropDownOption } from '../drop-down-options/drop-down-options';
 
 interface HeaderProps {
   decks: Deck[];
@@ -35,7 +36,7 @@ export const Header = ({ decks }: HeaderProps) => {
     </div>
   );
 
-  function getDeckOptions() {
+  function getDeckOptions(): DropDownOption<string>[] {
     return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
   }
 

@@ -9,14 +9,17 @@ export const userDecksState = atom<Deck[]>({
   default: [testEnglishDeck(0)],
 });
 
-export const SortRules = [
+export const AllSortRules = [
   'sequential',
   'last created',
   'last updated',
   'last studied',
   'random',
 ] as const;
-export type SortRule = typeof SortRules[number];
+
+export type SortRules = typeof AllSortRules;
+
+export type SortRule = SortRules[number];
 
 // mutatable: sort order
 export const userDecksSortRuleState = atom<SortRule>({
