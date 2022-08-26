@@ -1,14 +1,22 @@
 import './meta-data-editor.scss';
 import React, { useState } from 'react';
-import { DeckLanguages, DeckMetaData, Language } from '../../../../models/deck';
+import {
+  DeckMetaData,
+  AllDeckLanguages,
+  DeckLanguage,
+  DeckLanguages,
+} from '../../../../models/deck';
 import { Button } from '../../../../components/button/button';
 import { TextBox } from '../../../../components/text-box/text-box';
 import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
-import { DropDown } from '../../../../components/drop-down/drop-down';
 import { TextArea } from '../../../../components/text-area/text-area';
-import { DropDownOption } from '../../../../components/drop-down-options/drop-down-options';
 import { ImportCardsPopup } from '../../../import-cards-popup/import-cards-popup';
 import { Card } from '../../../../models/card';
+import { LanguageDropDown } from '../../../../components/language-drop-down/drop-down-options/language-drop-down';
+import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
+import { noop } from '../../../../helpers/func';
+import { TrashIcon } from '../../../../assets/icons/trash-icon/trash-icon';
+import { CardLanguage } from '../../../../models/card-content';
 
 interface DeckEditorProps {
   deckMetaData: DeckMetaData;
@@ -60,18 +68,19 @@ export const MetaDataEditor = ({
         className="advanced-settings-divider"
       >
         <div className="advanced-settings">
-          <DropDown
+          <LanguageDropDown
+            languages={AllDeckLanguages}
             label="default term language"
-            buttonLabel={deckMetaData.frontLang}
-            options={getLanguages()}
-            onOptionSelect={handleFrontLanguageSelect}
+            language={deckMetaData.frontLang}
+            onLanguageSelect={handleFrontLanguageSelect}
+            variant="dark"
           />
-
-          <DropDown
+          <LanguageDropDown
             label="default definition language"
-            buttonLabel={deckMetaData.backLang}
-            options={getLanguages()}
-            onOptionSelect={handleBackLanguageSelect}
+            languages={AllDeckLanguages}
+            language={deckMetaData.backLang}
+            onLanguageSelect={handleBackLanguageSelect}
+            variant="dark"
           />
           <Button onClick={onDeleteClick} size="medium">
             delete deck
@@ -81,18 +90,12 @@ export const MetaDataEditor = ({
     </div>
   );
 
-  function handleFrontLanguageSelect(option: DropDownOption) {
-    const frontLang = option.value as Language;
+  function handleFrontLanguageSelect(frontLang: DeckLanguage) {
     onDeckMetaDataChange({ ...deckMetaData, frontLang });
   }
 
-  function handleBackLanguageSelect(option: DropDownOption) {
-    const backLang = option.value as Language;
+  function handleBackLanguageSelect(backLang: DeckLanguage) {
     onDeckMetaDataChange({ ...deckMetaData, backLang });
-  }
-
-  function getLanguages(): DropDownOption[] {
-    return DeckLanguages.map((lang) => ({ id: lang, value: lang }));
   }
 
   function handleDeckTitleChange(title: string) {

@@ -2,14 +2,10 @@
 @import '../../assets/styles';
 
 .c-drop-down-options {
-  @include box-shadow;
+  @include floating-card;
   @include hover-pointer;
   width: 100%;
   margin-top: 2px;
-  position: absolute;
-  z-index: 1;
-  background-color: $white;
-  border-radius: $standard-radius + 1px; //hides corners of div
 
   .c-drop-down-option {
     @include white-hover;

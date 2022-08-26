@@ -1,8 +1,10 @@
 import { Card } from './card';
 
-export const DeckLanguages = ['English', 'Spanish', 'German', 'Japanese'] as const;
+export const AllDeckLanguages = ['English', 'Spanish', 'German', 'Japanese'] as const;
 
-export type Language = typeof DeckLanguages[number];
+export type DeckLanguages = typeof AllDeckLanguages;
+
+export type DeckLanguage = DeckLanguages[number];
 
 export type Access = 'Public' | 'Private';
 
@@ -11,8 +13,8 @@ export interface DeckMetaData {
   title: string;
   desc: string;
   access: Access;
-  frontLang: Language;
-  backLang: Language;
+  frontLang: DeckLanguage;
+  backLang: DeckLanguage;
   ownerId: string;
   dateCreated: Date;
   dateUpdated: Date;
