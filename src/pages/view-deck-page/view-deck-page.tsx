@@ -11,7 +11,7 @@ import { paths } from '../../routes';
 import { PageHeader } from '../../components/page-header/page-header';
 import { Button } from '../../components/button/button';
 import { noop } from '../../helpers/func';
-import { FlashcardSet } from '../../components/flashcard-set/flashcard-set';
+import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
 
 export const ViewDeckPage = () => {
   const [deck, setDeck] = useState<Deck | undefined>(undefined);
@@ -49,15 +49,13 @@ export const ViewDeckPage = () => {
       <div>{`${deck.cards.length} cards`}</div>
       <div>{`created ${getFormattedDate(deck.metaData.dateCreated)}`}</div>
       <hr className="view-deck-divider" />
-      {deck.cards.length > 0 ? <FlashcardSet cards={deck.cards} /> : getEmptyCardSetPlaceholder()}
+      {deck.cards.length > 0 ? (
+        <ReadOnlyFlashcardSet cards={deck.cards} />
+      ) : (
+        <div className="empty-card-set-placeholder">you currently have no cards in this deck</div>
+      )}
     </Fade>
   );
-
-  function getEmptyCardSetPlaceholder() {
-    return (
-      <div className="empty-card-set-placeholder">you currently have no cards in this deck</div>
-    );
-  }
 
   async function fetchDeckAndRefresh() {
     setDeck(undefined);

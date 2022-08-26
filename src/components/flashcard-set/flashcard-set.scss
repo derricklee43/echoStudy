@@ -1,4 +1,14 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
 .c-flashcard-set ul {
   list-style-type: none;
   padding: 0px;
+  cursor: pointer;
+
+  .card-with-buttons {
+    @include flex-center;
+    color: $light-blue;
+    gap: 10px;
+  }
 }
