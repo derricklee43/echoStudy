@@ -5,6 +5,24 @@ import { getTestFoxCard } from '../../models/mock/card.mock';
 import { createNewCard } from '../../models/card';
 
 describe('Flashcard', () => {
+  it('should render correctly when inactive', () => {
+    const testCard = getTestFoxCard();
+    render(<Flashcard variant="inactive" card={testCard} />);
+    expect(screen.queryByDisplayValue(testCard.front.text)).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(testCard.back.text)).toBeInTheDocument();
+    expect(screen.queryAllByRole('button', { name: 'speaker' }).length).toEqual(0);
+    expect(screen.queryAllByRole('button', { name: 'kebab-menu' }).length).toEqual(0);
+  });
+
+  it('should render correctly when active', () => {
+    const testCard = getTestFoxCard();
+    render(<Flashcard variant="active" card={testCard} />);
+    expect(screen.queryByDisplayValue(testCard.front.text)).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(testCard.back.text)).toBeInTheDocument();
+    expect(screen.queryAllByRole('button', { name: 'speaker' }).length).toEqual(0);
+    expect(screen.queryAllByRole('button', { name: 'kebab-menu' }).length).toEqual(2);
+  });
+
   it('should render correctly when readonly', () => {
     const testCard = getTestFoxCard();
     render(<Flashcard variant="readonly" card={testCard} />);
@@ -12,17 +30,6 @@ describe('Flashcard', () => {
     expect(screen.queryByDisplayValue(testCard.back.text)).toBeInTheDocument();
     expect(screen.queryAllByRole('button', { name: 'speaker' }).length).toEqual(2);
     expect(screen.queryAllByRole('button', { name: 'kebab-menu' }).length).toEqual(0);
-    expect(screen.queryByRole('button', { name: 'up-arrow' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'down-arrow' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'trash' })).not.toBeInTheDocument();
-  });
-
-  it('should show arrows and trash when not readonly (editable)', () => {
-    const testCard = getTestFoxCard();
-    render(<Flashcard variant="active" card={testCard} />);
-    expect(screen.queryByRole('button', { name: 'up-arrow' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'down-arrow' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'trash' })).toBeInTheDocument();
   });
 
   it('should show placeholder when card is empty', () => {

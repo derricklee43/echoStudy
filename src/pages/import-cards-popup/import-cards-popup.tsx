@@ -2,10 +2,9 @@ import './import-cards-popup.scss';
 import React, { useState } from 'react';
 import { PopupModal } from '../../components/popup-modal/popup-modal';
 import { Button } from '../../components/button/button';
-import { noop } from '../../helpers/func';
 import { TextArea } from '../../components/text-area/text-area';
-import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
 import { Card, createNewCard } from '../../models/card';
+import { FileInput, ImportedFile } from '../../components/file-input/file-input';
 import {
   RadioButtonGroup,
   RadioButtonOptions,
@@ -26,12 +25,23 @@ const cardSeparatorOptions: RadioButtonOptions = {
   '\n': 'new lines',
 };
 
+const enum IMPORT_METHODS {
+  'FILE' = 'FILE',
+  'CLIPBOARD' = 'CLIPBOARD',
+}
+const importMethodOptions: RadioButtonOptions = {
+  [IMPORT_METHODS.FILE]: 'upload file',
+  [IMPORT_METHODS.CLIPBOARD]: 'copy and paste',
+};
+
 export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) => {
   const [termDefSeparator, setTermDefSeparator] = useState('');
   const [cardSeparator, setCardSeparator] = useState('');
   const [textAreaValue, setTextAreaValue] = useState('');
+  const [importMethod, setImportMethod] = useState('');
+  const [importedFile, setImportedFile] = useState<ImportedFile>();
 
-  const isImportable = termDefSeparator && cardSeparator && textAreaValue.length !== 0;
+  const isImportable = isImportConfigValid();
 
   return (
     <PopupModal headerLabel="import cards" showTrigger={showPopup} onClose={() => onClose([])}>
@@ -50,26 +60,13 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
           selectedButtonKey={cardSeparator}
           onButtonSelect={setCardSeparator}
         />
-        <div className="import-cards-list-item-label">3. add your cards</div>
-        <div className="import-cards-input-container">
-          <TextArea
-            lines={5}
-            placeholder="copy and paste your cards here"
-            value={textAreaValue}
-            onChange={setTextAreaValue}
-          />
-          <BubbleDivider
-            label={'or'}
-            variantColor="light"
-            className="import-cards-divider"
-            buttonClassName="import-cards-divider-button"
-          />
-          <div className="browse-files-button-container">
-            <Button variant="light" onClick={noop} className="import-cards-popup-button">
-              browse your files
-            </Button>
-          </div>
-        </div>
+        <div className="import-cards-list-item-label">3. how to import your cards?</div>
+        <RadioButtonGroup
+          radioButtonOptions={importMethodOptions}
+          selectedButtonKey={importMethod}
+          onButtonSelect={onImportMethodChange}
+        />
+        <div className="import-cards-input-container"> {getImportComponent()}</div>
       </div>
       <div className="import-cards-submit-button-container">
         <Button
@@ -84,8 +81,47 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
     </PopupModal>
   );
 
+  function onImportMethodChange(newImportMethod: string) {
+    if (newImportMethod == importMethod) {
+      return;
+    }
+    setImportedFile(undefined);
+    setTextAreaValue('');
+    setImportMethod(newImportMethod);
+  }
+
+  function getImportComponent() {
+    if (importMethod === IMPORT_METHODS.CLIPBOARD) {
+      return (
+        <TextArea
+          lines={5}
+          placeholder="copy and paste your cards here"
+          value={textAreaValue}
+          onChange={setTextAreaValue}
+        />
+      );
+    }
+    if (importMethod === IMPORT_METHODS.FILE) {
+      return (
+        <FileInput
+          className="browse-files-button-container"
+          label="choose a file"
+          importedFile={importedFile}
+          onImportedFileChange={setImportedFile}
+        />
+      );
+    }
+    return undefined;
+  }
+
   function handleImportClick() {
-    const cardTextArrays = textAreaValue.split(cardSeparator).map((cardText) => {
+    const isImportedFile = importMethod === IMPORT_METHODS.CLIPBOARD;
+    const content = isImportedFile ? textAreaValue : importedFile?.content;
+    if (content === undefined) {
+      return;
+    }
+
+    const cardTextArrays = content.split(cardSeparator).map((cardText) => {
       return cardText.split(termDefSeparator);
     });
 
@@ -101,6 +137,15 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
     });
 
     setTextAreaValue('');
+    setImportedFile(undefined);
     onClose(newCards);
+  }
+
+  function isImportConfigValid() {
+    if (importMethod === '') {
+      return false;
+    }
+    const content = importMethod === IMPORT_METHODS.FILE ? importedFile?.content : textAreaValue;
+    return termDefSeparator && cardSeparator && content?.length;
   }
 };

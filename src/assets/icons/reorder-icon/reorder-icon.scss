@@ -1,0 +1,12 @@
+@import '../../colors';
+@import '../../styles';
+
+svg.reorder-icon {
+  @include standard-transition;
+  &.inactive {
+    fill: $light-blue;
+  }
+  &.active {
+    fill: $flashcard-white;
+  }
+}

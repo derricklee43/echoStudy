@@ -1,7 +1,6 @@
 @import '../../../../assets/colors';
 @import '../../../../assets/styles';
 .c-card-menu {
-  position: relative;
   .floating-menu {
     @include floating-card;
     @include hover-pointer;

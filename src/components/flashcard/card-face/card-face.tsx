@@ -4,6 +4,8 @@ import { Button } from '../../button/button';
 import { CardContent, CardLanguage } from '../../../models/card-content';
 import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
 import { CardMenu } from './card-menu/card-menu';
+import TextareaAutoSize from 'react-textarea-autosize';
+import { useRef } from 'react';
 
 interface CardFaceProps {
   cardContent: CardContent;
@@ -13,7 +15,7 @@ interface CardFaceProps {
   variant?: 'active' | 'inactive' | 'readonly';
   className?: string;
   onChange?: (cardContent: CardContent) => void;
-  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
   onSpeakerClick?: (audioFile?: HTMLAudioElement) => void;
   onSwapContentClick?: () => void;
 }
@@ -30,11 +32,12 @@ export const CardFace = ({
   onFocus,
   onSwapContentClick,
 }: CardFaceProps) => {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const isReadonly = variant === 'readonly';
   const hasText = cardContent.text.length !== 0;
 
   return (
-    <div className={`card-face ${className}`}>
+    <div className={`card-face ${className} ${variant}`} onClick={handleCardFaceClick}>
       {isReadonly && hasText && getSpeaker()}
       {variant === 'active' && (
         <CardMenu
@@ -45,13 +48,14 @@ export const CardFace = ({
           onSwapContentClick={() => onSwapContentClick?.()}
         />
       )}
-      <input
+      <TextareaAutoSize
         disabled={isReadonly}
-        className={`content ${variant}`}
-        placeholder={isReadonly ? undefined : placeholder}
+        className="card-face-textarea"
+        placeholder={!isReadonly ? placeholder : undefined}
         value={cardContent.text}
         onChange={handleCardTextChange}
         onFocus={onFocus}
+        ref={textAreaRef}
       />
     </div>
   );
@@ -70,7 +74,11 @@ export const CardFace = ({
     );
   }
 
-  function handleCardTextChange(event: React.FormEvent<HTMLInputElement>) {
+  function handleCardFaceClick() {
+    textAreaRef.current?.focus?.();
+  }
+
+  function handleCardTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
     onChange?.({ ...cardContent, text: event.currentTarget.value });
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { DropDownOption, DropDownOptions } from './drop-down-options';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { noop } from '../../helpers/func';
 import {
@@ -9,6 +9,7 @@ import {
   TEST_OPTIONS_SMALL,
   TEST_OPTIONS_SMALL_VALUES,
 } from './options.mock';
+import { withFakeTimers } from '../../helpers/test';
 
 describe('Button', () => {
   it('should render correctly with default props', () => {
@@ -16,15 +17,20 @@ describe('Button', () => {
     expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
   });
 
-  it('should hide when component rerenders with show as false', async () => {
-    const { rerender } = render(
-      <DropDownOptions show={true} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />
-    );
-    expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
+  it('should hide when component rerenders with show as false', () => {
+    return withFakeTimers(async () => {
+      const { rerender } = render(
+        <DropDownOptions show={true} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />
+      );
+      expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
 
-    rerender(<DropDownOptions show={false} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />);
-    await waitForElementToBeRemoved(() => screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0]), {
-      timeout: 500, // wrt `Fade` having transition duration of 0.2 (200ms)
+      rerender(
+        <DropDownOptions show={false} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />
+      );
+
+      // wrt `Fade` having transition duration of 0.2 (200ms)
+      jest.advanceTimersByTime(208); // 16 * Math.ceil(200 / 16)
+      expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).not.toBeVisible();
     });
   });
 

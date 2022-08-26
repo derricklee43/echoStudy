@@ -4,23 +4,44 @@ import { render, screen } from '@testing-library/react';
 import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 import userEvent from '@testing-library/user-event';
 import { Card } from '../../models/card';
-import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
-
-// warning: don't mutate these!!!
-const TEST_FOX_CARD = getTestFoxCard();
-const TEST_MONKEY_CARD = getTestMonkeyCard();
-const TEST_MOUSE_CARD = getTestMouseCard();
-const FOX_MONKEY_MOUSE = [TEST_FOX_CARD, TEST_MONKEY_CARD, TEST_MOUSE_CARD];
+import { noop } from '../../helpers/func';
 
 describe('FlashcardSet', () => {
+  let TEST_FOX_CARD: Card;
+  let TEST_MONKEY_CARD: Card;
+  let TEST_MOUSE_CARD: Card;
+  let FOX_MONKEY_MOUSE: Card[];
+
+  beforeEach(() => {
+    TEST_FOX_CARD = getTestFoxCard();
+    TEST_MONKEY_CARD = getTestMonkeyCard();
+    TEST_MOUSE_CARD = getTestMouseCard();
+    FOX_MONKEY_MOUSE = [TEST_FOX_CARD, TEST_MONKEY_CARD, TEST_MOUSE_CARD];
+  });
   it('should render correctly with default props', () => {
-    render(<FlashcardSet cards={[TEST_FOX_CARD]} />);
+    render(
+      <FlashcardSet
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onCardReorder={noop}
+        onDeleteCardClick={noop}
+        cards={[TEST_FOX_CARD]}
+      />
+    );
     expect(screen.queryByDisplayValue(TEST_FOX_CARD.front.text)).toBeInTheDocument();
     expect(screen.queryByDisplayValue(TEST_FOX_CARD.back.text)).toBeInTheDocument();
   });
 
   it('should render correctly with multiple cards', () => {
-    render(<FlashcardSet cards={FOX_MONKEY_MOUSE} />);
+    render(
+      <FlashcardSet
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onCardReorder={noop}
+        onDeleteCardClick={noop}
+        cards={FOX_MONKEY_MOUSE}
+      />
+    );
     expect(screen.queryAllByDisplayValue(TEST_MONKEY_CARD.front.text).length).toBe(1);
     expect(screen.queryAllByDisplayValue(TEST_MONKEY_CARD.front.text).length).toBe(1);
     expect(screen.queryAllByDisplayValue(TEST_MOUSE_CARD.front.text).length).toBe(1);
@@ -30,7 +51,9 @@ describe('FlashcardSet', () => {
     const mockOnDeleteCard = jest.fn();
     render(
       <FlashcardSet
-        variant="editable"
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onCardReorder={noop}
         cards={FOX_MONKEY_MOUSE}
         onDeleteCardClick={mockOnDeleteCard}
       />
@@ -46,7 +69,9 @@ describe('FlashcardSet', () => {
     const mockOnCardReorder = jest.fn();
     render(
       <FlashcardSet
-        variant="editable"
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
@@ -61,8 +86,10 @@ describe('FlashcardSet', () => {
     const mockOnCardReorder = jest.fn();
     render(
       <FlashcardSet
-        variant="editable"
         cards={FOX_MONKEY_MOUSE}
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onDeleteCardClick={noop}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
     );
@@ -76,7 +103,9 @@ describe('FlashcardSet', () => {
     const mockOnCardReorder = jest.fn();
     render(
       <FlashcardSet
-        variant="editable"
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
@@ -91,7 +120,9 @@ describe('FlashcardSet', () => {
     const mockOnCardReorder = jest.fn();
     render(
       <FlashcardSet
-        variant="editable"
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
@@ -100,6 +131,22 @@ describe('FlashcardSet', () => {
     // down on MOUSE: FOX_MONKEY_MOUSE --> MOUSE_FOX_MONKEY
     userEvent.click(getDownArrowByIndex(2));
     expect(mockOnCardReorder).toBeCalledWith(['mouse', 'fox', 'monkey']);
+  });
+
+  it('should show arrows and trash', () => {
+    const testCard = getTestFoxCard();
+    render(
+      <FlashcardSet
+        initialActiveCardKey=""
+        onCardChange={noop}
+        onCardReorder={noop}
+        onDeleteCardClick={noop}
+        cards={[testCard]}
+      />
+    );
+    expect(screen.queryByRole('button', { name: 'up-arrow' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'down-arrow' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'trash' })).toBeInTheDocument();
   });
 
   function getUpArrowByIndex(index: number): HTMLElement {
