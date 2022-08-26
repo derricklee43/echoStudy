@@ -1,4 +1,4 @@
-import { Deck, Language } from './deck';
+import { Deck, DeckLanguage } from './deck';
 import { DeckCategory } from './deck-category';
 import { Session } from './session';
 
@@ -15,5 +15,5 @@ export interface User {
 
 export interface UserSettings {
   playbackSpeed: number;
-  language: Language;
+  language: DeckLanguage;
 }

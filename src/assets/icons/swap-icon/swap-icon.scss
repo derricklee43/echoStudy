@@ -1,0 +1,11 @@
+@import '../../colors';
+
+.swap-icon {
+  &.dark {
+    fill: $blue;
+  }
+
+  &.light {
+    fill: $white;
+  }
+}

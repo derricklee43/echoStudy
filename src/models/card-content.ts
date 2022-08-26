@@ -1,8 +1,10 @@
-import { DeckLanguages } from './deck';
+import { AllDeckLanguages } from './deck';
 
-export const CardLanguages = ['Default', ...DeckLanguages] as const;
+export const AllCardLanguages = ['Default', ...AllDeckLanguages] as const;
 
-export type CardLanguage = typeof CardLanguages[number];
+export type CardLanguages = typeof AllCardLanguages;
+
+export type CardLanguage = CardLanguages[number];
 export interface CardContent {
   text: string;
   audio?: HTMLAudioElement; // new Audio(...);
@@ -10,5 +12,5 @@ export interface CardContent {
 }
 
 export function createNewCardContent(): CardContent {
-  return { text: '', language: 'English' }; // Todo change default language back to 'Default'
+  return { text: '', language: 'Default' };
 }
