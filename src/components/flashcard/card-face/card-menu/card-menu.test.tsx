@@ -3,6 +3,8 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import userEvent from '@testing-library/user-event';
 import { CardMenu } from './card-menu';
 import { noop } from '../../../../helpers/func';
+import { withFakeTimers } from '../../../../helpers/test';
+import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
 
 describe('CardMenu', () => {
   const TEST_CHANGE_LANGUAGE_LABEL = 'TEST_CHANGE_LANGUAGE_LABEL';
@@ -38,33 +40,10 @@ describe('CardMenu', () => {
       />
     );
     userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
+
     expect(screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL)).toBeInTheDocument();
     expect(screen.queryByText(TEST_SWAP_CONTENT_LABEL)).toBeInTheDocument();
     expect(screen.queryByText(DEFAULT_TEST_LANGUAGE)).toBeInTheDocument();
-  });
-
-  it('should close on kebab-menu re-click', async () => {
-    render(
-      <CardMenu
-        language={DEFAULT_TEST_LANGUAGE}
-        changeLanguageLabel={TEST_CHANGE_LANGUAGE_LABEL}
-        swapContentLabel={TEST_SWAP_CONTENT_LABEL}
-        onLanguageChange={noop}
-        onSwapContentClick={noop}
-      />
-    );
-    userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
-    expect(screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_SWAP_CONTENT_LABEL)).toBeInTheDocument();
-    expect(screen.queryByText(DEFAULT_TEST_LANGUAGE)).toBeInTheDocument();
-
-    userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
-    await waitForElementToBeRemoved(() => screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL), {
-      timeout: 500, // wrt `Fade` having transition duration of 0.2 (200ms)
-    });
-    expect(screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL)).not.toBeInTheDocument();
-    expect(screen.queryByText(TEST_SWAP_CONTENT_LABEL)).not.toBeInTheDocument();
-    expect(screen.queryByText(DEFAULT_TEST_LANGUAGE)).not.toBeInTheDocument();
   });
 
   it('should call onSwapContentClick on swap content click', () => {
@@ -80,5 +59,24 @@ describe('CardMenu', () => {
     );
     userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
     userEvent.click(screen.getByText(TEST_SWAP_CONTENT_LABEL));
+
+    expect(mockOnSwapContentClick).toHaveBeenCalled();
+  });
+
+  it('should call onLanguageChange on language change', () => {
+    const mockOnLanguageChange = jest.fn<void, []>();
+    render(
+      <CardMenu
+        language={DEFAULT_TEST_LANGUAGE}
+        changeLanguageLabel={TEST_CHANGE_LANGUAGE_LABEL}
+        swapContentLabel={TEST_SWAP_CONTENT_LABEL}
+        onLanguageChange={mockOnLanguageChange}
+        onSwapContentClick={noop}
+      />
+    );
+    userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
+    userEvent.click(screen.getByText(DEFAULT_TEST_LANGUAGE));
+    userEvent.click(screen.getByText('Spanish'));
+    expect(mockOnLanguageChange).toHaveBeenCalledWith('Spanish');
   });
 });

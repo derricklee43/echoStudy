@@ -4,6 +4,7 @@ import { CardFace } from './card-face';
 import { getTestMonkeyFront } from '../../../models/mock/card-content.mock';
 import { createNewCardContent } from '../../../models/card-content';
 import userEvent from '@testing-library/user-event';
+import { noop } from '../../../helpers/func';
 
 describe('CardFace', () => {
   it('should render correctly when readonly', () => {
@@ -28,12 +29,11 @@ describe('CardFace', () => {
 
   it('should render placeholder when text is empty ', () => {
     const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
-    // TODO: fix test
     render(
       <CardFace
         cardContent={createNewCardContent()}
         variant="inactive"
-        // TODO: fix test
+        placeholder={TEST_PLACEHOLDER}
       />
     );
     expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).toBeInTheDocument();
@@ -56,7 +56,7 @@ describe('CardFace', () => {
       <CardFace
         cardContent={createNewCardContent()}
         variant="readonly"
-        // TODO: fix test
+        placeholder={TEST_PLACEHOLDER}
       />
     );
     expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).not.toBeInTheDocument();
@@ -74,7 +74,7 @@ describe('CardFace', () => {
       <CardFace
         cardContent={createNewCardContent()}
         variant="inactive"
-        // TODO: fix test
+        placeholder={TEST_PLACEHOLDER}
         onFocus={mockOnFocus}
       />
     );
@@ -86,10 +86,34 @@ describe('CardFace', () => {
     const mockOnChange = jest.fn();
     const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
     render(
-      <CardFace cardContent={createNewCardContent()} variant="active" onChange={mockOnChange} />
+      <CardFace
+        cardContent={createNewCardContent()}
+        variant="active"
+        onChange={mockOnChange}
+        placeholder={TEST_PLACEHOLDER}
+      />
     );
-    // TODO: fix test
     userEvent.type(screen.getByPlaceholderText(TEST_PLACEHOLDER), 't');
     expect(mockOnChange).toBeCalledWith({ ...createNewCardContent(), text: 't' });
+  });
+
+  it('should open the card-face menu on click', () => {
+    const TEST_SWAP_CONTENT_LABEL = 'TEST_SWAP_CONTENT_LABEL';
+    const TEST_CHANGE_LANGUAGE_LABEL = 'TEST_CHANGE_LANGUAGE_LABEL';
+    const cardContent = createNewCardContent();
+    render(
+      <CardFace
+        cardContent={cardContent}
+        variant="active"
+        onChange={noop}
+        changeLanguageLabel={TEST_CHANGE_LANGUAGE_LABEL}
+        swapContentLabel={TEST_SWAP_CONTENT_LABEL}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
+    expect(screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(TEST_SWAP_CONTENT_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(cardContent.language)).toBeInTheDocument();
   });
 });

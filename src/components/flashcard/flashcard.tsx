@@ -25,7 +25,7 @@ export const Flashcard = ({
   useEffect(() => scrollIntoViewIfActive(), [variant]);
 
   return (
-    <div ref={cardRef} className={`flashcard ${variant}`} onMouseDown={() => console.log('here')}>
+    <div ref={cardRef} className={`flashcard ${variant}`}>
       <CardFace
         variant={variant}
         placeholder="add term"
