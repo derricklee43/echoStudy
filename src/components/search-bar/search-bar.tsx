@@ -101,9 +101,6 @@ export const SearchBar = ({
   }
 
   function optionIncludesValueFilter(option: DropDownOption<string>) {
-    if (typeof option.value !== 'string') {
-      return false;
-    }
     const optionVal = option.value;
     const searchVal = value.trim();
     return dropDownIgnoreCase
