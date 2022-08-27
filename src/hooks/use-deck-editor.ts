@@ -89,7 +89,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.UPDATE_META_DATA, metaData });
 
     // propagate default deck language
-    // todo: pls make backend changes so we dont have to manually propagate this
+    // TODO: pls make backend changes so we don't have to manually propagate this
     state.currentDeck.cards.forEach((card) => {
       const newCard = { ...card };
       newCard.front.language = metaData.frontLang;
@@ -99,7 +99,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
   }
 
   function addCard(card: Card) {
-    // todo: ideally should be default (see above method)
+    // TODO: ideally should be default (see above method)
     // set card default language to be the same as decks
     card.front.language = state.currentDeck.metaData.frontLang;
     card.back.language = state.currentDeck.metaData.backLang;

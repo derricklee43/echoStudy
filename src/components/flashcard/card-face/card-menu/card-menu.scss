@@ -1,0 +1,35 @@
+@import '../../../../assets/colors';
+@import '../../../../assets/styles';
+.c-card-menu {
+  .floating-menu {
+    @include floating-card;
+    @include hover-pointer;
+    margin-top: 2px;
+    right: 25px;
+    top: 15px;
+  }
+
+  .menu-item {
+    padding: 8px;
+    display: flex;
+
+    &:first-child {
+      border-top-left-radius: $standard-radius;
+      border-top-right-radius: $standard-radius;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $standard-radius;
+      border-bottom-right-radius: $standard-radius;
+    }
+
+    .menu-item-icon {
+      padding-right: 8px;
+    }
+  }
+
+  .button-item {
+    @include white-hover;
+    @include hover-pointer;
+  }
+}

@@ -4,6 +4,7 @@ import { CardFace } from './card-face';
 import { getTestMonkeyFront } from '../../../models/mock/card-content.mock';
 import { createNewCardContent } from '../../../models/card-content';
 import userEvent from '@testing-library/user-event';
+import { noop } from '../../../helpers/func';
 
 describe('CardFace', () => {
   it('should render correctly when readonly', () => {
@@ -26,7 +27,7 @@ describe('CardFace', () => {
     expect(screen.queryByRole('button', { name: 'kebab-menu' })).toBeInTheDocument();
   });
 
-  it('should render placeholder when text is empty', () => {
+  it('should render placeholder when text is empty ', () => {
     const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
     render(
       <CardFace
@@ -88,11 +89,31 @@ describe('CardFace', () => {
       <CardFace
         cardContent={createNewCardContent()}
         variant="active"
-        placeholder={TEST_PLACEHOLDER}
         onChange={mockOnChange}
+        placeholder={TEST_PLACEHOLDER}
       />
     );
     userEvent.type(screen.getByPlaceholderText(TEST_PLACEHOLDER), 't');
     expect(mockOnChange).toBeCalledWith({ ...createNewCardContent(), text: 't' });
+  });
+
+  it('should open the card-face menu on click', () => {
+    const TEST_SWAP_CONTENT_LABEL = 'TEST_SWAP_CONTENT_LABEL';
+    const TEST_CHANGE_LANGUAGE_LABEL = 'TEST_CHANGE_LANGUAGE_LABEL';
+    const cardContent = createNewCardContent();
+    render(
+      <CardFace
+        cardContent={cardContent}
+        variant="active"
+        onChange={noop}
+        changeLanguageLabel={TEST_CHANGE_LANGUAGE_LABEL}
+        swapContentLabel={TEST_SWAP_CONTENT_LABEL}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
+    expect(screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(TEST_SWAP_CONTENT_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(cardContent.language)).toBeInTheDocument();
   });
 });
