@@ -7,23 +7,23 @@ import { useOutsideClick } from '../../hooks/use-outside-click';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
 
-interface DropDownProps {
+interface DropDownProps<T> {
   variant?: 'dark' | 'light';
   label?: React.ReactNode;
   className?: string;
-  options: DropDownOption[];
+  options: DropDownOption<T>[];
   buttonLabel: React.ReactNode;
-  onOptionSelect: (option: DropDownOption) => void;
+  onOptionSelect: (option: DropDownOption<T>) => void;
 }
 
-export const DropDown = ({
+export const DropDown = <T extends React.ReactNode>({
   variant = 'dark',
   label = '',
   className = '',
   options,
   buttonLabel,
   onOptionSelect,
-}: DropDownProps) => {
+}: DropDownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const accentVariant = variant === 'dark' ? 'light' : 'dark';
 
@@ -50,7 +50,7 @@ export const DropDown = ({
     );
   }
 
-  function handleOptionSelect(option: DropDownOption) {
+  function handleOptionSelect(option: DropDownOption<T>) {
     onOptionSelect(option);
     setIsOpen(false);
   }
