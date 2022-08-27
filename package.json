@@ -62,6 +62,7 @@
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest-watch-typeahead": "^0.6.5",
     "prettier": "^2.5.1",
     "sass": "^1.54.5",
