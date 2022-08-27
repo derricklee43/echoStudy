@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { Button } from '../../components/button/button';
 import { DeckCover } from '../../components/deck-cover/deck-cover';
 import { DropDownOption } from '../../components/drop-down-options/drop-down-options';
 import { DropDown } from '../../components/drop-down/drop-down';
@@ -71,7 +70,7 @@ export const FlashcardDecksPage = () => {
       <DeckCover
         key={deck.metaData.id}
         deck={deck}
-        onStudyClick={noop}
+        onStudyClick={() => handleStudyClick(deck.metaData.id)}
         onViewClick={() => handleViewClick(deck.metaData.id)}
       />
     ));
@@ -79,6 +78,10 @@ export const FlashcardDecksPage = () => {
 
   function handleViewClick(id: number) {
     navigate(`${paths.deck}/${id}`);
+  }
+
+  function handleStudyClick(id: number) {
+    navigate(`${paths.study}/${id}`);
   }
 
   function onAddDeckClicked() {

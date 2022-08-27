@@ -37,7 +37,7 @@ export const ViewDeckPage = () => {
           goBackLabel="back to decks"
         />
         <div>
-          <Button onClick={noop} size="medium">
+          <Button onClick={() => navigate(`${paths.study}/${deckId}`)} size="medium">
             study
           </Button>
           <Button onClick={() => navigate(`${paths.editDeck}/${deckId}`)} size="medium">
