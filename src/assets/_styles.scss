@@ -34,7 +34,7 @@ $content-padding: 50px;
 }
 
 @mixin white-hover {
-  @include hover($white-hover);
+  @include hover($deck-cover-white);
 }
 
 @mixin flex-center {
@@ -51,4 +51,12 @@ $content-padding: 50px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+@mixin floating-card {
+  @include box-shadow;
+  position: absolute;
+  z-index: 1;
+  background-color: $white;
+  border-radius: $standard-radius + 1px; //hides corners of div
 }

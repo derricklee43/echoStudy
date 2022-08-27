@@ -1,0 +1,11 @@
+@import '../../colors';
+
+.language-icon {
+  &.dark {
+    fill: $blue;
+  }
+
+  &.light {
+    fill: $white;
+  }
+}

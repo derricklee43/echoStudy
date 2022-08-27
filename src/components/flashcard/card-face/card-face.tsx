@@ -1,30 +1,36 @@
 import './card-face.scss';
 import React from 'react';
 import { Button } from '../../button/button';
-import { CardContent } from '../../../models/card-content';
+import { CardContent, CardLanguage } from '../../../models/card-content';
 import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
-import { KebabMenuIcon } from '../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
+import { CardMenu } from './card-menu/card-menu';
 import TextareaAutoSize from 'react-textarea-autosize';
 import { useRef } from 'react';
 
 interface CardFaceProps {
   cardContent: CardContent;
+  placeholder?: string;
+  changeLanguageLabel?: string;
+  swapContentLabel?: string;
   variant?: 'active' | 'inactive' | 'readonly';
   className?: string;
-  placeholder?: string;
   onChange?: (cardContent: CardContent) => void;
   onFocus?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
   onSpeakerClick?: (audioFile?: HTMLAudioElement) => void;
+  onSwapContentClick?: () => void;
 }
 
 export const CardFace = ({
   cardContent,
+  placeholder,
+  changeLanguageLabel,
+  swapContentLabel,
   variant = 'inactive',
   className = '',
-  placeholder,
   onSpeakerClick,
   onChange,
   onFocus,
+  onSwapContentClick,
 }: CardFaceProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const isReadonly = variant === 'readonly';
@@ -33,7 +39,15 @@ export const CardFace = ({
   return (
     <div className={`card-face ${className} ${variant}`} onClick={handleCardFaceClick}>
       {isReadonly && hasText && getSpeaker()}
-      {variant === 'active' && getKebabMenu()}
+      {variant === 'active' && (
+        <CardMenu
+          language={cardContent.language}
+          changeLanguageLabel={changeLanguageLabel ?? ''}
+          swapContentLabel={swapContentLabel ?? ''}
+          onLanguageChange={handleLanguageChange}
+          onSwapContentClick={() => onSwapContentClick?.()}
+        />
+      )}
       <TextareaAutoSize
         disabled={isReadonly}
         className="card-face-textarea"
@@ -60,20 +74,6 @@ export const CardFace = ({
     );
   }
 
-  function getKebabMenu() {
-    return (
-      <Button
-        onClick={handleKebabClick}
-        variant="invisible"
-        bubbleOnClickEvent={false}
-        className="card-face-button card-face-kebab-menu"
-        ariaLabel="kebab-menu"
-      >
-        <KebabMenuIcon />
-      </Button>
-    );
-  }
-
   function handleCardFaceClick() {
     textAreaRef.current?.focus?.();
   }
@@ -82,7 +82,7 @@ export const CardFace = ({
     onChange?.({ ...cardContent, text: event.currentTarget.value });
   }
 
-  function handleKebabClick() {
-    console.log('kebab clicked!');
+  function handleLanguageChange(language: CardLanguage) {
+    onChange?.({ ...cardContent, language });
   }
 };

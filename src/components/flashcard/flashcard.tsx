@@ -1,10 +1,10 @@
 import './flashcard.scss';
 import React from 'react';
-import { CardFace } from './card-face/card-face';
 import { Card } from '../../models/card';
 import { CardContent } from '../../models/card-content';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import { CardFace } from './card-face/card-face';
 
 interface FlashcardProps {
   card: Card;
@@ -25,24 +25,29 @@ export const Flashcard = ({
   useEffect(() => scrollIntoViewIfActive(), [variant]);
 
   return (
-    <div ref={cardRef} className={`flashcard ${variant}`} onMouseDown={() => console.log('here')}>
+    <div ref={cardRef} className={`flashcard ${variant}`}>
       <CardFace
         variant={variant}
         placeholder="add term"
-        className="front"
+        changeLanguageLabel="term language"
+        swapContentLabel="swap with definition"
         cardContent={card.front}
         onFocus={onFocus}
         onChange={handleFrontFaceChange}
         onSpeakerClick={onSpeakerClick}
+        onSwapContentClick={handleSwapContentClick}
       />
       <CardFace
         variant={variant}
         placeholder="add definition"
+        changeLanguageLabel="definition language"
+        swapContentLabel="swap with term"
         className="back"
         cardContent={card.back}
         onFocus={onFocus}
         onChange={handleBackFaceChange}
         onSpeakerClick={onSpeakerClick}
+        onSwapContentClick={handleSwapContentClick}
       />
     </div>
   );
@@ -58,6 +63,13 @@ export const Flashcard = ({
   function isCardInViewPort(cardDiv: HTMLDivElement) {
     const { top, bottom } = cardDiv.getBoundingClientRect();
     return bottom >= 0 && top <= (window.innerHeight || document.documentElement.clientHeight);
+  }
+
+  function handleSwapContentClick() {
+    const newCardFront = { ...card.back };
+    const newCardBack = { ...card.front };
+    const newCard = { ...card, front: newCardFront, back: newCardBack };
+    onCardChange?.(newCard);
   }
 
   function scrollIntoViewIfActive() {

@@ -1,0 +1,10 @@
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+.c-language-drop-down {
+  display: flex;
+  align-items: center;
+  .language-drop-down-icon {
+    margin-right: 8px;
+  }
+}

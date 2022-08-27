@@ -3,7 +3,9 @@
 
 .drop-down {
   > label {
+    display: inline-block;
     margin-right: 8px;
+    margin-bottom: 4px;
 
     &.light {
       color: $white;
