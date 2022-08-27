@@ -6,7 +6,7 @@ export function usePlayCardAudio() {
   const [setTimer, clearTimer, pauseTimer, resumeTimer] = useTimer();
   const [activeAudio, setActiveAudio] = useState<HTMLAudioElement>();
   const [activeCardKey, setActiveCardKey] = useState('');
-  const [activeText, setActiveText] = useState<string>('');
+  const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
   function pause() {
     pauseTimer();
@@ -47,14 +47,14 @@ export function usePlayCardAudio() {
         }
 
         const repeatAudioCallback = () => {
-          setActiveText(card.back.text);
+          setActiveCardSide('back');
           repeatAudio(backAudio, repeatDefCount, resolve as () => void);
         };
         const pauseLength = getPauseLength(backAudio.duration);
         chainToAudioWithPause(repeatAudioCallback, frontAudio, pauseLength);
 
         setActiveCardKey(card.key);
-        setActiveText(card.front.text);
+        setActiveCardSide('front');
         playAudio(frontAudio);
       } catch (e) {
         reject(e);
@@ -97,7 +97,7 @@ export function usePlayCardAudio() {
 
   return [
     activeCardKey,
-    activeText,
+    activeCardSide,
     playTermAndDefinition,
     pause,
     resume,
