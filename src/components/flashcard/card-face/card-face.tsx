@@ -41,7 +41,7 @@ export const CardFace = ({
       {isReadonly && hasText && getSpeaker()}
       {variant === 'active' && (
         <CardMenu
-          language={cardContent.language as any}
+          language={cardContent.language}
           changeLanguageLabel={changeLanguageLabel ?? ''}
           swapContentLabel={swapContentLabel ?? ''}
           onLanguageChange={handleLanguageChange}

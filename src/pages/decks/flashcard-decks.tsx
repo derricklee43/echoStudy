@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { Button } from '../../components/button/button';
 import { DeckCover } from '../../components/deck-cover/deck-cover';
-import { DropDownOption } from '../../components/drop-down-options/drop-down-options';
 import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
@@ -13,8 +11,7 @@ import {
   userDecksState,
   userDecksSortRuleState,
   userDecksSortedState,
-  SortRule,
-  SortRules,
+  AllSortRules,
 } from '../../state/user-decks';
 import './flashcard-decks.scss';
 
@@ -43,10 +40,10 @@ export const FlashcardDecksPage = () => {
         <label>flashcard decks</label>
         <DropDown
           variant="dark"
-          options={SortRules.map((item) => ({ id: item, value: item }))}
+          options={AllSortRules.map((item) => ({ id: item, value: item }))}
           label="sort by"
           buttonLabel={sortOption}
-          onOptionSelect={(option: DropDownOption) => setSortOption(option.value as SortRule)}
+          onOptionSelect={(option) => setSortOption(option.value)}
         />
       </div>
       <div className="deck-tile-container">
