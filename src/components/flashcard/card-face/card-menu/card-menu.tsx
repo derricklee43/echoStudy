@@ -50,7 +50,7 @@ export const CardMenu = ({
                 variant="light"
               />
             </div>
-            <div className="menu-item button-item" onClick={onSwapContentClick}>
+            <div className="menu-item button-item" onClick={handleSwapContentClick}>
               <SwapIcon variant="dark" className="menu-item-icon" />
               {swapContentLabel}
             </div>
@@ -59,4 +59,9 @@ export const CardMenu = ({
       </AnimatePresence>
     </div>
   );
+
+  function handleSwapContentClick() {
+    onSwapContentClick();
+    setShowMenu(false);
+  }
 };
