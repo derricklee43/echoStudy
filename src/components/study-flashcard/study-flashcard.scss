@@ -1,0 +1,29 @@
+@import '../../assets/styles';
+
+$width: 600px;
+$height: 300px;
+
+.c-study-flashcard {
+  width: $width;
+  height: $height;
+  margin: 10px;
+
+  .c-study-flashcard-content {
+    @include flex-center;
+    padding: 30px;
+    font-size: 30px;
+    width: $width;
+    height: $height;
+    border-radius: 12px;
+    box-sizing: border-box;
+
+    &.dark {
+      background-color: $deck-cover-blue;
+      color: $white;
+    }
+
+    &.light {
+      background-color: $flashcard-white;
+    }
+  }
+}

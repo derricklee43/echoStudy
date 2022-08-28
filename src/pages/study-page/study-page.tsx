@@ -9,6 +9,7 @@ import { LoadingPage } from '../../components/loading-page/loading-page';
 import { noop } from '../../helpers/func';
 import { Button } from '../../components/button/button';
 import { usePlayLesson } from '../../hooks/use-play-lesson';
+import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
 
 export const StudyPage = () => {
   const { deckId } = useParams(); // via the param :deckId
@@ -28,22 +29,25 @@ export const StudyPage = () => {
   return (
     <div className="study-page">
       <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
-      <br></br>
-      <Button onClick={playAudio} size="medium">
-        play audio
-      </Button>
-      <Button onClick={noop} size="medium">
-        {activeCardKey}
-      </Button>
-      <Button onClick={noop} size="medium">
-        {activeText}
-      </Button>
-      <Button onClick={pauseLesson} size="medium">
-        pause
-      </Button>
-      <Button onClick={resumeLesson} size="medium">
-        resume
-      </Button>
+      <div className="study-page-content">
+        <StudyFlashcard
+          variant={activeCardKey === '' ? 'dark' : 'light'}
+          backContent={findCard(activeCardKey)?.back.text}
+          frontContent={findCard(activeCardKey)?.front.text ?? deck.metaData.title}
+          activeSide={activeText}
+        />
+
+        <div className="button-menu">
+          {activeCardKey === '' ? (
+            <Button onClick={playAudio}>start lesson</Button>
+          ) : (
+            <>
+              <Button onClick={pauseLesson}>pause</Button>
+              <Button onClick={resumeLesson}>resume</Button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 
@@ -59,5 +63,9 @@ export const StudyPage = () => {
     const deck = await getDeckById(deckId);
     deck.cards = await getCardsByDeckId(deckId);
     setDeck(deck);
+  }
+
+  function findCard(key: string) {
+    return deck?.cards.find((card) => card.key === key);
   }
 };

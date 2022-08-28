@@ -1,2 +1,16 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
 .study-page {
+  .study-page-content {
+    @include flex-center;
+    flex-direction: column;
+    .button-menu {
+      display: flex;
+      gap: 20px;
+      button {
+        padding: 10px;
+      }
+    }
+  }
 }
