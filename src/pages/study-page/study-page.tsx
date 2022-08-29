@@ -15,7 +15,7 @@ export const StudyPage = () => {
   const { getDeckById } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
   const [deck, setDeck] = useState<Deck | undefined>();
-  const [activeCardKey, activeText, startLesson, pauseLesson, resumeLesson] = usePlayLesson();
+  const { activeCardKey, activeCardSide, startLesson, pauseLesson, resumeLesson } = usePlayLesson();
 
   useEffect(() => {
     fetchDeckAndRefresh();
@@ -27,7 +27,7 @@ export const StudyPage = () => {
 
   return (
     <div className="study-page">
-      <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
+      <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="go back" />
       <br></br>
       <Button onClick={playAudio} size="medium">
         play audio
@@ -36,7 +36,7 @@ export const StudyPage = () => {
         {activeCardKey}
       </Button>
       <Button onClick={noop} size="medium">
-        {activeText}
+        {activeCardSide}
       </Button>
       <Button onClick={pauseLesson} size="medium">
         pause

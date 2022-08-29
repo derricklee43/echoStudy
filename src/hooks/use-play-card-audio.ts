@@ -3,10 +3,19 @@ import { Card } from '../models/card';
 import { useTimer } from './use-timer';
 
 export function usePlayCardAudio() {
-  const [setTimer, clearTimer, pauseTimer, resumeTimer] = useTimer();
+  const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
   const [activeAudio, setActiveAudio] = useState<HTMLAudioElement>();
   const [activeCardKey, setActiveCardKey] = useState('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
+
+  return {
+    activeCardKey,
+    activeCardSide,
+    playTermAndDefinition,
+    pause,
+    resume,
+    getTotalCardDuration,
+  };
 
   function pause() {
     pauseTimer();
@@ -94,13 +103,4 @@ export function usePlayCardAudio() {
     chainToAudio(() => setActiveAudio(undefined), audio);
     audio.play();
   }
-
-  return [
-    activeCardKey,
-    activeCardSide,
-    playTermAndDefinition,
-    pause,
-    resume,
-    getTotalCardDuration,
-  ] as const;
 }
