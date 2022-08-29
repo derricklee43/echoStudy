@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { CardFace } from './card-face';
-import { getTestMonkeyFront } from '../../../models/mock/card-content.mock';
-import { createNewCardContent } from '../../../models/card-content';
 import userEvent from '@testing-library/user-event';
+import { CardFace } from './card-face';
 import { noop } from '../../../helpers/func';
+import { createNewCardContent } from '../../../models/card-content';
+import { getTestMonkeyFront } from '../../../models/mock/card-content.mock';
 
 describe('CardFace', () => {
   it('should render correctly when readonly', () => {

@@ -1,22 +1,22 @@
-import './meta-data-editor.scss';
 import React, { useState } from 'react';
+import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
+import { TrashIcon } from '../../../../assets/icons/trash-icon/trash-icon';
+import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
+import { Button } from '../../../../components/button/button';
+import { LanguageDropDown } from '../../../../components/language-drop-down/drop-down-options/language-drop-down';
+import { TextArea } from '../../../../components/text-area/text-area';
+import { TextBox } from '../../../../components/text-box/text-box';
+import { noop } from '../../../../helpers/func';
+import { Card } from '../../../../models/card';
+import { CardLanguage } from '../../../../models/card-content';
 import {
-  DeckMetaData,
   AllDeckLanguages,
   DeckLanguage,
   DeckLanguages,
+  DeckMetaData,
 } from '../../../../models/deck';
-import { Button } from '../../../../components/button/button';
-import { TextBox } from '../../../../components/text-box/text-box';
-import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
-import { TextArea } from '../../../../components/text-area/text-area';
 import { ImportCardsPopup } from '../../../import-cards-popup/import-cards-popup';
-import { Card } from '../../../../models/card';
-import { LanguageDropDown } from '../../../../components/language-drop-down/drop-down-options/language-drop-down';
-import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
-import { noop } from '../../../../helpers/func';
-import { TrashIcon } from '../../../../assets/icons/trash-icon/trash-icon';
-import { CardLanguage } from '../../../../models/card-content';
+import './meta-data-editor.scss';
 
 interface DeckEditorProps {
   deckMetaData: DeckMetaData;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { testEnglishDeck } from '../../../../models/mock/deck.mock';
 import { MetaDataEditor } from './meta-data-editor';
 import { noop } from '../../../../helpers/func';
+import { testEnglishDeck } from '../../../../models/mock/deck.mock';
 
 describe('MetaDataEditor', () => {
   beforeEach(() => {

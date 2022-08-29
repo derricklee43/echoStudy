@@ -1,6 +1,6 @@
 import React from 'react';
-import { ProgressBar } from './progress-bar';
 import { render, screen } from '@testing-library/react';
+import { ProgressBar } from './progress-bar';
 
 const TEST_LABEL = 'TEST_LABEL';
 

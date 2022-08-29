@@ -1,11 +1,10 @@
-import './drop-down.scss';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
-import { Button } from '../button/button';
-import { useRef } from 'react';
-import { useOutsideClick } from '../../hooks/use-outside-click';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useOutsideClick } from '../../hooks/use-outside-click';
+import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
+import './drop-down.scss';
 
 interface DropDownProps<T> {
   variant?: 'dark' | 'light';

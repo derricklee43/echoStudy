@@ -8,10 +8,10 @@ import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { createNewDeck, Deck } from '../../models/deck';
 import { paths } from '../../routes';
 import {
-  userDecksState,
-  userDecksSortRuleState,
-  userDecksSortedState,
   AllSortRules,
+  userDecksSortedState,
+  userDecksSortRuleState,
+  userDecksState,
 } from '../../state/user-decks';
 import './flashcard-decks.scss';
 

@@ -1,14 +1,13 @@
-import './edit-deck-page.scss';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { createNewDeck, Deck } from '../../models/deck';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { LoadingPage } from '../../components/loading-page/loading-page';
-import { useState } from 'react';
 import { DeckEditor } from './deck-editor/deck-editor';
 import { Fade } from '../../animations/fade';
+import { LoadingPage } from '../../components/loading-page/loading-page';
+import { useCardsClient } from '../../hooks/api/use-cards-client';
+import { useDecksClient } from '../../hooks/api/use-decks-client';
+import { createNewDeck, Deck } from '../../models/deck';
 import { paths } from '../../routes';
+import './edit-deck-page.scss';
 
 export const EditDeckPage = () => {
   const [deck, setDeck] = useState<Deck | undefined>(undefined);

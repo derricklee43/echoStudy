@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Card } from '../models/card';
 import { useTimer } from './use-timer';
+import { Card } from '../models/card';
 
 export function usePlayCardAudio() {
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();

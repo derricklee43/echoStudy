@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { FlipTile } from './flip-tile';
 import userEvent from '@testing-library/user-event';
+import { FlipTile } from './flip-tile';
 import { noop } from '../../helpers/func';
 
 const TEST_FRONT = 'TEST_FRONT';

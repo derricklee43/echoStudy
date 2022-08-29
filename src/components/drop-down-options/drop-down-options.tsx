@@ -1,8 +1,8 @@
-import './drop-down-options.scss';
 import React from 'react';
-import { Button } from '../button/button';
-import { Fade } from '../../animations/fade';
 import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../animations/fade';
+import { Button } from '../button/button';
+import './drop-down-options.scss';
 
 export interface DropDownOption<T> {
   id: string;

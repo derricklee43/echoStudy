@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { withFakeTimers } from '../../helpers/test';
 import { useTimer } from '../use-timer';
 

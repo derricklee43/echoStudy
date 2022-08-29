@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { PopupModal, PopupModalProps } from './popup-modal';
 import userEvent from '@testing-library/user-event';
+import { PopupModal, PopupModalProps } from './popup-modal';
 
 const TEST_CHILDREN = 'TEST_CHILDREN';
 

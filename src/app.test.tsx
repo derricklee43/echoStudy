@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './app';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import { render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
+import { RecoilRoot } from 'recoil';
+import App from './app';
 
 export function renderWithHistoryRouter(
   jsxElement: JSX.Element,

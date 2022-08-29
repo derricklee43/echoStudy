@@ -1,6 +1,6 @@
-import './trash-icon.scss';
 import React from 'react';
 import { ReactComponent as Trash } from '../../svg/trash.svg';
+import './trash-icon.scss';
 
 interface TrashIconProps {
   variant?: 'active' | 'inactive';

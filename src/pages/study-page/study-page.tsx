@@ -1,14 +1,14 @@
-import './study-page.scss';
 import React, { useEffect, useState } from 'react';
-import { PageHeader } from '../../components/page-header/page-header';
 import { useParams } from 'react-router-dom';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { Deck } from '../../models/deck';
-import { LoadingPage } from '../../components/loading-page/loading-page';
-import { noop } from '../../helpers/func';
 import { Button } from '../../components/button/button';
+import { LoadingPage } from '../../components/loading-page/loading-page';
+import { PageHeader } from '../../components/page-header/page-header';
+import { noop } from '../../helpers/func';
+import { useCardsClient } from '../../hooks/api/use-cards-client';
+import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { usePlayLesson } from '../../hooks/use-play-lesson';
+import { Deck } from '../../models/deck';
+import './study-page.scss';
 
 export const StudyPage = () => {
   const { deckId } = useParams(); // via the param :deckId

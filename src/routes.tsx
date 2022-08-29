@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { FlashcardDecksPage } from './pages/decks/flashcard-decks';
 import { EditDeckPage } from './pages/edit-deck-page/edit-deck-page';
 import { NotFoundPage } from './pages/not-found-page/not-found-page';
