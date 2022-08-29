@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import { withFakeTimers } from '../../helpers/test';
 import { useTimer } from '../use-timer';
 
@@ -12,7 +12,7 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
+      act(() => result.current.setTimer(mockCallback, 200));
       jest.advanceTimersByTime(200);
 
       expect(mockCallback).toHaveBeenCalled();
@@ -23,7 +23,7 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
+      act(() => result.current.setTimer(mockCallback, 200));
       jest.advanceTimersByTime(199);
 
       expect(mockCallback).not.toHaveBeenCalled();
@@ -34,10 +34,9 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-
+      act(() => result.current.setTimer(mockCallback, 200));
       jest.advanceTimersByTime(100);
-      result.current.pauseTimer();
+      act(() => result.current.pauseTimer());
       jest.advanceTimersByTime(100);
 
       expect(mockCallback).not.toHaveBeenCalled();
@@ -48,10 +47,9 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-
+      act(() => result.current.setTimer(mockCallback, 200));
       jest.advanceTimersByTime(100);
-      result.current.pauseTimer();
+      act(() => result.current.pauseTimer());
       jest.advanceTimersByTime(100);
 
       result.current.resumeTimer();
@@ -65,11 +63,10 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-
+      act(() => result.current.setTimer(mockCallback, 200));
       jest.advanceTimersByTime(100);
-      result.current.clearTimer();
-      result.current.resumeTimer();
+      act(() => result.current.clearTimer());
+      act(() => result.current.resumeTimer());
       jest.advanceTimersByTime(100);
 
       expect(mockCallback).not.toHaveBeenCalled();
@@ -80,8 +77,8 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-      result.current.setTimer(mockCallback, 200);
+      act(() => result.current.setTimer(mockCallback, 200));
+      act(() => result.current.setTimer(mockCallback, 200));
 
       jest.advanceTimersByTime(200);
 
@@ -93,8 +90,8 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-      result.current.resumeTimer();
+      act(() => result.current.setTimer(mockCallback, 200));
+      act(() => result.current.resumeTimer());
 
       jest.advanceTimersByTime(200);
 
@@ -106,9 +103,9 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-      result.current.resumeTimer();
-      result.current.resumeTimer();
+      act(() => result.current.setTimer(mockCallback, 200));
+      act(() => result.current.resumeTimer());
+      act(() => result.current.resumeTimer());
 
       jest.advanceTimersByTime(200);
 
@@ -120,10 +117,10 @@ describe('useTimer', () => {
     withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.setTimer(mockCallback, 200);
-      result.current.clearTimer();
+      act(() => result.current.setTimer(mockCallback, 200));
+      act(() => result.current.clearTimer());
 
-      result.current.setTimer(mockCallback, 200);
+      act(() => result.current.setTimer(mockCallback, 200));
       jest.advanceTimersByTime(200);
 
       expect(mockCallback).toHaveBeenCalledTimes(1);
