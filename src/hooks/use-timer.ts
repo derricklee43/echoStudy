@@ -6,7 +6,7 @@ export function useTimer() {
   const startTimeRef = useRef<number>();
   const remainingTimeRef = useRef<number>();
 
-  return { setTimer, clearTimer, pauseTimer, resumeTimer } as const;
+  return { setTimer, clearTimer, pauseTimer, resumeTimer };
 
   function pauseTimer() {
     if (
