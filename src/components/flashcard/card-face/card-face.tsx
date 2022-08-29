@@ -1,11 +1,10 @@
 import './card-face.scss';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button } from '../../button/button';
 import { CardContent, CardLanguage } from '../../../models/card-content';
 import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
 import { CardMenu } from './card-menu/card-menu';
 import TextareaAutoSize from 'react-textarea-autosize';
-import { useRef } from 'react';
 
 interface CardFaceProps {
   cardContent: CardContent;
