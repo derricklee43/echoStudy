@@ -55,7 +55,7 @@ describe('useTimer', () => {
       result.current.resumeTimer();
       jest.advanceTimersByTime(108);
 
-      // expect(mockCallback).toHaveBeenCalled();
+      expect(mockCallback).toHaveBeenCalled();
     });
   });
 
