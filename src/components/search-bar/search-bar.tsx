@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, ChangeEvent, useMemo, useRef } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import { debounce, noop } from '../../helpers/func';

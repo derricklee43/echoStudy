@@ -1,11 +1,10 @@
-import React from 'react';
-import './app.scss';
-import { useState } from 'react';
-import { Sidebar } from './components/sidebar/sidebar';
-import { Header } from './components/header/header';
-import { PageRoutes } from './routes';
-import { userDecksSortedState } from './state/user-decks';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { Header } from './components/header/header';
+import { Sidebar } from './components/sidebar/sidebar';
+import { userDecksSortedState } from './state/user-decks';
+import { PageRoutes } from './routes';
+import './app.scss';
 
 function App() {
   const userDecks = useRecoilValue(userDecksSortedState);

@@ -1,8 +1,8 @@
 import React from 'react';
-import { PageHeader } from './page-header';
 import { render, screen } from '@testing-library/react';
-import { noop } from '../../helpers/func';
 import userEvent from '@testing-library/user-event';
+import { PageHeader } from './page-header';
+import { noop } from '../../helpers/func';
 
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_GO_BACK_LABEL = 'TEST_GO_BACK_LABEL';

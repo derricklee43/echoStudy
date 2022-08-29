@@ -1,9 +1,9 @@
-import './reorder-button-strip.scss';
 import React, { useState } from 'react';
-import { FlashcardArrowIcon } from '../../../assets/icons/flashcard-arrow-icon/flashcard-arrow-icon';
-import { Button } from '../../button/button';
 import { AnimatePresence, motion } from 'framer-motion';
+import { FlashcardArrowIcon } from '../../../assets/icons/flashcard-arrow-icon/flashcard-arrow-icon';
 import { ReorderIcon } from '../../../assets/icons/reorder-icon/reorder-icon';
+import { Button } from '../../button/button';
+import './reorder-button-strip.scss';
 
 interface ReorderButtonStripProps {
   variant: 'active' | 'inactive';

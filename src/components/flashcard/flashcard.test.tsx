@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { Flashcard } from './flashcard';
-import { getTestFoxCard } from '../../models/mock/card.mock';
-import { Card, createNewCard } from '../../models/card';
 import userEvent from '@testing-library/user-event';
+import { Flashcard } from './flashcard';
+import { Card, createNewCard } from '../../models/card';
+import { getTestFoxCard } from '../../models/mock/card.mock';
 
 describe('Flashcard', () => {
   it('should render correctly when inactive', () => {

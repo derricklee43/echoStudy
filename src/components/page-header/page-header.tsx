@@ -1,7 +1,7 @@
-import './page-header.scss';
 import React from 'react';
-import { Button } from '../button/button';
 import { BackArrowIcon } from '../../assets/icons/back-arrow-icon/back-arrow-icon';
+import { Button } from '../button/button';
+import './page-header.scss';
 
 interface PageHeaderProps {
   label: string;

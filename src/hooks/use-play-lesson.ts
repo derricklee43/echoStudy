@@ -1,7 +1,7 @@
 import { useRef } from 'react';
+import { usePlayCardAudio } from './use-play-card-audio';
 import { Card } from '../models/card';
 import { Deck } from '../models/deck';
-import { usePlayCardAudio } from './use-play-card-audio';
 
 export function usePlayLesson() {
   const lessonCards = useRef<Card[]>([]);

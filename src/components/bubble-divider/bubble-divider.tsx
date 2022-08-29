@@ -1,9 +1,8 @@
-import './bubble-divider.scss';
-import React from 'react';
-import { useState } from 'react';
-import { Button } from '../button/button';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '../button/button';
+import './bubble-divider.scss';
 
 interface BubbleDividerProps {
   variantColor?: 'dark' | 'light';

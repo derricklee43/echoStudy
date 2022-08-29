@@ -1,6 +1,6 @@
-import './radio-button-group.scss';
 import React from 'react';
 import { Button } from '../../components/button/button';
+import './radio-button-group.scss';
 
 export type RadioButtonOptions = Record<string, React.ReactNode>;
 

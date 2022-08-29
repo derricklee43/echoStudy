@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import { DeckEditor } from './deck-editor';
 import userEvent from '@testing-library/user-event';
-import { createNewDeck } from '../../../models/deck';
+import { DeckEditor } from './deck-editor';
 import { noop } from '../../../helpers/func';
+import { createNewDeck } from '../../../models/deck';
 import { testEnglishDeck } from '../../../models/mock/deck.mock';
 
 jest.mock('../../../hooks/use-prompt');

@@ -1,10 +1,8 @@
-import './flashcard.scss';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { CardFace } from './card-face/card-face';
 import { Card } from '../../models/card';
 import { CardContent } from '../../models/card-content';
-import { useEffect } from 'react';
-import { useRef } from 'react';
-import { CardFace } from './card-face/card-face';
+import './flashcard.scss';
 
 interface FlashcardProps {
   card: Card;

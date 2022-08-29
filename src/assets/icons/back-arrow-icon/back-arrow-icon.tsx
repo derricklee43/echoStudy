@@ -1,6 +1,6 @@
-import './back-arrow-icon.scss';
 import React from 'react';
 import { ReactComponent as BackArrowSvg } from '../../svg/back-arrow.svg';
+import './back-arrow-icon.scss';
 
 interface BackArrowIconProps {
   className?: string;

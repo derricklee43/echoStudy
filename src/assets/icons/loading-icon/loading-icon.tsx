@@ -1,6 +1,6 @@
-import './loading-icon.scss';
 import React from 'react';
 import { Fade } from '../../../animations/fade';
+import './loading-icon.scss';
 
 interface LoadingIconProps {
   className?: string;

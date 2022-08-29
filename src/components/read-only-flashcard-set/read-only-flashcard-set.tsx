@@ -1,7 +1,7 @@
-import './read-only-flashcard-set.scss';
 import React from 'react';
-import { Flashcard } from '../flashcard/flashcard';
 import { Card } from '../../models/card';
+import { Flashcard } from '../flashcard/flashcard';
+import './read-only-flashcard-set.scss';
 
 interface ReadOnlyFlashcardSetProps {
   className?: string;

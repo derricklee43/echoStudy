@@ -1,6 +1,6 @@
 import React from 'react';
-import { LoadingPage } from './loading-page';
 import { render, screen, waitFor } from '@testing-library/react';
+import { LoadingPage } from './loading-page';
 
 const TEST_LABEL = 'TEST_LABEL';
 

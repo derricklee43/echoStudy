@@ -1,7 +1,7 @@
-import './sidebar.scss';
 import React from 'react';
-import { SIDEBAR_ROUTE_ITEMS } from './sidebar-routes';
 import { NavLink } from 'react-router-dom';
+import { SIDEBAR_ROUTE_ITEMS } from './sidebar-routes';
+import './sidebar.scss';
 
 export const Sidebar = () => {
   return (

@@ -1,11 +1,11 @@
-import './header.scss';
 import React from 'react';
-import { SearchBar } from '../search-bar/search-bar';
-import { Button } from '../button/button';
-import { Deck } from '../../models/deck';
 import { useNavigate } from 'react-router-dom';
+import { Deck } from '../../models/deck';
 import { paths } from '../../routes';
+import { Button } from '../button/button';
 import { DropDownOption } from '../drop-down-options/drop-down-options';
+import { SearchBar } from '../search-bar/search-bar';
+import './header.scss';
 
 interface HeaderProps {
   decks: Deck[];

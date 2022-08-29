@@ -1,7 +1,7 @@
-import './loading-page.scss';
 import React from 'react';
-import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
 import { motion } from 'framer-motion';
+import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
+import './loading-page.scss';
 
 interface LoadingPageProps {
   className?: string;
