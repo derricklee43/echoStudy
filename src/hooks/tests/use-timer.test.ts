@@ -1,5 +1,4 @@
-import { noop } from '../../helpers/func';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import { withFakeTimers } from '../../helpers/test';
 import { useTimer } from '../use-timer';
 
