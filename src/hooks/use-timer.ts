@@ -10,25 +10,26 @@ export function useTimer() {
 
   function pauseTimer() {
     if (
-      !callbackRef.current ||
-      !timerIdRef.current ||
-      !remainingTimeRef.current ||
-      !startTimeRef.current
+      callbackRef.current === undefined ||
+      timerIdRef.current === undefined ||
+      remainingTimeRef.current === undefined ||
+      startTimeRef.current === undefined
     ) {
       return;
     }
 
     window.clearTimeout(timerIdRef.current);
     timerIdRef.current = undefined;
-    remainingTimeRef.current -= Math.max(Date.now() - startTimeRef.current, 0);
+    const remainingTime = remainingTimeRef.current - (Date.now() - startTimeRef.current);
+    remainingTimeRef.current = Math.max(remainingTime, 0);
   }
 
   function resumeTimer() {
     if (
-      !callbackRef.current ||
-      timerIdRef.current ||
-      !remainingTimeRef.current ||
-      !startTimeRef.current
+      callbackRef.current === undefined ||
+      timerIdRef.current !== undefined ||
+      remainingTimeRef.current === undefined ||
+      startTimeRef.current === undefined
     ) {
       return;
     }
