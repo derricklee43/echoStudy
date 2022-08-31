@@ -37,28 +37,32 @@ export function usePlayCardAudio() {
 
   function playTermAndDefinition(card: Card, repeatDefCount: number) {
     return new Promise((resolve, reject) => {
-      try {
-        clearAudio();
-        const frontAudio = card.front.audio;
-        const backAudio = card.back.audio;
+      setActiveCardKey(card.key);
+      setActiveCardSide('front');
+      setTimer(() => {
+        try {
+          clearAudio();
+          const frontAudio = card.front.audio;
+          const backAudio = card.back.audio;
 
-        if (frontAudio === undefined || backAudio === undefined) {
-          throw new Error('card audio could not be found');
+          if (frontAudio === undefined || backAudio === undefined) {
+            throw new Error('card audio could not be found');
+          }
+
+          const repeatAudioCallback = () => {
+            setActiveCardSide('back');
+            repeatAudio(backAudio, repeatDefCount, resolve as () => void);
+          };
+          const pauseLength = getPauseLength(backAudio.duration);
+          chainToAudioWithPause(repeatAudioCallback, frontAudio, pauseLength);
+
+          setActiveCardKey(card.key);
+          setActiveCardSide('front');
+          playAudio(frontAudio);
+        } catch (e) {
+          reject(e);
         }
-
-        const repeatAudioCallback = () => {
-          setActiveCardSide('back');
-          repeatAudio(backAudio, repeatDefCount, resolve as () => void);
-        };
-        const pauseLength = getPauseLength(backAudio.duration);
-        chainToAudioWithPause(repeatAudioCallback, frontAudio, pauseLength);
-
-        setActiveCardKey(card.key);
-        setActiveCardSide('front');
-        playAudio(frontAudio);
-      } catch (e) {
-        reject(e);
-      }
+      }, 1000);
     });
   }
 

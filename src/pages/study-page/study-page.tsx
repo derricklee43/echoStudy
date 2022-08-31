@@ -10,6 +10,8 @@ import { noop } from '../../helpers/func';
 import { Button } from '../../components/button/button';
 import { usePlayLesson } from '../../hooks/use-play-lesson';
 import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const clapAudio = require('../../assets/audio/clapAudio.wav');
 
 export const StudyPage = () => {
   const { deckId } = useParams(); // via the param :deckId
@@ -21,6 +23,10 @@ export const StudyPage = () => {
   useEffect(() => {
     fetchDeckAndRefresh();
   }, [deckId]);
+
+  useEffect(() => {
+    clap();
+  }, [activeCardKey]);
 
   if (deck === undefined) {
     return <LoadingPage label="loading deck..." />;
@@ -44,6 +50,8 @@ export const StudyPage = () => {
             <>
               <Button onClick={pauseLesson}>pause</Button>
               <Button onClick={resumeLesson}>resume</Button>
+              <Button onClick={clap}>clap</Button>
+              <Button onClick={playAudio}>restart lesson</Button>
             </>
           )}
         </div>
@@ -53,6 +61,12 @@ export const StudyPage = () => {
 
   function playAudio() {
     if (deck !== undefined) startLesson(deck);
+  }
+
+  function clap() {
+    const a = new Audio(clapAudio);
+    a.play();
+    console.log('clapped');
   }
 
   async function fetchDeckAndRefresh() {
