@@ -48,6 +48,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
   ): Promise<any> {
     const maybeContentTypeHeader = body ? { 'Content-Type': 'application/json' } : undefined;
     const resolvedUrl = prependApiUrl ? prependApiUrl + url : url;
+
     const response = await fetch(resolvedUrl, {
       method: method,
       headers: {
@@ -61,23 +62,28 @@ export function useFetchWrapper(prependApiUrl?: string) {
       return parseResponseForText(response);
     } else {
       const statusCode = response.status;
+      const retriesLeft = retries - 1;
+
+      // ensure we still have retries remaining
+      if (retriesLeft < 0) {
+        const fetchError: FetchError = {
+          statusCode: statusCode,
+          message: `Received ${statusCode} when trying to reach ${url}`,
+        };
+        return Promise.reject(fetchError);
+      }
+
+      // intermediate step(s) before retrying
       switch (statusCode) {
         // jwt expired
         case 401:
-          // TODO: refresh token before retrying
-          break;
+        // TODO: refresh token before retrying
 
         default:
-          const retriesLeft = retries - 1;
-          if (retriesLeft < 0) {
-            const error: FetchError = {
-              statusCode,
-              message: `Received ${statusCode} when trying to reach ${url}`,
-            };
-            return Promise.reject(error);
-          }
-          return _retryFetch(url, method, body, retriesLeft);
+          break;
       }
+
+      return _retryFetch(url, method, body, retriesLeft);
     }
   }
 
