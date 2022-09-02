@@ -37,19 +37,18 @@ export const ResourceLoader = <T extends React.ReactNode>({
   }
 };
 
-export function loadDeck(deckId: string | undefined, allowUndefinedDeckId = false) {
+export async function loadDeck(deckId: string | undefined, allowUndefinedDeckId = false) {
   const { getDeckById } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
 
-  return new Promise<Deck>(async (resolve, reject) => {
-    if (deckId === undefined) {
-      if (allowUndefinedDeckId) {
-        return resolve(createNewDeck());
-      }
-      return reject('deckId cannot be undefined');
+  if (deckId === undefined) {
+    if (allowUndefinedDeckId) {
+      return createNewDeck();
     }
-    const deck = await getDeckById(deckId);
-    deck.cards = await getCardsByDeckId(deckId);
-    resolve(deck);
-  });
+    throw Error('deckId cannot be undefined');
+  }
+
+  const deck = await getDeckById(deckId);
+  deck.cards = await getCardsByDeckId(deckId);
+  return deck;
 }
