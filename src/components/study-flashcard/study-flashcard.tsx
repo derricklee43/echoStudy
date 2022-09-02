@@ -1,8 +1,8 @@
-import './study-flashcard.scss';
 import React, { ReactNode } from 'react';
-import { FlipTile } from '../flip-tile/flip-tile';
 import { AnimatePresence, motion } from 'framer-motion';
 import { noop } from '../../helpers/func';
+import { FlipTile } from '../flip-tile/flip-tile';
+import './study-flashcard.scss';
 
 interface StudyFlashcardProps {
   frontContent: ReactNode;
@@ -11,7 +11,7 @@ interface StudyFlashcardProps {
   variant: 'light' | 'dark';
   frontLabel?: string;
   backLabel?: string;
-  key: string;
+  id: string;
 }
 
 export const StudyFlashcard = ({
@@ -21,13 +21,13 @@ export const StudyFlashcard = ({
   backLabel = '',
   activeSide,
   variant,
-  key,
+  id,
 }: StudyFlashcardProps) => {
   // TODO: Allow card to be flippable, but reset on the content changes
   return (
     <AnimatePresence exitBeforeEnter>
       <motion.div
-        key={key}
+        key={id}
         initial={{ x: 15, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -15, opacity: 0 }}

@@ -16,12 +16,14 @@ export const ProgressBar = ({ className = '', percent, label, variant }: Progres
       {label && <label className="c-bar-label">{label}</label>}
       <div className="c-progress-container">
         <div className={`c-bar-outline ${variant}`}></div>
-        <motion.div
-          className={`c-progress ${variant}`}
-          initial={{ width: progress }}
-          animate={{ width: progress }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
-        ></motion.div>
+        {progress !== '0%' && (
+          <motion.div
+            className={`c-inner-bar ${variant}`}
+            initial={{ width: progress }}
+            animate={{ width: progress }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+          />
+        )}
       </div>
     </div>
   );

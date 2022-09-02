@@ -44,7 +44,7 @@ $blue-gradient: linear-gradient(
       }
     }
 
-    .c-progress {
+    .c-inner-bar {
       position: relative;
       height: 8px;
       border-radius: 10px;
@@ -52,7 +52,7 @@ $blue-gradient: linear-gradient(
     }
 
     // TODO: Decide if we want this glow effect
-    // .dark.c-progress::before {
+    // .dark.c-inner-bar::before {
     //   content: '';
     //   background: $blue-gradient;
     //   position: absolute;

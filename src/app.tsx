@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { Header } from './components/header/header';
 import { Sidebar } from './components/sidebar/sidebar';

@@ -1,16 +1,16 @@
-import './study-page.scss';
 import React, { useEffect, useState } from 'react';
-import { PageHeader } from '../../components/page-header/page-header';
 import { useParams } from 'react-router-dom';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { Deck } from '../../models/deck';
-import { LoadingPage } from '../../components/loading-page/loading-page';
-import { noop } from '../../helpers/func';
-import { usePlayLesson } from '../../hooks/use-play-lesson';
-import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
-import { ProgressBar } from '../../components/progress-bar/progress-bar';
 import { AudioControlBar } from '../../components/audio-control-bar/audio-control-bar';
+import { LoadingPage } from '../../components/loading-page/loading-page';
+import { PageHeader } from '../../components/page-header/page-header';
+import { ProgressBar } from '../../components/progress-bar/progress-bar';
+import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
+import { noop } from '../../helpers/func';
+import { useCardsClient } from '../../hooks/api/use-cards-client';
+import { useDecksClient } from '../../hooks/api/use-decks-client';
+import { usePlayLesson } from '../../hooks/use-play-lesson';
+import { Deck } from '../../models/deck';
+import './study-page.scss';
 
 export const StudyPage = () => {
   const { deckId } = useParams(); // via the param :deckId
@@ -40,7 +40,7 @@ export const StudyPage = () => {
       <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
       <div className="study-page-content">
         <StudyFlashcard
-          key={currentCard?.key ?? 'deck-cover'}
+          id={currentCard?.key ?? 'deck-cover'}
           variant={activeCardKey === '' ? 'dark' : 'light'}
           frontContent={currentCard?.front.text ?? deck.metaData.title}
           backContent={currentCard?.back.text}

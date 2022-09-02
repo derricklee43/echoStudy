@@ -1,17 +1,13 @@
 import React from 'react';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CardMenu } from './card-menu';
 import { noop } from '../../../../helpers/func';
-import { withFakeTimers } from '../../../../helpers/test';
-import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
 
 describe('CardMenu', () => {
   const TEST_CHANGE_LANGUAGE_LABEL = 'TEST_CHANGE_LANGUAGE_LABEL';
   const TEST_SWAP_CONTENT_LABEL = 'TEST_SWAP_CONTENT_LABEL';
   const DEFAULT_TEST_LANGUAGE = 'English';
-
-  beforeEach(() => {});
 
   it('should rended with expected elements', () => {
     render(

@@ -1,10 +1,10 @@
-import './volume-control.scss';
 import React from 'react';
-import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
+import { SpeakerIcon } from '../../assets/icons/speaker-icon/speaker-icon';
+import './volume-control.scss';
 
 interface VolumeControlProps {
-  volume: number;
-  setVolume: (volumeLevel: number) => void;
+  volume: string;
+  setVolume: (volume: string) => void;
 }
 
 export const VolumeControl = ({ volume, setVolume }: VolumeControlProps) => {
@@ -26,7 +26,7 @@ export const VolumeControl = ({ volume, setVolume }: VolumeControlProps) => {
           max="100"
           value={volume}
           style={getBackgroundSize()}
-          onChange={(event) => setVolume(event.target.value as any)}
+          onChange={(event) => setVolume(event.target.value)}
         />
       </div>
     </div>
