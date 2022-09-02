@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent, ChangeEvent, useMemo, useRef } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import { debounce, noop } from '../../helpers/func';
@@ -13,13 +13,13 @@ export interface SearchBarProps {
   initialText?: string;
   placeholder?: string;
   disabled?: boolean;
-  dropDownData?: DropDownOption[];
+  dropDownData?: DropDownOption<string>[];
   dropDownIgnoreCase?: boolean;
   debounceMs?: number;
   onChange?: (value: string) => void;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
-  onDropdownClick?: (option: DropDownOption) => void;
+  onDropdownClick?: (option: DropDownOption<string>) => void;
 }
 
 export const SearchBar = ({
@@ -100,10 +100,7 @@ export const SearchBar = ({
     );
   }
 
-  function optionIncludesValueFilter(option: DropDownOption) {
-    if (typeof option.value !== 'string') {
-      return false;
-    }
+  function optionIncludesValueFilter(option: DropDownOption<string>) {
     const optionVal = option.value;
     const searchVal = value.trim();
     return dropDownIgnoreCase

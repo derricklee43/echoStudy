@@ -1,13 +1,11 @@
-import './flashcard-set.scss';
-import React from 'react';
-import { Flashcard } from '../flashcard/flashcard';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Reorder, useDragControls } from 'framer-motion';
-import { Card } from '../../models/card';
-import { useEffect } from 'react';
-import { ReorderButtonStrip } from '../flashcard/reorder-button-strip/reorder-button-strip';
-import { Button } from '../button/button';
 import { TrashIcon } from '../../assets/icons/trash-icon/trash-icon';
+import { Card } from '../../models/card';
+import { Button } from '../button/button';
+import { Flashcard } from '../flashcard/flashcard';
+import { ReorderButtonStrip } from '../flashcard/reorder-button-strip/reorder-button-strip';
+import './flashcard-set.scss';
 
 interface FlashcardSetProps {
   className?: string;

@@ -1,6 +1,6 @@
-import './speaker-icon.scss';
 import React from 'react';
 import { ReactComponent as SpeakerSvg } from '../../svg/speaker.svg';
+import './speaker-icon.scss';
 
 interface SpeakerIconProps {
   className?: string;

@@ -3,7 +3,6 @@
 
 $height: 15px;
 
-$blue-gradient: white;
 $blue-gradient: linear-gradient(
   90deg,
   #4a57b5,
@@ -52,14 +51,15 @@ $blue-gradient: linear-gradient(
       background: $blue-gradient;
     }
 
-    .dark.c-progress::before {
-      content: '';
-      background: $blue-gradient;
-      // position: absolute;
-      height: 100%;
-      width: 100%;
-      filter: blur(5px);
-    }
+    // TODO: Decide if we want this glow effect
+    // .dark.c-progress::before {
+    //   content: '';
+    //   background: $blue-gradient;
+    //   position: absolute;
+    //   height: 100%;
+    //   width: 100%;
+    //   filter: blur(5px);
+    // }
   }
 
   label.c-bar-label {

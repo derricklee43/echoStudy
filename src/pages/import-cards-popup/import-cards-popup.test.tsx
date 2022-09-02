@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
-import { noop } from '../../helpers/func';
 import userEvent from '@testing-library/user-event';
 import { ImportCardsPopup } from './import-cards-popup';
+import { noop } from '../../helpers/func';
 import { Card } from '../../models/card';
 
 describe('ImportCardsPopup', () => {

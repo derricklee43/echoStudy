@@ -1,12 +1,21 @@
 import { useState } from 'react';
-import { Card } from '../models/card';
 import { useTimer } from './use-timer';
+import { Card } from '../models/card';
 
 export function usePlayCardAudio() {
-  const [setTimer, clearTimer, pauseTimer, resumeTimer] = useTimer();
+  const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
   const [activeAudio, setActiveAudio] = useState<HTMLAudioElement>();
   const [activeCardKey, setActiveCardKey] = useState('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
+
+  return {
+    activeCardKey,
+    activeCardSide,
+    playTermAndDefinition,
+    pause,
+    resume,
+    getTotalCardDuration,
+  };
 
   function pause() {
     pauseTimer();
@@ -37,32 +46,28 @@ export function usePlayCardAudio() {
 
   function playTermAndDefinition(card: Card, repeatDefCount: number) {
     return new Promise((resolve, reject) => {
-      setActiveCardKey(card.key);
-      setActiveCardSide('front');
-      setTimer(() => {
-        try {
-          clearAudio();
-          const frontAudio = card.front.audio;
-          const backAudio = card.back.audio;
+      try {
+        clearAudio();
+        const frontAudio = card.front.audio;
+        const backAudio = card.back.audio;
 
-          if (frontAudio === undefined || backAudio === undefined) {
-            throw new Error('card audio could not be found');
-          }
-
-          const repeatAudioCallback = () => {
-            setActiveCardSide('back');
-            repeatAudio(backAudio, repeatDefCount, resolve as () => void);
-          };
-          const pauseLength = getPauseLength(backAudio.duration);
-          chainToAudioWithPause(repeatAudioCallback, frontAudio, pauseLength);
-
-          setActiveCardKey(card.key);
-          setActiveCardSide('front');
-          playAudio(frontAudio);
-        } catch (e) {
-          reject(e);
+        if (frontAudio === undefined || backAudio === undefined) {
+          throw new Error('card audio could not be found');
         }
-      }, 1000);
+
+        const repeatAudioCallback = () => {
+          setActiveCardSide('back');
+          repeatAudio(backAudio, repeatDefCount, resolve as () => void);
+        };
+        const pauseLength = getPauseLength(backAudio.duration);
+        chainToAudioWithPause(repeatAudioCallback, frontAudio, pauseLength);
+
+        setActiveCardKey(card.key);
+        setActiveCardSide('front');
+        playAudio(frontAudio);
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 
@@ -98,13 +103,4 @@ export function usePlayCardAudio() {
     chainToAudio(() => setActiveAudio(undefined), audio);
     audio.play();
   }
-
-  return [
-    activeCardKey,
-    activeCardSide,
-    playTermAndDefinition,
-    pause,
-    resume,
-    getTotalCardDuration,
-  ] as const;
 }

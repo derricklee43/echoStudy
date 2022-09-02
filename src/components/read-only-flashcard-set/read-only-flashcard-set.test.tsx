@@ -1,8 +1,8 @@
 import React from 'react';
-import { ReadOnlyFlashcardSet } from './read-only-flashcard-set';
 import { render, screen } from '@testing-library/react';
-import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
+import { ReadOnlyFlashcardSet } from './read-only-flashcard-set';
 import { Card } from '../../models/card';
+import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 
 describe('FlashcardSet', () => {
   let TEST_FOX_CARD: Card;

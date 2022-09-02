@@ -1,12 +1,20 @@
 import { useRef } from 'react';
+import { usePlayCardAudio } from './use-play-card-audio';
 import { Card } from '../models/card';
 import { Deck } from '../models/deck';
-import { usePlayCardAudio } from './use-play-card-audio';
 
 export function usePlayLesson() {
   const lessonCards = useRef<Card[]>([]);
-  const [activeCardKey, activeText, playTermAndDefinition, pause, resume, getTotalCardDuration] =
-    usePlayCardAudio();
+  const {
+    activeCardKey,
+    activeCardSide,
+    playTermAndDefinition,
+    pause,
+    resume,
+    getTotalCardDuration,
+  } = usePlayCardAudio();
+
+  return { activeCardKey, activeCardSide, startLesson, pauseLesson, resumeLesson };
 
   function startLesson(deck: Deck) {
     lessonCards.current = buildLesson(deck);
@@ -31,10 +39,8 @@ export function usePlayLesson() {
   function resumeLesson() {
     resume();
   }
-
-  return [activeCardKey, activeText, startLesson, pauseLesson, resumeLesson] as const;
 }
 
 function buildLesson(deck: Deck) {
-  return deck.cards.slice(0, 5);
+  return deck.cards.slice(0, 4);
 }

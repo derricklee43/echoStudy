@@ -1,9 +1,9 @@
 import React from 'react';
-import { Header } from './header';
 import { fireEvent, screen } from '@testing-library/react';
-import { testEnglishDeck } from '../../models/mock/deck.mock';
 import userEvent from '@testing-library/user-event';
+import { Header } from './header';
 import { renderWithHistoryRouter } from '../../app.test';
+import { testEnglishDeck } from '../../models/mock/deck.mock';
 import { paths } from '../../routes';
 
 describe('Header', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { BubbleDivider } from './bubble-divider';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { BubbleDivider } from './bubble-divider';
 
 const TEST_LABEL = 'TEST_LABEL';
 const TEST_CHILDREN = 'TEST_CHILDREN';

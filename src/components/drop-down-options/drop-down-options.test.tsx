@@ -1,14 +1,14 @@
 import React from 'react';
-import { DropDownOption, DropDownOptions } from './drop-down-options';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { noop } from '../../helpers/func';
+import { DropDownOption, DropDownOptions } from './drop-down-options';
 import {
   TEST_OPTIONS_SINGLE,
   TEST_OPTIONS_SINGLE_VALUES,
   TEST_OPTIONS_SMALL,
   TEST_OPTIONS_SMALL_VALUES,
 } from './options.mock';
+import { noop } from '../../helpers/func';
 import { withFakeTimers } from '../../helpers/test';
 
 describe('Button', () => {
@@ -40,7 +40,7 @@ describe('Button', () => {
       <DropDownOptions
         show={true}
         options={TEST_OPTIONS_SMALL}
-        onOptionSelect={(option: DropDownOption) => mockOnOptionSelect(option.value)}
+        onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
       />
     );
 

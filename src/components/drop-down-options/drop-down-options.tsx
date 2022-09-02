@@ -1,27 +1,27 @@
-import './drop-down-options.scss';
 import React from 'react';
-import { Button } from '../button/button';
-import { Fade } from '../../animations/fade';
 import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../animations/fade';
+import { Button } from '../button/button';
+import './drop-down-options.scss';
 
-export interface DropDownOption {
+export interface DropDownOption<T> {
   id: string;
-  value: React.ReactNode;
+  value: T;
 }
 
-interface DropDownOptionsProps {
+interface DropDownOptionsProps<T> {
   className?: string;
   show: boolean;
-  options?: DropDownOption[];
-  onOptionSelect: (option: DropDownOption) => void;
+  options?: DropDownOption<T>[];
+  onOptionSelect: (option: DropDownOption<T>) => void;
 }
 
-export const DropDownOptions = ({
+export const DropDownOptions = <T extends React.ReactNode>({
   className = '',
   show,
   options,
   onOptionSelect,
-}: DropDownOptionsProps) => {
+}: DropDownOptionsProps<T>) => {
   return (
     <AnimatePresence>
       {show && options !== undefined && (

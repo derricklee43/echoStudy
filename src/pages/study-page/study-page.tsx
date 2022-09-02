@@ -17,7 +17,7 @@ export const StudyPage = () => {
   const { getDeckById } = useDecksClient();
   const { getCardsByDeckId } = useCardsClient();
   const [deck, setDeck] = useState<Deck | undefined>();
-  const [activeCardKey, activeText, startLesson, pauseLesson, resumeLesson] = usePlayLesson();
+  const { activeCardKey, activeCardSide, startLesson, pauseLesson, resumeLesson } = usePlayLesson();
   const [count, setCount] = useState(-2);
   const [isPaused, setIsPaused] = useState(true);
 
@@ -46,7 +46,7 @@ export const StudyPage = () => {
           backContent={currentCard?.back.text}
           backLabel="definition"
           frontLabel={activeCardKey ? 'term' : ''}
-          activeSide={activeText}
+          activeSide={activeCardSide}
         />
         <ProgressBar
           variant="dark"

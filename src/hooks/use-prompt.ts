@@ -1,9 +1,9 @@
-import type { Blocker, History, Transition } from 'history';
 import { ContextType, useCallback, useContext, useEffect } from 'react';
 import {
   Navigator as BaseNavigator,
   UNSAFE_NavigationContext as NavigationContext,
 } from 'react-router-dom';
+import type { Blocker, History, Transition } from 'history';
 
 /**
  * These are hooks are a workaround for react-router-dom v6 removing useBlocker, usePrompt, <Prompt>, etc.

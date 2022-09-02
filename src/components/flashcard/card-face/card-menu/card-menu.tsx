@@ -1,13 +1,13 @@
-import './card-menu.scss';
 import React, { useRef, useState } from 'react';
-import { Button } from '../../../button/button';
+import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../../../animations/fade';
 import { KebabMenuIcon } from '../../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
 import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
 import { useOutsideClick } from '../../../../hooks/use-outside-click';
-import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
-import { Fade } from '../../../../animations/fade';
-import { AnimatePresence } from 'framer-motion';
 import { AllCardLanguages, CardLanguage } from '../../../../models/card-content';
+import { Button } from '../../../button/button';
+import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
+import './card-menu.scss';
 
 interface CardFaceProps {
   language: CardLanguage;

@@ -1,17 +1,15 @@
-import './view-deck-page.scss';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Fade } from '../../animations/fade';
+import { Button } from '../../components/button/button';
+import { LoadingPage } from '../../components/loading-page/loading-page';
+import { PageHeader } from '../../components/page-header/page-header';
+import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
+import { useCardsClient } from '../../hooks/api/use-cards-client';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { Deck } from '../../models/deck';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { LoadingPage } from '../../components/loading-page/loading-page';
-import { useState } from 'react';
-import { Fade } from '../../animations/fade';
 import { paths } from '../../routes';
-import { PageHeader } from '../../components/page-header/page-header';
-import { Button } from '../../components/button/button';
-import { noop } from '../../helpers/func';
-import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
+import './view-deck-page.scss';
 
 export const ViewDeckPage = () => {
   const [deck, setDeck] = useState<Deck | undefined>(undefined);

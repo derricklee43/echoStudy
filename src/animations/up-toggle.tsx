@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 interface UpToggleProps {
   className?: string;

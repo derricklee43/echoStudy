@@ -1,6 +1,6 @@
-import './plus-icon.scss';
 import React from 'react';
 import { ReactComponent as PlusSvg } from '../../svg/plus.svg';
+import './plus-icon.scss';
 
 interface PlusIconProps {
   className?: string;

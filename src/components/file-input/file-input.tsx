@@ -1,12 +1,12 @@
-import './file-input.scss';
 import React, { useState } from 'react';
-import { noop } from '../../helpers/func';
-import { Button } from '../button/button';
 import { v4 as uuidv4 } from 'uuid';
 import { readFile } from './file-reader';
-import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { DocIcon } from '../../assets/icons/doc-icon/doc-icon';
+import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
+import { noop } from '../../helpers/func';
+import { Button } from '../button/button';
+import './file-input.scss';
 
 export interface ImportedFile {
   name: string;

@@ -1,29 +1,28 @@
-import './drop-down.scss';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
-import { Button } from '../button/button';
-import { useRef } from 'react';
-import { useOutsideClick } from '../../hooks/use-outside-click';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useOutsideClick } from '../../hooks/use-outside-click';
+import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
+import './drop-down.scss';
 
-interface DropDownProps {
+interface DropDownProps<T> {
   variant?: 'dark' | 'light';
   label?: React.ReactNode;
   className?: string;
-  options: DropDownOption[];
+  options: DropDownOption<T>[];
   buttonLabel: React.ReactNode;
-  onOptionSelect: (option: DropDownOption) => void;
+  onOptionSelect: (option: DropDownOption<T>) => void;
 }
 
-export const DropDown = ({
+export const DropDown = <T extends React.ReactNode>({
   variant = 'dark',
   label = '',
   className = '',
   options,
   buttonLabel,
   onOptionSelect,
-}: DropDownProps) => {
+}: DropDownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const accentVariant = variant === 'dark' ? 'light' : 'dark';
 
@@ -50,7 +49,7 @@ export const DropDown = ({
     );
   }
 
-  function handleOptionSelect(option: DropDownOption) {
+  function handleOptionSelect(option: DropDownOption<T>) {
     onOptionSelect(option);
     setIsOpen(false);
   }

@@ -1,14 +1,14 @@
-import './import-cards-popup.scss';
 import React, { useState } from 'react';
-import { PopupModal } from '../../components/popup-modal/popup-modal';
 import { Button } from '../../components/button/button';
-import { TextArea } from '../../components/text-area/text-area';
-import { Card, createNewCard } from '../../models/card';
 import { FileInput, ImportedFile } from '../../components/file-input/file-input';
+import { PopupModal } from '../../components/popup-modal/popup-modal';
 import {
   RadioButtonGroup,
   RadioButtonOptions,
 } from '../../components/radio-button-group/radio-button-group';
+import { TextArea } from '../../components/text-area/text-area';
+import { Card, createNewCard } from '../../models/card';
+import './import-cards-popup.scss';
 
 interface ImportCardsPopupProps {
   showPopup: boolean;

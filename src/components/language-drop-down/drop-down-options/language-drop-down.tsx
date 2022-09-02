@@ -1,10 +1,10 @@
-import './language-drop-down.scss';
 import React from 'react';
-import { DropDown } from '../../drop-down/drop-down';
-import { DropDownOption } from '../../drop-down-options/drop-down-options';
 import { LanguageIcon } from '../../../assets/icons/language-icon/language-icon';
 import { CardLanguages } from '../../../models/card-content';
 import { DeckLanguages } from '../../../models/deck';
+import { DropDown } from '../../drop-down/drop-down';
+import { DropDownOption } from '../../drop-down-options/drop-down-options';
+import './language-drop-down.scss';
 
 interface LanguageDropDownProps<T extends DeckLanguages | CardLanguages> {
   languages: T;
@@ -40,8 +40,8 @@ export const LanguageDropDown = <T extends DeckLanguages | CardLanguages>({
     </div>
   );
 
-  function handleOptionSelect(option: DropDownOption) {
-    const newLanguage = option.value as T[number];
+  function handleOptionSelect(option: DropDownOption<T[number]>) {
+    const newLanguage = option.value;
     onLanguageSelect(newLanguage);
   }
 };

@@ -6,27 +6,30 @@ export function useTimer() {
   const startTimeRef = useRef<number>();
   const remainingTimeRef = useRef<number>();
 
-  function pause() {
+  return { setTimer, clearTimer, pauseTimer, resumeTimer };
+
+  function pauseTimer() {
     if (
-      !callbackRef.current ||
-      !timerIdRef.current ||
-      !remainingTimeRef.current ||
-      !startTimeRef.current
+      callbackRef.current === undefined ||
+      timerIdRef.current === undefined ||
+      remainingTimeRef.current === undefined ||
+      startTimeRef.current === undefined
     ) {
       return;
     }
 
     window.clearTimeout(timerIdRef.current);
     timerIdRef.current = undefined;
-    remainingTimeRef.current -= Date.now() - startTimeRef.current;
+    const remainingTime = remainingTimeRef.current - (Date.now() - startTimeRef.current);
+    remainingTimeRef.current = Math.max(remainingTime, 0);
   }
 
-  function resume() {
+  function resumeTimer() {
     if (
-      !callbackRef.current ||
-      timerIdRef.current ||
-      !remainingTimeRef.current ||
-      !startTimeRef.current
+      callbackRef.current === undefined ||
+      timerIdRef.current !== undefined ||
+      remainingTimeRef.current === undefined ||
+      startTimeRef.current === undefined
     ) {
       return;
     }
@@ -55,5 +58,4 @@ export function useTimer() {
       clearTimer();
     }, delay);
   }
-  return [setTimer, clearTimer, pause, resume] as const;
 }

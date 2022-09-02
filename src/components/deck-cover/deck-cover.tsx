@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './deck-cover.scss';
+import { motion } from 'framer-motion';
+import { Deck } from '../../models/deck';
+import { Button } from '../button/button';
 import { FlipTile } from '../flip-tile/flip-tile';
 import { ProgressBar } from '../progress-bar/progress-bar';
-import { Button } from '../button/button';
-import { Deck } from '../../models/deck';
-import { motion } from 'framer-motion';
+import './deck-cover.scss';
 
 interface DeckCoverProps {
   flippable?: boolean;

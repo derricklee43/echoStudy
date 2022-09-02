@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { useReducer } from 'react';
-import { Card } from '../models/card';
-import { Deck, DeckMetaData } from '../models/deck';
+import { useReducer, useState } from 'react';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
+import { Card } from '../models/card';
+import { Deck, DeckMetaData } from '../models/deck';
 
 type CardMap = { [id: string]: Card };
 

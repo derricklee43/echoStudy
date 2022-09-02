@@ -1,6 +1,6 @@
-import './arrow-icon.scss';
 import React from 'react';
 import { ReactComponent as DownArrow } from '../../svg/down-arrow.svg';
+import './arrow-icon.scss';
 
 interface ArrowProps {
   variant?: 'dark' | 'light';

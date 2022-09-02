@@ -1,6 +1,6 @@
-import './progress-bar.scss';
 import React from 'react';
 import { motion } from 'framer-motion';
+import './progress-bar.scss';
 
 interface ProgressBarProps {
   className?: string;
