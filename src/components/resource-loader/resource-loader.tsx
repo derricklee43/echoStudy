@@ -17,20 +17,20 @@ export const ResourceLoader = <T extends React.ReactNode>({
   resourceFetcher,
 }: ResourceLoaderProps<T>) => {
   const [resource, setResource] = useState<T | undefined>();
-  const { [useParamsIdName]: resourceId } = useParams(); // via the param :deckId
+  const { [useParamsIdName]: resourceId } = useParams();
   const location = useLocation();
 
   useEffect(() => {
-    fetchDeckAndRefresh();
+    fetchResourceAndRefresh();
   }, [resourceId, location]);
 
   if (resource === undefined) {
-    return <LoadingPage label="loading deck..." />;
+    return <LoadingPage label="loading page..." />;
   }
 
   return resourceConsumer(resource);
 
-  async function fetchDeckAndRefresh() {
+  async function fetchResourceAndRefresh() {
     setResource(undefined);
     const newResource = await resourceFetcher(resourceId);
     setResource(newResource);
