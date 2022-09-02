@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { Button } from '../../components/button/button';
-import { LoadingPage } from '../../components/loading-page/loading-page';
 import { PageHeader } from '../../components/page-header/page-header';
 import { noop } from '../../helpers/func';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { usePlayLesson } from '../../hooks/use-play-lesson';
 import { Deck } from '../../models/deck';
 import './study-page.scss';
 
-export const StudyPage = () => {
-  const { deckId } = useParams(); // via the param :deckId
-  const { getDeckById } = useDecksClient();
-  const { getCardsByDeckId } = useCardsClient();
-  const [deck, setDeck] = useState<Deck | undefined>();
+interface StudyPageProps {
+  deck: Deck;
+}
+
+export const StudyPage = ({ deck }: StudyPageProps) => {
   const { activeCardKey, activeCardSide, startLesson, pauseLesson, resumeLesson } = usePlayLesson();
-
-  useEffect(() => {
-    fetchDeckAndRefresh();
-  }, [deckId]);
-
-  if (deck === undefined) {
-    return <LoadingPage label="loading deck..." />;
-  }
 
   return (
     <div className="study-page">
@@ -49,15 +37,5 @@ export const StudyPage = () => {
 
   function playAudio() {
     if (deck !== undefined) startLesson(deck);
-  }
-
-  async function fetchDeckAndRefresh() {
-    setDeck(undefined);
-    if (deckId === undefined) {
-      throw new Error('deckId cannot be undefined');
-    }
-    const deck = await getDeckById(deckId);
-    deck.cards = await getCardsByDeckId(deckId);
-    setDeck(deck);
   }
 };
