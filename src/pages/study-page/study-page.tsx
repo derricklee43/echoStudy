@@ -33,14 +33,17 @@ export const StudyPage = () => {
     return <LoadingPage label="loading deck..." />;
   }
 
+  const currentCard = findCard(activeCardKey);
+
   return (
     <div className="study-page">
       <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
       <div className="study-page-content">
         <StudyFlashcard
+          key={currentCard?.key ?? 'deck-cover'}
           variant={activeCardKey === '' ? 'dark' : 'light'}
-          frontContent={findCard(activeCardKey)?.front.text ?? deck.metaData.title}
-          backContent={findCard(activeCardKey)?.back.text}
+          frontContent={currentCard?.front.text ?? deck.metaData.title}
+          backContent={currentCard?.back.text}
           backLabel="definition"
           frontLabel={activeCardKey ? 'term' : ''}
           activeSide={activeText}

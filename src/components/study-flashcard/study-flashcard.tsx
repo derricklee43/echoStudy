@@ -11,6 +11,7 @@ interface StudyFlashcardProps {
   variant: 'light' | 'dark';
   frontLabel?: string;
   backLabel?: string;
+  key: string;
 }
 
 export const StudyFlashcard = ({
@@ -20,12 +21,13 @@ export const StudyFlashcard = ({
   backLabel = '',
   activeSide,
   variant,
+  key,
 }: StudyFlashcardProps) => {
   // TODO: Allow card to be flippable, but reset on the content changes
   return (
     <AnimatePresence exitBeforeEnter>
       <motion.div
-        key={frontContent?.toString() ?? 1}
+        key={key}
         initial={{ x: 15, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -15, opacity: 0 }}
