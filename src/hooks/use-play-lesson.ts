@@ -36,5 +36,5 @@ export function usePlayLesson() {
 }
 
 function buildLesson(deck: Deck) {
-  return deck.cards.slice(0, 4);
+  return deck.cards.slice(0, 5);
 }

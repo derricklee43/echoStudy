@@ -1,64 +1,54 @@
 import './study-flashcard.scss';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { FlipTile } from '../flip-tile/flip-tile';
 import { AnimatePresence, motion } from 'framer-motion';
-import { motion as d } from 'framer-motion-3d';
+import { noop } from '../../helpers/func';
 
 interface StudyFlashcardProps {
   frontContent: ReactNode;
   backContent: ReactNode;
   activeSide: 'front' | 'back';
   variant: 'light' | 'dark';
+  frontLabel?: string;
+  backLabel?: string;
 }
 
 export const StudyFlashcard = ({
   frontContent,
+  frontLabel = '',
   backContent,
+  backLabel = '',
   activeSide,
   variant,
 }: StudyFlashcardProps) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  // TODO: Allow card to be flippable, but reset on the content changes
   return (
     <AnimatePresence exitBeforeEnter>
       <motion.div
-        whileHover={{ rotateY: 180, rotateZ: 10 }}
-        transition={{ duration: 1 }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
+        key={frontContent?.toString() ?? 1}
+        initial={{ x: 15, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -15, opacity: 0 }}
+        transition={{ duration: 0.2 }}
       >
-        <d.div
-          className="study-page-card"
-          key={frontContent?.toString() ?? 1}
-          initial={{ x: 15, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -15, y: -15, opacity: 0, backgroundColor: '#82fa61' }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-        >
-          {getFront()}
-
-          {/* <div className="c-study-flashcard">
-          <FlipTile
-            isFlipped={activeSide !== 'front'}
-            front={getFront()}
-            back={getBack()}
-            onClick={onClickHandler}
-          />
-        </div> */}
-        </d.div>
+        <FlipTile
+          className="study-card"
+          isFlipped={activeSide !== 'front'}
+          front={getCardFace(frontContent, frontLabel)}
+          frontClassName={'dark'}
+          back={getCardFace(backContent, backLabel)}
+          onClick={noop}
+        />
       </motion.div>
     </AnimatePresence>
   );
 
-  function getBack() {
-    return <div className={`c-study-flashcard-content ${variant}`}>{backContent}</div>;
-  }
-
-  function getFront() {
-    return <div className={`c-study-flashcard-content  ${variant}`}>{frontContent}</div>;
-  }
-
-  function onClickHandler() {
-    setIsFlipped(!isFlipped);
+  function getCardFace(content: ReactNode, label: string) {
+    return (
+      <div className={`c-study-flashcard-content  ${variant}`}>
+        <label className="c-study-flashcard-side-label">{label}</label>
+        {content}
+      </div>
+    );
   }
 };

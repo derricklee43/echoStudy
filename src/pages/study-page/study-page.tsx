@@ -7,11 +7,10 @@ import { useCardsClient } from '../../hooks/api/use-cards-client';
 import { Deck } from '../../models/deck';
 import { LoadingPage } from '../../components/loading-page/loading-page';
 import { noop } from '../../helpers/func';
-import { Button } from '../../components/button/button';
 import { usePlayLesson } from '../../hooks/use-play-lesson';
 import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const clapAudio = require('../../assets/audio/clapAudio.wav');
+import { ProgressBar } from '../../components/progress-bar/progress-bar';
+import { AudioControlBar } from '../../components/audio-control-bar/audio-control-bar';
 
 export const StudyPage = () => {
   const { deckId } = useParams(); // via the param :deckId
@@ -19,13 +18,15 @@ export const StudyPage = () => {
   const { getCardsByDeckId } = useCardsClient();
   const [deck, setDeck] = useState<Deck | undefined>();
   const [activeCardKey, activeText, startLesson, pauseLesson, resumeLesson] = usePlayLesson();
+  const [count, setCount] = useState(-2);
+  const [isPaused, setIsPaused] = useState(true);
 
   useEffect(() => {
     fetchDeckAndRefresh();
   }, [deckId]);
 
   useEffect(() => {
-    clap();
+    setCount(count + 1); // TODO: Dummy incrementor. Replace with actual progress system
   }, [activeCardKey]);
 
   if (deck === undefined) {
@@ -38,37 +39,30 @@ export const StudyPage = () => {
       <div className="study-page-content">
         <StudyFlashcard
           variant={activeCardKey === '' ? 'dark' : 'light'}
-          backContent={findCard(activeCardKey)?.back.text}
           frontContent={findCard(activeCardKey)?.front.text ?? deck.metaData.title}
+          backContent={findCard(activeCardKey)?.back.text}
+          backLabel="definition"
+          frontLabel={activeCardKey ? 'term' : ''}
           activeSide={activeText}
         />
-
-        <div className="button-menu">
-          {activeCardKey === '' ? (
-            <Button onClick={playAudio}>start lesson</Button>
-          ) : (
-            <>
-              <Button onClick={pauseLesson}>pause</Button>
-              <Button onClick={resumeLesson}>resume</Button>
-              <Button onClick={clap}>clap</Button>
-              <Button onClick={playAudio}>restart lesson</Button>
-            </>
-          )}
-        </div>
+        <ProgressBar
+          variant="dark"
+          percent={(count / 10) * 100}
+          label=""
+          className="study-page-progress-bar"
+        />
+        <AudioControlBar
+          isPaused={isPaused}
+          onNextClick={noop} // TODO: Add next card feature
+          onPlayClick={handlePlayClick}
+          onPauseClick={handlePauseClick}
+          onPreviousClick={noop} // TODO: Add previous card feature
+        />
       </div>
     </div>
   );
 
-  function playAudio() {
-    if (deck !== undefined) startLesson(deck);
-  }
-
-  function clap() {
-    const a = new Audio(clapAudio);
-    a.play();
-    console.log('clapped');
-  }
-
+  // TODO: Maybe create a Page/Deck fetcher component to extract this boiler plate
   async function fetchDeckAndRefresh() {
     setDeck(undefined);
     if (deckId === undefined) {
@@ -81,5 +75,21 @@ export const StudyPage = () => {
 
   function findCard(key: string) {
     return deck?.cards.find((card) => card.key === key);
+  }
+
+  function handlePlayClick() {
+    if (deck === undefined) {
+      return;
+    }
+    setIsPaused(false);
+    if (activeCardKey === '') {
+      return startLesson(deck);
+    }
+    resumeLesson();
+  }
+
+  function handlePauseClick() {
+    setIsPaused(true);
+    pauseLesson();
   }
 };

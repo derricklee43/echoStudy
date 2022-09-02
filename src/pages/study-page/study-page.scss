@@ -5,12 +5,10 @@
   .study-page-content {
     @include flex-center;
     flex-direction: column;
-    .button-menu {
-      display: flex;
-      gap: 20px;
-      button {
-        padding: 10px;
-      }
+
+    .study-page-progress-bar {
+      padding: 40px 0px 20px 0px;
+      width: 500px;
     }
   }
 }
