@@ -11,6 +11,11 @@ interface FlipTileProps {
   onClick: (event: React.MouseEvent) => void;
 }
 
+/**
+ * @prop className controls the size and margin of the flip tile
+ * @prop frontClassName is forwarded to the front side of the card
+ * @prop backClassName is forwarded to the front side of the card
+ */
 export const FlipTile = ({
   isFlipped,
   front,
