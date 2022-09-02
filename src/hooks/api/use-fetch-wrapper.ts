@@ -1,11 +1,26 @@
+import { useRecoilValue } from 'recoil';
+import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import { objectSchemaSimple } from '../../helpers/validator';
+import { oauth2JwtState } from '../../state/oauth2-jwt';
+
+export interface FetchError {
+  statusCode: number;
+  message: string;
+}
+
+export const isFetchError = objectSchemaSimple<FetchError>({
+  statusCode: 'number',
+  message: 'string',
+});
+
 /**
- * fetch() wrapper with useful helper functions
+ * Fetch wrapper that handles user authentication and automatic token renewal per request.
+ * highly inspired by: https://jasonwatmore.com/post/2021/09/07/react-recoil-jwt-authentication-tutorial-and-example
  *
  * @param prependApiUrl url to prepend to all requests
  */
 export function useFetchWrapper(prependApiUrl?: string) {
-  // https://jasonwatmore.com/post/2021/09/07/react-recoil-jwt-authentication-tutorial-and-example
-  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const authJwt = useRecoilValue(oauth2JwtState);
 
   return {
     get: request('GET'),
@@ -15,18 +30,8 @@ export function useFetchWrapper(prependApiUrl?: string) {
   };
 
   function request(method: string) {
-    return async function (url: string, body?: object) {
-      // only include header if `body` is non-empty
-      const contentTypeHeader = body ? { 'Content-Type': 'application/json' } : undefined;
-      const resolvedUrl = prependApiUrl ? prependApiUrl + url : url;
-
-      const response = await fetch(resolvedUrl, {
-        method: method,
-        headers: { ...contentTypeHeader }, // todo: use auth header which includes JWT
-        body: body && JSON.stringify(body),
-      });
-
-      return await handleResponse(response);
+    return async function (url: string, body?: object, numRetries = 1) {
+      return _retryFetch(url, method, body, numRetries);
     };
   }
 
@@ -34,22 +39,69 @@ export function useFetchWrapper(prependApiUrl?: string) {
   /// helper functions ///
   ////////////////////////
 
-  async function handleResponse(response: Response) {
+  async function _retryFetch(
+    url: string,
+    method: string,
+    body: object | undefined,
+    retries = 1
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<any> {
+    const maybeContentTypeHeader = body ? { 'Content-Type': 'application/json' } : undefined;
+    const resolvedUrl = prependApiUrl ? prependApiUrl + url : url;
+
+    const response = await fetch(resolvedUrl, {
+      method: method,
+      headers: {
+        ...maybeContentTypeHeader,
+        ...authHeader(resolvedUrl),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    if (response.ok) {
+      return parseResponseForText(response);
+    } else {
+      const statusCode = response.status;
+      const retriesLeft = retries - 1;
+
+      // ensure we still have retries remaining
+      if (retriesLeft < 0) {
+        const fetchError: FetchError = {
+          statusCode: statusCode,
+          message: `Received ${statusCode} when trying to reach ${url}`,
+        };
+        return Promise.reject(fetchError);
+      }
+
+      // intermediate step(s) before retrying
+      switch (statusCode) {
+        // jwt expired
+        case 401:
+        // TODO: refresh token before retrying
+
+        default:
+          break;
+      }
+
+      return _retryFetch(url, method, body, retriesLeft);
+    }
+  }
+
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  async function parseResponseForText(response: Response): Promise<any> {
     const text = await response.text();
     const data = text && JSON.parse(text);
-
-    if (!response.ok) {
-      // todo: handle 401/403 for user auth, verify JWT token, if not redirect to /login
-      const error = data?.message ?? response.statusText;
-      console.error(error);
-      return Promise.reject(error);
-    }
-
     return data;
   }
 
   function authHeader(url: string): Record<string, string> {
-    // todo: return auth header with jwt if user is logged in and request is to the api url
-    throw new Error('Not implemented');
+    const isEchoStudyApiUrl = url.startsWith(ECHOSTUDY_API_URL);
+
+    if (authJwt && isEchoStudyApiUrl) {
+      const accessToken = authJwt.accessToken;
+      return { Authorization: `Bearer ${accessToken}` };
+    }
+
+    return {};
   }
 }
