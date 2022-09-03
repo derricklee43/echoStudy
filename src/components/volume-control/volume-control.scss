@@ -1,0 +1,39 @@
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+.c-volume-control {
+  @include flex-center;
+
+  .c-volume-control-speaker-icon {
+    height: 32px;
+    width: 32px;
+    margin-right: 5px;
+  }
+
+  .c-volume-control-input {
+    width: 50px;
+    -webkit-appearance: none;
+    height: 7px;
+    background: #4c4c57;
+    border-radius: 5px;
+    background-image: linear-gradient($white, $white);
+    background-repeat: no-repeat;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border-radius: 10px;
+      height: 20px;
+      width: 8px;
+      border: 1px solid $deck-cover-blue;
+      background: $white;
+      cursor: pointer;
+    }
+
+    &::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+      box-shadow: none;
+      border: none;
+      background: transparent;
+    }
+  }
+}

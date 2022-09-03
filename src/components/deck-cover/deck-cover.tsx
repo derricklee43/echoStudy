@@ -34,8 +34,10 @@ export const DeckCover = ({
     <motion.div key={deck.metaData.id} layout transition={springTransition} className="deck-cover">
       <FlipTile
         isFlipped={flippable && flipped}
-        front={getCoverFront()}
+        frontClassName="cover-front"
+        front={deck.metaData.title}
         back={getCoverBack()}
+        backClassName="cover-back"
         onClick={onClickHandler}
       />
     </motion.div>
@@ -46,20 +48,19 @@ export const DeckCover = ({
     onClick?.(event);
   }
 
-  function getCoverFront() {
-    return <div className="cover-front">{deck.metaData.title}</div>;
-  }
-
   function getCoverBack() {
-    const percentStudied = 1;
+    const percentStudied = 57;
     return (
-      <div className="cover-back">
+      <>
         <label>{deck.metaData.title}</label>
         <p>{deck.metaData.desc}</p>
         <div className="button-strip">
-          <div className="progress-bar">
-            <ProgressBar percent={percentStudied} label={`${percentStudied}% studied`} />
-          </div>
+          <ProgressBar
+            variant="gradient"
+            className="deck-cover-progress-bar"
+            percent={Math.max(percentStudied, 15)} // looks ugly at >15
+            label={`${percentStudied}% studied`}
+          />
           <Button bubbleOnClickEvent={false} onClick={onViewClick}>
             view
           </Button>
@@ -67,7 +68,7 @@ export const DeckCover = ({
             study
           </Button>
         </div>
-      </div>
+      </>
     );
   }
 };

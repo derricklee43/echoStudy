@@ -5,7 +5,6 @@ import { Button } from '../../components/button/button';
 import { LoadingPage } from '../../components/loading-page/loading-page';
 import { PageHeader } from '../../components/page-header/page-header';
 import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
-import { noop } from '../../helpers/func';
 import { useCardsClient } from '../../hooks/api/use-cards-client';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { Deck } from '../../models/deck';

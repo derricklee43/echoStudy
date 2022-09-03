@@ -1,4 +1,3 @@
-import { Card, createNewCard } from '../card';
 import { CardContent, createNewCardContent } from '../card-content';
 
 export const getTestFoxFront = (): CardContent => {
