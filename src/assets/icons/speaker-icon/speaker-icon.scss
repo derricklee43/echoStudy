@@ -1,0 +1,10 @@
+@import '../../colors';
+@import '../../styles';
+
+svg.speaker-icon.light path {
+  &:first-child {
+    fill: $white;
+    stroke: none;
+  }
+  stroke: $white;
+}

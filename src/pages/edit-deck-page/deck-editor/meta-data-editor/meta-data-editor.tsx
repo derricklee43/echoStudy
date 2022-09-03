@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
-import { TrashIcon } from '../../../../assets/icons/trash-icon/trash-icon';
 import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
 import { Button } from '../../../../components/button/button';
 import { LanguageDropDown } from '../../../../components/language-drop-down/drop-down-options/language-drop-down';
 import { TextArea } from '../../../../components/text-area/text-area';
 import { TextBox } from '../../../../components/text-box/text-box';
-import { noop } from '../../../../helpers/func';
 import { Card } from '../../../../models/card';
-import { CardLanguage } from '../../../../models/card-content';
-import {
-  AllDeckLanguages,
-  DeckLanguage,
-  DeckLanguages,
-  DeckMetaData,
-} from '../../../../models/deck';
+import { AllDeckLanguages, DeckLanguage, DeckMetaData } from '../../../../models/deck';
 import { ImportCardsPopup } from '../../../import-cards-popup/import-cards-popup';
 import './meta-data-editor.scss';
 

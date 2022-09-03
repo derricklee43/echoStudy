@@ -16,3 +16,13 @@ export function debounce(func: Function, delayMs: number) {
 export function noop() {
   return () => {};
 }
+
+/**
+ * clamps the number to the range specified
+ * @param num - The number to be clamped
+ * @param min - The minimum possible value
+ * @param max - The maximum possible value
+ */
+export function clamp(num: number, min: number, max: number) {
+  return Math.min(Math.max(num, min), max);
+}

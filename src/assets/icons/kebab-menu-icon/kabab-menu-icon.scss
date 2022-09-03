@@ -1,0 +1,8 @@
+@import '../../colors';
+@import '../../styles';
+
+.kebab-icon {
+  &.light path {
+    fill: $white;
+  }
+}

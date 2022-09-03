@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useCardsClient } from '../../hooks/api/use-cards-client';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { createNewDeck, Deck } from '../../models/deck';
+import { createNewDeck } from '../../models/deck';
 import { LoadingPage } from '../loading-page/loading-page';
 
 interface ResourceLoaderProps<T> {
