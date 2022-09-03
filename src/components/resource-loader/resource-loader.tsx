@@ -48,7 +48,7 @@ export async function loadDeck(deckId: string | undefined, allowUndefinedDeckId 
     throw Error('deckId cannot be undefined');
   }
 
-  const deck = await getDeckById(deckId);
-  deck.cards = await getCardsByDeckId(deckId);
+  const [deck, cards] = await Promise.all([getDeckById(deckId), getCardsByDeckId(deckId)]);
+  deck.cards = cards;
   return deck;
 }
