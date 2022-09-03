@@ -49,7 +49,7 @@ export const StudyPage = () => {
           activeSide={activeCardSide}
         />
         <ProgressBar
-          variant="dark"
+          variant="white"
           percent={(count / 10) * 100}
           label=""
           className="study-page-progress-bar"

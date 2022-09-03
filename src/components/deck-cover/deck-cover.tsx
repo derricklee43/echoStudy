@@ -56,7 +56,7 @@ export const DeckCover = ({
         <p>{deck.metaData.desc}</p>
         <div className="button-strip">
           <ProgressBar
-            variant="light"
+            variant="gradient"
             className="deck-cover-progress-bar"
             percent={Math.max(percentStudied, 15)} // looks ugly at >15
             label={`${percentStudied}% studied`}

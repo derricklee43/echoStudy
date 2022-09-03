@@ -7,7 +7,7 @@ interface ProgressBarProps {
   className?: string;
   percent: number;
   label?: string;
-  variant: 'dark' | 'light';
+  variant: 'gradient' | 'white';
 }
 
 export const ProgressBar = ({ className = '', percent, label, variant }: ProgressBarProps) => {

@@ -35,11 +35,11 @@ $blue-gradient: linear-gradient(
       top: 2px;
       z-index: -1;
 
-      &.dark {
+      &.white {
         background-color: #4c4c57;
       }
 
-      &.light {
+      &.gradient {
         background-color: #a6a6a6;
       }
     }
@@ -48,18 +48,12 @@ $blue-gradient: linear-gradient(
       position: relative;
       height: 8px;
       border-radius: 10px;
-      background: $blue-gradient;
-    }
+      background: $white;
 
-    // TODO: Decide if we want this glow effect
-    // .dark.c-inner-bar::before {
-    //   content: '';
-    //   background: $blue-gradient;
-    //   position: absolute;
-    //   height: 100%;
-    //   width: 100%;
-    //   filter: blur(5px);
-    // }
+      &.gradient {
+        background: $blue-gradient;
+      }
+    }
   }
 
   label.c-bar-label {
