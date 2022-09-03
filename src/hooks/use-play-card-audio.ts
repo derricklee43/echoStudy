@@ -44,53 +44,30 @@ export function usePlayCardAudio() {
     return frontAudioDuration + totalBackAudioDuration + totalPauseDuration;
   }
 
-  function playTermAndDefinition(card: Card, repeatDefCount: number) {
-    return new Promise((resolve, reject) => {
-      try {
-        clearAudio();
-        const frontAudio = card.front.audio;
-        const backAudio = card.back.audio;
+  async function playTermAndDefinition(card: Card, repeatDefCount: number) {
+    clearAudio();
+    const frontAudio = card.front.audio;
+    const backAudio = card.back.audio;
 
-        if (frontAudio === undefined || backAudio === undefined) {
-          throw new Error('card audio could not be found');
-        }
+    if (frontAudio === undefined || backAudio === undefined) {
+      throw new Error('card audio could not be found');
+    }
 
-        const repeatAudioCallback = () => {
-          setActiveCardSide('back');
-          repeatAudio(backAudio, repeatDefCount, resolve as () => void);
-        };
-        const pauseLength = getPauseLength(backAudio.duration);
-        chainToAudioWithPause(repeatAudioCallback, frontAudio, pauseLength);
+    setActiveCardKey(card.key);
+    setActiveCardSide('front');
 
-        setActiveCardKey(card.key);
-        setActiveCardSide('front');
-        playAudio(frontAudio);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    await playAudio(frontAudio);
+    await wait(getPauseLength(backAudio.duration));
+    setActiveCardSide('back');
+    await repeatAudio(backAudio, repeatDefCount);
   }
 
-  function repeatAudio(audio: HTMLAudioElement, times: number, callBack: () => void) {
-    if (times === 0) return callBack();
+  async function repeatAudio(audio: HTMLAudioElement, times: number): Promise<void> {
+    if (times === 0) return;
 
-    const repeatCardCallback = () => repeatAudio(audio, times - 1, callBack);
-    const pauseLength = getPauseLength(audio.duration);
-    chainToAudioWithPause(repeatCardCallback, audio, pauseLength);
-
-    playAudio(audio);
-  }
-
-  function chainToAudioWithPause(
-    callBack: () => void,
-    audio: HTMLAudioElement,
-    pauseLength: number
-  ) {
-    chainToAudio(() => setTimer(() => callBack(), pauseLength), audio);
-  }
-
-  function chainToAudio(callBack: () => void, audio: HTMLAudioElement) {
-    audio.addEventListener('ended', callBack, { once: true });
+    await playAudio(audio);
+    await wait(getPauseLength(audio.duration));
+    return repeatAudio(audio, times - 1);
   }
 
   function getPauseLength(audioDuration: number) {
@@ -100,7 +77,16 @@ export function usePlayCardAudio() {
 
   function playAudio(audio: HTMLAudioElement) {
     setActiveAudio(audio);
-    chainToAudio(() => setActiveAudio(undefined), audio);
-    audio.play();
+    return new Promise<void>((resolve, reject) => {
+      audio.addEventListener('ended', () => resolve(), { once: true });
+      audio.addEventListener('error', () => reject('unable to play audio'), { once: true });
+      audio.play();
+    });
+  }
+
+  function wait(time: number) {
+    return new Promise<void>((resolve) => {
+      setTimer(() => resolve(), time);
+    });
   }
 }
