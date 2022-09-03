@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { AudioControlBar } from '../../components/audio-control-bar/audio-control-bar';
 import { LoadingPage } from '../../components/loading-page/loading-page';
 import { PageHeader } from '../../components/page-header/page-header';
 import { ProgressBar } from '../../components/progress-bar/progress-bar';
 import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
 import { noop } from '../../helpers/func';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { usePlayLesson } from '../../hooks/use-play-lesson';
 import { Deck } from '../../models/deck';
 import './study-page.scss';
 
-export const StudyPage = () => {
-  const { deckId } = useParams(); // via the param :deckId
-  const { getDeckById } = useDecksClient();
-  const { getCardsByDeckId } = useCardsClient();
-  const [deck, setDeck] = useState<Deck | undefined>();
+interface StudyPageProps {
+  deck: Deck;
+}
+
+export const StudyPage = ({ deck }: StudyPageProps) => {
   const { activeCardKey, activeCardSide, startLesson, pauseLesson, resumeLesson } = usePlayLesson();
   const [count, setCount] = useState(-2);
   const [isPaused, setIsPaused] = useState(true);
-
-  useEffect(() => {
-    fetchDeckAndRefresh();
-  }, [deckId]);
 
   useEffect(() => {
     setCount(count + 1); // TODO: Dummy incrementor. Replace with actual progress system
@@ -64,17 +57,6 @@ export const StudyPage = () => {
       </div>
     </div>
   );
-
-  // TODO: Maybe create a Page/Deck fetcher component to extract this boiler plate
-  async function fetchDeckAndRefresh() {
-    setDeck(undefined);
-    if (deckId === undefined) {
-      throw new Error('deckId cannot be undefined');
-    }
-    const deck = await getDeckById(deckId);
-    deck.cards = await getCardsByDeckId(deckId);
-    setDeck(deck);
-  }
 
   function findCard(key: string) {
     return deck?.cards.find((card) => card.key === key);

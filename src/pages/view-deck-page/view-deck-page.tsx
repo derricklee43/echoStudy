@@ -1,30 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Fade } from '../../animations/fade';
 import { Button } from '../../components/button/button';
-import { LoadingPage } from '../../components/loading-page/loading-page';
 import { PageHeader } from '../../components/page-header/page-header';
 import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { Deck } from '../../models/deck';
 import { paths } from '../../routes';
 import './view-deck-page.scss';
 
-export const ViewDeckPage = () => {
-  const [deck, setDeck] = useState<Deck | undefined>(undefined);
-  const { deckId } = useParams(); // via the param :deckId
+interface ViewDeckPageProps {
+  deck: Deck;
+}
+
+export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
   const navigate = useNavigate();
-  const { getDeckById } = useDecksClient();
-  const { getCardsByDeckId } = useCardsClient();
-
-  useEffect(() => {
-    fetchDeckAndRefresh();
-  }, [location, deckId]);
-
-  if (deck === undefined) {
-    return <LoadingPage label="loading deck..." />;
-  }
 
   return (
     <Fade className="view-deck-page">
@@ -35,10 +24,10 @@ export const ViewDeckPage = () => {
           goBackLabel="back to decks"
         />
         <div>
-          <Button onClick={() => navigate(`${paths.study}/${deckId}`)} size="medium">
+          <Button onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)} size="medium">
             study
           </Button>
-          <Button onClick={() => navigate(`${paths.editDeck}/${deckId}`)} size="medium">
+          <Button onClick={() => navigate(`${paths.editDeck}/${deck.metaData.id}`)} size="medium">
             edit
           </Button>
         </div>
@@ -54,16 +43,6 @@ export const ViewDeckPage = () => {
       )}
     </Fade>
   );
-
-  async function fetchDeckAndRefresh() {
-    setDeck(undefined);
-    if (deckId === undefined) {
-      throw new Error('deckId cannot be undefined'); // Todo: maybe route to a 404 page??
-    }
-    const deck = await getDeckById(deckId);
-    deck.cards = await getCardsByDeckId(deckId);
-    setDeck(deck);
-  }
 
   function navigateBackToDecks() {
     navigate(paths.decks);
