@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { initRecoilState } from './state/init';
 import App from './app';
 import reportWebVitals from './reportWebVitals';
 import './index.scss';
@@ -9,7 +10,7 @@ import './index.scss';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <RecoilRoot>
+      <RecoilRoot initializeState={initRecoilState}>
         <App />
       </RecoilRoot>
     </BrowserRouter>

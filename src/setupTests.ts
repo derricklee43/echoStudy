@@ -3,3 +3,29 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+/*
+ * Custom matchers; update `jest.d.ts` to provide typings for these matchers.
+ *
+ * The first argument is always the received value from expectation chaining.
+ * You should not include the first argument in the declaration type (jest.d.ts)
+ */
+expect.extend({
+  async toMatchPredicate(
+    received: unknown,
+    predicate: (received: unknown) => Promise<boolean> | boolean
+  ) {
+    const matched = await predicate(received);
+    if (matched) {
+      return {
+        pass: true,
+        message: () => `Expected ${received} not to match the predicate`,
+      };
+    } else {
+      return {
+        pass: false,
+        message: () => `Expected ${received} to match the predicate`,
+      };
+    }
+  },
+});
