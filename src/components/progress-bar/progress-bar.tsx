@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { clamp } from '../../helpers/func';
 import './progress-bar.scss';
 
 interface ProgressBarProps {
@@ -28,7 +29,3 @@ export const ProgressBar = ({ className = '', percent, label, variant }: Progres
     </div>
   );
 };
-
-function clamp(num: number, min: number, max: number) {
-  return Math.min(Math.max(num, min), max);
-}

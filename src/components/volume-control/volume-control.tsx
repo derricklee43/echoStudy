@@ -1,10 +1,11 @@
 import React from 'react';
 import { SpeakerIcon } from '../../assets/icons/speaker-icon/speaker-icon';
+import { clamp } from '../../helpers/func';
 import './volume-control.scss';
 
 interface VolumeControlProps {
-  volume: string;
-  setVolume: (volume: string) => void;
+  volume: number;
+  setVolume: (volume: number) => void;
 }
 
 export const VolumeControl = ({ volume, setVolume }: VolumeControlProps) => {
@@ -24,9 +25,9 @@ export const VolumeControl = ({ volume, setVolume }: VolumeControlProps) => {
           type="range"
           min="1"
           max="100"
-          value={volume}
+          value={clamp(volume, 0, 100)}
           style={getBackgroundSize()}
-          onChange={(event) => setVolume(event.target.value)}
+          onChange={(event) => setVolume(parseInt(event.target.value))}
         />
       </div>
     </div>

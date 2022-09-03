@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { AudioControlBar } from './audio-control-bar';
 import { noop } from '../../helpers/func';
-import userEvent from '@testing-library/user-event';
 
 describe('StudyFlashcard', () => {
   it('should render with the expected elements', () => {
