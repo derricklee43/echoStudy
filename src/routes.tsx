@@ -38,7 +38,7 @@ function getStudyPage() {
   const studyPageClosure = (deck: Deck) => <StudyPage deck={deck} />;
   return (
     <ResourceLoader
-      useParamsIdName="deckId"
+      routeParameter="deckId"
       resourceFetcher={loadDeck}
       resourceConsumer={studyPageClosure}
     />
@@ -49,7 +49,7 @@ function getEditDeckPage(allowUndefinedDeckId: boolean) {
   const editDeckPageClosure = (deck: Deck) => <EditDeckPage deck={deck} />;
   return (
     <ResourceLoader
-      useParamsIdName="deckId"
+      routeParameter="deckId"
       resourceFetcher={(deckId: string | undefined) => loadDeck(deckId, allowUndefinedDeckId)}
       resourceConsumer={editDeckPageClosure}
     />
@@ -60,7 +60,7 @@ function getViewDeckPage() {
   const viewDeckPageClosure = (deck: Deck) => <ViewDeckPage deck={deck} />;
   return (
     <ResourceLoader
-      useParamsIdName="deckId"
+      routeParameter="deckId"
       resourceFetcher={loadDeck}
       resourceConsumer={viewDeckPageClosure}
     />
