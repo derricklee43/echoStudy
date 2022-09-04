@@ -3,6 +3,7 @@ import TextareaAutoSize from 'react-textarea-autosize';
 import { CardMenu } from './card-menu/card-menu';
 import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
 import { CardContent, CardLanguage } from '../../../models/card-content';
+import { LazyAudio } from '../../../models/lazy-audio';
 import { Button } from '../../button/button';
 import './card-face.scss';
 
@@ -15,7 +16,7 @@ interface CardFaceProps {
   className?: string;
   onChange?: (cardContent: CardContent) => void;
   onFocus?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
-  onSpeakerClick?: (audioFile?: HTMLAudioElement) => void;
+  onSpeakerClick?: (audioFile?: LazyAudio) => void;
   onSwapContentClick?: () => void;
 }
 
