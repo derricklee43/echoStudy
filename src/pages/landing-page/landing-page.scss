@@ -1,0 +1,41 @@
+@import '../../assets/styles';
+@import '../../assets/colors';
+
+.landing-page {
+  width: 100%;
+  color: white;
+
+  .front {
+    font-size: 96px;
+    text-align: center;
+
+    padding: 16px 10%;
+
+    .wave-image {
+      animation: pulse-animation 3s ease-in-out infinite alternate;
+      width: 100%;
+    }
+
+    .sign-in-button {
+      border-radius: 30px;
+      padding: 10px 20px;
+
+      &:hover {
+        background-color: $light-blue;
+      }
+    }
+  }
+
+  .text-bold {
+    font-weight: bold;
+  }
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(0.975);
+  }
+  100% {
+    transform: scale(1.025);
+  }
+}
