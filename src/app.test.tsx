@@ -1,31 +1,45 @@
 import React from 'react';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
-import { RecoilRoot } from 'recoil';
+import { createMemoryHistory, History } from 'history';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { initRecoilState } from './state/init';
 import App from './app';
 
 export function renderWithHistoryRouter(
   jsxElement: JSX.Element,
-  { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}
+  options?: {
+    recoilState?: (snapshot: MutableSnapshot) => void;
+    route?: string;
+    history?: History;
+  }
 ) {
+  const recoilState = options?.recoilState ?? initRecoilState;
+  const route = options?.route ?? '/';
+  const history = options?.history ?? createMemoryHistory({ initialEntries: [route] });
+
   return {
     history,
-    ...render(<HistoryRouter history={history}>{jsxElement}</HistoryRouter>),
+    ...render(
+      <HistoryRouter history={history}>
+        <RecoilRoot initializeState={recoilState}>{jsxElement}</RecoilRoot>
+      </HistoryRouter>
+    ),
   };
 }
 
-export function renderWithRecoilRoot(jsxElement: JSX.Element) {
-  return render(<RecoilRoot initializeState={initRecoilState}>{jsxElement}</RecoilRoot>);
+export function renderWithRecoilRoot(
+  jsxElement: JSX.Element,
+  options?: {
+    recoilState?: (snapshot: MutableSnapshot) => void;
+  }
+) {
+  const recoilState = options?.recoilState ?? initRecoilState;
+  return render(<RecoilRoot initializeState={recoilState}>{jsxElement}</RecoilRoot>);
 }
 
-test('renders learn react link', () => {
-  renderWithHistoryRouter(
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  );
-  const linkElement = screen.getByPlaceholderText(/search my decks/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders App', () => {
+  const { container } = renderWithHistoryRouter(<App />);
+  const selector = container.querySelector('.App');
+  expect(selector).toBeTruthy();
 });

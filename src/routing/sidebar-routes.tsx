@@ -1,4 +1,4 @@
-import { paths } from '../../routes';
+import { paths } from './paths';
 
 interface SidebarRouteItemProps {
   name: string;

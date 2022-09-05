@@ -2,8 +2,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Sidebar } from './sidebar';
-import { SIDEBAR_ROUTE_ITEMS } from './sidebar-routes';
 import { renderWithHistoryRouter } from '../../app.test';
+import { SIDEBAR_ROUTE_ITEMS } from '../../routing/sidebar-routes';
 
 const FIRST_SIDEBAR_ITEM_NAME = SIDEBAR_ROUTE_ITEMS[0].name;
 const FIRST_SIDEBAR_ITEM_ROUTE = SIDEBAR_ROUTE_ITEMS[0].route;

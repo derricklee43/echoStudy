@@ -6,7 +6,7 @@ import { DropDown } from '../../components/drop-down/drop-down';
 import { noop } from '../../helpers/func';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { createNewDeck, Deck } from '../../models/deck';
-import { paths } from '../../routes';
+import { paths } from '../../routing/paths';
 import {
   AllSortRules,
   userDecksSortedState,

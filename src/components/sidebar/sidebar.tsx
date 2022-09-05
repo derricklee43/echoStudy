@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { SIDEBAR_ROUTE_ITEMS } from './sidebar-routes';
+import { SIDEBAR_ROUTE_ITEMS } from '../../routing/sidebar-routes';
 import './sidebar.scss';
 
 export const Sidebar = () => {
