@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { objectSchemaSimple } from '../../helpers/validator';
@@ -22,6 +23,12 @@ export const isFetchError = objectSchemaSimple<FetchError>({
 export function useFetchWrapper(prependApiUrl?: string) {
   const authJwt = useRecoilValue(oauth2JwtState);
 
+  // abort any ongoing fetches on destroy/unmount
+  const abortController = new AbortController();
+  useEffect(() => {
+    return () => abortController.abort();
+  }, []);
+
   return {
     get: request('GET'),
     post: request('POST'),
@@ -31,7 +38,17 @@ export function useFetchWrapper(prependApiUrl?: string) {
 
   function request(method: string) {
     return async function (url: string, body?: object, numRetries = 1) {
-      return _retryFetch(url, method, body, numRetries);
+      try {
+        return await _retryFetch(url, method, body, numRetries);
+      } catch (error) {
+        const message = `${url} --- ${error}`;
+        if (error instanceof DOMException && error.name == 'AbortError') {
+          console.warn(message);
+        } else {
+          console.error(message);
+          throw error;
+        }
+      }
     };
   }
 
@@ -47,7 +64,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     const maybeContentTypeHeader = body ? { 'Content-Type': 'application/json' } : undefined;
-    const resolvedUrl = prependApiUrl ? prependApiUrl + url : url;
+    const resolvedUrl = (prependApiUrl ?? '') + url;
 
     const response = await fetch(resolvedUrl, {
       method: method,
@@ -56,6 +73,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
         ...authHeader(resolvedUrl),
       },
       body: body ? JSON.stringify(body) : undefined,
+      signal: abortController.signal,
     });
 
     if (response.ok) {
@@ -77,7 +95,8 @@ export function useFetchWrapper(prependApiUrl?: string) {
       switch (statusCode) {
         // jwt expired
         case 401:
-        // TODO: refresh token before retrying
+          // TODO: refresh token before retrying
+          break;
 
         default:
           break;
@@ -87,7 +106,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
     }
   }
 
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function parseResponseForText(response: Response): Promise<any> {
     const text = await response.text();
     const data = text && JSON.parse(text);
