@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTimer } from './use-timer';
 import { Card } from '../models/card';
 
 export function usePlayCardAudio() {
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
-  const [activeAudio, setActiveAudio] = useState<HTMLAudioElement>();
+  const activeAudioRef = useRef<HTMLAudioElement>();
   const [activeCardKey, setActiveCardKey] = useState('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
+
+  useEffect(() => {
+    return () => clearAudio();
+  }, []);
 
   return {
     activeCardKey,
@@ -19,18 +23,18 @@ export function usePlayCardAudio() {
 
   function pause() {
     pauseTimer();
-    activeAudio?.pause();
+    activeAudioRef.current?.pause();
   }
 
   function resume() {
-    if (activeAudio === undefined) {
+    if (activeAudioRef.current === undefined) {
       return resumeTimer();
     }
-    activeAudio.play();
+    activeAudioRef.current.play();
   }
 
   function clearAudio() {
-    activeAudio?.pause();
+    activeAudioRef.current?.pause();
     clearTimer();
   }
 
@@ -76,7 +80,7 @@ export function usePlayCardAudio() {
   }
 
   function playAudio(audio: HTMLAudioElement) {
-    setActiveAudio(audio);
+    activeAudioRef.current = audio;
     return new Promise<void>((resolve, reject) => {
       audio.addEventListener('ended', () => resolve(), { once: true });
       audio.addEventListener('error', () => reject('unable to play audio'), { once: true });
