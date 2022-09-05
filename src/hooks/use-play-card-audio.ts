@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTimer } from './use-timer';
 import { Card } from '../models/card';
+import { LazyAudio } from '../models/lazy-audio';
 
 export function usePlayCardAudio() {
+  // timer used to create wait periods between audios
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
-  const activeAudioRef = useRef<HTMLAudioElement>();
+
+  const activeAudioRef = useRef<LazyAudio>();
   const [activeCardKey, setActiveCardKey] = useState('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
@@ -22,25 +25,32 @@ export function usePlayCardAudio() {
   };
 
   function pause() {
-    pauseTimer();
-    activeAudioRef.current?.pause();
+    if (!activeAudioRef.current) {
+      pauseTimer();
+      return;
+    }
+    activeAudioRef.current.pause();
   }
 
   function resume() {
-    if (activeAudioRef.current === undefined) {
-      return resumeTimer();
+    if (!activeAudioRef.current) {
+      resumeTimer();
+      return;
     }
     activeAudioRef.current.play();
   }
 
   function clearAudio() {
-    activeAudioRef.current?.pause();
-    clearTimer();
+    if (!activeAudioRef.current) {
+      clearTimer();
+      return;
+    }
+    activeAudioRef.current.reset();
   }
 
-  function getTotalCardDuration(card: Card, repeatDefCount: number) {
-    const frontAudioDuration = card.front.audio?.duration ?? 0;
-    const backAudioDuration = card.back.audio?.duration ?? 0;
+  async function getTotalCardDuration(card: Card, repeatDefCount: number) {
+    const frontAudioDuration = (await card.front.audio?.getDuration()) ?? 0;
+    const backAudioDuration = (await card.back.audio?.getDuration()) ?? 0;
     const pauseDuration = getPauseLength(backAudioDuration);
 
     const totalBackAudioDuration = backAudioDuration * repeatDefCount;
@@ -57,20 +67,28 @@ export function usePlayCardAudio() {
       throw new Error('card audio could not be found');
     }
 
+    // play front audio
     setActiveCardKey(card.key);
     setActiveCardSide('front');
-
     await playAudio(frontAudio);
-    await wait(getPauseLength(backAudio.duration));
+
+    // wait before flip
+    const backDuration = await backAudio.getDuration();
+    await wait(getPauseLength(backDuration));
+
+    // play back audio
     setActiveCardSide('back');
     await repeatAudio(backAudio, repeatDefCount);
   }
 
-  async function repeatAudio(audio: HTMLAudioElement, times: number): Promise<void> {
+  async function repeatAudio(audio: LazyAudio, times: number): Promise<void> {
     if (times === 0) return;
 
     await playAudio(audio);
-    await wait(getPauseLength(audio.duration));
+
+    const duration = await audio.getDuration();
+    await wait(getPauseLength(duration));
+
     return repeatAudio(audio, times - 1);
   }
 
@@ -79,7 +97,7 @@ export function usePlayCardAudio() {
     return durationInSeconds * 2;
   }
 
-  function playAudio(audio: HTMLAudioElement) {
+  function playAudio(audio: LazyAudio) {
     activeAudioRef.current = audio;
     return new Promise<void>((resolve, reject) => {
       audio.addEventListener('ended', () => resolve(), { once: true });
@@ -89,6 +107,7 @@ export function usePlayCardAudio() {
   }
 
   function wait(time: number) {
+    activeAudioRef.current = undefined;
     return new Promise<void>((resolve) => {
       setTimer(() => resolve(), time);
     });

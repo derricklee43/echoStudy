@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { CardFace } from './card-face/card-face';
 import { Card } from '../../models/card';
 import { CardContent } from '../../models/card-content';
+import { LazyAudio } from '../../models/lazy-audio';
 import './flashcard.scss';
 
 interface FlashcardProps {
@@ -9,7 +10,7 @@ interface FlashcardProps {
   variant: 'active' | 'inactive' | 'readonly';
   onCardChange?: (card: Card) => void;
   onFocus?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
-  onSpeakerClick?: (audioFile?: HTMLAudioElement) => void;
+  onSpeakerClick?: (audioFile?: LazyAudio) => void;
 }
 
 export const Flashcard = ({
