@@ -31,7 +31,12 @@ $search-bar-offset: ($content-padding - $element-gap);
       color: $white;
       font-size: 30px;
 
-      > label {
+      a.c-header-anchor {
+        color: unset;
+        text-decoration: none;
+      }
+
+      label {
         @include hover-pointer;
         user-select: none;
 

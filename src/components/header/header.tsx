@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Deck } from '../../models/deck';
 import { paths } from '../../routing/paths';
 import { userDecksSortedState } from '../../state/user-decks';
 import { Button } from '../button/button';
@@ -21,10 +20,12 @@ export const Header = ({ showSearchBar = true, fixed = true }: HeaderProps) => {
   return (
     <div className={`c-header ${fixed ? 'fixed' : ''}`}>
       <div className="c-header-content">
-        <div className="c-header-title" onMouseUp={handleHomeClick}>
-          <label>
-            echo<span>Study</span>
-          </label>
+        <div className="c-header-title">
+          <a className="c-header-anchor" href="/">
+            <label>
+              echo<span>Study</span>
+            </label>
+          </a>
         </div>
 
         <div className="c-search-bar-container">
@@ -55,22 +56,11 @@ export const Header = ({ showSearchBar = true, fixed = true }: HeaderProps) => {
     return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
   }
 
-  function handleHomeClick(e: React.MouseEvent) {
-    // left-click
-    if (e.button === 0) {
-      navigate(paths.home);
-    }
-    // middle-click
-    else if (e.button === 1) {
-      window.open(paths.home, '_blank');
-    }
-  }
-
   function handleSignUpClick() {
     console.log('sign up');
   }
 
   function handleSignInClick() {
-    console.log('sign up');
+    console.log('sign in');
   }
 };
