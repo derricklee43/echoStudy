@@ -9,27 +9,34 @@ import { DropDownOption } from '../drop-down-options/drop-down-options';
 import { SearchBar } from '../search-bar/search-bar';
 import './header.scss';
 
-export const Header = () => {
+interface HeaderProps {
+  showSearchBar?: boolean;
+  fixed?: boolean;
+}
+
+export const Header = ({ showSearchBar = true, fixed = true }: HeaderProps) => {
   const decks = useRecoilValue(userDecksSortedState);
   const navigate = useNavigate();
 
   return (
-    <div className="c-header">
+    <div className={`c-header ${fixed ? 'fixed' : ''}`}>
       <div className="c-header-content">
-        <div className="c-header-title" onClick={handleHomeClick}>
+        <div className="c-header-title" onMouseUp={handleHomeClick}>
           <label>
             echo<span>Study</span>
           </label>
         </div>
 
         <div className="c-search-bar-container">
-          <div className="c-search-bar-sizer">
-            <SearchBar
-              placeholder="search my decks"
-              dropDownData={getDeckOptions()}
-              onDropdownClick={({ id }) => navigate(`${paths.deck}/${id}`)}
-            />
-          </div>
+          {showSearchBar && (
+            <div className="c-search-bar-sizer">
+              <SearchBar
+                placeholder="search my decks"
+                dropDownData={getDeckOptions()}
+                onDropdownClick={({ id }) => navigate(`${paths.deck}/${id}`)}
+              />
+            </div>
+          )}
         </div>
 
         <div className="c-account-buttons">
@@ -48,8 +55,15 @@ export const Header = () => {
     return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
   }
 
-  function handleHomeClick() {
-    navigate(paths.home);
+  function handleHomeClick(e: React.MouseEvent) {
+    // left-click
+    if (e.button === 0) {
+      navigate(paths.home);
+    }
+    // middle-click
+    else if (e.button === 1) {
+      window.open(paths.home, '_blank');
+    }
   }
 
   function handleSignUpClick() {

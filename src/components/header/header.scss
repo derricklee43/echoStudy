@@ -2,15 +2,19 @@
 @import '../../assets/styles';
 
 $element-gap: 16px;
+$search-bar-offset: ($content-padding - $element-gap);
 
 .c-header {
   z-index: 1;
-  position: fixed;
   height: $header-height;
   width: 100%;
   box-sizing: border-box;
   background-color: $deck-cover-blue;
   border-bottom: 1px solid $light-blue;
+
+  &.fixed {
+    position: fixed;
+  }
 
   .c-header-content {
     display: flex;
@@ -22,14 +26,14 @@ $element-gap: 16px;
       @include flex-center;
       flex: 0 0 $sidebar-width;
       height: 100%;
+      padding-right: $search-bar-offset;
 
       color: $white;
       font-size: 30px;
-      border-right: 1px solid $light-blue;
-      box-sizing: border-box;
 
       > label {
         @include hover-pointer;
+        user-select: none;
 
         > span {
           font-weight: bold;
@@ -45,16 +49,19 @@ $element-gap: 16px;
       display: flex;
       align-items: center;
       flex: 8 1 auto;
-      padding-left: ($content-padding - $element-gap);
 
       .c-search-bar-sizer {
         width: min(calc(100%), 500px);
+
+        @media screen and (max-width: $medium-screen) {
+          display: none;
+        }
       }
     }
 
     .c-account-buttons {
       @include flex-center;
-      flex: 1 0 auto;
+      flex: 0 0 min(33vw, 250px);
       padding-right: $element-gap;
 
       button {
