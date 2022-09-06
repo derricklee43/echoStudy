@@ -6,10 +6,6 @@ import './sidebar.scss';
 export const Sidebar = () => {
   return (
     <div className="c-sidebar">
-      <label className="c-sidebar-title">
-        echo<span>Study</span>
-      </label>
-      <hr className="c-sidebar-divider" />
       <ul className="c-sidebar-items">
         {SIDEBAR_ROUTE_ITEMS.map((item) => (
           <NavLink

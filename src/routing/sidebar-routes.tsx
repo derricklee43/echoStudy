@@ -5,8 +5,6 @@ interface SidebarRouteItemProps {
   route: string;
 }
 
-// todo: actually probably have a homepage and maybe make `echoStudy` go back to home
-
 export const SIDEBAR_ROUTE_ITEMS: SidebarRouteItemProps[] = [
   {
     name: 'flashcard decks',

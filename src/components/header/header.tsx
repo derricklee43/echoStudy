@@ -16,13 +16,22 @@ export const Header = () => {
   return (
     <div className="c-header">
       <div className="c-header-content">
-        <div className="c-search-bar-container">
-          <SearchBar
-            placeholder="search my decks"
-            dropDownData={getDeckOptions()}
-            onDropdownClick={({ id }) => navigate(`${paths.deck}/${id}`)}
-          />
+        <div className="c-header-title" onClick={handleHomeClick}>
+          <label>
+            echo<span>Study</span>
+          </label>
         </div>
+
+        <div className="c-search-bar-container">
+          <div className="c-search-bar-sizer">
+            <SearchBar
+              placeholder="search my decks"
+              dropDownData={getDeckOptions()}
+              onDropdownClick={({ id }) => navigate(`${paths.deck}/${id}`)}
+            />
+          </div>
+        </div>
+
         <div className="c-account-buttons">
           <Button onClick={handleSignUpClick} className="sign-up-button">
             sign up
@@ -37,6 +46,10 @@ export const Header = () => {
 
   function getDeckOptions(): DropDownOption<string>[] {
     return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
+  }
+
+  function handleHomeClick() {
+    navigate(paths.home);
   }
 
   function handleSignUpClick() {

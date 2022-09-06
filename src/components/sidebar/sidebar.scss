@@ -2,27 +2,15 @@
 @import '../../assets/styles';
 
 .c-sidebar {
-  z-index: 1;
+  // z-index: 1;
   width: $sidebar-width;
   box-sizing: border-box;
-  padding: 0px 20px;
+  padding: $header-height 20px 0px 20px;
   height: 100vh;
   position: fixed;
   background-color: $blue;
   color: $white;
   border-right: 1px solid $light-blue;
-
-  .c-sidebar-title {
-    margin: 10px 0px;
-    display: inline-block;
-    width: 100%;
-    font-size: 30px;
-    text-align: center;
-
-    span {
-      font-weight: bold;
-    }
-  }
 
   .c-sidebar-divider {
     height: 1px;
