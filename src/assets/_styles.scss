@@ -1,5 +1,12 @@
 @import './colors';
 
+// media query sizes
+$small-screen: 512px;
+$sm-md-screen: 640px;
+$medium-screen: 768px;
+$large-screen: 1024px;
+$giant-screen: 1280px;
+
 $standard-radius: 4px;
 $sidebar-width: 260px;
 $header-height: 53px;
@@ -41,6 +48,11 @@ $content-padding: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin viewport-vertical-center {
+  margin-top: 50vh; // could be padding-top: 100vh, but we'll see
+  transform: translate(0, -50%);
 }
 
 @mixin box-shadow {

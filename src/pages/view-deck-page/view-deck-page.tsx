@@ -5,7 +5,7 @@ import { Button } from '../../components/button/button';
 import { PageHeader } from '../../components/page-header/page-header';
 import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
 import { Deck } from '../../models/deck';
-import { paths } from '../../routes';
+import { paths } from '../../routing/paths';
 import './view-deck-page.scss';
 
 interface ViewDeckPageProps {

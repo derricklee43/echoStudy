@@ -1,30 +1,83 @@
 @import '../../assets/colors';
 @import '../../assets/styles';
 
+$element-gap: 16px;
+$search-bar-offset: ($content-padding - $element-gap);
+
 .c-header {
   z-index: 1;
-  position: fixed;
   height: $header-height;
   width: 100%;
-  padding-left: $sidebar-width;
   box-sizing: border-box;
   background-color: $deck-cover-blue;
-  border-bottom: 1px solid $light-blue;
+  border-bottom: 1px solid $deck-cover-blue;
+
+  &.fixed {
+    position: fixed;
+  }
+
+  &.darker {
+    background-color: $blue;
+  }
 
   .c-header-content {
-    height: 100%;
     display: flex;
-    align-content: center;
+    align-items: center;
     justify-content: space-between;
-    margin: 0px $content-padding;
+    height: 100%;
+    gap: $element-gap;
+
+    .c-header-title {
+      @include flex-center;
+      flex: 0 0 $sidebar-width;
+      height: 100%;
+      // padding-right: $search-bar-offset;
+
+      color: $white;
+      font-size: 30px;
+
+      a.c-header-anchor {
+        color: unset;
+        text-decoration: none;
+      }
+
+      label {
+        @include hover-pointer;
+        user-select: none;
+
+        > span {
+          font-weight: bold;
+        }
+
+        &:hover {
+          @include standard-transition;
+          color: $grey;
+        }
+      }
+    }
 
     .c-search-bar-container {
-      @include flex-center;
-      width: 500px;
+      display: flex;
+      align-items: center;
+      flex: 8 1 auto;
+
+      @media screen and (max-width: $sm-md-screen) {
+        display: none;
+      }
+
+      .c-search-bar-sizer {
+        width: min(calc(100%), 500px);
+
+        @media screen and (max-width: $small-screen) {
+          display: none;
+        }
+      }
     }
 
     .c-account-buttons {
       @include flex-center;
+      flex: 0 0 min(33vw, 250px);
+      padding-right: $element-gap;
 
       button {
         padding: 12px;
