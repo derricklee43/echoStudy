@@ -9,16 +9,17 @@ import { SearchBar } from '../search-bar/search-bar';
 import './header.scss';
 
 interface HeaderProps {
+  className?: string;
   showSearchBar?: boolean;
   fixed?: boolean;
 }
 
-export const Header = ({ showSearchBar = true, fixed = true }: HeaderProps) => {
+export const Header = ({ className = '', showSearchBar = true, fixed = true }: HeaderProps) => {
   const decks = useRecoilValue(userDecksSortedState);
   const navigate = useNavigate();
 
   return (
-    <div className={`c-header ${fixed ? 'fixed' : ''}`}>
+    <div className={`c-header ${fixed ? 'fixed' : ''} ${className}`}>
       <div className="c-header-content">
         <div className="c-header-title">
           <a className="c-header-anchor" href="/">

@@ -10,23 +10,28 @@ $search-bar-offset: ($content-padding - $element-gap);
   width: 100%;
   box-sizing: border-box;
   background-color: $deck-cover-blue;
-  border-bottom: 1px solid $light-blue;
+  border-bottom: 1px solid $deck-cover-blue;
 
   &.fixed {
     position: fixed;
   }
 
+  &.darker {
+    background-color: $blue;
+  }
+
   .c-header-content {
     display: flex;
-    height: 100%;
     align-items: center;
+    justify-content: space-between;
+    height: 100%;
     gap: $element-gap;
 
     .c-header-title {
       @include flex-center;
       flex: 0 0 $sidebar-width;
       height: 100%;
-      padding-right: $search-bar-offset;
+      // padding-right: $search-bar-offset;
 
       color: $white;
       font-size: 30px;
@@ -45,6 +50,7 @@ $search-bar-offset: ($content-padding - $element-gap);
         }
 
         &:hover {
+          @include standard-transition;
           color: $grey;
         }
       }
@@ -55,10 +61,14 @@ $search-bar-offset: ($content-padding - $element-gap);
       align-items: center;
       flex: 8 1 auto;
 
+      @media screen and (max-width: $sm-md-screen) {
+        display: none;
+      }
+
       .c-search-bar-sizer {
         width: min(calc(100%), 500px);
 
-        @media screen and (max-width: $medium-screen) {
+        @media screen and (max-width: $small-screen) {
           display: none;
         }
       }
