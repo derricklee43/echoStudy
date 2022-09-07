@@ -18,14 +18,20 @@ export function useUserClient() {
 
   return {
     login,
+    loginDebug, // remove this once we have user login page
     logout,
   };
 
+  /**
+   * POST: /Authenticate
+   * @side_effect Writes the auth JWT to local storage and recoil atom state
+   * @returns True if no user credentials were correct and the side-effect occurred, otherwise false.
+   */
   // POST: /Authenticate
   // Returns false if an error occurred or the user credentials were incorrect.
   async function login(username: string, password: string): Promise<boolean> {
     const payload = {
-      usename: username,
+      username: username,
       password: password,
     };
     const numRetries = 0; // don't retry; 401 means incorrect user creds
@@ -33,11 +39,12 @@ export function useUserClient() {
     try {
       // TODO: when token refreshing is implemented, this should probably be an object
       // that contains both the access token as well as the refresh token
-      const { accessToken } = await fetchWrapper.post('/Authenticate', payload, numRetries);
+      const jwtData = await fetchWrapper.post('/Authenticate', payload, numRetries);
       const authJwt = {
-        accessToken: accessToken,
+        accessToken: jwtData,
         refreshToken: undefined,
       };
+      debugger;
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, authJwt);
       setAuthJwt(authJwt);
     } catch (error) {
@@ -48,6 +55,10 @@ export function useUserClient() {
     }
 
     return true;
+  }
+
+  async function loginDebug() {
+    return login('johndoe@gmail.com', '123ABC!@#def');
   }
 
   async function logout() {

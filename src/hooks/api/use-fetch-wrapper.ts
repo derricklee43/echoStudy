@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { objectSchemaSimple } from '../../helpers/validator';
+import { paths } from '../../routing/paths';
 import { oauth2JwtState } from '../../state/oauth2-jwt';
 
 export interface FetchError {
@@ -22,6 +24,7 @@ export const isFetchError = objectSchemaSimple<FetchError>({
  */
 export function useFetchWrapper(prependApiUrl?: string) {
   const authJwt = useRecoilValue(oauth2JwtState);
+  const navigate = useNavigate();
 
   // abort any ongoing fetches on destroy/unmount
   const abortController = new AbortController();
@@ -96,7 +99,10 @@ export function useFetchWrapper(prependApiUrl?: string) {
         // jwt expired
         case 401:
           // TODO: refresh token before retrying
-          break;
+          // we're just gonna redirect the user to the home page (ideally login page)
+          // and then don't retry by returning immediately
+          navigate(paths.home);
+          return;
 
         default:
           break;
@@ -108,9 +114,19 @@ export function useFetchWrapper(prependApiUrl?: string) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function parseResponseForText(response: Response): Promise<any> {
+    const contentType = response.headers.get('Content-Type')?.toLowerCase();
     const text = await response.text();
-    const data = text && JSON.parse(text);
-    return data;
+    if (!text) {
+      return undefined;
+    }
+
+    if (contentType?.startsWith('application/json')) {
+      return JSON.parse(text);
+    } else if (contentType?.startsWith('text/plain')) {
+      return text;
+    } else {
+      throw Error(`Received unsupport response type: ${contentType}`);
+    }
   }
 
   function authHeader(url: string): Record<string, string> {

@@ -5,7 +5,7 @@ import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import waveImage from '../../assets/images/wave.png';
 import { Button } from '../../components/button/button';
 import { Header } from '../../components/header/header';
-import { noop } from '../../helpers/func';
+import { useUserClient } from '../../hooks/api/use-user-client';
 import { paths } from '../../routing/paths';
 import './landing-page.scss';
 
@@ -18,6 +18,7 @@ const enum pages {
 }
 
 export const LandingPage = () => {
+  const { loginDebug } = useUserClient();
   const navigate = useNavigate();
 
   return (
@@ -127,7 +128,10 @@ export const LandingPage = () => {
   }
 
   function handleSignInClick() {
-    navigate(paths.decks);
+    // hardcoded user; we should really have a login page but this will suffice for now
+    loginDebug().then(() => {
+      navigate(paths.decks);
+    });
   }
 
   function handleSignUpClick() {
