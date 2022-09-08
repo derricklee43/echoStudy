@@ -1,9 +1,8 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { RecoilRoot } from 'recoil';
 import { DeckEditor } from './deck-editor';
-import { renderWithRecoilRoot } from '../../../app.test';
+import { renderWithTestRoots } from '../../../app.test';
 import { noop } from '../../../helpers/func';
 import { createNewDeck } from '../../../models/deck';
 import { testEnglishDeck } from '../../../models/mock/deck.mock';
@@ -17,7 +16,7 @@ describe('DeckEditor', () => {
   });
 
   it('should render correctly with default props', () => {
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={false}
@@ -37,7 +36,7 @@ describe('DeckEditor', () => {
   });
 
   it('should show "go back to decks" when is new deck', () => {
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={true}
@@ -50,7 +49,7 @@ describe('DeckEditor', () => {
   });
 
   it('should add a new card on click', () => {
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={false}
@@ -67,7 +66,7 @@ describe('DeckEditor', () => {
   });
 
   it('should display discard changes button when deck is not saved', () => {
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={false}
@@ -81,7 +80,7 @@ describe('DeckEditor', () => {
   });
 
   it('should call discard changes on discard changes click', () => {
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={false}
@@ -103,7 +102,7 @@ describe('DeckEditor', () => {
 
   // Todo: fix API calls in hook method and uncomment
   // it('should hide discard changes button on save', async () => {
-  //   renderWithRecoilRoot(
+  //   renderWithTestRoots(
   //     <DeckEditor
   //       initialDeck={createNewDeck()}
   //       isNewDeck={false}
@@ -124,7 +123,7 @@ describe('DeckEditor', () => {
 
   it('should call onDeleteDeckClick when delete deck is clicked', () => {
     const mockOnDeleteDeckClick = jest.fn();
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={false}
@@ -141,7 +140,7 @@ describe('DeckEditor', () => {
 
   it('should call onGoBackClick when go back is clicked', () => {
     const mockOnGoBackClick = jest.fn();
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={false}
@@ -160,7 +159,7 @@ describe('DeckEditor', () => {
     const deck = createNewDeck();
     deck.metaData.title = 'TEST_TITLE';
     deck.metaData.desc = 'TEST_DESC';
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={deck}
         isNewDeck={true}
@@ -176,7 +175,7 @@ describe('DeckEditor', () => {
 
   it('should call disable create button when title is empty', () => {
     const mockOnCreateDeckClick = jest.fn();
-    renderWithRecoilRoot(
+    renderWithTestRoots(
       <DeckEditor
         initialDeck={createNewDeck()}
         isNewDeck={true}
@@ -192,7 +191,7 @@ describe('DeckEditor', () => {
 
   it('should be reset when initialDeck is changed', () => {
     const firstDeck = testEnglishDeck(0);
-    const { rerender } = renderWithRecoilRoot(
+    const { rerender } = renderWithTestRoots(
       <DeckEditor
         initialDeck={firstDeck}
         isNewDeck={true}
@@ -203,18 +202,14 @@ describe('DeckEditor', () => {
     );
 
     expect(screen.queryByDisplayValue(firstDeck.metaData.title)).toBeInTheDocument();
-
-    // unfortunately, RecoilRoot needs to be provided again on rerenders
     rerender(
-      <RecoilRoot>
-        <DeckEditor
-          initialDeck={createNewDeck()}
-          isNewDeck={true}
-          onCreateDeckClick={noop}
-          onDeleteDeckClick={noop}
-          onGoBackClick={noop}
-        />
-      </RecoilRoot>
+      <DeckEditor
+        initialDeck={createNewDeck()}
+        isNewDeck={true}
+        onCreateDeckClick={noop}
+        onDeleteDeckClick={noop}
+        onGoBackClick={noop}
+      />
     );
 
     expect(screen.queryByDisplayValue(firstDeck.metaData.title)).not.toBeInTheDocument();

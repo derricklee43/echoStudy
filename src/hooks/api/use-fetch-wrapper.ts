@@ -44,13 +44,18 @@ export function useFetchWrapper(prependApiUrl?: string) {
       try {
         return await _retryFetch(url, method, body, numRetries);
       } catch (error) {
-        const message = `${url} --- ${error}`;
+        const messagePrepend = `${url} --`;
+
         if (error instanceof DOMException && error.name == 'AbortError') {
-          console.warn(message);
-        } else {
-          console.error(message);
-          throw error;
+          console.warn(messagePrepend, error.message);
+          return; // don't rethrow
         }
+
+        if (error instanceof Error || isFetchError(error)) {
+          console.error(messagePrepend, error.message);
+        }
+
+        throw error;
       }
     };
   }
