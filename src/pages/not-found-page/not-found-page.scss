@@ -15,11 +15,12 @@
 
   .message {
     font-size: 24px;
+    text-align: center;
   }
 
   .wave-image {
     width: 100%;
-    max-width: 436px;
+    max-width: min(90vw, $small-screen);
     height: auto;
     padding: 32px;
     user-select: none;
