@@ -61,23 +61,21 @@ $search-bar-offset: ($content-padding - $element-gap);
       align-items: center;
       flex: 8 1 auto;
 
-      @media screen and (max-width: $sm-md-screen) {
+      @media screen and (max-width: $medium-screen) {
         display: none;
       }
 
       .c-search-bar-sizer {
         width: min(calc(100%), 500px);
-
-        @media screen and (max-width: $small-screen) {
-          display: none;
-        }
       }
     }
 
     .c-account-buttons {
-      @include flex-center;
-      flex: 0 0 min(33vw, 250px);
-      padding-right: $element-gap;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex: 0 0 min(20vw, 100px);
+      padding-right: $element-gap * 2;
 
       button {
         padding: 12px;
@@ -87,7 +85,8 @@ $search-bar-offset: ($content-padding - $element-gap);
           background-color: transparent;
         }
 
-        &.sign-in-button {
+        &.sign-in-button,
+        &.logout-button {
           background-color: $electric-blue;
         }
       }

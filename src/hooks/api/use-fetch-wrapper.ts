@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { objectSchemaSimple } from '../../helpers/validator';
 import { paths } from '../../routing/paths';
-import { oauth2JwtState } from '../../state/oauth2-jwt';
+import { authJwtState } from '../../state/auth-jwt';
 
 export interface FetchError {
   statusCode: number;
@@ -23,7 +23,7 @@ export const isFetchError = objectSchemaSimple<FetchError>({
  * @param prependApiUrl url to prepend to all requests
  */
 export function useFetchWrapper(prependApiUrl?: string) {
-  const authJwt = useRecoilValue(oauth2JwtState);
+  const authJwt = useRecoilValue(authJwtState);
   const navigate = useNavigate();
 
   // abort any ongoing fetches on destroy/unmount
