@@ -86,7 +86,7 @@
   }
 
   .text-md-lg-dynamic {
-    font-size: min(3.45vw, 48px);
+    font-size: min(3.5vw, 48px);
   }
 
   .text-lg-dynamic {
@@ -121,7 +121,7 @@
     }
 
     .description {
-      padding: 64px 32px 32px 32px;
+      padding: 48px 32px 32px;
     }
 
     .action-button-container {
@@ -162,6 +162,10 @@
         border-radius: 16px;
         padding: 16px;
         user-select: none;
+
+        @media screen and (max-width: $medium-screen) {
+          width: min(75vw, $sm-md-screen);
+        }
       }
     }
   }
