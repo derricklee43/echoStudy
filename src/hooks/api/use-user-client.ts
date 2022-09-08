@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { json } from 'stream/consumers';
 import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { paths } from '../../routing/paths';
-import { AuthJwt, authJwtState } from '../../state/auth-jwt';
+import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
 import { useLocalStorage } from '../use-local-storage';
 
@@ -49,7 +48,7 @@ export function useUserClient() {
         password: password,
       };
       const jwtData = await fetchWrapper.post('/Authenticate', payload, numRetries);
-      const authJwt = _jsonToAuthJwt(jwtData);
+      const authJwt = jsonToAuthJwt(jwtData);
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, authJwt);
       setAuthJwt(authJwt);
     } catch (error) {
@@ -70,9 +69,9 @@ export function useUserClient() {
 
     try {
       const numRetries = 0; // don't retry a refresh
-      const payload = _authJwtToJson(authJwt);
+      const payload = authJwtToJson(authJwt);
       const jwtData = await fetchWrapper.post('/Refresh', payload, numRetries);
-      const newAuthJwt = _jsonToAuthJwt(jwtData);
+      const newAuthJwt = jsonToAuthJwt(jwtData);
 
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, newAuthJwt);
       setAuthJwt(newAuthJwt);
@@ -97,19 +96,5 @@ export function useUserClient() {
     simpleLocalStorage.remove(LocalStorageKeys.authJwt);
     setAuthJwt(undefined);
     navigate(paths.home, { replace: true }); // todo: logout page?
-  }
-
-  function _jsonToAuthJwt(json: any): AuthJwt {
-    return {
-      accessToken: json['token'],
-      refreshToken: json['refreshToken'],
-    };
-  }
-
-  function _authJwtToJson(authJwt: AuthJwt): Record<string, string> {
-    return {
-      token: authJwt.accessToken,
-      refreshToken: authJwt.refreshToken,
-    };
   }
 }

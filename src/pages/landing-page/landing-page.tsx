@@ -6,7 +6,6 @@ import waveImage from '../../assets/images/wave.png';
 import { Button } from '../../components/button/button';
 import { Header } from '../../components/header/header';
 import { useUserClient } from '../../hooks/api/use-user-client';
-import { paths } from '../../routing/paths';
 import './landing-page.scss';
 
 const headerClassName = 'header-anchor';
@@ -129,6 +128,7 @@ export const LandingPage = () => {
 
   function handleSignInClick() {
     // hardcoded user; we should really have a login page but this will suffice for now
+    // also, it might make sense to not show this landing page to users who are logged in already
     loginDebug().then(() => {
       // navigate to the previous page redirected here, or /decks page as a fallback
       const hasPreviousPage = window.history.state && window.history.state.idx > 0;

@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { objectSchemaSimple } from '../../helpers/validator';
 import { paths } from '../../routing/paths';
-import { authJwtState } from '../../state/auth-jwt';
+import { authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
+import { LocalStorageKeys } from '../../state/init';
+import { useLocalStorage } from '../use-local-storage';
 
 export interface FetchError {
   statusCode: number;
@@ -23,7 +25,8 @@ export const isFetchError = objectSchemaSimple<FetchError>({
  * @param prependApiUrl url to prepend to all requests
  */
 export function useFetchWrapper(prependApiUrl?: string) {
-  const authJwt = useRecoilValue(authJwtState);
+  const [authJwt, setAuthJwt] = useRecoilState(authJwtState);
+  const simpleLocalStorage = useLocalStorage();
   const navigate = useNavigate();
 
   // abort any ongoing fetches on destroy/unmount
@@ -92,6 +95,12 @@ export function useFetchWrapper(prependApiUrl?: string) {
 
       // ensure we still have retries remaining
       if (retriesLeft < 0) {
+        // intermediate step(s) before rejecting with FetchError
+        try {
+          await _middlewareFetchError(statusCode);
+        } catch (error) {
+          console.error('Error occurred during fetch error middleware', error);
+        }
         const fetchError: FetchError = {
           statusCode: statusCode,
           message: `Received ${statusCode} when trying to reach ${url}`,
@@ -100,20 +109,43 @@ export function useFetchWrapper(prependApiUrl?: string) {
       }
 
       // intermediate step(s) before retrying
-      switch (statusCode) {
-        // jwt expired
-        case 401:
-          // TODO: refresh token before retrying
-          // we're just gonna redirect the user to the home page (ideally login page)
-          // and then don't retry by returning immediately
-          navigate(paths.home);
-          return;
-
-        default:
-          break;
+      try {
+        await _middlewareFetchRetry(statusCode);
+      } catch (error) {
+        console.error('Error occurred during fetch retry middleware', error);
       }
-
       return _retryFetch(url, method, body, retriesLeft);
+    }
+  }
+
+  // actions to perform before retrying
+  async function _middlewareFetchRetry(statusCode: number) {
+    switch (statusCode) {
+      // jwt expired, refresh the token before retrying
+      case 401:
+        const authJwtValid = authJwt && authJwt.accessToken && authJwt.refreshToken;
+        if (authJwtValid) {
+          const payload = authJwtToJson(authJwt);
+          const jwtData = await _retryFetch('/Refresh', 'POST', payload, 0);
+          const newAuthJwt = jsonToAuthJwt(jwtData);
+
+          simpleLocalStorage.upsert(LocalStorageKeys.authJwt, newAuthJwt);
+          setAuthJwt(newAuthJwt);
+        }
+        break;
+    }
+  }
+
+  // actions to perform before throwing the fetch error
+  async function _middlewareFetchError(statusCode: number) {
+    switch (statusCode) {
+      // implies jwt refresh failed
+      // couldn't have happened if /Refresh was 200 (OK)
+      case 401:
+        simpleLocalStorage.remove(LocalStorageKeys.authJwt);
+        setAuthJwt(undefined);
+        navigate(paths.login);
+        break;
     }
   }
 
