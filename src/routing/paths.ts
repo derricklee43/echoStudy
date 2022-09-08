@@ -6,4 +6,5 @@ export const enum paths {
   createDeck = '/create-deck',
   study = '/study',
   search = '/search',
+  login = '/', // same as home until we have one
 }

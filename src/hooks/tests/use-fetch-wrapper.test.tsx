@@ -1,7 +1,6 @@
-import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { RecoilRoot } from 'recoil';
+import { withTestRoots } from '../../app.test';
 import { isFetchError, useFetchWrapper } from '../api/use-fetch-wrapper';
 
 // provide fetchMock global and disable mocking initially
@@ -9,16 +8,26 @@ enableFetchMocks();
 fetchMock.dontMock();
 
 describe('useFetchWrapper', () => {
+  const jsonContent = { 'content-type': 'application/json' };
+  const textContent = { 'content-type': 'text/plain' };
+
   // TEST_DOMAIN must be used, otherwise response is not mocked
   const TEST_DOMAIN = 'https://test.test';
+
   beforeEach(() => {
     fetchMock.doMockIf(/^https?:\/\/test.test.*$/);
+  });
+
+  afterEach(() => {
+    fetchMock.resetMocks();
   });
 
   it('should return response if received 200 (OK)', async () => {
     const fetchWrapper = setupFetchWrapper();
 
-    fetchMock.mockResponseOnce(JSON.stringify({ data: '12345' }));
+    fetchMock.mockResponseOnce(JSON.stringify({ data: '12345' }), {
+      headers: { ...jsonContent },
+    });
     const response = await fetchWrapper.get('/12345');
     expect(response.data).toBe('12345');
   });
@@ -29,8 +38,8 @@ describe('useFetchWrapper', () => {
     const error = JSON.stringify({ error: 'key expired' });
     const good = JSON.stringify({ data: '12345' });
     fetchMock.mockResponses(
-      [error, { status: 401 }], // initial
-      [good, { status: 200 }] // first retry
+      [error, { status: 500, headers: { ...jsonContent } }], // initial
+      [good, { status: 200, headers: { ...jsonContent } }] // first retry
     );
 
     const numRetries = 1;
@@ -42,16 +51,33 @@ describe('useFetchWrapper', () => {
     const fetchWrapper = setupFetchWrapper();
 
     const error = JSON.stringify({ error: 'error' });
-    fetchMock.mockResponse(error, { status: 500 }); // never 200
+    fetchMock.mockResponse(error, { status: 500, headers: { ...jsonContent } }); // never 200
 
     const numRetries = 20;
     const fetchPromise = fetchWrapper.get('/12345', undefined, numRetries);
     await expect(fetchPromise).rejects.toMatchPredicate(isFetchError);
   });
 
+  it('should handle different content types', async () => {
+    const fetchWrapper = setupFetchWrapper();
+
+    const jsonResponse = JSON.stringify({ a: 'a' });
+    const textResponse = 'a';
+    fetchMock.mockResponses(
+      [jsonResponse, { status: 200, headers: { ...jsonContent } }],
+      [textResponse, { status: 200, headers: { ...textContent } }],
+      [textResponse, { status: 200, headers: { 'content-type': 'invalid/invalid' } }]
+    );
+
+    const fetchNext = () => fetchWrapper.get('/12345');
+    await expect(fetchNext()).resolves.toEqual({ a: 'a' }); // application/json
+    await expect(fetchNext()).resolves.toEqual('a'); // text/plain
+    await expect(fetchNext()).rejects.toThrow(); // invalid/invalid
+  });
+
   function setupFetchWrapper() {
     const { result } = renderHook(() => useFetchWrapper(TEST_DOMAIN), {
-      wrapper: ({ children }) => <RecoilRoot>{children}</RecoilRoot>,
+      wrapper: ({ children }) => withTestRoots(children),
     });
     return result.current;
   }

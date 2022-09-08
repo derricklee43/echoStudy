@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { useUserClient } from '../../hooks/api/use-user-client';
 import { paths } from '../../routing/paths';
+import { authJwtState } from '../../state/auth-jwt';
 import { userDecksSortedState } from '../../state/user-decks';
 import { Button } from '../button/button';
 import { DropDownOption } from '../drop-down-options/drop-down-options';
@@ -15,7 +17,9 @@ interface HeaderProps {
 }
 
 export const Header = ({ className = '', showSearchBar = true, fixed = true }: HeaderProps) => {
+  const authJwt = useRecoilValue(authJwtState);
   const decks = useRecoilValue(userDecksSortedState);
+  const userClient = useUserClient();
   const navigate = useNavigate();
 
   return (
@@ -41,17 +45,31 @@ export const Header = ({ className = '', showSearchBar = true, fixed = true }: H
           )}
         </div>
 
-        <div className="c-account-buttons">
+        <div className="c-account-buttons">{getAccountButtons()}</div>
+      </div>
+    </div>
+  );
+
+  function getAccountButtons() {
+    if (authJwt && authJwt.accessToken && authJwt.refreshToken) {
+      return (
+        <Button onClick={handleLogoutClick} className="logout-button">
+          logout
+        </Button>
+      );
+    } else {
+      return (
+        <>
           <Button onClick={handleSignUpClick} className="sign-up-button">
             sign up
           </Button>
           <Button onClick={handleSignInClick} className="sign-in-button">
             sign in
           </Button>
-        </div>
-      </div>
-    </div>
-  );
+        </>
+      );
+    }
+  }
 
   function getDeckOptions(): DropDownOption<string>[] {
     return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
@@ -63,5 +81,9 @@ export const Header = ({ className = '', showSearchBar = true, fixed = true }: H
 
   function handleSignInClick() {
     console.log('sign in');
+  }
+
+  function handleLogoutClick() {
+    userClient.logout();
   }
 };
