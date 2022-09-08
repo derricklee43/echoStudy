@@ -10,7 +10,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    min-height: $medium-screen;
+    min-height: $sm-md-screen;
     height: 100vh;
     padding: 0px 24px;
     border-bottom: 4px solid $blue;
@@ -83,6 +83,10 @@
 
   .text-md-dynamic {
     font-size: 2.35vw;
+  }
+
+  .text-md-lg-dynamic {
+    font-size: min(3.45vw, 48px);
   }
 
   .text-lg-dynamic {

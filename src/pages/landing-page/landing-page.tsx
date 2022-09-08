@@ -38,7 +38,7 @@ export const LandingPage = () => {
                 </div>
               </div>
               <img className="wave-image" src={waveImage} loading="lazy" />
-              <div className="description text-md-dynamic">
+              <div className="description text-md-lg-dynamic">
                 the world&apos;s first hands-free audio flashcard app
               </div>
               <div className="action-button-container">
