@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { paths } from './paths';
 import { loadDeck, ResourceLoader } from '../components/resource-loader/resource-loader';
+import { AuthorizedRouteLayout } from '../layouts/authorized-route-layout/authorized-route-layout';
 import { FullscreenLayout } from '../layouts/full-screen-layout/full-screen-layout';
 import { SidebarLayout } from '../layouts/sidebar-layout/sidebar-layout';
 import { Deck } from '../models/deck';
@@ -18,11 +19,13 @@ export const PageRoutes = () => {
   return (
     <Routes>
       <Route element={<SidebarLayout />}>
-        <Route path={paths.decks} element={<FlashcardDecksPage />} />
-        <Route path={`${paths.deck}/:deckId`} element={getViewDeckPage()} />
-        <Route path={`${paths.editDeck}/:deckId`} element={getEditDeckPage(false)} />
-        <Route path={paths.createDeck} element={getEditDeckPage(true)} />
-        <Route path={`${paths.study}/:deckId`} element={getStudyPage()} />
+        <Route element={<AuthorizedRouteLayout />}>
+          <Route path={paths.decks} element={<FlashcardDecksPage />} />
+          <Route path={`${paths.deck}/:deckId`} element={getViewDeckPage()} />
+          <Route path={`${paths.editDeck}/:deckId`} element={getEditDeckPage(false)} />
+          <Route path={paths.createDeck} element={getEditDeckPage(true)} />
+          <Route path={`${paths.study}/:deckId`} element={getStudyPage()} />
+        </Route>
       </Route>
 
       <Route element={<FullscreenLayout />}>

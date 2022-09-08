@@ -96,7 +96,7 @@ export function useUserClient() {
   async function logout() {
     simpleLocalStorage.remove(LocalStorageKeys.authJwt);
     setAuthJwt(undefined);
-    navigate(paths.home); // todo: logout page?
+    navigate(paths.home, { replace: true }); // todo: logout page?
   }
 
   function _jsonToAuthJwt(json: any): AuthJwt {

@@ -130,7 +130,13 @@ export const LandingPage = () => {
   function handleSignInClick() {
     // hardcoded user; we should really have a login page but this will suffice for now
     loginDebug().then(() => {
-      navigate(paths.decks);
+      // navigate to the previous page redirected here, or /decks page as a fallback
+      const hasPreviousPage = window.history.state && window.history.state.idx > 0;
+      if (hasPreviousPage) {
+        navigate(-1);
+      } else {
+        navigate('/decks');
+      }
     });
   }
 
