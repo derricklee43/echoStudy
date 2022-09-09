@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import { objectSchemaSimple } from '../../helpers/validator';
 import { paths } from '../../routing/paths';
-import { authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
+import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
 import { useLocalStorage } from '../use-local-storage';
 
@@ -25,7 +25,7 @@ export const isFetchError = objectSchemaSimple<FetchError>({
  * @param prependApiUrl url to prepend to all requests
  */
 export function useFetchWrapper(prependApiUrl?: string) {
-  const [authJwt, setAuthJwt] = useRecoilState(authJwtState);
+  const setAuthJwt = useSetRecoilState(authJwtState); // use _getCurrAuthJwt() for up-to-date value
   const simpleLocalStorage = useLocalStorage();
   const navigate = useNavigate();
 
@@ -123,6 +123,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
     switch (statusCode) {
       // jwt expired, refresh the token before retrying
       case 401:
+        const authJwt = _getCurrAuthJwt();
         const authJwtValid = authJwt && authJwt.accessToken && authJwt.refreshToken;
         if (authJwtValid) {
           const payload = authJwtToJson(authJwt);
@@ -169,11 +170,25 @@ export function useFetchWrapper(prependApiUrl?: string) {
   function authHeader(url: string): Record<string, string> {
     const isEchoStudyApiUrl = url.startsWith(ECHOSTUDY_API_URL);
 
+    const authJwt = _getCurrAuthJwt();
     if (authJwt && isEchoStudyApiUrl) {
       const accessToken = authJwt.accessToken;
       return { Authorization: `Bearer ${accessToken}` };
     }
 
     return {};
+  }
+
+  /**
+   * We don't want to subscribe to the stateful value with useRecoilState/Value.
+   * There are numerous issues with this:
+   *   - It becomes stale within async code (setting a new state, holding a stale ref, etc.)
+   *   - This hook should never 'rerender', it is pure and stateless.
+   *
+   * The only disadvantage of this is every time we update the auth JWT atom,
+   * we will also need update the local storage.
+   */
+  function _getCurrAuthJwt(): AuthJwt | undefined {
+    return simpleLocalStorage.getObject<AuthJwt>(LocalStorageKeys.authJwt);
   }
 }
