@@ -1,11 +1,9 @@
-import { paths } from '../../routes';
+import { paths } from './paths';
 
 interface SidebarRouteItemProps {
   name: string;
   route: string;
 }
-
-// todo: actually probably have a homepage and maybe make `echoStudy` go back to home
 
 export const SIDEBAR_ROUTE_ITEMS: SidebarRouteItemProps[] = [
   {

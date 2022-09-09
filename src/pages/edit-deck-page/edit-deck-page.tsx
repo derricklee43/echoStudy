@@ -5,7 +5,7 @@ import { Fade } from '../../animations/fade';
 import { useCardsClient } from '../../hooks/api/use-cards-client';
 import { useDecksClient } from '../../hooks/api/use-decks-client';
 import { Deck } from '../../models/deck';
-import { paths } from '../../routes';
+import { paths } from '../../routing/paths';
 import './edit-deck-page.scss';
 
 interface EditDeckPageProps {

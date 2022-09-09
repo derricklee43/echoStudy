@@ -1,31 +1,59 @@
 import React from 'react';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
-import { RecoilRoot } from 'recoil';
+import { render } from '@testing-library/react';
+import { createMemoryHistory, History } from 'history';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { initRecoilState } from './state/init';
 import App from './app';
 
-export function renderWithHistoryRouter(
+export function renderWithTestRoots(
   jsxElement: JSX.Element,
-  { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}
+  options?: {
+    recoilState?: (snapshot: MutableSnapshot) => void;
+    route?: string;
+    history?: History;
+  }
 ) {
+  // set up defaults
+  const recoilState = options?.recoilState ?? initRecoilState;
+  const route = options?.route ?? '/';
+  const history = options?.history ?? createMemoryHistory({ initialEntries: [route] });
+  const defaultOptions = { recoilState, route, history };
+
+  const renderResult = render(withTestRoots(jsxElement, defaultOptions));
+
+  // unfortunately, test roots need to be provided again on rerenders
+  const rerender = (rerenderElement: JSX.Element) =>
+    renderResult.rerender(withTestRoots(rerenderElement, defaultOptions));
+
   return {
+    ...renderResult,
+    rerender,
     history,
-    ...render(<HistoryRouter history={history}>{jsxElement}</HistoryRouter>),
   };
 }
 
-export function renderWithRecoilRoot(jsxElement: JSX.Element) {
-  return render(<RecoilRoot initializeState={initRecoilState}>{jsxElement}</RecoilRoot>);
+export function withTestRoots(
+  jsxElement: JSX.Element | React.ReactNode,
+  options?: {
+    recoilState?: (snapshot: MutableSnapshot) => void;
+    route?: string;
+    history?: History;
+  }
+) {
+  const recoilState = options?.recoilState ?? initRecoilState;
+  const route = options?.route ?? '/';
+  const history = options?.history ?? createMemoryHistory({ initialEntries: [route] });
+
+  return (
+    <HistoryRouter history={history}>
+      <RecoilRoot initializeState={recoilState}>{jsxElement}</RecoilRoot>
+    </HistoryRouter>
+  );
 }
 
-test('renders learn react link', () => {
-  renderWithHistoryRouter(
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  );
-  const linkElement = screen.getByPlaceholderText(/search my decks/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders App', () => {
+  const { container } = renderWithTestRoots(<App />);
+  const selector = container.querySelector('.App');
+  expect(selector).toBeTruthy();
 });

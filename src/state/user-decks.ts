@@ -3,12 +3,6 @@ import { compare, shuffle } from '../helpers/sort';
 import { Deck } from '../models/deck';
 import { testEnglishDeck } from '../models/mock/deck.mock';
 
-// mutatable: raw user decks
-export const userDecksState = atom<Deck[]>({
-  key: 'userDecksState',
-  default: [testEnglishDeck(0)],
-});
-
 export const AllSortRules = [
   'sequential',
   'last created',
@@ -18,8 +12,13 @@ export const AllSortRules = [
 ] as const;
 
 export type SortRules = typeof AllSortRules;
-
 export type SortRule = SortRules[number];
+
+// mutatable: raw user decks
+export const userDecksState = atom<Deck[]>({
+  key: 'userDecksState',
+  default: [testEnglishDeck(0)],
+});
 
 // mutatable: sort order
 export const userDecksSortRuleState = atom<SortRule>({
