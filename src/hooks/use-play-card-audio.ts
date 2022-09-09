@@ -80,7 +80,6 @@ export function usePlayCardAudio() {
 
     const duration = await audio.getDuration();
     await wait(getPauseLength(duration));
-    // TODO: Add Speech Recognition here
 
     return repeatAudio(audio, times - 1);
   }
