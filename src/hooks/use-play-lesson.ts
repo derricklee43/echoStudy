@@ -81,15 +81,15 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     upcomingCards: LessonCard[],
     completedCards: LessonCard[]
   ) {
-    const newcompletedCards = [currentCard, ...completedCards];
+    const newCompletedCards = [currentCard, ...completedCards];
     const newCurrentCard: LessonCard = upcomingCards[0] ?? currentCard;
-    const newUpcomingCards = upcomingCards.length === 0 ? upcomingCards : upcomingCards.slice(1);
+    const newUpcomingCards = upcomingCards.slice(1);
     setCurrentCard(newCurrentCard);
-    setCompletedCards(newcompletedCards);
+    setCompletedCards(newCompletedCards);
     setUpcomingCards(newUpcomingCards);
     return {
       currentCard: newCurrentCard,
-      completedCards: newcompletedCards,
+      completedCards: newCompletedCards,
       upcomingCards: newUpcomingCards,
     };
   }
@@ -104,14 +104,14 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     }
     const newUpcomingCards = [currentCard, ...upcomingCards];
     const newCurrentCard = completedCards[0];
-    const newcompletedCards = completedCards.slice(1);
+    const newCompletedCards = completedCards.slice(1);
     setCurrentCard(newCurrentCard);
-    setCompletedCards(newcompletedCards);
+    setCompletedCards(newCompletedCards);
     setUpcomingCards(newUpcomingCards);
 
     return {
       currentCard: newCurrentCard,
-      completedCards: newcompletedCards,
+      completedCards: newCompletedCards,
       upcomingCards: newUpcomingCards,
     };
   }

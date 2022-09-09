@@ -14,16 +14,10 @@ export class LazyAudio {
   constructor(private readonly audioUrl: string) {}
 
   public async play(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.loadAudio({
-        onPlayable: () => {
-          this.audio.addEventListener('ended', () => resolve(), { once: true });
-          this.audio.addEventListener('error', () => reject('unable to play audio'), {
-            once: true,
-          });
-          this.audio.play();
-        },
-      });
+    return this.loadAudio({
+      onPlayable: () => {
+        this.audio.play();
+      },
     });
   }
 
