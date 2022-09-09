@@ -26,3 +26,31 @@ export function noop() {
 export function clamp(num: number, min: number, max: number) {
   return Math.min(Math.max(num, min), max);
 }
+
+export function pop<T>(arrayRef: [T[], React.Dispatch<React.SetStateAction<T[]>>]) {
+  const [array, setArray] = arrayRef;
+  if (array.length === 0) {
+    throw Error('unable to pop empty array');
+  }
+  const top = array[0];
+  setArray(array.slice(1));
+  return top;
+}
+
+export function push<T>(arrayRef: [T[], React.Dispatch<React.SetStateAction<T[]>>], item: T) {
+  const [array, setArray] = arrayRef;
+  setArray([item, ...array]);
+}
+
+// export function pop<T>(arrayRef: React.MutableRefObject<T[]>) {
+//   if (arrayRef.current.length === 0) {
+//     throw Error('unable to pop empty array');
+//   }
+//   const top = arrayRef.current[0];
+//   arrayRef.current = arrayRef.current.slice(1);
+//   return top;
+// }
+
+// export function push<T>(arrayRef: React.MutableRefObject<T[]>, item: T) {
+//   arrayRef.current = [item, ...arrayRef.current];
+// }

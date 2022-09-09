@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { useTimer } from './use-timer';
 import { Card } from '../models/card';
 import { LazyAudio } from '../models/lazy-audio';
+import { LessonCard, LessonCardOutcome } from '../models/lesson-card';
 
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
 
   const activeAudioRef = useRef<LazyAudio>();
-  const [activeCardKey, setActiveCardKey] = useState('');
+  const [activeCard, setActiveCard] = useState<Card>();
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
   useEffect(() => {
@@ -16,8 +17,9 @@ export function usePlayCardAudio() {
   }, []);
 
   return {
-    activeCardKey,
+    activeCard,
     activeCardSide,
+    clearAudio,
     playTermAndDefinition,
     pause,
     resume,
@@ -58,17 +60,17 @@ export function usePlayCardAudio() {
     return frontAudioDuration + totalBackAudioDuration + totalPauseDuration;
   }
 
-  async function playTermAndDefinition(card: Card, repeatDefCount: number) {
+  async function playTermAndDefinition(lessonCard: LessonCard): Promise<LessonCardOutcome> {
     clearAudio();
-    const frontAudio = card.front.audio;
-    const backAudio = card.back.audio;
+    const frontAudio = lessonCard.card.front.audio;
+    const backAudio = lessonCard.card.back.audio;
 
     if (frontAudio === undefined || backAudio === undefined) {
       throw new Error('card audio could not be found');
     }
 
     // play front audio
-    setActiveCardKey(card.key);
+    setActiveCard(lessonCard.card);
     setActiveCardSide('front');
     await playAudio(frontAudio);
 
@@ -78,7 +80,8 @@ export function usePlayCardAudio() {
 
     // play back audio
     setActiveCardSide('back');
-    await repeatAudio(backAudio, repeatDefCount);
+    await repeatAudio(backAudio, lessonCard.repeatDefinitionCount);
+    return 'correct';
   }
 
   async function repeatAudio(audio: LazyAudio, times: number): Promise<void> {

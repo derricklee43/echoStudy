@@ -6,8 +6,9 @@ export interface Card {
   key: string;
   front: CardContent;
   back: CardContent;
+  score: number;
 }
 
 export function createNewCard(): Card {
-  return { front: createNewCardContent(), back: createNewCardContent(), key: uuidv4() };
+  return { front: createNewCardContent(), back: createNewCardContent(), key: uuidv4(), score: 0 };
 }
