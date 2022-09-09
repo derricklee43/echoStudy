@@ -20,13 +20,12 @@ export function usePlayCardAudio() {
     activeCard,
     activeCardSide,
     clearAudio,
-    playTermAndDefinition,
-    pause,
-    resume,
-    getTotalCardDuration,
+    playAudio,
+    pauseAudio,
+    resumeAudio,
   };
 
-  function pause() {
+  function pauseAudio() {
     if (!activeAudioRef.current) {
       pauseTimer();
       return;
@@ -34,7 +33,7 @@ export function usePlayCardAudio() {
     activeAudioRef.current.pause();
   }
 
-  function resume() {
+  function resumeAudio() {
     if (!activeAudioRef.current) {
       resumeTimer();
       return;
@@ -50,17 +49,7 @@ export function usePlayCardAudio() {
     activeAudioRef.current.reset();
   }
 
-  async function getTotalCardDuration(card: Card, repeatDefCount: number) {
-    const frontAudioDuration = (await card.front.audio?.getDuration()) ?? 0;
-    const backAudioDuration = (await card.back.audio?.getDuration()) ?? 0;
-    const pauseDuration = getPauseLength(backAudioDuration);
-
-    const totalBackAudioDuration = backAudioDuration * repeatDefCount;
-    const totalPauseDuration = pauseDuration * (repeatDefCount + 1);
-    return frontAudioDuration + totalBackAudioDuration + totalPauseDuration;
-  }
-
-  async function playTermAndDefinition(lessonCard: LessonCard): Promise<LessonCardOutcome> {
+  async function playAudio(lessonCard: LessonCard): Promise<LessonCard> {
     clearAudio();
     const frontAudio = lessonCard.card.front.audio;
     const backAudio = lessonCard.card.back.audio;
@@ -72,7 +61,7 @@ export function usePlayCardAudio() {
     // play front audio
     setActiveCard(lessonCard.card);
     setActiveCardSide('front');
-    await playAudio(frontAudio);
+    await playCardAudio(frontAudio);
 
     // wait before flip
     const backDuration = await backAudio.getDuration();
@@ -81,16 +70,17 @@ export function usePlayCardAudio() {
     // play back audio
     setActiveCardSide('back');
     await repeatAudio(backAudio, lessonCard.repeatDefinitionCount);
-    return 'correct';
+    return { ...lessonCard, outcome: 'correct' };
   }
 
   async function repeatAudio(audio: LazyAudio, times: number): Promise<void> {
     if (times === 0) return;
 
-    await playAudio(audio);
+    await playCardAudio(audio);
 
     const duration = await audio.getDuration();
     await wait(getPauseLength(duration));
+    // TODO: Add Speech Recognition here
 
     return repeatAudio(audio, times - 1);
   }
@@ -100,7 +90,7 @@ export function usePlayCardAudio() {
     return durationInSeconds * 2;
   }
 
-  function playAudio(audio: LazyAudio) {
+  function playCardAudio(audio: LazyAudio) {
     activeAudioRef.current = audio;
     return new Promise<void>((resolve, reject) => {
       audio.addEventListener('ended', () => resolve(), { once: true });

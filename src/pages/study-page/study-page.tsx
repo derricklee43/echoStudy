@@ -14,50 +14,89 @@ interface StudyPageProps {
 }
 
 export const StudyPage = ({ deck }: StudyPageProps) => {
+  const numCards = 4;
   const [isPaused, setIsPaused] = useState(true);
-  const { activeCard, activeCardSide, numRemainingCards, pause, play, skipCard, replayCard } =
-    usePlayLesson({
-      deck,
-      lessonType: 'studyNew',
-    });
+  const [hasLessonStarted, setHasLessonStarted] = useState(false);
+  const { currentCard, activeCardSide, completedCards, pause, play, skip, replay } = usePlayLesson({
+    deck,
+    lessonType: 'studyNew',
+    numCards,
+  });
 
-  const initialCardCountRef = useRef(numRemainingCards);
+  const percentComplete = (completedCards.length / numCards) * 100;
+  const isLessonComplete = numCards === completedCards.length;
+  const showCover = !hasLessonStarted || numCards === completedCards.length || !currentCard;
 
-  const percentComplete =
-    ((initialCardCountRef.current - numRemainingCards) / initialCardCountRef.current) * 100;
-
-  const showDeckCover = activeCard === undefined;
   return (
     <div className="study-page">
       <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
       <div className="study-page-content">
-        <StudyFlashcard
-          id={showDeckCover ? 'deck-cover' : activeCard.key}
-          variant={showDeckCover ? 'dark' : 'light'}
-          frontContent={showDeckCover ? deck.metaData.title : activeCard.front.text}
-          backContent={activeCard?.back.text}
-          backLabel="definition"
-          frontLabel={showDeckCover ? '' : 'term'}
-          activeSide={activeCardSide}
-        />
+        {showCover ? getCover() : getCard()}
         <ProgressBar
           variant="white"
           percent={percentComplete}
           label=""
           className="study-page-progress-bar"
         />
-        <AudioControlBar
-          isPaused={isPaused}
-          onNextClick={skipCard}
-          onPlayClick={handlePlayClick}
-          onPauseClick={handlePauseClick}
-          onPreviousClick={replayCard}
-        />
+        {!isLessonComplete && (
+          <AudioControlBar
+            isPaused={isPaused}
+            onNextClick={handleNextClick}
+            onPlayClick={handlePlayClick}
+            onPauseClick={handlePauseClick}
+            onPreviousClick={handleReplayClick}
+          />
+        )}
       </div>
     </div>
   );
 
+  function getCover() {
+    const content = isLessonComplete ? 'Lesson Complete' : deck.metaData.title;
+    return (
+      <StudyFlashcard
+        id="cover"
+        variant="dark"
+        frontContent={content}
+        backContent=""
+        backLabel=""
+        frontLabel=""
+        activeSide="front"
+      />
+    );
+  }
+
+  function getCard() {
+    if (currentCard === undefined) return undefined;
+    return (
+      <StudyFlashcard
+        id={currentCard.key}
+        variant="light"
+        frontContent={currentCard.front.text}
+        backContent={currentCard?.back.text}
+        backLabel="definition"
+        frontLabel="term"
+        activeSide={activeCardSide}
+      />
+    );
+  }
+
+  function handleReplayClick() {
+    if (!hasLessonStarted) {
+      return setHasLessonStarted(true);
+    }
+    replay();
+  }
+
+  function handleNextClick() {
+    if (!hasLessonStarted) {
+      return setHasLessonStarted(true);
+    }
+    skip();
+  }
+
   function handlePlayClick() {
+    setHasLessonStarted(true);
     setIsPaused(false);
     play();
   }

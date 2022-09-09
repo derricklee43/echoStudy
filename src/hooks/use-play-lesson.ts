@@ -1,78 +1,133 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLessonOrder } from './use-lesson-order';
+import { useState } from 'react';
 import { usePlayCardAudio } from './use-play-card-audio';
-import { useTimer } from './use-timer';
-import { pop, push } from '../helpers/func';
-import { Card } from '../models/card';
 import { Deck } from '../models/deck';
 import { createNewLessonCard, LessonCard } from '../models/lesson-card';
 
+// TODO: Add other lesson types
 type lessonType = 'review' | 'studyNew' | 'spacedRepetition';
 interface UsePlayLessonSettings {
   deck: Deck;
+  numCards: number;
   lessonType: lessonType;
-  // TODO: This needs to be solidified
-  // Do we want to lean hard into spaced repetition and take control away?
-  // Or we want to give the user the freedom to study as they like?
 }
 
-export function usePlayLesson({ deck }: UsePlayLessonSettings) {
-  const { currentCard, upcomingCards, seenCards, previousCard, nextCard } = useLessonOrder(deck);
+export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
+  const [firstCard, ...restCards] = getLessonCards(deck, numCards);
+  const [currentCard, setCurrentCard] = useState<LessonCard>(firstCard);
+  const [upcomingCards, setUpcomingCards] = useState(restCards);
+  const [completedCards, setcompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
-  const { pause, resume, playTermAndDefinition, clearAudio, activeCardSide, activeCard } =
+  const { pauseAudio, resumeAudio, playAudio, clearAudio, activeCardSide, activeCard } =
     usePlayCardAudio();
 
-  useEffect(() => {
-    if (!isPaused) {
-      playCard();
-    }
-  }, [currentCard, isPaused]);
-
-  useEffect(() => {
-    console.log('current Card changed');
-  }, [currentCard]);
-
-  useEffect(() => {
-    console.log('is paused changed');
-  }, [isPaused]);
-
   return {
+    currentCard: currentCard?.card,
     activeCardSide,
-    activeCard: currentCard.card,
-    numRemainingCards: upcomingCards.length,
-    play,
+    completedCards: [...completedCards],
+    play: play,
     pause: pauseCard,
-    skipCard,
-    replayCard,
+    skip: skipCard,
+    replay: replayCard,
   };
 
   function play() {
     setIsPaused(false);
+    playCard(currentCard, upcomingCards, completedCards);
   }
 
   function skipCard() {
     clearAudio();
-    nextCard({ ...currentCard });
+    const next = nextCard(currentCard, upcomingCards, completedCards);
+    if (!isPaused) {
+      playCard(next.currentCard, next.upcomingCards, next.completedCards);
+    }
   }
 
   function replayCard() {
+    // TODO: will want a stopwatch to both replay current card and play previous card
     clearAudio();
-    previousCard();
+    const next = previousCard(currentCard, upcomingCards, completedCards);
+    if (!isPaused) {
+      playCard(next.currentCard, next.upcomingCards, next.completedCards);
+    }
   }
 
   function pauseCard() {
     setIsPaused(true);
-    pause();
+    pauseAudio();
   }
 
-  async function playCard() {
+  async function playCard(
+    currentCard: LessonCard,
+    upcomingCards: LessonCard[],
+    completedCards: LessonCard[]
+  ) {
+    if (completedCards.length === numCards) {
+      return;
+    }
     if (currentCard.card.key === activeCard?.key) {
-      return resume();
+      return resumeAudio();
     }
 
-    // TODO: change outcome to lesson card
-    const outcome = await playTermAndDefinition(currentCard);
     // TODO: for future lesson types we would update the upcoming cards
-    nextCard({ ...currentCard, outcome });
+    const updatedCard = await playAudio(currentCard);
+    const next = nextCard(updatedCard, upcomingCards, completedCards);
+
+    playCard(next.currentCard, next.upcomingCards, next.completedCards);
   }
+
+  function nextCard(
+    currentCard: LessonCard,
+    upcomingCards: LessonCard[],
+    completedCards: LessonCard[]
+  ) {
+    const newcompletedCards = [currentCard, ...completedCards];
+    const newCurrentCard: LessonCard = upcomingCards[0] ?? currentCard;
+    const newUpcomingCards = upcomingCards.length === 0 ? upcomingCards : upcomingCards.slice(1);
+    setCurrentCard(newCurrentCard);
+    setcompletedCards(newcompletedCards);
+    setUpcomingCards(newUpcomingCards);
+    return {
+      currentCard: newCurrentCard,
+      completedCards: newcompletedCards,
+      upcomingCards: newUpcomingCards,
+    };
+  }
+
+  function previousCard(
+    currentCard: LessonCard,
+    upcomingCards: LessonCard[],
+    completedCards: LessonCard[]
+  ) {
+    if (completedCards.length === 0) {
+      return { currentCard, upcomingCards, completedCards };
+    }
+    const newUpcomingCards = [currentCard, ...upcomingCards];
+    const newCurrentCard = completedCards[0];
+    const newcompletedCards = completedCards.slice(1);
+    setCurrentCard(newCurrentCard);
+    setcompletedCards(newcompletedCards);
+    setUpcomingCards(newUpcomingCards);
+
+    return {
+      currentCard: newCurrentCard,
+      completedCards: newcompletedCards,
+      upcomingCards: newUpcomingCards,
+    };
+  }
+
+  // function setCards(
+  //   currentCard: LessonCard,
+  //   upcomingCards: LessonCard[],
+  //   completedCards: LessonCard[]
+  // ) {}
+}
+
+// TODO: Add Sorting and Filtering based in settings
+function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
+  if (deck.cards.length < numCards) {
+    throw Error('deck not contain enough cards specified in the lesson');
+  }
+  const cards = deck.cards.slice(0, numCards);
+  return cards.map((card) => createNewLessonCard(card, 1));
 }
