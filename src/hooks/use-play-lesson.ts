@@ -115,12 +115,6 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
       upcomingCards: newUpcomingCards,
     };
   }
-
-  // function setCards(
-  //   currentCard: LessonCard,
-  //   upcomingCards: LessonCard[],
-  //   completedCards: LessonCard[]
-  // ) {}
 }
 
 // TODO: Add Sorting and Filtering based in settings
