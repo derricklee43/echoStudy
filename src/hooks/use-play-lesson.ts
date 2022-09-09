@@ -15,7 +15,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   const [firstCard, ...restCards] = getLessonCards(deck, numCards);
   const [currentCard, setCurrentCard] = useState<LessonCard>(firstCard);
   const [upcomingCards, setUpcomingCards] = useState(restCards);
-  const [completedCards, setcompletedCards] = useState<LessonCard[]>([]);
+  const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
   const { pauseAudio, resumeAudio, playAudio, clearAudio, activeCardSide, activeCard } =
     usePlayCardAudio();
@@ -85,7 +85,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     const newCurrentCard: LessonCard = upcomingCards[0] ?? currentCard;
     const newUpcomingCards = upcomingCards.length === 0 ? upcomingCards : upcomingCards.slice(1);
     setCurrentCard(newCurrentCard);
-    setcompletedCards(newcompletedCards);
+    setCompletedCards(newcompletedCards);
     setUpcomingCards(newUpcomingCards);
     return {
       currentCard: newCurrentCard,
@@ -106,7 +106,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     const newCurrentCard = completedCards[0];
     const newcompletedCards = completedCards.slice(1);
     setCurrentCard(newCurrentCard);
-    setcompletedCards(newcompletedCards);
+    setCompletedCards(newcompletedCards);
     setUpcomingCards(newUpcomingCards);
 
     return {
