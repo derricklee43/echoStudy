@@ -145,6 +145,7 @@ function cardToJson(card: Card, deckId?: number) {
 function JsonToCard(obj: any) {
   const card = createNewCard();
   card.id = obj['id'];
+  card.score = obj['score'];
   card.front = {
     language: obj['flang'],
     text: obj['ftext'],

@@ -10,11 +10,6 @@ describe('ProgressBar', () => {
     expect(screen.queryByText(TEST_LABEL)).toBeInTheDocument();
   });
 
-  it('should not render percentage bar if 0%', () => {
-    const { container } = render(<ProgressBar variant="white" percent={0} label={TEST_LABEL} />);
-    expect(container.getElementsByClassName('c-inner-bar').length).toBe(0);
-  });
-
   it('should be filled in half-way when set to 50%', () => {
     const { container } = render(<ProgressBar variant="white" percent={50} label={TEST_LABEL} />);
     expect(container.getElementsByClassName('c-inner-bar').length).toBe(1);
