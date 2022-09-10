@@ -76,11 +76,11 @@ export const Header = ({ className = '', showSearchBar = true, fixed = true }: H
   }
 
   function handleSignUpClick() {
-    console.log('sign up');
+    navigate(paths.signUp);
   }
 
   function handleSignInClick() {
-    console.log('sign in');
+    navigate(paths.signUp);
   }
 
   function handleLogoutClick() {

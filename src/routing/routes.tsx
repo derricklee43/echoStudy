@@ -10,6 +10,8 @@ import { FlashcardDecksPage } from '../pages/decks/flashcard-decks';
 import { EditDeckPage } from '../pages/edit-deck-page/edit-deck-page';
 import { LandingPage } from '../pages/landing-page/landing-page';
 import { NotFoundPage } from '../pages/not-found-page/not-found-page';
+import { SignInPage } from '../pages/sign-in-page/sign-in-page';
+import { SignUpPage } from '../pages/sign-up/sign-up-page';
 import { StudyPage } from '../pages/study-page/study-page';
 import { ViewDeckPage } from '../pages/view-deck-page/view-deck-page';
 
@@ -30,6 +32,8 @@ export const PageRoutes = () => {
 
       <Route element={<FullscreenLayout />}>
         <Route path={paths.home} element={<LandingPage />} />
+        <Route path={paths.signIn} element={<SignInPage />} />
+        <Route path={paths.signUp} element={<SignUpPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
