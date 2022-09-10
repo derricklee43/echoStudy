@@ -6,6 +6,7 @@ import waveImage from '../../assets/images/wave.png';
 import { Button } from '../../components/button/button';
 import { Header } from '../../components/header/header';
 import { useUserClient } from '../../hooks/api/use-user-client';
+import { paths } from '../../routing/paths';
 import './landing-page.scss';
 
 const headerClassName = 'header-anchor';
@@ -141,7 +142,7 @@ export const LandingPage = () => {
   }
 
   function handleSignUpClick() {
-    navigate('/404'); // intentionally go to 404 page
+    navigate(paths.signUp);
   }
 
   function scrollToElement(selector: string) {

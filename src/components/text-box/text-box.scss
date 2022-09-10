@@ -36,7 +36,7 @@ $label-legend-font-size: 12px;
 
   .dark & {
     background-color: $black;
-    color: $light-blue;
+    color: $white;
   }
 }
 
@@ -58,7 +58,7 @@ $label-legend-font-size: 12px;
   .dark & {
     color: $white;
     background-color: $black;
-    border: 2px solid $light-blue;
+    border: 2px solid $white;
 
     &:focus,
     &:focus-visible {
