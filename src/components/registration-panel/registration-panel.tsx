@@ -21,24 +21,30 @@ export const RegistrationPanel = ({
   onSwapPanelClick,
 }: RegistrationPanelProps) => {
   return (
-    <div className="registration-component">
-      <div className="registration-header">echoStudy</div>
-      <div className="registration-sub-header">learn anything. study anywhere.</div>
-      <div className="registration-form">
-        <div>{formHeader}</div>
-        {children}
-        <Button onClick={onSubmitClick} className="registration-button">
-          {submitLabel}
-        </Button>
-      </div>
-      <BubbleDivider variantColor="dark" variantType="divider" label="or" />
-      <div className="registration-button-group">
-        <Button onClick={onSwapPanelClick} variant="dark" className="registration-button">
-          {swapPanelLabel}
-        </Button>
-        <Button onClick={handleContinueAsGuestClick} variant="dark" className="registration-button">
-          continue as guest
-        </Button>
+    <div className="registration-component-wrapper">
+      <div className="registration-component">
+        <div className="registration-header">echoStudy</div>
+        <div className="registration-sub-header">learn anything. study anywhere.</div>
+        <div className="registration-form">
+          <div>{formHeader}</div>
+          {children}
+          <Button onClick={onSubmitClick} className="registration-button">
+            {submitLabel}
+          </Button>
+        </div>
+        <BubbleDivider variantColor="dark" variantType="divider" label="or" />
+        <div className="registration-button-group">
+          <Button onClick={onSwapPanelClick} variant="dark" className="registration-button">
+            {swapPanelLabel}
+          </Button>
+          <Button
+            onClick={handleContinueAsGuestClick}
+            variant="dark"
+            className="registration-button"
+          >
+            continue as guest
+          </Button>
+        </div>
       </div>
     </div>
   );
