@@ -11,6 +11,7 @@ $search-bar-offset: ($content-padding - $element-gap);
   box-sizing: border-box;
   background-color: $deck-cover-blue;
   border-bottom: 1px solid $deck-cover-blue;
+  overflow: hidden;
 
   &.fixed {
     position: fixed;
@@ -29,12 +30,15 @@ $search-bar-offset: ($content-padding - $element-gap);
 
     .c-header-title {
       @include flex-center;
-      flex: 0 0 $sidebar-width;
       height: 100%;
-      // padding-right: $search-bar-offset;
-
+      flex: 0 0 $sidebar-width;
       color: $white;
       font-size: 30px;
+
+      @media screen and (max-width: $small-screen) {
+        flex: 0;
+        padding-left: ($element-gap);
+      }
 
       a.c-header-anchor {
         color: unset;
@@ -76,6 +80,10 @@ $search-bar-offset: ($content-padding - $element-gap);
       align-items: center;
       flex: 0 0 min(20vw, 100px);
       padding-right: $element-gap * 2;
+
+      @media screen and (max-width: $small-screen) {
+        padding-right: $element-gap;
+      }
 
       button {
         padding: 12px;

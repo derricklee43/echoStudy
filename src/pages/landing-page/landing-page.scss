@@ -10,7 +10,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    min-height: $medium-screen;
+    min-height: $sm-md-screen;
     height: 100vh;
     padding: 0px 24px;
     border-bottom: 4px solid $blue;
@@ -85,6 +85,10 @@
     font-size: 2.35vw;
   }
 
+  .text-md-lg-dynamic {
+    font-size: min(3.5vw, 48px);
+  }
+
   .text-lg-dynamic {
     font-size: min(12vw, 96px);
   }
@@ -117,7 +121,7 @@
     }
 
     .description {
-      padding: 64px 32px 32px 32px;
+      padding: 48px 32px 32px;
     }
 
     .action-button-container {
@@ -158,6 +162,10 @@
         border-radius: 16px;
         padding: 16px;
         user-select: none;
+
+        @media screen and (max-width: $medium-screen) {
+          width: min(75vw, $sm-md-screen);
+        }
       }
     }
   }
