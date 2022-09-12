@@ -17,13 +17,21 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
-  const { pauseAudio, resumeAudio, playAudio, clearAudio, activeCardSide, activeCard } =
-    usePlayCardAudio();
+  const {
+    pauseAudio,
+    resumeAudio,
+    playAudio,
+    clearAudio,
+    activeCardSide,
+    activeCard,
+    isCapturingSpeech,
+  } = usePlayCardAudio();
 
   return {
     currentCard: currentCard?.card,
     activeCardSide,
     completedCards: [...completedCards],
+    isCapturingSpeech,
     play: play,
     pause: pauseCard,
     skip: skipCard,

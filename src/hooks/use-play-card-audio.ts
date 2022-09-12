@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
 import { Card } from '../models/card';
 import { LazyAudio } from '../models/lazy-audio';
@@ -7,6 +8,7 @@ import { LessonCard, LessonCardOutcome } from '../models/lesson-card';
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
+  const { captureSpeech, stopCapturingSpeech, isCapturingSpeech } = useCaptureSpeech();
 
   const activeAudioRef = useRef<LazyAudio>();
   const [activeCard, setActiveCard] = useState<Card>();
@@ -19,6 +21,7 @@ export function usePlayCardAudio() {
   return {
     activeCard,
     activeCardSide,
+    isCapturingSpeech,
     clearAudio,
     playAudio,
     pauseAudio,
@@ -27,6 +30,7 @@ export function usePlayCardAudio() {
 
   function pauseAudio() {
     if (!activeAudioRef.current) {
+      stopCapturingSpeech();
       pauseTimer();
       return;
     }
@@ -63,14 +67,30 @@ export function usePlayCardAudio() {
     setActiveCardSide('front');
     await playCardAudio(frontAudio);
 
+    // Start capturing speech
+    const capturedSpeechPromise = captureSpeech(lessonCard.card.back.language as any);
+
     // wait before flip
     const backDuration = await backAudio.getDuration();
     await wait(getPauseLength(backDuration));
 
+    // Stop capturing speech if not already ended
+    stopCapturingSpeech();
+
+    // currently if the user pauses, while recording the going
+    // We will only get the results back before the pause
+    // I think this is reasonable for now, but we might want to come up with a better
+    // system in the future
+    const capturedSpeech = await capturedSpeechPromise;
+    const wasCorrect = capturedSpeech.transcript === lessonCard.card.back.text;
+    const outcome = wasCorrect ? 'correct' : 'incorrect';
+    console.log(capturedSpeech.transcript, outcome);
+
     // play back audio
     setActiveCardSide('back');
-    await repeatAudio(backAudio, lessonCard.repeatDefinitionCount);
-    return { ...lessonCard, outcome: 'correct' };
+    await repeatAudio(backAudio, lessonCard.repeatDefinitionCount); // TODO: We need to figure out want we want to do when repeating back audio more than once
+
+    return { ...lessonCard, outcome };
   }
 
   async function repeatAudio(audio: LazyAudio, times: number): Promise<void> {
@@ -86,7 +106,7 @@ export function usePlayCardAudio() {
 
   function getPauseLength(audioDuration: number) {
     const durationInSeconds = audioDuration * 1000;
-    return durationInSeconds * 2;
+    return durationInSeconds * 3;
   }
 
   function playCardAudio(audio: LazyAudio) {

@@ -72,3 +72,23 @@ $content-padding: 50px;
   background-color: $white;
   border-radius: $standard-radius + 1px; //hides corners of div
 }
+
+@mixin animation-mixin($color) {
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba($color, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba($color, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba($color, 0);
+    }
+  }
+}
+
+@include animation-mixin($white);
+@mixin infinite-pulse {
+  box-shadow: 0 0 0 $white;
+  animation: pulse 1s infinite;
+}

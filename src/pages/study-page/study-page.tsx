@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { Fade } from '../../animations/fade';
+import { MicrophoneIcon } from '../../assets/icons/microphone-icon/microphone-icon';
 import { AudioControlBar } from '../../components/audio-control-bar/audio-control-bar';
-import { LoadingPage } from '../../components/loading-page/loading-page';
 import { PageHeader } from '../../components/page-header/page-header';
 import { ProgressBar } from '../../components/progress-bar/progress-bar';
 import { StudyFlashcard } from '../../components/study-flashcard/study-flashcard';
@@ -15,9 +17,19 @@ interface StudyPageProps {
 
 export const StudyPage = ({ deck }: StudyPageProps) => {
   const numCards = 4;
+
   const [isPaused, setIsPaused] = useState(true);
   const [hasLessonStarted, setHasLessonStarted] = useState(false);
-  const { currentCard, activeCardSide, completedCards, pause, play, skip, replay } = usePlayLesson({
+  const {
+    currentCard,
+    activeCardSide,
+    completedCards,
+    isCapturingSpeech,
+    pause,
+    play,
+    skip,
+    replay,
+  } = usePlayLesson({
     deck,
     lessonType: 'studyNew',
     numCards,
@@ -30,7 +42,19 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
   return (
     <div className="study-page">
       <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
+
       <div className="study-page-content">
+        <div className="pulsing-microphone-container">
+          <AnimatePresence>
+            {isCapturingSpeech && (
+              <Fade fadeIn={true}>
+                <div className="pulsing-microphone">
+                  <MicrophoneIcon />
+                </div>
+              </Fade>
+            )}
+          </AnimatePresence>
+        </div>
         {showCover ? getCover() : getCard()}
         <ProgressBar
           variant="white"

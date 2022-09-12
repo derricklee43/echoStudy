@@ -1,10 +1,5 @@
-import { AllDeckLanguages } from './deck';
+import { CardLanguage } from './language';
 import { LazyAudio } from './lazy-audio';
-
-export const AllCardLanguages = ['Default', ...AllDeckLanguages] as const;
-
-export type CardLanguages = typeof AllCardLanguages;
-export type CardLanguage = CardLanguages[number];
 
 export interface CardContent {
   text: string;
