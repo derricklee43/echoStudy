@@ -77,10 +77,8 @@ export function usePlayCardAudio() {
     // Stop capturing speech if not already ended
     stopCapturingSpeech();
 
-    // currently if the user pauses, while recording the going
-    // We will only get the results back before the pause
-    // I think this is reasonable for now, but we might want to come up with a better
-    // system in the future
+    // Currently if the user pauses while the recording is going, we will only get the results back before the pause.
+    // I think this is reasonable for now, but we might want to come up with a better system in the future.
     const capturedSpeech = await capturedSpeechPromise;
     const wasCorrect = capturedSpeech.transcript === lessonCard.card.back.text;
     const outcome = wasCorrect ? 'correct' : 'incorrect';
@@ -88,7 +86,9 @@ export function usePlayCardAudio() {
 
     // play back audio
     setActiveCardSide('back');
-    await repeatAudio(backAudio, lessonCard.repeatDefinitionCount); // TODO: We need to figure out want we want to do when repeating back audio more than once
+
+    // TODO: most likely we will want to disable speech recognition if the repeat count is greater than 1
+    await repeatAudio(backAudio, lessonCard.repeatDefinitionCount);
 
     return { ...lessonCard, outcome };
   }

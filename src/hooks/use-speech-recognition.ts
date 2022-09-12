@@ -2,37 +2,26 @@ import { useRef, useState } from 'react';
 import { CapturedSpeech } from '../models/captured-speech';
 import { DeckLanguage, getLanguageCode } from '../models/language';
 
-type CaptureSpeechPromiseResolve = (value: CapturedSpeech | PromiseLike<CapturedSpeech>) => void;
-
 export function useCaptureSpeech() {
   const speechRecognitionRef = useRef(getSpeechRecognitionObj());
-  const promiseResolveRef = useRef<CaptureSpeechPromiseResolve>();
-  const hasAudioStartedRef = useRef(false);
   const [isCapturingSpeech, setIsCapturingSpeech] = useState(false);
 
   return { captureSpeech, stopCapturingSpeech, isCapturingSpeech };
 
   function captureSpeech(language: DeckLanguage) {
-    hasAudioStartedRef.current = false;
     speechRecognitionRef.current.lang = getLanguageCode(language);
     speechRecognitionRef.current.start();
 
     return new Promise<CapturedSpeech>((resolve, reject) => {
       setIsCapturingSpeech(true);
-      promiseResolveRef.current = resolve;
 
-      // Will only fire if the user has spoken/made a sound
+      // Will only fire if the system can make a about the transcript above the confidence threshold
       speechRecognitionRef.current.onresult = (event) => {
         const resultsLength = event.results.length - 1;
         const ArrayLength = event.results[resultsLength].length - 1;
         const { transcript, confidence } = event.results[resultsLength][ArrayLength];
         resolve({ transcript, confidence });
         setIsCapturingSpeech(false);
-      };
-
-      // The user has started speaking
-      speechRecognitionRef.current.onaudiostart = () => {
-        hasAudioStartedRef.current = true;
       };
 
       // Always fires when disconnected
@@ -50,6 +39,7 @@ export function useCaptureSpeech() {
     });
   }
 
+  // Stops the capturing of new speech, but it still allows the already captured material to be processed
   function stopCapturingSpeech() {
     speechRecognitionRef.current.stop();
   }
