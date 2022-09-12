@@ -6,7 +6,7 @@ export function useCaptureSpeech() {
   const speechRecognitionRef = useRef(getSpeechRecognitionObj());
   const [isCapturingSpeech, setIsCapturingSpeech] = useState(false);
 
-  return { captureSpeech, stopCapturingSpeech, isCapturingSpeech };
+  return { captureSpeech, stopCapturingSpeech, abortSpeechCapture, isCapturingSpeech };
 
   function captureSpeech(language: DeckLanguage) {
     speechRecognitionRef.current.lang = getLanguageCode(language);
@@ -21,7 +21,6 @@ export function useCaptureSpeech() {
         const ArrayLength = event.results[resultsLength].length - 1;
         const { transcript, confidence } = event.results[resultsLength][ArrayLength];
         resolve({ transcript, confidence });
-        setIsCapturingSpeech(false);
       };
 
       // Always fires when disconnected
@@ -33,8 +32,9 @@ export function useCaptureSpeech() {
       };
 
       speechRecognitionRef.current.onerror = (event) => {
-        reject(event.error);
-        setIsCapturingSpeech(false);
+        if (event.error !== 'aborted') {
+          reject(event.error);
+        }
       };
     });
   }
@@ -42,6 +42,10 @@ export function useCaptureSpeech() {
   // Stops the capturing of new speech, but it still allows the already captured material to be processed
   function stopCapturingSpeech() {
     speechRecognitionRef.current.stop();
+  }
+
+  function abortSpeechCapture() {
+    speechRecognitionRef.current.abort();
   }
 }
 

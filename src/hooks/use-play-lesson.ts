@@ -40,6 +40,10 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
 
   function play() {
     setIsPaused(false);
+    if (currentCard.card.key === activeCard?.key) {
+      resumeAudio();
+      return;
+    }
     playCard(currentCard, upcomingCards, completedCards);
   }
 
@@ -72,9 +76,6 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   ) {
     if (completedCards.length === numCards) {
       return;
-    }
-    if (currentCard.card.key === activeCard?.key) {
-      return resumeAudio();
     }
 
     // TODO: for future lesson types we would update the upcoming cards

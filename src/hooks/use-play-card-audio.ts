@@ -8,7 +8,8 @@ import { LessonCard, LessonCardOutcome } from '../models/lesson-card';
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
-  const { captureSpeech, stopCapturingSpeech, isCapturingSpeech } = useCaptureSpeech();
+  const { captureSpeech, stopCapturingSpeech, abortSpeechCapture, isCapturingSpeech } =
+    useCaptureSpeech();
 
   const activeAudioRef = useRef<LazyAudio>();
   const [activeCard, setActiveCard] = useState<Card>();
@@ -29,8 +30,8 @@ export function usePlayCardAudio() {
   };
 
   function pauseAudio() {
+    stopCapturingSpeech();
     if (!activeAudioRef.current) {
-      stopCapturingSpeech();
       pauseTimer();
       return;
     }
@@ -46,6 +47,7 @@ export function usePlayCardAudio() {
   }
 
   function clearAudio() {
+    abortSpeechCapture();
     if (!activeAudioRef.current) {
       clearTimer();
       return;
