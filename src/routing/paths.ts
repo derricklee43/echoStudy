@@ -8,5 +8,4 @@ export const enum paths {
   search = '/search',
   signIn = '/sign-in',
   signUp = '/sign-up',
-  login = '/', // same as home until we have one
 }

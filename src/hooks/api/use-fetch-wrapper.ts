@@ -145,7 +145,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
       case 401:
         simpleLocalStorage.remove(LocalStorageKeys.authJwt);
         setAuthJwt(undefined);
-        navigate(paths.login);
+        navigate(paths.signIn);
         break;
     }
   }

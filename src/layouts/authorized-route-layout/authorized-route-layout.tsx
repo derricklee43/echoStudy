@@ -13,5 +13,5 @@ export const AuthorizedRouteLayout = () => {
   // https://stackoverflow.com/questions/61388307/render-component-in-jsx-based-on-async-function-returning-boolean
   const isAuthorized = authJwt && authJwt.accessToken && authJwt.refreshToken;
 
-  return isAuthorized ? <Outlet /> : <Navigate to={paths.login} />;
+  return isAuthorized ? <Outlet /> : <Navigate to={paths.signIn} />;
 };
