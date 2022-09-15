@@ -76,11 +76,11 @@ export const Header = ({ className = '', showSearchBar = true, fixed = true }: H
   }
 
   function handleSignUpClick() {
-    navigate(paths.signUp);
+    navigate(paths.signUp, { replace: true }); // replace may be a mistake, we'll see
   }
 
   function handleSignInClick() {
-    navigate(paths.signUp);
+    navigate(paths.signIn, { replace: true }); // replace may be a mistake, we'll see
   }
 
   function handleLogoutClick() {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { paths } from './paths';
 import { loadDeck, ResourceLoader } from '../components/resource-loader/resource-loader';
+import { AlreadyAuthorizedLayout } from '../layouts/already-authorized-layout/already-authorized-layout';
 import { AuthorizedRouteLayout } from '../layouts/authorized-route-layout/authorized-route-layout';
 import { FullscreenLayout } from '../layouts/full-screen-layout/full-screen-layout';
 import { SidebarLayout } from '../layouts/sidebar-layout/sidebar-layout';
@@ -31,9 +32,11 @@ export const PageRoutes = () => {
       </Route>
 
       <Route element={<FullscreenLayout />}>
+        <Route element={<AlreadyAuthorizedLayout />}>
+          <Route path={paths.signIn} element={<SignInPage />} />
+          <Route path={paths.signUp} element={<SignUpPage />} />
+        </Route>
         <Route path={paths.home} element={<LandingPage />} />
-        <Route path={paths.signIn} element={<SignInPage />} />
-        <Route path={paths.signUp} element={<SignUpPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
