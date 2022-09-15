@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RegistrationPanel } from '../../components/registration-panel/registration-panel';
 import { TextBox } from '../../components/text-box/text-box';
+import { useUserClient } from '../../hooks/api/use-user-client';
 import { paths } from '../../routing/paths';
 
 export const SignInPage = () => {
+  const userClient = useUserClient();
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +31,17 @@ export const SignInPage = () => {
   );
 
   function handleSubmitClick() {
-    console.log(userName, password);
+    userClient.login(userName, password).then((success) => {
+      if (success) {
+        // navigate to the previous page redirected here, or /decks page as a fallback
+        const hasPreviousPage = window.history.state && window.history.state.idx > 0;
+        if (hasPreviousPage) {
+          navigate(-1);
+        } else {
+          navigate(paths.decks);
+        }
+      }
+    });
   }
 
   function handleSwapPanelClick() {
