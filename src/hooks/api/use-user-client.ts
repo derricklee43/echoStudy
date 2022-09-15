@@ -2,6 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import {
+  IdentityError,
+  isRegisterSuccess,
+  RegisterSuccess,
+  RegisterUserInfo,
+  registerUserInfoToJson,
+} from '../../models/register-user';
 import { paths } from '../../routing/paths';
 import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
@@ -20,10 +27,50 @@ export function useUserClient() {
   const navigate = useNavigate();
 
   return {
+    register,
     login,
     loginDebug, // remove this once we have user login page
     logout,
   };
+
+  /**
+   * POST: /Register
+   * Registers a new user. If successful, returns an object with 'id' (the user ID).
+   * Otherwise, an array of IdentityErrors (object with 'code' and 'description').
+   */
+  async function register(userInfo: RegisterUserInfo): Promise<
+    | {
+        statusCode: 200;
+        response: RegisterSuccess;
+      }
+    | {
+        statusCode: 400;
+        response: IdentityError[];
+      }
+    | undefined
+  > {
+    const numRetries = 0;
+
+    try {
+      const payload = registerUserInfoToJson(userInfo);
+      const response = await fetchWrapper.post('/Register', payload, numRetries);
+      if (isRegisterSuccess(response)) {
+        return { statusCode: 200, response };
+      } else {
+        throw new Error('Expected register success to have id (userId), but got none');
+      }
+    } catch (error) {
+      // data is an array of IdentityErrors
+      debugger;
+      if (isFetchError(error) && error.statusCode === 400) {
+        if (Array.isArray(error.response)) {
+          return { statusCode: 400, response: error.response };
+        } else {
+          throw new Error('Expected identity errors, but got none');
+        }
+      }
+    }
+  }
 
   /**
    * POST: /Authenticate (or /Refresh if auth JWT in local storage already exists)

@@ -8,6 +8,7 @@ interface RegistrationPanelProps {
   submitLabel: string;
   children: React.ReactNode;
   swapPanelLabel: string;
+  className?: string;
   onSubmitClick: () => void;
   onSwapPanelClick: () => void;
 }
@@ -17,11 +18,12 @@ export const RegistrationPanel = ({
   submitLabel,
   children,
   swapPanelLabel,
+  className = '',
   onSubmitClick,
   onSwapPanelClick,
 }: RegistrationPanelProps) => {
   return (
-    <div className="registration-component-wrapper">
+    <div className={`registration-component-wrapper ${className}`}>
       <div className="registration-component">
         <div className="registration-header">echoStudy</div>
         <div className="registration-sub-header">learn anything. study anywhere.</div>

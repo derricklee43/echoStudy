@@ -1,0 +1,29 @@
+@import '../../assets/colors';
+@import '../../assets/styles';
+
+.sign-up-panel {
+  .field-container {
+    display: flex;
+    flex-direction: column;
+    align-self: normal;
+    gap: 6px;
+
+    .info-text {
+      max-width: $tiny-screen;
+      padding: 0px 4px;
+      text-align: left;
+      font-size: 13px;
+      color: $grey;
+
+      &.error {
+        color: $light-red;
+      }
+    }
+
+    .password-fields {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+  }
+}

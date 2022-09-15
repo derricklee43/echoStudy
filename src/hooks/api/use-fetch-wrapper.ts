@@ -11,6 +11,7 @@ import { useLocalStorage } from '../use-local-storage';
 export interface FetchError {
   statusCode: number;
   message: string;
+  response?: unknown;
 }
 
 export const isFetchError = objectSchemaSimple<FetchError>({
@@ -101,9 +102,11 @@ export function useFetchWrapper(prependApiUrl?: string) {
         } catch (error) {
           console.error('Error occurred during fetch error middleware', error);
         }
+
         const fetchError: FetchError = {
           statusCode: statusCode,
           message: `Received ${statusCode} when trying to reach ${url}`,
+          response: await parseResponseForText(response).catch(() => ''),
         };
         return Promise.reject(fetchError);
       }
