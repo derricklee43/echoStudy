@@ -45,13 +45,30 @@
       align-items: center;
       gap: 16px;
       margin-bottom: 40px;
+
       .registration-form-header {
         font-size: 12px;
       }
+
       .registration-button {
+        @include hover($electric-blue);
+        @include hover-pointer;
         width: fit-content;
         border-color: $white;
         color: $white;
+
+        .submit-form-container {
+          @include flex-center;
+          width: fit-content;
+          height: 20px;
+
+          .submit-form-loading {
+            @include flex-center;
+            label {
+              padding-left: 8px;
+            }
+          }
+        }
       }
     }
 
@@ -62,6 +79,8 @@
       }
     }
     .registration-button {
+      @include hover($electric-blue);
+      @include hover-pointer;
       display: inline-block;
       border-color: $white;
       color: $white;

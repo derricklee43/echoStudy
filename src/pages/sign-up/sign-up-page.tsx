@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'path';
 import { RegistrationPanel } from '../../components/registration-panel/registration-panel';
 import { TextBox } from '../../components/text-box/text-box';
 import { isEmptyObject } from '../../helpers/validator';
@@ -23,12 +24,14 @@ export const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [formError, setFormError] = useState<FormError>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <RegistrationPanel
       className="sign-up-panel"
       formHeader="create an account"
       submitLabel="sign up"
+      submitLabelLoading={isSubmitting}
       swapPanelLabel="sign in to your account"
       onSubmitClick={handleSubmitClick}
       onSwapPanelClick={handleSwapPanelClick}
@@ -113,40 +116,46 @@ export const SignUpPage = () => {
 
     // let server-side handle complex validations
     // TODO: we should probably validate password security before sending requests?
-    const data = await userClient.register({
-      username: userName,
-      email,
-      password,
-      phoneNumber: '', // TODO: phone number in UI?
-    });
 
-    if (!data) {
-      throw new Error('An unknown error occurred while submitting the registration form');
-    }
-
-    if (data.statusCode === 200) {
-      const { id } = data.response;
-      console.log('Successfully registered:', id);
-      navigate(paths.signIn);
-      // TODO: redirect to sign up success page with button to login
-      // I don't think we should automatically log users in
-      // For now, we just redirect them to the sign in page but it is a bit jarring.
-    } else {
-      const identityErrors = data.response;
-      const newFormError: FormError = {};
-      // apply all errors, but first error of group takes precedence if there are multiple
-      identityErrors.forEach((err) => {
-        const code: IdentityErrorCode = err.code;
-        const desc: string = err.description;
-        if (code.includes('UserName')) {
-          newFormError.username ??= desc;
-        } else if (code.includes('Email')) {
-          newFormError.email ??= desc;
-        } else if (code.includes('Password')) {
-          newFormError.password ??= desc;
-        }
+    try {
+      setIsSubmitting(true);
+      const data = await userClient.register({
+        username: userName,
+        email,
+        password,
+        phoneNumber: '', // TODO: phone number in UI?
       });
-      setFormError(newFormError);
+
+      if (!data) {
+        throw new Error('An unknown error occurred while submitting the registration form');
+      }
+
+      if (data.statusCode === 200) {
+        const { id } = data.response;
+        console.log('Successfully registered:', id);
+        navigate(paths.signIn);
+        // TODO: redirect to sign up success page with button to login
+        // I don't think we should automatically log users in
+        // For now, we just redirect them to the sign in page but it is a bit jarring.
+      } else {
+        const identityErrors = data.response;
+        const newFormError: FormError = {};
+        // apply all errors, but first error of group takes precedence if there are multiple
+        identityErrors.forEach((err) => {
+          const code: IdentityErrorCode = err.code;
+          const desc: string = err.description;
+          if (code.includes('UserName')) {
+            newFormError.username ??= desc;
+          } else if (code.includes('Email')) {
+            newFormError.email ??= desc;
+          } else if (code.includes('Password')) {
+            newFormError.password ??= desc;
+          }
+        });
+        setFormError(newFormError);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 };

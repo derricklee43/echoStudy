@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { UpToggle } from '../../animations/up-toggle';
+import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
 import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
 import { Button } from '../../components/button/button';
 import './registration-panel.scss';
@@ -6,8 +8,9 @@ import './registration-panel.scss';
 interface RegistrationPanelProps {
   formHeader: string;
   submitLabel: string;
-  children: React.ReactNode;
   swapPanelLabel: string;
+  children: React.ReactNode;
+  submitLabelLoading?: boolean;
   className?: string;
   onSubmitClick: () => void;
   onSwapPanelClick: () => void;
@@ -16,8 +19,9 @@ interface RegistrationPanelProps {
 export const RegistrationPanel = ({
   formHeader,
   submitLabel,
-  children,
   swapPanelLabel,
+  children,
+  submitLabelLoading = false,
   className = '',
   onSubmitClick,
   onSwapPanelClick,
@@ -31,7 +35,7 @@ export const RegistrationPanel = ({
           <div>{formHeader}</div>
           {children}
           <Button onClick={onSubmitClick} className="registration-button">
-            {submitLabel}
+            {getSubmitButtonToggle(submitLabel)}
           </Button>
         </div>
         <BubbleDivider variantColor="dark" variantType="divider" label="or" />
@@ -50,6 +54,22 @@ export const RegistrationPanel = ({
       </div>
     </div>
   );
+
+  function getSubmitButtonToggle(defaultContent: string) {
+    return (
+      <UpToggle
+        className="submit-form-container"
+        showDefault={!submitLabelLoading}
+        defaultContent={defaultContent}
+        alternateContent={
+          <div className="submit-form-loading">
+            <LoadingIcon />
+            <label>submitting</label>
+          </div>
+        }
+      />
+    );
+  }
 
   function handleContinueAsGuestClick() {
     console.log('TODO: continue to site as guest');
