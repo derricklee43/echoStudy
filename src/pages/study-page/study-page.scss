@@ -3,7 +3,7 @@
 
 .study-page {
   .study-page-content {
-    width: 500px;
+    max-width: 500px;
     margin: auto;
     @include flex-center;
     flex-direction: column;
@@ -26,7 +26,7 @@
 
     .study-page-progress-bar {
       padding: 40px 0px 20px 0px;
-      width: 500px;
+      width: 100%;
     }
   }
 }

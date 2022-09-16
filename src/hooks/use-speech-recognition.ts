@@ -9,6 +9,9 @@ export function useCaptureSpeech() {
   return { captureSpeech, stopCapturingSpeech, abortSpeechCapture, isCapturingSpeech };
 
   function captureSpeech(language: DeckLanguage) {
+    if (speechRecognitionRef.current === undefined) {
+      throw new Error('unable to use speech recognition: speechRecognition object was undefined');
+    }
     speechRecognitionRef.current.lang = getLanguageCode(language);
     speechRecognitionRef.current.start();
 
@@ -51,7 +54,7 @@ export function useCaptureSpeech() {
 
 function getSpeechRecognitionObj() {
   if (typeof window === 'undefined') {
-    throw Error('cannot create speech recognition object when window is undefined');
+    console.error('cannot create speech recognition object when window is undefined');
   }
   return new (window.SpeechRecognition ||
     window.webkitSpeechRecognition ||

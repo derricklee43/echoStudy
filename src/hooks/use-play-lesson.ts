@@ -23,12 +23,12 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     playAudio,
     clearAudio,
     activeCardSide,
-    activeCard,
+    activeCardKey,
     isCapturingSpeech,
   } = usePlayCardAudio();
 
   return {
-    currentCard: currentCard?.card,
+    currentCardKey: currentCard?.key,
     activeCardSide,
     completedCards: [...completedCards],
     isCapturingSpeech,
@@ -40,7 +40,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
 
   function play() {
     setIsPaused(false);
-    if (currentCard.card.key === activeCard?.key) {
+    if (currentCard.key === activeCardKey) {
       resumeAudio();
       return;
     }
@@ -132,5 +132,5 @@ function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
     throw Error('deck not contain enough cards specified in the lesson');
   }
   const cards = deck.cards.slice(0, numCards);
-  return cards.map((card) => createNewLessonCard(card, 1));
+  return cards.map((card) => createNewLessonCard(card, deck, 1));
 }

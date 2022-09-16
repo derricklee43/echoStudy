@@ -21,7 +21,7 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
   const [isPaused, setIsPaused] = useState(true);
   const [hasLessonStarted, setHasLessonStarted] = useState(false);
   const {
-    currentCard,
+    currentCardKey,
     activeCardSide,
     completedCards,
     isCapturingSpeech,
@@ -37,7 +37,8 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
 
   const percentComplete = (completedCards.length / numCards) * 100;
   const isLessonComplete = numCards === completedCards.length;
-  const showCover = !hasLessonStarted || numCards === completedCards.length || !currentCard;
+  const showCover = !hasLessonStarted || numCards === completedCards.length || !currentCardKey;
+  const currentCard = getCurrentCard();
 
   return (
     <div className="study-page">
@@ -91,7 +92,7 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
   }
 
   function getCard() {
-    if (currentCard === undefined) return undefined;
+    if (currentCardKey === undefined) return undefined;
     return (
       <StudyFlashcard
         id={currentCard.key}
@@ -128,5 +129,13 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
   function handlePauseClick() {
     setIsPaused(true);
     pause();
+  }
+
+  function getCurrentCard() {
+    const currentCard = deck.cards.find((c) => c.key === currentCardKey);
+    if (currentCard === undefined) {
+      throw Error(`deck does not contain card with key: ${currentCardKey}`);
+    }
+    return currentCard;
   }
 };

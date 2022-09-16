@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
-import { Card } from '../models/card';
 import { LazyAudio } from '../models/lazy-audio';
-import { LessonCard, LessonCardOutcome } from '../models/lesson-card';
+import { LessonCard } from '../models/lesson-card';
 
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios
@@ -12,7 +11,7 @@ export function usePlayCardAudio() {
     useCaptureSpeech();
 
   const activeAudioRef = useRef<LazyAudio>();
-  const [activeCard, setActiveCard] = useState<Card>();
+  const [activeCardKey, setActiveCard] = useState<string>('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export function usePlayCardAudio() {
   }, []);
 
   return {
-    activeCard,
+    activeCardKey,
     activeCardSide,
     isCapturingSpeech,
     clearAudio,
@@ -50,6 +49,9 @@ export function usePlayCardAudio() {
     abortSpeechCapture();
     if (!activeAudioRef.current) {
       clearTimer();
+      if (activeCardKey && activeCardSide === 'back') {
+        setActiveCardSide('front');
+      }
       return;
     }
     activeAudioRef.current.reset();
@@ -57,20 +59,20 @@ export function usePlayCardAudio() {
 
   async function playAudio(lessonCard: LessonCard): Promise<LessonCard> {
     clearAudio();
-    const frontAudio = lessonCard.card.front.audio;
-    const backAudio = lessonCard.card.back.audio;
+    const frontAudio = lessonCard.front.audio;
+    const backAudio = lessonCard.back.audio;
 
     if (frontAudio === undefined || backAudio === undefined) {
       throw new Error('card audio could not be found');
     }
 
     // play front audio
-    setActiveCard(lessonCard.card);
+    setActiveCard(lessonCard.key);
     setActiveCardSide('front');
     await playCardAudio(frontAudio);
 
     // Start capturing speech
-    const capturedSpeechPromise = captureSpeech(lessonCard.card.back.language as any);
+    const capturedSpeechPromise = captureSpeech(lessonCard.back.language);
 
     // wait before flip
     const backDuration = await backAudio.getDuration();
@@ -82,7 +84,7 @@ export function usePlayCardAudio() {
     // Currently if the user pauses while the recording is going, we will only get the results back before the pause.
     // I think this is reasonable for now, but we might want to come up with a better system in the future.
     const capturedSpeech = await capturedSpeechPromise;
-    const wasCorrect = capturedSpeech.transcript === lessonCard.card.back.text;
+    const wasCorrect = capturedSpeech.transcript === lessonCard.back.text;
     const outcome = wasCorrect ? 'correct' : 'incorrect';
     console.log(capturedSpeech.transcript, outcome);
 
