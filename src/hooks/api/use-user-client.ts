@@ -94,6 +94,7 @@ export function useUserClient() {
         password: password,
       };
       const jwtData = await fetchWrapper.post('/Authenticate', payload, numRetries);
+      console.log(payload, jwtData);
       const authJwt = jsonToAuthJwt(jwtData);
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, authJwt);
       setAuthJwt(authJwt);

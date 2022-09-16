@@ -89,6 +89,11 @@ export const SignUpPage = () => {
   }
 
   async function handleSubmitClick() {
+    // submitting should be mutually exclusive
+    if (isSubmitting) {
+      return;
+    }
+
     // simple client side verifications
     {
       const newFormError: FormError = {};
@@ -133,10 +138,11 @@ export const SignUpPage = () => {
       if (data.statusCode === 200) {
         const { id } = data.response;
         console.log('Successfully registered:', id);
-        navigate(paths.signIn);
-        // TODO: redirect to sign up success page with button to login
-        // I don't think we should automatically log users in
-        // For now, we just redirect them to the sign in page but it is a bit jarring.
+        // sign in and redirect to decks page; but with an artificial delay since humans are distrusting
+        const success = await userClient.login(email, password);
+        if (success) {
+          navigate(paths.decks);
+        }
       } else {
         const identityErrors = data.response;
         const newFormError: FormError = {};
