@@ -1,5 +1,5 @@
 import { useFetchWrapper } from './use-fetch-wrapper';
-import { ECHOSTUDY_API_URL, ECHOSTUDY_AUDIO_S3_URL } from '../../helpers/api';
+import { ECHOSTUDY_API_URL, ensureHttps } from '../../helpers/api';
 import { Card, createNewCard } from '../../models/card';
 import { LazyAudio } from '../../models/lazy-audio';
 
@@ -153,12 +153,12 @@ function JsonToCard(obj: any): Card {
   card.front = {
     language: obj['flang'],
     text: obj['ftext'],
-    audio: new LazyAudio(`${ECHOSTUDY_AUDIO_S3_URL}/${obj['faud']}`), // todo: defer new Audio bc some pages don't need it
+    audio: new LazyAudio(ensureHttps(obj['faud'])),
   };
   card.back = {
     language: obj['blang'],
     text: obj['btext'],
-    audio: new LazyAudio(`${ECHOSTUDY_AUDIO_S3_URL}/${obj['baud']}`), // todo: defer new Audio bc some pages don't need it
+    audio: new LazyAudio(ensureHttps(obj['baud'])),
   };
   return card;
 }
