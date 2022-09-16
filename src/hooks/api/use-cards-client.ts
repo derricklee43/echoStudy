@@ -132,6 +132,7 @@ export function useCardsClient() {
 }
 
 function cardToJson(card: Card, deckId?: number) {
+  // TODO: backend needs to support way to update score
   return {
     frontText: card.front.text,
     backText: card.back.text,
@@ -142,10 +143,13 @@ function cardToJson(card: Card, deckId?: number) {
   };
 }
 
-function JsonToCard(obj: any) {
+function JsonToCard(obj: any): Card {
   const card = createNewCard();
   card.id = obj['id'];
   card.score = obj['score'];
+  card.dateCreated = new Date(obj['date_created']);
+  card.dateUpdated = new Date(obj['date_updated']);
+  card.dateTouched = new Date(obj['date_touched']);
   card.front = {
     language: obj['flang'],
     text: obj['ftext'],

@@ -26,3 +26,25 @@ export function noop() {
 export function clamp(num: number, min: number, max: number) {
   return Math.min(Math.max(num, min), max);
 }
+
+/**
+ * Returns the absolute (floating) number of days between two dates.
+ */
+export function daysBetween(date1: Date, date2: Date): number {
+  const dayMs = 86400000;
+  const timeDiff = Math.abs(dateToUtcMs(date1) - dateToUtcMs(date2));
+  return Math.floor(timeDiff / dayMs);
+}
+
+/**
+ * Returns the date in UTC milliseconds.
+ */
+export function dateToUtcMs(date: Date): number {
+  return Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes()
+  );
+}

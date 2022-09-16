@@ -1,7 +1,11 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "editor.tabSize": 2,
-    "editor.formatOnSave": true
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "jestrunner.jestCommand": "npm run test -- --watchAll=false",
+  "jestrunner.codeLens": [
+    "run"
+  ]
 }
