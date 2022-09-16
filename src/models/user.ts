@@ -1,5 +1,6 @@
-import { Deck, DeckLanguage } from './deck';
+import { Deck } from './deck';
 import { DeckCategory } from './deck-category';
+import { DeckLanguage } from './language';
 import { Session } from './session';
 
 // highly WIP, refers to EchoUser

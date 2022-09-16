@@ -4,7 +4,7 @@ import { Fade } from '../../../../animations/fade';
 import { KebabMenuIcon } from '../../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
 import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
 import { useOutsideClick } from '../../../../hooks/use-outside-click';
-import { AllCardLanguages, CardLanguage } from '../../../../models/card-content';
+import { AllCardLanguages, CardLanguage } from '../../../../models/language';
 import { Button } from '../../../button/button';
 import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
 import './card-menu.scss';

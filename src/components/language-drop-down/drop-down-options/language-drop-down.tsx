@@ -1,7 +1,6 @@
 import React from 'react';
 import { LanguageIcon } from '../../../assets/icons/language-icon/language-icon';
-import { CardLanguages } from '../../../models/card-content';
-import { DeckLanguages } from '../../../models/deck';
+import { CardLanguages, DeckLanguages } from '../../../models/language';
 import { DropDown } from '../../drop-down/drop-down';
 import { DropDownOption } from '../../drop-down-options/drop-down-options';
 import './language-drop-down.scss';

@@ -17,13 +17,21 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
-  const { pauseAudio, resumeAudio, playAudio, clearAudio, activeCardSide, activeCard } =
-    usePlayCardAudio();
+  const {
+    pauseAudio,
+    resumeAudio,
+    playAudio,
+    clearAudio,
+    activeCardSide,
+    activeCardKey,
+    isCapturingSpeech,
+  } = usePlayCardAudio();
 
   return {
-    currentCard: currentCard?.card,
+    currentCardKey: currentCard?.key,
     activeCardSide,
     completedCards: [...completedCards],
+    isCapturingSpeech,
     play: play,
     pause: pauseCard,
     skip: skipCard,
@@ -32,6 +40,10 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
 
   function play() {
     setIsPaused(false);
+    if (currentCard.key === activeCardKey) {
+      resumeAudio();
+      return;
+    }
     playCard(currentCard, upcomingCards, completedCards);
   }
 
@@ -64,9 +76,6 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   ) {
     if (completedCards.length === numCards) {
       return;
-    }
-    if (currentCard.card.key === activeCard?.key) {
-      return resumeAudio();
     }
 
     // TODO: for future lesson types we would update the upcoming cards
@@ -123,5 +132,5 @@ function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
     throw Error('deck not contain enough cards specified in the lesson');
   }
   const cards = deck.cards.slice(0, numCards);
-  return cards.map((card) => createNewLessonCard(card, 1));
+  return cards.map((card) => createNewLessonCard(card, deck, 1));
 }
