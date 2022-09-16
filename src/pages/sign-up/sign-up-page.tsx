@@ -35,12 +35,12 @@ export const SignUpPage = () => {
     >
       <div className="field-container">
         <TextBox label="username" variant="dark" value={userName} onChange={setUserName} />
-        {_getLabelError('', (formError) => formError.username)}
+        {getLabelError('', (formError) => formError.username)}
       </div>
 
       <div className="field-container">
         <TextBox label="email" variant="dark" value={email} onChange={setEmail} />
-        {_getLabelError('', (formError) => formError.email)}
+        {getLabelError('', (formError) => formError.email)}
       </div>
 
       <div className="field-container">
@@ -60,13 +60,26 @@ export const SignUpPage = () => {
             onChange={setConfirmPassword}
           />
         </div>
-        {_getLabelError(
+        {getLabelError(
           'Use 6 or more characters with at least one of each: upper & lower letters, numbers, symbols.',
           (formError) => formError.password
         )}
       </div>
     </RegistrationPanel>
   );
+
+  function getLabelError(
+    init: string,
+    formErrorValue: (formError: FormError) => string | undefined
+  ) {
+    const errorValue = formErrorValue(formError ?? {});
+    if (!init && !errorValue) {
+      return undefined;
+    }
+
+    const errorClass = errorValue ? 'error' : '';
+    return <div className={`info-text ${errorClass}`}>{errorValue ?? init}</div>;
+  }
 
   function handleSwapPanelClick() {
     navigate(paths.signIn);
@@ -77,19 +90,19 @@ export const SignUpPage = () => {
     {
       const newFormError: FormError = {};
       if (userName === '') {
-        newFormError.username = 'Username should not be empty.';
+        newFormError.username ??= 'Username should not be empty.';
       }
       if (email === '') {
-        newFormError.email = 'Email should not be empty.';
+        newFormError.email ??= 'Email should not be empty.';
       }
       if (!email.includes('@')) {
-        newFormError.email = `This doesn't appear to be a valid email.`;
+        newFormError.email ??= `This doesn't appear to be a valid email.`;
       }
       if (password != confirmPassword) {
-        newFormError.password = `Those passwords didn't match. Try again.`;
+        newFormError.password ??= `Those passwords didn't match. Try again.`;
       }
       if (password.length < 6) {
-        newFormError.password = `Use 6 characters or more for your password.`;
+        newFormError.password ??= `Use 6 characters or more for your password.`;
       }
 
       if (!isEmptyObject(newFormError)) {
@@ -121,32 +134,19 @@ export const SignUpPage = () => {
     } else {
       const identityErrors = data.response;
       const newFormError: FormError = {};
-      // apply all errors, but last error of group takes precedence if there are multiple
+      // apply all errors, but first error of group takes precedence if there are multiple
       identityErrors.forEach((err) => {
         const code: IdentityErrorCode = err.code;
         const desc: string = err.description;
         if (code.includes('UserName')) {
-          newFormError.username = desc;
+          newFormError.username ??= desc;
         } else if (code.includes('Email')) {
-          newFormError.email = desc;
+          newFormError.email ??= desc;
         } else if (code.includes('Password')) {
-          newFormError.password = desc;
+          newFormError.password ??= desc;
         }
       });
       setFormError(newFormError);
     }
-  }
-
-  function _getLabelError(
-    init: string,
-    formErrorValue: (formError: FormError) => string | undefined
-  ) {
-    const errorValue = formErrorValue(formError ?? {});
-    if (!init && !errorValue) {
-      return undefined;
-    }
-
-    const errorClass = errorValue ? 'error' : '';
-    return <div className={`info-text ${errorClass}`}>{errorValue ?? init}</div>;
   }
 };

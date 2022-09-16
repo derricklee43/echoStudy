@@ -61,7 +61,6 @@ export function useUserClient() {
       }
     } catch (error) {
       // data is an array of IdentityErrors
-      debugger;
       if (isFetchError(error) && error.statusCode === 400) {
         if (Array.isArray(error.response)) {
           return { statusCode: 400, response: error.response };
