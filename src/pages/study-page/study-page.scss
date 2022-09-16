@@ -3,16 +3,13 @@
 
 .study-page {
   .study-page-content {
-    max-width: 500px;
     margin: auto;
     @include flex-center;
     flex-direction: column;
 
     .pulsing-microphone-container {
-      width: 100%;
       height: 26px;
-      box-sizing: border-box;
-      margin-left: 50px;
+      margin-left: 10px;
       .pulsing-microphone {
         @include flex-center;
         @include infinite-pulse;
@@ -26,7 +23,6 @@
 
     .study-page-progress-bar {
       padding: 40px 0px 20px 0px;
-      width: 100%;
     }
   }
 }

@@ -45,24 +45,26 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
       <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="Go back" />
 
       <div className="study-page-content">
-        <div className="pulsing-microphone-container">
-          <AnimatePresence>
-            {isCapturingSpeech && (
-              <Fade fadeIn={true}>
-                <div className="pulsing-microphone">
-                  <MicrophoneIcon />
-                </div>
-              </Fade>
-            )}
-          </AnimatePresence>
+        <div>
+          <div className="pulsing-microphone-container">
+            <AnimatePresence>
+              {isCapturingSpeech && (
+                <Fade fadeIn={true}>
+                  <div className="pulsing-microphone">
+                    <MicrophoneIcon />
+                  </div>
+                </Fade>
+              )}
+            </AnimatePresence>
+          </div>
+          {showCover ? getCover() : getCard()}
+          <ProgressBar
+            variant="white"
+            percent={percentComplete}
+            label=""
+            className="study-page-progress-bar"
+          />
         </div>
-        {showCover ? getCover() : getCard()}
-        <ProgressBar
-          variant="white"
-          percent={percentComplete}
-          label=""
-          className="study-page-progress-bar"
-        />
         {!isLessonComplete && (
           <AudioControlBar
             isPaused={isPaused}
