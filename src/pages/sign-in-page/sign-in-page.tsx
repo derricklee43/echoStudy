@@ -11,11 +11,14 @@ export const SignInPage = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   return (
     <RegistrationPanel
       formHeader="sign in to your account"
       submitLabel="sign in"
       swapPanelLabel="create an account"
+      submitLabelLoading={isSubmitting}
       onSubmitClick={handleSubmitClick}
       onSwapPanelClick={handleSwapPanelClick}
     >
@@ -30,8 +33,14 @@ export const SignInPage = () => {
     </RegistrationPanel>
   );
 
-  function handleSubmitClick() {
-    userClient.login(userName, password).then((success) => {
+  async function handleSubmitClick() {
+    if (isSubmitting) {
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const success = await userClient.login(userName, password);
       if (success) {
         // navigate to the previous page redirected here, or /decks page as a fallback
         const hasPreviousPage = window.history.state && window.history.state.idx > 0;
@@ -41,7 +50,9 @@ export const SignInPage = () => {
           navigate(paths.decks);
         }
       }
-    });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function handleSwapPanelClick() {
