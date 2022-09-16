@@ -138,7 +138,7 @@ export const SignUpPage = () => {
       if (data.statusCode === 200) {
         const { id } = data.response;
         console.log('Successfully registered:', id);
-        // sign in and redirect to decks page; but with an artificial delay since humans are distrusting
+        // sign in and redirect to decks page
         const success = await userClient.login(email, password);
         if (success) {
           navigate(paths.decks);

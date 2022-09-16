@@ -76,7 +76,7 @@ export function useUserClient() {
    * @side_effect Writes the auth JWT to local storage and recoil atom state
    * @returns True if no user credentials were correct and the side-effect occurred, otherwise false.
    */
-  async function login(username: string, password: string): Promise<boolean> {
+  async function login(email: string, password: string): Promise<boolean> {
     const numRetries = 0; // don't retry (e.g. 401 means incorrect user creds)
 
     // if jwt exists, we just refresh the token and early exit
@@ -90,11 +90,10 @@ export function useUserClient() {
     // authenticate the user
     try {
       const payload = {
-        username: username,
+        username: email,
         password: password,
       };
       const jwtData = await fetchWrapper.post('/Authenticate', payload, numRetries);
-      console.log(payload, jwtData);
       const authJwt = jsonToAuthJwt(jwtData);
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, authJwt);
       setAuthJwt(authJwt);
