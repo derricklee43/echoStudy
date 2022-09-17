@@ -17,7 +17,7 @@ export type SortRule = SortRules[number];
 // mutatable: raw user decks
 export const userDecksState = atom<Deck[]>({
   key: 'userDecksState',
-  default: [testEnglishDeck(0)],
+  default: [],
 });
 
 // mutatable: sort order
