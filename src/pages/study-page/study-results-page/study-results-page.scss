@@ -1,0 +1,90 @@
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+.study-results-page {
+  @include flex-center;
+  flex-direction: column;
+  color: $white;
+  padding-bottom: 30px;
+
+  hr {
+    @include light-hr;
+  }
+
+  .study-results-page-header {
+    @include flex-center;
+    margin: 20px;
+    width: 100%;
+
+    > * {
+      @include flex-center;
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+
+    h1 {
+      text-align: center;
+      min-width: fit-content;
+      margin: 20px;
+    }
+
+    .study-results-page-nav-buttons {
+      justify-content: flex-end;
+      gap: 20px;
+    }
+
+    @media screen and (max-width: $large-screen) {
+      flex-direction: column;
+
+      .study-results-page-nav-buttons {
+        justify-content: center;
+      }
+    }
+  }
+
+  .lesson-stat {
+    @include flex-center;
+    font-size: 25px;
+    margin: 20px;
+    width: 100%;
+    gap: 40px;
+
+    .lesson-stat-label,
+    .lesson-stat-result {
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+
+    .lesson-stat-label {
+      color: $light-blue;
+      text-align: right;
+    }
+
+    .lesson-stat-result {
+      @include flex-center;
+      justify-content: flex-start;
+
+      .lesson-stat-icon {
+        margin-left: 10px;
+        width: 45px;
+        height: 45px;
+      }
+    }
+  }
+
+  .studied-cards-divider {
+    width: 100%;
+    margin: 20px 0px;
+  }
+
+  .study-results-flashcard {
+    @include flex-center;
+    width: 100%;
+
+    .study-results-flashcard-icon {
+      width: 50px;
+      @include flex-center;
+      margin-right: 10px;
+    }
+  }
+}

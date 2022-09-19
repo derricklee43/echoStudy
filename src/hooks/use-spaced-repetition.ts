@@ -1,5 +1,5 @@
-import { daysBetween } from '../helpers/func';
 import { compare, shuffle } from '../helpers/sort';
+import { daysBetween } from '../helpers/time';
 import { Card } from '../models/card';
 import { Deck } from '../models/deck';
 

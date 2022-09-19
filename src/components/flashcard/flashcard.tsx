@@ -2,24 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import { CardFace } from './card-face/card-face';
 import { Card } from '../../models/card';
 import { CardContent } from '../../models/card-content';
-import { LazyAudio } from '../../models/lazy-audio';
 import './flashcard.scss';
 
 interface FlashcardProps {
   card: Card;
-  variant: 'active' | 'inactive' | 'readonly';
-  onCardChange?: (card: Card) => void;
-  onFocus?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
-  onSpeakerClick?: (audioFile?: LazyAudio) => void;
+  variant: 'active' | 'inactive';
+  onCardChange: (card: Card) => void;
+  onFocus: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
 }
 
-export const Flashcard = ({
-  variant,
-  card,
-  onCardChange,
-  onFocus,
-  onSpeakerClick,
-}: FlashcardProps) => {
+export const Flashcard = ({ variant, card, onCardChange, onFocus }: FlashcardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   useEffect(() => scrollIntoViewIfActive(), [variant]);
 
@@ -33,7 +25,6 @@ export const Flashcard = ({
         cardContent={card.front}
         onFocus={onFocus}
         onChange={handleFrontFaceChange}
-        onSpeakerClick={onSpeakerClick}
         onSwapContentClick={handleSwapContentClick}
       />
       <CardFace
@@ -45,18 +36,17 @@ export const Flashcard = ({
         cardContent={card.back}
         onFocus={onFocus}
         onChange={handleBackFaceChange}
-        onSpeakerClick={onSpeakerClick}
         onSwapContentClick={handleSwapContentClick}
       />
     </div>
   );
 
   function handleFrontFaceChange(cardContent: CardContent) {
-    onCardChange?.({ ...card, front: cardContent });
+    onCardChange({ ...card, front: cardContent });
   }
 
   function handleBackFaceChange(cardContent: CardContent) {
-    onCardChange?.({ ...card, back: cardContent });
+    onCardChange({ ...card, back: cardContent });
   }
 
   function isCardInViewPort(cardDiv: HTMLDivElement) {
@@ -68,7 +58,7 @@ export const Flashcard = ({
     const newCardFront = { ...card.back };
     const newCardBack = { ...card.front };
     const newCard = { ...card, front: newCardFront, back: newCardBack };
-    onCardChange?.(newCard);
+    onCardChange(newCard);
   }
 
   function scrollIntoViewIfActive() {

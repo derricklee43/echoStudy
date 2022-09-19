@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Fade } from '../../animations/fade';
 import { Button } from '../../components/button/button';
 import { PageHeader } from '../../components/page-header/page-header';
-import { ReadOnlyFlashcardSet } from '../../components/read-only-flashcard-set/read-only-flashcard-set';
+import { ReadOnlyFlashcard } from '../../components/read-only-flashcard/read-only-flashcard';
+import { getFormattedDate } from '../../helpers/time';
+import { useLazyAudioPlayer } from '../../hooks/use-lazy-audio-player';
 import { Deck } from '../../models/deck';
 import { paths } from '../../routing/paths';
 import './view-deck-page.scss';
@@ -13,6 +15,7 @@ interface ViewDeckPageProps {
 }
 
 export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
+  const { playLazyAudio } = useLazyAudioPlayer();
   const navigate = useNavigate();
 
   return (
@@ -37,26 +40,27 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
       <div>{`created ${getFormattedDate(deck.metaData.dateCreated)}`}</div>
       <hr className="view-deck-divider" />
       {deck.cards.length > 0 ? (
-        <ReadOnlyFlashcardSet cards={deck.cards} />
+        getFlashcards()
       ) : (
         <div className="empty-card-set-placeholder">you currently have no cards in this deck</div>
       )}
     </Fade>
   );
 
-  function navigateBackToDecks() {
-    navigate(paths.decks);
+  function getFlashcards() {
+    return deck.cards.map((card) => (
+      <ReadOnlyFlashcard
+        key={card.key}
+        variant="light-blue"
+        frontText={card.front.text}
+        backText={card.back.text}
+        onFrontSpeakerClick={() => playLazyAudio(card.front.audio)}
+        onBackSpeakerClick={() => playLazyAudio(card.back.audio)}
+      />
+    ));
   }
 
-  function getFormattedDate(date: Date) {
-    const year = date.getFullYear();
-
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-
-    return month + '/' + day + '/' + year;
+  function navigateBackToDecks() {
+    navigate(paths.decks);
   }
 };
