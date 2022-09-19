@@ -40,12 +40,7 @@ export const ReadOnlyFlashcard = ({
       return undefined;
     }
     return (
-      <Button
-        onClick={() => onClick()}
-        variant="invisible"
-        bubbleOnClickEvent={false}
-        ariaLabel="speaker"
-      >
+      <Button onClick={onClick} variant="invisible" ariaLabel="speaker">
         <SpeakerIcon className="rof-speaker-icon" variant={variant} />
       </Button>
     );
