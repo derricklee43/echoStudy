@@ -2,6 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import {
+  IdentityError,
+  isRegisterSuccess,
+  RegisterSuccess,
+  RegisterUserInfo,
+  registerUserInfoToJson,
+} from '../../models/register-user';
 import { paths } from '../../routing/paths';
 import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
@@ -20,17 +27,56 @@ export function useUserClient() {
   const navigate = useNavigate();
 
   return {
+    register,
     login,
     loginDebug, // remove this once we have user login page
     logout,
   };
 
   /**
+   * POST: /Register
+   * Registers a new user. If successful, returns an object with 'id' (the user ID).
+   * Otherwise, an array of IdentityErrors (object with 'code' and 'description').
+   */
+  async function register(userInfo: RegisterUserInfo): Promise<
+    | {
+        statusCode: 200;
+        response: RegisterSuccess;
+      }
+    | {
+        statusCode: 400;
+        response: IdentityError[];
+      }
+    | undefined
+  > {
+    const numRetries = 0;
+
+    try {
+      const payload = registerUserInfoToJson(userInfo);
+      const response = await fetchWrapper.post('/Register', payload, numRetries);
+      if (isRegisterSuccess(response)) {
+        return { statusCode: 200, response };
+      } else {
+        throw new Error('Expected register success to have id (userId), but got none');
+      }
+    } catch (error) {
+      // data is an array of IdentityErrors
+      if (isFetchError(error) && error.statusCode === 400) {
+        if (Array.isArray(error.response)) {
+          return { statusCode: 400, response: error.response };
+        } else {
+          throw new Error('Expected identity errors, but got none');
+        }
+      }
+    }
+  }
+
+  /**
    * POST: /Authenticate (or /Refresh if auth JWT in local storage already exists)
    * @side_effect Writes the auth JWT to local storage and recoil atom state
    * @returns True if no user credentials were correct and the side-effect occurred, otherwise false.
    */
-  async function login(username: string, password: string): Promise<boolean> {
+  async function login(email: string, password: string): Promise<boolean> {
     const numRetries = 0; // don't retry (e.g. 401 means incorrect user creds)
 
     // if jwt exists, we just refresh the token and early exit
@@ -44,7 +90,7 @@ export function useUserClient() {
     // authenticate the user
     try {
       const payload = {
-        username: username,
+        username: email,
         password: password,
       };
       const jwtData = await fetchWrapper.post('/Authenticate', payload, numRetries);

@@ -23,7 +23,7 @@ export function createNewLessonCard(
 ): LessonCard {
   const { front, back, ...rest } = card;
   const newFront = createNewLessonCardContent(front, deck.metaData.frontLang);
-  const newBack = createNewLessonCardContent(front, deck.metaData.backLang);
+  const newBack = createNewLessonCardContent(back, deck.metaData.backLang);
   return { ...rest, front: newFront, back: newBack, outcome: 'unseen', repeatDefinitionCount };
 }
 
