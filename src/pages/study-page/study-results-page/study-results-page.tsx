@@ -112,16 +112,16 @@ export const StudyResultsPage = ({ deck, lessonCards, lessonTime }: StudyResults
       const icon = icons[card.outcome];
       const variant = variants[card.outcome];
       return (
-        <div key={card.key} className="study-results-flashcard">
+        <div key={card.key} className="study-results-flashcard-container">
           <div className="study-results-flashcard-icon">{icon}</div>
           <ReadOnlyFlashcard
+            className="study-results-flashcard"
             variant={variant}
             frontText={card.front.text}
             backText={card.back.text}
             onFrontSpeakerClick={() => playLazyAudio(card.front.audio)}
             onBackSpeakerClick={() => playLazyAudio(card.back.audio)}
           />
-          <div className="study-results-flashcard-icon"></div>
         </div>
       );
     });

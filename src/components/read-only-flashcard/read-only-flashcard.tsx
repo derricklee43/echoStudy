@@ -6,6 +6,7 @@ import './read-only-flashcard.scss';
 export type ReadOnlyFlashcardVariant = 'red' | 'green' | 'light-blue';
 
 interface ReadOnlyFlashcardProps {
+  className?: string;
   frontText: string;
   backText: string;
   onBackSpeakerClick: () => void;
@@ -14,6 +15,7 @@ interface ReadOnlyFlashcardProps {
 }
 
 export const ReadOnlyFlashcard = ({
+  className = '',
   variant,
   frontText,
   backText,
@@ -21,7 +23,7 @@ export const ReadOnlyFlashcard = ({
   onBackSpeakerClick,
 }: ReadOnlyFlashcardProps) => {
   return (
-    <div className={`read-only-flashcard ${variant}`}>
+    <div className={`read-only-flashcard ${variant} ${className}`}>
       <div className="rof-card-face">
         <div className="rof-button-strip">{getSpeaker(frontText, onFrontSpeakerClick)}</div>
         <div className="rof-content">{frontText}</div>

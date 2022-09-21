@@ -24,15 +24,11 @@ export function dateToUtcMs(date: Date): number {
  * @returns returns the date formatted as MM/DD/YYYY
  */
 export function getFormattedDate(date: Date) {
-  const year = date.getFullYear();
-
-  let month = (1 + date.getMonth()).toString();
-  month = month.length > 1 ? month : '0' + month;
-
-  let day = date.getDate().toString();
-  day = day.length > 1 ? day : '0' + day;
-
-  return month + '/' + day + '/' + year;
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 }
 
 /**
