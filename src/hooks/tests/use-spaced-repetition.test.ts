@@ -83,7 +83,6 @@ describe('useSpacedRepetition', () => {
     expect(onlyCardTexts(['fox'], gather(25))).toBe(true);
 
     // 25 < N <= 50, has fox, mouse
-    console.log(gather(26));
     expect(onlyCardTexts(['fox', 'mouse'], gather(26))).toBe(true);
     expect(onlyCardTexts(['fox', 'mouse'], gather(38))).toBe(true);
     expect(onlyCardTexts(['fox', 'mouse'], gather(50))).toBe(true);

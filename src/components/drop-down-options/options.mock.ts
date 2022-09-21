@@ -5,7 +5,7 @@ export const createTestOptions = (size: number): DropDownOption<string>[] =>
   [...Array(size)].map((_, index) => ({
     id: `test${index}`,
     value: `test${index}`,
-    focusable: false,
+    focusable: true,
   }));
 
 export const TEST_OPTIONS_SINGLE: DropDownOption<string>[] = createTestOptions(1);

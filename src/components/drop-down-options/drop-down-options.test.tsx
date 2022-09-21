@@ -67,4 +67,23 @@ describe('DropDownOptions', () => {
     userEvent.click(screen.getByText(secondOptionText));
     expect(mockOnOptionSelect).toBeCalledWith(secondOptionText);
   });
+
+  it('should ignore click on dropdown option when not focusable', () => {
+    const mockOnOptionSelect = jest.fn();
+    const testOptions = [...TEST_OPTIONS_SMALL];
+    testOptions[0] = { ...TEST_OPTIONS_SMALL[0], focusable: false };
+    render(
+      <DropDownOptions
+        ellipsisOverflow={false}
+        show={true}
+        options={testOptions}
+        onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
+      />
+    );
+
+    // target element at index 1 (so, 2nd element)
+    const firstOptionText = TEST_OPTIONS_SMALL_VALUES[0];
+    userEvent.click(screen.getByText(firstOptionText));
+    expect(mockOnOptionSelect).not.toHaveBeenCalled();
+  });
 });
