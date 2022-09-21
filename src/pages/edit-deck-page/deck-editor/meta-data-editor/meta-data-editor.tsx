@@ -38,6 +38,7 @@ export const MetaDataEditor = ({
       </div>
       <div className="c-description-and-import-buttons">
         <TextArea
+          className="description-text-area"
           lines={2}
           label="description"
           variant="dark"
@@ -45,13 +46,15 @@ export const MetaDataEditor = ({
           value={deckMetaData.desc}
           onChange={handleDeckDescChange}
         />
-        <Button onClick={handleImportClick} size="medium">
-          import cards
-        </Button>
-        <ImportCardsPopup showPopup={showImportModal} onClose={handleImportCardsPopupClose} />
-        <Button onClick={handleExportClick} size="medium">
-          export deck
-        </Button>
+        <div className="popup-buttons">
+          <Button onClick={handleImportClick} size="medium">
+            import cards
+          </Button>
+          <ImportCardsPopup showPopup={showImportModal} onClose={handleImportCardsPopupClose} />
+          <Button onClick={handleExportClick} size="medium">
+            export deck
+          </Button>
+        </div>
       </div>
       <BubbleDivider
         variantType="drop-down"

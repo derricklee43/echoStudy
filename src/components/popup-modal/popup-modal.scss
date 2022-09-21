@@ -5,10 +5,9 @@
 $bg-opacity: 0.33; // opacity to set background if modal is open
 $x-axis: 50%; // where to place popup on x-axis
 $y-axis: 25%; // where to place popup on y-axis
-$modal-z-index: 1000;
 
 .c-popup-modal-overlay {
-  z-index: $modal-z-index;
+  z-index: $z-popup-modal;
   position: fixed;
   inset: 0;
   min-width: 100%;
@@ -28,7 +27,7 @@ $modal-z-index: 1000;
 }
 
 .c-popup-modal-content {
-  z-index: $modal-z-index;
+  z-index: $z-popup-modal;
   position: absolute;
   left: $x-axis;
   top: $y-axis;

@@ -68,5 +68,9 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
       height: calc($content-height + 16px); // to offset flashcard-decks margin shrinking
       padding: 16px ($content-padding / 2);
     }
+
+    @media screen and (max-width: $small-screen) {
+      padding: 12px 8px;
+    }
   }
 }

@@ -3,6 +3,7 @@ import { ReactComponent as LockIcon } from '../../assets/svg/security-lock.svg';
 import './text-area.scss';
 
 export interface TextAreaProps {
+  className?: string;
   lines: number;
   value?: string;
   label?: React.ReactNode;
@@ -15,6 +16,7 @@ export interface TextAreaProps {
 }
 
 export const TextArea = ({
+  className = '',
   lines,
   value = '',
   label,
@@ -28,7 +30,7 @@ export const TextArea = ({
   const [isFocused, setFocused] = useState(false);
 
   return (
-    <div className={`c-text-area-wrapper ${variant}`}>
+    <div className={`c-text-area-wrapper ${variant} ${className}`}>
       {label && (
         <label className={`c-text-area-label ${shouldShowAsLegend() ? 'as-legend' : ''}`}>
           {label}

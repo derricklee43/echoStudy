@@ -9,9 +9,16 @@
 
     .deck-editor-save-buttons {
       @include flex-center;
+      gap: 16px;
+
+      @media screen and (max-width: $tiny-screen) {
+        flex-direction: column;
+        align-items: end;
+        gap: 8px;
+      }
+
       .discard-changes-button {
         @include standard-transition;
-        margin-right: 15px;
         border: 1px solid transparent;
         color: $light-blue;
 
