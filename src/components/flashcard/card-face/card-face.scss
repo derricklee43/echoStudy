@@ -41,19 +41,10 @@ $button-strip-height: 35px;
     cursor: default;
   }
 
-  .card-face-button {
+  .c-card-menu {
     position: absolute;
     top: 0;
-
-    &.card-face-kebab-menu {
-      right: 10px;
-    }
-
-    svg {
-      height: 30px;
-      padding-top: 5px;
-      padding-left: 5px;
-    }
+    right: 0;
   }
 
   .card-face-textarea {

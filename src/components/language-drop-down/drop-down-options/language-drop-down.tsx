@@ -6,6 +6,7 @@ import { DropDownOption } from '../../drop-down-options/drop-down-options';
 import './language-drop-down.scss';
 
 interface LanguageDropDownProps<T extends DeckLanguages | CardLanguages> {
+  className?: string;
   languages: T;
   language: T[number];
   label: string;
@@ -15,6 +16,7 @@ interface LanguageDropDownProps<T extends DeckLanguages | CardLanguages> {
 }
 
 export const LanguageDropDown = <T extends DeckLanguages | CardLanguages>({
+  className = '',
   languages,
   language,
   label,
@@ -22,9 +24,9 @@ export const LanguageDropDown = <T extends DeckLanguages | CardLanguages>({
   onLanguageSelect,
 }: LanguageDropDownProps<T>) => {
   const langIconVariant = variant === 'light' ? 'dark' : 'light';
-  const languageOptions = languages.map((lang) => ({ id: lang, value: lang }));
+  const languageOptions = languages.map((lang) => ({ id: lang, value: lang, focusable: true }));
   return (
-    <div className="c-language-drop-down">
+    <div className={`c-language-drop-down ${className}`}>
       <div>
         <LanguageIcon className="language-drop-down-icon" variant={langIconVariant} />
       </div>

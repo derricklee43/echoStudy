@@ -35,7 +35,12 @@ export const DropDown = <T extends React.ReactNode>({
       <label className={accentVariant}>{label}</label>
       <div className={`drop-down-menu ${className}`} ref={dropDownMenuRef}>
         {getDropDownButton()}
-        <DropDownOptions show={isOpen} options={options} onOptionSelect={handleOptionSelect} />
+        <DropDownOptions
+          show={isOpen}
+          options={options}
+          onOptionSelect={handleOptionSelect}
+          ellipsisOverflow={false}
+        />
       </div>
     </div>
   );

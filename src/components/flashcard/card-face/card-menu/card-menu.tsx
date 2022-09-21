@@ -1,11 +1,8 @@
-import React, { useRef, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { Fade } from '../../../../animations/fade';
-import { KebabMenuIcon } from '../../../../assets/icons/kebab-menu-icon/kebab-menu-icon';
+import React, { useState } from 'react';
 import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
-import { useOutsideClick } from '../../../../hooks/use-outside-click';
 import { AllCardLanguages, CardLanguage } from '../../../../models/language';
-import { Button } from '../../../button/button';
+import { DropDownOption } from '../../../drop-down-options/drop-down-options';
+import { KebabMenu } from '../../../kebab-menu/kebab-menu';
 import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
 import './card-menu.scss';
 
@@ -24,44 +21,39 @@ export const CardMenu = ({
   onLanguageChange,
   onSwapContentClick,
 }: CardFaceProps) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const dropDownMenuRef = useRef(null);
-  useOutsideClick(dropDownMenuRef, () => setShowMenu(false));
-  return (
-    <div className="c-card-menu" ref={dropDownMenuRef}>
-      <Button
-        onClick={() => setShowMenu(!showMenu)}
-        variant="invisible"
-        bubbleOnClickEvent={false}
-        className="card-face-button card-face-kebab-menu"
-        ariaLabel="kebab-menu"
-      >
-        <KebabMenuIcon />
-      </Button>
-      <AnimatePresence>
-        {showMenu && (
-          <Fade fadeIn={false} className="floating-menu">
-            <div className="menu-item language-menu-item">
-              <LanguageDropDown
-                languages={AllCardLanguages}
-                language={language}
-                onLanguageSelect={onLanguageChange}
-                label={changeLanguageLabel}
-                variant="light"
-              />
-            </div>
-            <div className="menu-item button-item" onClick={handleSwapContentClick}>
-              <SwapIcon variant="dark" className="menu-item-icon" />
-              {swapContentLabel}
-            </div>
-          </Fade>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+  const [isOpen, setIsOpen] = useState(false);
+
+  const a: DropDownOption<React.ReactNode>[] = [
+    { id: 'lang', focusable: false, value: getLanguageDropdownOption() },
+    { id: 'swap', focusable: true, value: getSwapOption() },
+  ];
+
+  return <KebabMenu className="c-card-menu" options={a} isOpen={isOpen} setIsOpen={setIsOpen} />;
+
+  function getLanguageDropdownOption() {
+    return (
+      <LanguageDropDown
+        className="card-menu-language-dropdown"
+        languages={AllCardLanguages}
+        language={language}
+        onLanguageSelect={onLanguageChange}
+        label={changeLanguageLabel}
+        variant="light"
+      />
+    );
+  }
+
+  function getSwapOption() {
+    return (
+      <div className="card-menu-swap-option" onClick={handleSwapContentClick}>
+        <SwapIcon variant="dark" className="card-menu-swap-icon" />
+        {swapContentLabel}
+      </div>
+    );
+  }
 
   function handleSwapContentClick() {
     onSwapContentClick();
-    setShowMenu(false);
+    setIsOpen(false);
   }
 };

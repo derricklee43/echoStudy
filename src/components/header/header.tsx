@@ -72,7 +72,11 @@ export const Header = ({ className = '', showSearchBar = true, fixed = true }: H
   }
 
   function getDeckOptions(): DropDownOption<string>[] {
-    return decks.map((deck) => ({ id: deck.metaData.id.toString(), value: deck.metaData.title }));
+    return decks.map((deck) => ({
+      id: deck.metaData.id.toString(),
+      value: deck.metaData.title,
+      focusable: true,
+    }));
   }
 
   function handleSignUpClick() {
