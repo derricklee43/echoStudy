@@ -19,6 +19,7 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
     .c-header-title {
       @media screen and (max-width: $medium-screen) {
         flex: 1;
+        padding: unset;
       }
     }
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { rootCertificates } from 'tls';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '../../assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { useUserClient } from '../../hooks/api/use-user-client';
