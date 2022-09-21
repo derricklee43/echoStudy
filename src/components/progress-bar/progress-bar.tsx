@@ -5,12 +5,19 @@ import './progress-bar.scss';
 
 interface ProgressBarProps {
   className?: string;
+  onAnimationComplete?: () => void;
   percent: number;
   label?: string;
   variant: 'gradient' | 'white';
 }
 
-export const ProgressBar = ({ className = '', percent, label, variant }: ProgressBarProps) => {
+export const ProgressBar = ({
+  className = '',
+  percent,
+  label,
+  variant,
+  onAnimationComplete,
+}: ProgressBarProps) => {
   const progress = `${clamp(percent, 0, 100)}%`;
   return (
     <div className={`c-progress-bar ${className}`}>
@@ -22,6 +29,7 @@ export const ProgressBar = ({ className = '', percent, label, variant }: Progres
           initial={{ width: progress }}
           animate={{ width: progress }}
           transition={{ duration: 0.4, ease: 'easeInOut' }}
+          onAnimationComplete={onAnimationComplete}
         />
       </div>
     </div>

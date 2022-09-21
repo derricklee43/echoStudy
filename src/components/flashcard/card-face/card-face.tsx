@@ -1,24 +1,20 @@
 import React, { useRef } from 'react';
 import TextareaAutoSize from 'react-textarea-autosize';
 import { CardMenu } from './card-menu/card-menu';
-import { SpeakerIcon } from '../../../assets/icons/speaker-icon/speaker-icon';
 import { CardContent } from '../../../models/card-content';
 import { CardLanguage } from '../../../models/language';
-import { LazyAudio } from '../../../models/lazy-audio';
-import { Button } from '../../button/button';
 import './card-face.scss';
 
 interface CardFaceProps {
   cardContent: CardContent;
-  placeholder?: string;
-  changeLanguageLabel?: string;
-  swapContentLabel?: string;
-  variant?: 'active' | 'inactive' | 'readonly';
+  placeholder: string;
+  changeLanguageLabel: string;
+  swapContentLabel: string;
+  variant: 'active' | 'inactive';
   className?: string;
-  onChange?: (cardContent: CardContent) => void;
-  onFocus?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
-  onSpeakerClick?: (audioFile?: LazyAudio) => void;
-  onSwapContentClick?: () => void;
+  onChange: (cardContent: CardContent) => void;
+  onFocus: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
+  onSwapContentClick: () => void;
 }
 
 export const CardFace = ({
@@ -26,33 +22,28 @@ export const CardFace = ({
   placeholder,
   changeLanguageLabel,
   swapContentLabel,
-  variant = 'inactive',
+  variant,
   className = '',
-  onSpeakerClick,
   onChange,
   onFocus,
   onSwapContentClick,
 }: CardFaceProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const isReadonly = variant === 'readonly';
-  const hasText = cardContent.text.length !== 0;
 
   return (
     <div className={`card-face ${className} ${variant}`} onClick={handleCardFaceClick}>
-      {isReadonly && hasText && getSpeaker()}
       {variant === 'active' && (
         <CardMenu
           language={cardContent.language}
-          changeLanguageLabel={changeLanguageLabel ?? ''}
-          swapContentLabel={swapContentLabel ?? ''}
+          changeLanguageLabel={changeLanguageLabel}
+          swapContentLabel={swapContentLabel}
           onLanguageChange={handleLanguageChange}
-          onSwapContentClick={() => onSwapContentClick?.()}
+          onSwapContentClick={onSwapContentClick}
         />
       )}
       <TextareaAutoSize
-        disabled={isReadonly}
         className="card-face-textarea"
-        placeholder={!isReadonly ? placeholder : undefined}
+        placeholder={placeholder}
         value={cardContent.text}
         onChange={handleCardTextChange}
         onFocus={onFocus}
@@ -61,29 +52,15 @@ export const CardFace = ({
     </div>
   );
 
-  function getSpeaker() {
-    return (
-      <Button
-        onClick={() => onSpeakerClick?.(cardContent.audio)}
-        variant="invisible"
-        bubbleOnClickEvent={false}
-        className="card-face-button"
-        ariaLabel="speaker"
-      >
-        <SpeakerIcon />
-      </Button>
-    );
-  }
-
   function handleCardFaceClick() {
     textAreaRef.current?.focus?.();
   }
 
   function handleCardTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
-    onChange?.({ ...cardContent, text: event.currentTarget.value });
+    onChange({ ...cardContent, text: event.currentTarget.value });
   }
 
   function handleLanguageChange(language: CardLanguage) {
-    onChange?.({ ...cardContent, language });
+    onChange({ ...cardContent, language });
   }
 };

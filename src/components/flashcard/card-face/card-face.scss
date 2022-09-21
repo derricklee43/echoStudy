@@ -30,15 +30,10 @@ $button-strip-height: 35px;
     }
   }
 
-  &.inactive,
-  &.readonly {
+  &.inactive {
     background-color: $black;
     border: 1px solid $light-blue;
     color: $light-blue;
-  }
-
-  &.readonly {
-    cursor: default;
   }
 
   .c-card-menu {

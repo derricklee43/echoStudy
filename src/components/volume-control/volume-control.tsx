@@ -17,7 +17,7 @@ export const VolumeControl = ({ volume, setVolume }: VolumeControlProps) => {
   return (
     <div className="c-volume-control">
       <div className="c-volume-control-speaker-icon">
-        <SpeakerIcon variant="light" />
+        <SpeakerIcon variant="white" />
       </div>
       <div>
         <input

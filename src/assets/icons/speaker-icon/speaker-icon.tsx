@@ -4,9 +4,9 @@ import './speaker-icon.scss';
 
 interface SpeakerIconProps {
   className?: string;
-  variant?: 'light' | 'dark';
+  variant?: 'white' | 'light-blue' | 'green' | 'red';
 }
 
-export const SpeakerIcon = ({ className = '', variant = 'dark' }: SpeakerIconProps) => {
+export const SpeakerIcon = ({ className = '', variant = 'light-blue' }: SpeakerIconProps) => {
   return <SpeakerSvg className={`speaker-icon ${variant} ${className}`} />;
 };

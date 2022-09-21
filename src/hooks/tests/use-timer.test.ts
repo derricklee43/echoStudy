@@ -9,7 +9,7 @@ describe('useTimer', () => {
   });
 
   it('should call callback when timer runs out after calling setTimer', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -20,7 +20,7 @@ describe('useTimer', () => {
   });
 
   it('should not call callback before timer run out', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -31,7 +31,7 @@ describe('useTimer', () => {
   });
 
   it('should not call callback when timer expires if pauseTimer is called', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -44,7 +44,7 @@ describe('useTimer', () => {
   });
 
   it('should call callback when resumed and the timer runs out', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -60,7 +60,7 @@ describe('useTimer', () => {
   });
 
   it('should not callback when resumed after clearing the timer', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -74,7 +74,7 @@ describe('useTimer', () => {
   });
 
   it('should not call callback twice if setTimer is called twice', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -87,7 +87,7 @@ describe('useTimer', () => {
   });
 
   it('should not call callback twice if setTimer and resumeTimer is called ', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -100,7 +100,7 @@ describe('useTimer', () => {
   });
 
   it('should not call callback twice if resumeTimer is called twice', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -114,7 +114,7 @@ describe('useTimer', () => {
   });
 
   it('should allow new timers after timer has been cleared', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 200));
@@ -128,7 +128,7 @@ describe('useTimer', () => {
   });
 
   it('should not loose time when played and paused', () => {
-    withFakeTimers(async () => {
+    return withFakeTimers(async () => {
       const { result } = renderHook(() => useTimer());
 
       act(() => result.current.setTimer(mockCallback, 500));

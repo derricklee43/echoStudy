@@ -14,8 +14,13 @@ $label-legend-font-size: 12px;
   box-sizing: border-box;
   width: 100%;
 
-  &.dark {
+  &.dark,
+  &.dark-white {
     background-color: $black;
+  }
+
+  &.light {
+    background-color: white;
   }
 }
 
@@ -24,8 +29,6 @@ $label-legend-font-size: 12px;
   min-height: $label-font-size + 2; // account for input border
   padding: 0px 2px;
   font-size: $label-font-size;
-  background-color: $white;
-  color: $grey;
   transition: transform 100ms ease-in-out;
 
   &.as-legend {
@@ -34,8 +37,21 @@ $label-legend-font-size: 12px;
     transform: translate(16px, $label-font-size - 2px);
   }
 
-  .dark & {
+  .light & {
+    background-color: $white;
+    color: $grey;
+  }
+
+  .dark &,
+  .dark-white & {
     background-color: $black;
+  }
+
+  .dark & {
+    color: $light-blue;
+  }
+
+  .dark-white & {
     color: $white;
   }
 }
@@ -55,14 +71,22 @@ $label-legend-font-size: 12px;
     border: 2px solid $dark-grey;
   }
 
+  .dark-white &,
   .dark & {
     color: $white;
     background-color: $black;
-    border: 2px solid $white;
 
     &:focus,
     &:focus-visible {
       outline: none;
     }
+  }
+
+  .dark & {
+    border: 2px solid $light-blue;
+  }
+
+  .dark-white & {
+    border: 2px solid $white;
   }
 }
