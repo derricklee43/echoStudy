@@ -3,9 +3,9 @@
 
 .c-drop-down-options {
   @include floating-card;
-  @include hover-pointer;
   width: 100%;
   margin-top: 2px;
+  cursor: default;
 
   button.c-drop-down-option {
     @include white-hover;
