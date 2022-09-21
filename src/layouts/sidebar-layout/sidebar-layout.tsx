@@ -7,7 +7,7 @@ import './sidebar-layout.scss';
 export const SidebarLayout = () => {
   return (
     <>
-      <Header className="sidebar-layout-header" />
+      <Header className="sidebar-layout-header" showHamburgerToggle={true} />
       <Sidebar className="sidebar-layout-sidebar" />
       <div className="sidebar-layout-page-wrap">
         <div className="sidebar-layout-content">

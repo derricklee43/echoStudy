@@ -7,9 +7,14 @@
   height: 100%;
   margin: 16px 0px;
 
+  @media screen and (max-width: $medium-screen) {
+    margin: 8px 0px;
+  }
+
   .decks-page-header {
     display: flex;
     justify-content: space-between;
+    gap: 16px;
 
     > label {
       color: $white;
@@ -63,7 +68,8 @@
 
     @media screen and (max-width: $medium-screen) {
       padding: unset;
-      margin-right: 20px;
+      padding-bottom: 8px;
+      margin-right: 24px;
     }
 
     > label {

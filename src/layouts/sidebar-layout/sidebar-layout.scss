@@ -7,6 +7,29 @@ $height-without-header: calc(100vh - #{$header-height});
 // screen height without header or content padding
 $content-height: calc(100vh - #{$header-height + $content-padding});
 
+// only modify the <Header /> that has this class (which should only be this layout)
+.sidebar-layout-header {
+  .c-header-content {
+    .c-header-title {
+      @media screen and (max-width: $medium-screen) {
+        flex: 1;
+      }
+    }
+
+    .c-header-title {
+      @media screen and (max-width: $medium-screen) {
+        flex: 1;
+      }
+    }
+
+    .c-account-buttons {
+      @media screen and (max-width: $medium-screen) {
+        flex: 1;
+      }
+    }
+  }
+}
+
 .sidebar-layout-sidebar {
   @media screen and (max-width: $large-screen) {
     padding-left: unset;
@@ -41,7 +64,8 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
     margin: auto;
 
     @media screen and (max-width: $medium-screen) {
-      padding: 8px ($content-padding / 2);
+      height: calc($content-height + 16px); // to offset flashcard-decks margin shrinking
+      padding: 16px ($content-padding / 2);
     }
   }
 }

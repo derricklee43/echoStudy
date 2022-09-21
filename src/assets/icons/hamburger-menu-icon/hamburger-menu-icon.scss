@@ -1,0 +1,13 @@
+@import '../../colors';
+@import '../../styles';
+
+.hamburger-icon {
+  transition: 0.5s;
+  &.rotated {
+    transform: rotate(180deg);
+  }
+
+  &.dark path {
+    fill: $white;
+  }
+}

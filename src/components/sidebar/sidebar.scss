@@ -2,7 +2,6 @@
 @import '../../assets/styles';
 
 .c-sidebar {
-  // z-index: 1;
   width: $sidebar-width;
   box-sizing: border-box;
   padding: $header-height 20px 0px 20px;
@@ -11,6 +10,12 @@
   background-color: $blue;
   color: $white;
   border-right: 1px solid $light-blue;
+
+  &.nav-toggled {
+    display: block;
+    z-index: $z-sidebar;
+    box-shadow: inset 0px ($header-height + 1) 0px 0px $light-blue;
+  }
 
   .c-sidebar-divider {
     height: 1px;
