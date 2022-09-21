@@ -22,10 +22,10 @@ export const SignInPage = () => {
       onSubmitClick={handleSubmitClick}
       onSwapPanelClick={handleSwapPanelClick}
     >
-      <TextBox label="email" variant="dark" value={email} onChange={setEmail} />
+      <TextBox label="email" variant="dark-white" value={email} onChange={setEmail} />
       <TextBox
         label="password"
-        variant="dark"
+        variant="dark-white"
         inputType="password"
         value={password}
         onChange={setPassword}

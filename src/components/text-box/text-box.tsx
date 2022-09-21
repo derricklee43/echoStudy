@@ -7,7 +7,7 @@ export interface TextBoxProps {
   label?: React.ReactNode;
   placeholder?: string;
   disabled?: boolean;
-  variant?: 'dark' | 'light';
+  variant?: 'light' | 'dark' | 'dark-white';
   className?: string;
   onChange?: (value: string) => void;
 }

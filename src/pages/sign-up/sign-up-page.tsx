@@ -37,12 +37,12 @@ export const SignUpPage = () => {
       onSwapPanelClick={handleSwapPanelClick}
     >
       <div className="field-container">
-        <TextBox label="username" variant="dark" value={userName} onChange={setUserName} />
+        <TextBox label="username" variant="dark-white" value={userName} onChange={setUserName} />
         {getLabelError('', (formError) => formError.username)}
       </div>
 
       <div className="field-container">
-        <TextBox label="email" variant="dark" value={email} onChange={setEmail} />
+        <TextBox label="email" variant="dark-white" value={email} onChange={setEmail} />
         {getLabelError('', (formError) => formError.email)}
       </div>
 
@@ -50,7 +50,7 @@ export const SignUpPage = () => {
         <div className="password-fields">
           <TextBox
             label="password"
-            variant="dark"
+            variant="dark-white"
             inputType="password"
             value={password}
             onChange={setPassword}
@@ -58,7 +58,7 @@ export const SignUpPage = () => {
           <TextBox
             label="confirm password"
             inputType="password"
-            variant="dark"
+            variant="dark-white"
             value={confirmPassword}
             onChange={setConfirmPassword}
           />
