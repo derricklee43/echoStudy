@@ -81,7 +81,6 @@ describe('DropDownOptions', () => {
       />
     );
 
-    // target element at index 1 (so, 2nd element)
     const firstOptionText = TEST_OPTIONS_SMALL_VALUES[0];
     userEvent.click(screen.getByText(firstOptionText));
     expect(mockOnOptionSelect).not.toHaveBeenCalled();
