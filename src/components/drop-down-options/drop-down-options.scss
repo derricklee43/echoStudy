@@ -3,13 +3,17 @@
 
 .c-drop-down-options {
   @include floating-card;
-  @include hover-pointer;
   width: 100%;
   margin-top: 2px;
+  cursor: default;
+
+  button.c-drop-down-option {
+    @include white-hover;
+  }
 
   .c-drop-down-option {
-    @include white-hover;
-    @include ellipsis-overflow;
+    display: block;
+    box-sizing: border-box;
     width: 100%;
     border-left: 1px solid $flashcard-white;
     border-right: 1px solid $flashcard-white;
@@ -17,6 +21,10 @@
     padding: 5px;
     border-radius: 0;
     text-align: left;
+
+    & .ellipsis-overflow {
+      @include ellipsis-overflow;
+    }
 
     &:first-child {
       border-top-left-radius: $standard-radius;

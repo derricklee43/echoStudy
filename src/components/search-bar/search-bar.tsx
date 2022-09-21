@@ -89,6 +89,7 @@ export const SearchBar = ({
       <DropDownOptions
         show={shouldShowDropDown()}
         options={dropDownData?.filter(optionIncludesValueFilter)}
+        ellipsisOverflow={true}
         onOptionSelect={(option) => {
           const changedValue = option.value?.toString() ?? value;
           setValue(changedValue);

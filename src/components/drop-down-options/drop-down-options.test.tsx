@@ -11,21 +11,38 @@ import {
 import { noop } from '../../helpers/func';
 import { withFakeTimers } from '../../helpers/test';
 
-describe('Button', () => {
+describe('DropDownOptions', () => {
   it('should render correctly with default props', () => {
-    render(<DropDownOptions show={true} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />);
+    render(
+      <DropDownOptions
+        ellipsisOverflow={false}
+        show={true}
+        options={TEST_OPTIONS_SINGLE}
+        onOptionSelect={noop}
+      />
+    );
     expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
   });
 
   it('should hide when component rerenders with show as false', () => {
     return withFakeTimers(async () => {
       const { rerender } = render(
-        <DropDownOptions show={true} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />
+        <DropDownOptions
+          ellipsisOverflow={false}
+          show={true}
+          options={TEST_OPTIONS_SINGLE}
+          onOptionSelect={noop}
+        />
       );
       expect(screen.queryByText(TEST_OPTIONS_SINGLE_VALUES[0])).toBeVisible();
 
       rerender(
-        <DropDownOptions show={false} options={TEST_OPTIONS_SINGLE} onOptionSelect={noop} />
+        <DropDownOptions
+          ellipsisOverflow={false}
+          show={false}
+          options={TEST_OPTIONS_SINGLE}
+          onOptionSelect={noop}
+        />
       );
 
       // wrt `Fade` having transition duration of 0.2 (200ms)
@@ -38,6 +55,7 @@ describe('Button', () => {
     const mockOnOptionSelect = jest.fn();
     render(
       <DropDownOptions
+        ellipsisOverflow={false}
         show={true}
         options={TEST_OPTIONS_SMALL}
         onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
@@ -48,5 +66,23 @@ describe('Button', () => {
     const secondOptionText = TEST_OPTIONS_SMALL_VALUES[1];
     userEvent.click(screen.getByText(secondOptionText));
     expect(mockOnOptionSelect).toBeCalledWith(secondOptionText);
+  });
+
+  it('should ignore click on dropdown option when not focusable', () => {
+    const mockOnOptionSelect = jest.fn();
+    const testOptions = [...TEST_OPTIONS_SMALL];
+    testOptions[0] = { ...TEST_OPTIONS_SMALL[0], focusable: false };
+    render(
+      <DropDownOptions
+        ellipsisOverflow={false}
+        show={true}
+        options={testOptions}
+        onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
+      />
+    );
+
+    const firstOptionText = TEST_OPTIONS_SMALL_VALUES[0];
+    userEvent.click(screen.getByText(firstOptionText));
+    expect(mockOnOptionSelect).not.toHaveBeenCalled();
   });
 });

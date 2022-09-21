@@ -40,7 +40,7 @@ export const FlashcardDecksPage = () => {
         <label>flashcard decks</label>
         <DropDown
           variant="dark"
-          options={AllSortRules.map((item) => ({ id: item, value: item }))}
+          options={AllSortRules.map((item) => ({ id: item, value: item, focusable: true }))}
           label="sort by"
           buttonLabel={sortOption}
           onOptionSelect={(option) => setSortOption(option.value)}
