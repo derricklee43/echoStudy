@@ -3,9 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { SIDEBAR_ROUTE_ITEMS } from '../../routing/sidebar-routes';
 import './sidebar.scss';
 
-export const Sidebar = () => {
+interface SidebarProps {
+  className?: string;
+}
+
+export const Sidebar = ({ className = '' }: SidebarProps) => {
   return (
-    <div className="c-sidebar">
+    <div className={`c-sidebar ${className}`}>
       <ul className="c-sidebar-items">
         {SIDEBAR_ROUTE_ITEMS.map((item) => (
           <NavLink

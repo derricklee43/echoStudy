@@ -39,6 +39,7 @@ export const FlashcardDecksPage = () => {
       <div className="decks-page-header">
         <label>flashcard decks</label>
         <DropDown
+          className="align-right"
           variant="dark"
           options={AllSortRules.map((item) => ({ id: item, value: item, focusable: true }))}
           label="sort by"

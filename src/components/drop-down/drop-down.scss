@@ -15,6 +15,14 @@
       color: $blue;
     }
   }
+
+  // custom classes (pass in with prop)
+  &.align-right {
+    display: flex;
+    align-items: baseline;
+    justify-content: end;
+    flex-wrap: wrap;
+  }
 }
 
 // avoid nesting in .drop-down to make menu more easily targetable

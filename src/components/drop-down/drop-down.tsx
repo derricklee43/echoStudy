@@ -31,9 +31,9 @@ export const DropDown = <T extends React.ReactNode>({
   useFocusTrap(dropDownMenuRef, isOpen);
 
   return (
-    <div className="drop-down">
+    <div className={`drop-down ${className}`}>
       <label className={accentVariant}>{label}</label>
-      <div className={`drop-down-menu ${className}`} ref={dropDownMenuRef}>
+      <div className="drop-down-menu" ref={dropDownMenuRef}>
         {getDropDownButton()}
         <DropDownOptions
           show={isOpen}

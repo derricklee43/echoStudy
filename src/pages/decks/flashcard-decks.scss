@@ -36,6 +36,12 @@
     width: 100%;
     height: 100%;
 
+    @media screen and (max-width: $medium-screen) {
+      margin: 20px 0px;
+      column-gap: unset;
+      row-gap: 24px;
+    }
+
     // ideally should have no more than 9-12 decks/pg to avoid overflow
     overflow-x: hidden;
     overflow-y: auto;
@@ -54,6 +60,11 @@
     padding: 16px 0px;
     margin-top: auto;
     text-align: center;
+
+    @media screen and (max-width: $medium-screen) {
+      padding: unset;
+      margin-right: 20px;
+    }
 
     > label {
       color: $light-blue;

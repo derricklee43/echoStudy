@@ -7,8 +7,8 @@ import './sidebar-layout.scss';
 export const SidebarLayout = () => {
   return (
     <>
-      <Header />
-      <Sidebar />
+      <Header className="sidebar-layout-header" />
+      <Sidebar className="sidebar-layout-sidebar" />
       <div className="sidebar-layout-page-wrap">
         <div className="sidebar-layout-content">
           <Outlet />
