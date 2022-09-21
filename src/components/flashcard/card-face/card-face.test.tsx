@@ -4,25 +4,38 @@ import userEvent from '@testing-library/user-event';
 import { CardFace } from './card-face';
 import { noop } from '../../../helpers/func';
 import { createNewCardContent } from '../../../models/card-content';
-import { getTestMonkeyFront } from '../../../models/mock/card-content.mock';
 
 describe('CardFace', () => {
-  it('should render correctly when readonly', () => {
-    const testCardContent = getTestMonkeyFront();
-    render(<CardFace cardContent={testCardContent} variant="readonly" />);
-    expect(screen.queryByDisplayValue(testCardContent.text)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'speaker' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'kebab-menu' })).not.toBeInTheDocument();
-  });
-
-  it('should hide both speaker and kebab menu when inactive', () => {
-    render(<CardFace cardContent={createNewCardContent()} variant="inactive" />);
+  it('should hide kebab menu when inactive', () => {
+    render(
+      <CardFace
+        cardContent={createNewCardContent()}
+        variant="inactive"
+        changeLanguageLabel=""
+        swapContentLabel=""
+        placeholder=""
+        onChange={noop}
+        onFocus={noop}
+        onSwapContentClick={noop}
+      />
+    );
     expect(screen.queryByRole('button', { name: 'speaker' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'kebab-menu' })).not.toBeInTheDocument();
   });
 
   it('should hide speaker and show kebab menu when active', () => {
-    render(<CardFace cardContent={createNewCardContent()} variant="active" />);
+    render(
+      <CardFace
+        cardContent={createNewCardContent()}
+        variant="active"
+        changeLanguageLabel=""
+        swapContentLabel=""
+        placeholder=""
+        onChange={noop}
+        onFocus={noop}
+        onSwapContentClick={noop}
+      />
+    );
     expect(screen.queryByRole('button', { name: 'speaker' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'kebab-menu' })).toBeInTheDocument();
   });
@@ -34,37 +47,14 @@ describe('CardFace', () => {
         cardContent={createNewCardContent()}
         variant="inactive"
         placeholder={TEST_PLACEHOLDER}
+        changeLanguageLabel=""
+        swapContentLabel=""
+        onChange={noop}
+        onFocus={noop}
+        onSwapContentClick={noop}
       />
     );
     expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).toBeInTheDocument();
-  });
-
-  it('should call onSpeakerClick on speaker click', () => {
-    const mockOnSpeakerClick = jest.fn();
-    const content = createNewCardContent();
-    content.text = 'TEST_TEXT';
-    render(
-      <CardFace cardContent={content} variant="readonly" onSpeakerClick={mockOnSpeakerClick} />
-    );
-    userEvent.click(screen.getByRole('button', { name: 'speaker' }));
-    expect(mockOnSpeakerClick).toBeCalled();
-  });
-
-  it('should hide placeholder text when readonly', () => {
-    const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
-    render(
-      <CardFace
-        cardContent={createNewCardContent()}
-        variant="readonly"
-        placeholder={TEST_PLACEHOLDER}
-      />
-    );
-    expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).not.toBeInTheDocument();
-  });
-
-  it('should hide speaker when text is empty', () => {
-    render(<CardFace cardContent={createNewCardContent()} variant="readonly" />);
-    expect(screen.queryByRole('button', { name: 'speaker' })).not.toBeInTheDocument();
   });
 
   it('should call onFocus on focus', () => {
@@ -76,6 +66,10 @@ describe('CardFace', () => {
         variant="inactive"
         placeholder={TEST_PLACEHOLDER}
         onFocus={mockOnFocus}
+        changeLanguageLabel=""
+        swapContentLabel=""
+        onChange={noop}
+        onSwapContentClick={noop}
       />
     );
     userEvent.click(screen.getByPlaceholderText(TEST_PLACEHOLDER));
@@ -91,6 +85,10 @@ describe('CardFace', () => {
         variant="active"
         onChange={mockOnChange}
         placeholder={TEST_PLACEHOLDER}
+        changeLanguageLabel=""
+        swapContentLabel=""
+        onFocus={noop}
+        onSwapContentClick={noop}
       />
     );
     userEvent.type(screen.getByPlaceholderText(TEST_PLACEHOLDER), 't');
@@ -108,6 +106,9 @@ describe('CardFace', () => {
         onChange={noop}
         changeLanguageLabel={TEST_CHANGE_LANGUAGE_LABEL}
         swapContentLabel={TEST_SWAP_CONTENT_LABEL}
+        placeholder=""
+        onFocus={noop}
+        onSwapContentClick={noop}
       />
     );
 

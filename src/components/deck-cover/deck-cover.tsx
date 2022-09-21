@@ -49,6 +49,10 @@ export const DeckCover = ({
   }
 
   function getCoverBack() {
+    // TODO: We might have some reworking to do.
+    // I guessing we do not want to grab all the cards for every deck just
+    // calculate the percentStudied
+    // Maybe we should add a property to the deck
     const percentStudied = 57;
     return (
       <>

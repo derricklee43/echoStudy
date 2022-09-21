@@ -1,0 +1,29 @@
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+.study-lesson-page {
+  .study-lesson-page-content {
+    margin: auto;
+    @include flex-center;
+    flex-direction: column;
+
+    .pulsing-microphone-container {
+      height: 26px;
+      margin-left: 10px;
+
+      .pulsing-microphone {
+        @include flex-center;
+        @include infinite-pulse;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        padding: 5px;
+        background-color: $white;
+      }
+    }
+
+    .study-page-progress-bar {
+      padding: 40px 0px 20px 0px;
+    }
+  }
+}
