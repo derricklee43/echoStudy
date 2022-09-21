@@ -22,13 +22,30 @@ export const CardMenu = ({
   onSwapContentClick,
 }: CardFaceProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const langDropdownId = 'lang';
+  const swapOptionId = 'swap';
 
-  const a: DropDownOption<React.ReactNode>[] = [
-    { id: 'lang', focusable: false, value: getLanguageDropdownOption() },
-    { id: 'swap', focusable: true, value: getSwapOption() },
+  const options: DropDownOption<React.ReactNode>[] = [
+    { id: langDropdownId, focusable: false, value: getLanguageDropdownOption() },
+    { id: swapOptionId, focusable: true, value: getSwapOption() },
   ];
 
-  return <KebabMenu className="c-card-menu" options={a} isOpen={isOpen} setIsOpen={setIsOpen} />;
+  return (
+    <KebabMenu
+      className="c-card-menu"
+      options={options}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      onOptionSelect={handleOptionSelect}
+    />
+  );
+
+  function handleOptionSelect(option: DropDownOption<React.ReactNode>) {
+    if (option.id === swapOptionId) {
+      onSwapContentClick();
+      setIsOpen(false);
+    }
+  }
 
   function getLanguageDropdownOption() {
     return (
@@ -45,15 +62,10 @@ export const CardMenu = ({
 
   function getSwapOption() {
     return (
-      <div className="card-menu-swap-option" onClick={handleSwapContentClick}>
+      <div className="card-menu-swap-option">
         <SwapIcon variant="dark" className="card-menu-swap-icon" />
         {swapContentLabel}
       </div>
     );
-  }
-
-  function handleSwapContentClick() {
-    onSwapContentClick();
-    setIsOpen(false);
   }
 };

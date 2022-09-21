@@ -12,6 +12,7 @@ interface KebabMenuProps<T> {
   options?: DropDownOption<T>[];
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  onOptionSelect?: (option: DropDownOption<T>) => void;
 }
 
 export const KebabMenu = <T extends React.ReactNode>({
@@ -19,6 +20,7 @@ export const KebabMenu = <T extends React.ReactNode>({
   options,
   isOpen,
   setIsOpen,
+  onOptionSelect,
 }: KebabMenuProps<T>) => {
   const kebabMenuRef = useRef(null);
   useOutsideClick(kebabMenuRef, () => setIsOpen(false));
@@ -39,7 +41,7 @@ export const KebabMenu = <T extends React.ReactNode>({
         className="c-kebab-menu-options"
         show={isOpen}
         options={options}
-        onOptionSelect={noop}
+        onOptionSelect={(option) => onOptionSelect?.(option)}
         ellipsisOverflow={false}
       />
     </div>
