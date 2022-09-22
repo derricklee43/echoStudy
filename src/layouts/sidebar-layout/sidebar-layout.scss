@@ -1,25 +1,76 @@
 @import '../../assets/colors';
 @import '../../assets/styles';
 
+// screen height without header
 $height-without-header: calc(100vh - #{$header-height});
-$header-and-padding: $header-height + $content-padding;
 
-// height without header and padding adjustments
-$content-height: calc(100vh - #{$header-and-padding});
+// screen height without header or content padding
+$content-height: calc(100vh - #{$header-height + $content-padding});
+
+// only modify the <Header /> that has this class (which should only be this layout)
+.sidebar-layout-header {
+  .c-header-content {
+    .c-header-title {
+      @media screen and (max-width: $medium-screen) {
+        flex: 1;
+      }
+    }
+
+    .c-header-title {
+      @media screen and (max-width: $medium-screen) {
+        flex: 1;
+        padding: unset;
+      }
+    }
+
+    .c-account-buttons {
+      @media screen and (max-width: $medium-screen) {
+        flex: 1;
+      }
+    }
+  }
+}
+
+.sidebar-layout-sidebar {
+  @media screen and (max-width: $large-screen) {
+    padding-left: unset;
+    width: $sidebar-width / 1.15;
+  }
+
+  @media screen and (max-width: $medium-screen) {
+    display: none;
+  }
+}
 
 .sidebar-layout-page-wrap {
   height: $height-without-header;
   margin-left: $sidebar-width;
   padding-top: $header-height;
 
+  @media screen and (max-width: $large-screen) {
+    margin-left: ($sidebar-width / 1.15);
+  }
+
+  @media screen and (max-width: $medium-screen) {
+    margin-left: 0;
+  }
+
   > .sidebar-layout-content {
     // create a stacking context so all internal z-indexes apply only between sibling elements
-    position: relative;
-    z-index: 0;
+    isolation: isolate;
 
     height: $content-height;
     padding: 20px $content-padding;
     max-width: 1700px;
     margin: auto;
+
+    @media screen and (max-width: $medium-screen) {
+      height: calc($content-height + 16px); // to offset flashcard-decks margin shrinking
+      padding: 16px ($content-padding / 2);
+    }
+
+    @media screen and (max-width: $small-screen) {
+      padding: 12px 8px;
+    }
   }
 }

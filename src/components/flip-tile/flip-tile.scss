@@ -27,6 +27,10 @@
     backface-visibility: hidden;
   }
 
+  .c-front {
+    text-align: center;
+  }
+
   .c-back {
     transform: rotateY(180deg);
   }
@@ -41,5 +45,4 @@
   background-color: $deck-cover-white;
   border-radius: 15px;
   box-sizing: border-box;
-  text-align: center;
 }

@@ -23,15 +23,26 @@
   }
 
   .c-description-and-import-buttons {
-    margin-top: 16px;
     display: flex;
     align-items: flex-end;
+    flex-wrap: wrap;
+    margin-top: 16px;
     gap: 16px;
 
-    textarea {
-      padding: 12px 12px;
-      height: 58px;
-      border-radius: 10px;
+    .description-text-area {
+      flex: 4 1 600px;
+
+      textarea {
+        padding: 12px 12px;
+        height: 58px;
+        border-radius: 10px;
+      }
+    }
+
+    .popup-buttons {
+      @include flex-center;
+      flex: 1 1 200px;
+      gap: 16px;
     }
   }
 

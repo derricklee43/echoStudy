@@ -17,7 +17,8 @@ $card-height: 175px;
     color: $light-blue;
     border-radius: 14px;
     height: $card-height;
-    overflow-y: scroll;
+    text-align: center;
+    overflow-y: auto;
 
     .rof-button-strip {
       position: sticky;

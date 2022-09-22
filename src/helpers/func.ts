@@ -13,6 +13,30 @@ export function debounce(func: Function, delayMs: number) {
   };
 }
 
+/**
+ * Eagerly throttles the invokation of a function to at most `ms`
+ * milliseconds since the last invokation.
+ */
+export function throttle(func: Function, delayMs: number) {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  let lastInvoked: number;
+  return function (this: unknown, ...args: unknown[]) {
+    // eagerly invoke if never called yet
+    if (!lastInvoked) {
+      func.apply(this, args);
+      lastInvoked = Date.now();
+    } else {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (Date.now() - lastInvoked >= delayMs) {
+          func.apply(this, args);
+          lastInvoked = Date.now();
+        }
+      }, delayMs - (Date.now() - lastInvoked));
+    }
+  };
+}
+
 export function noop() {
   return () => {};
 }

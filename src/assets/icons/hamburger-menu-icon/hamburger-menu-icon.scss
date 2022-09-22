@@ -1,0 +1,8 @@
+@import '../../colors';
+@import '../../styles';
+
+.hamburger-icon {
+  &.dark path {
+    fill: $white;
+  }
+}

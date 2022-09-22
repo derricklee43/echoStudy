@@ -5,13 +5,18 @@ $element-gap: 16px;
 $search-bar-offset: ($content-padding - $element-gap);
 
 .c-header {
-  z-index: 1;
+  z-index: $z-header;
   height: $header-height;
   width: 100%;
   box-sizing: border-box;
   background-color: $deck-cover-blue;
   border-bottom: 1px solid $deck-cover-blue;
-  overflow: hidden;
+
+  // all browsers but not supported below iOS/Safari 16.0 (09/11/2022)
+  @supports (overflow-x: clip) {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
 
   &.fixed {
     position: fixed;
@@ -27,6 +32,24 @@ $search-bar-offset: ($content-padding - $element-gap);
     justify-content: space-between;
     height: 100%;
     gap: $element-gap;
+
+    .c-header-nav {
+      @include hover-pointer;
+      display: flex;
+      align-items: center;
+      padding-left: 16px;
+      width: 24px;
+      flex: 1;
+
+      .animated-icon {
+        display: flex;
+        align-items: center;
+      }
+
+      @media screen and (min-width: $medium-screen) {
+        display: none;
+      }
+    }
 
     .c-header-title {
       @include flex-center;

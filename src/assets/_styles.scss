@@ -13,6 +13,10 @@ $sidebar-width: 260px;
 $header-height: 53px;
 $content-padding: 50px;
 
+$z-sidebar: 32;
+$z-header: 64;
+$z-popup-modal: 1024;
+
 @mixin standard-transition {
   transition: 200ms;
 }
