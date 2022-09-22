@@ -11,7 +11,12 @@ $search-bar-offset: ($content-padding - $element-gap);
   box-sizing: border-box;
   background-color: $deck-cover-blue;
   border-bottom: 1px solid $deck-cover-blue;
-  overflow: hidden;
+
+  // all browsers but not supported below iOS/Safari 16.0 (09/11/2022)
+  @supports (overflow-x: clip) {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
 
   &.fixed {
     position: fixed;
