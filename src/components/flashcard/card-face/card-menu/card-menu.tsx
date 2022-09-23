@@ -25,7 +25,7 @@ export const CardMenu = ({
   const langDropdownId = 'lang';
   const swapOptionId = 'swap';
 
-  const options: DropDownOption<React.ReactNode>[] = [
+  const options: DropDownOption<React.Key>[] = [
     { id: langDropdownId, focusable: false, value: getLanguageDropdownOption() },
     { id: swapOptionId, focusable: true, value: getSwapOption() },
   ];
@@ -35,6 +35,7 @@ export const CardMenu = ({
       className="c-card-menu"
       options={options}
       isOpen={isOpen}
+      variant="blue"
       setIsOpen={setIsOpen}
       onOptionSelect={handleOptionSelect}
     />

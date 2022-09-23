@@ -15,7 +15,7 @@ interface DropDownProps<T> {
   onOptionSelect: (option: DropDownOption<T>) => void;
 }
 
-export const DropDown = <T extends React.ReactNode>({
+export const DropDown = <T extends React.Key>({
   variant = 'dark',
   label = '',
   className = '',

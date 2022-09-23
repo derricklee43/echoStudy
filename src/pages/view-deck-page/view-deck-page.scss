@@ -1,4 +1,8 @@
 @import '../../assets/colors';
+@import '../../assets/styles';
+
+$flashcard-index-container-width: 45px;
+
 .view-deck-page {
   width: 100%;
   color: $white;
@@ -20,5 +24,32 @@
 
   .empty-card-set-placeholder {
     text-align: center;
+  }
+
+  .view-deck-flashcard-container {
+    @include flex-center;
+
+    .view-deck-flashcard {
+      margin-right: $flashcard-index-container-width;
+    }
+
+    .view-deck-flashcard-index {
+      display: flex;
+      color: $light-blue;
+      font-size: 20px;
+      width: $flashcard-index-container-width;
+    }
+
+    @media screen and (max-width: $medium-screen) {
+      $flashcard-index-container-width: 25px;
+
+      .view-deck-flashcard {
+        margin-right: $flashcard-index-container-width;
+      }
+
+      .view-deck-flashcard-index {
+        width: $flashcard-index-container-width;
+      }
+    }
   }
 }

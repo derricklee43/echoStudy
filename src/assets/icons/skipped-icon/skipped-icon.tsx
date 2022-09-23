@@ -7,5 +7,11 @@ interface SkippedIconProps {
 }
 
 export const SkippedIcon = ({ className = '' }: SkippedIconProps) => {
-  return <SkippedSvg className={`skipped-icon ${className}`} />;
+  return (
+    <SkippedSvg
+      className={`skipped-icon ${className}`}
+      aria-label="skipped"
+      role="graphics-document"
+    />
+  );
 };

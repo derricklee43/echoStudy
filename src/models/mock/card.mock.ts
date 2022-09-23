@@ -2,6 +2,7 @@ import {
   getTestFoxBack,
   getTestFoxFront,
   getTestMonkeyFront,
+  getTestMonkeyBack,
   getTestMouseBack,
   getTestMouseFront,
 } from './card-content.mock';
@@ -28,7 +29,7 @@ export const getTestMouseCard = (score?: number, dateUpdated?: Date): Card => {
 export const getTestMonkeyCard = (score?: number, dateUpdated?: Date): Card => {
   const testCard = createNewCard();
   testCard.front = getTestMonkeyFront();
-  testCard.back = getTestMouseBack();
+  testCard.back = getTestMonkeyBack();
   testCard.score = score ?? 0;
   testCard.dateUpdated = dateUpdated ?? testCard.dateUpdated;
   return testCard;

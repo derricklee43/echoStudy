@@ -9,14 +9,16 @@ import './kebab-menu.scss';
 
 interface KebabMenuProps<T> {
   className?: string;
+  variant: 'blue' | 'white' | 'green' | 'red' | 'light-blue';
   options?: DropDownOption<T>[];
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   onOptionSelect?: (option: DropDownOption<T>) => void;
 }
 
-export const KebabMenu = <T extends React.ReactNode>({
+export const KebabMenu = <T extends React.Key>({
   className = '',
+  variant,
   options,
   isOpen,
   setIsOpen,
@@ -27,7 +29,7 @@ export const KebabMenu = <T extends React.ReactNode>({
   useFocusTrap(kebabMenuRef, isOpen);
 
   return (
-    <div className={`c-kebab-menu ${className}`} ref={kebabMenuRef}>
+    <div className={`c-kebab-menu $${className}`} ref={kebabMenuRef}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
         variant="invisible"
@@ -35,7 +37,7 @@ export const KebabMenu = <T extends React.ReactNode>({
         bubbleOnClickEvent={false}
         ariaLabel="kebab-menu"
       >
-        <KebabMenuIcon />
+        <KebabMenuIcon variant={variant} />
       </Button>
       <DropDownOptions
         className="c-kebab-menu-options"

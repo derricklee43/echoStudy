@@ -44,7 +44,7 @@ export const FlashcardDecksPage = () => {
           options={AllSortRules.map((item) => ({ id: item, value: item, focusable: true }))}
           label="sort by"
           buttonLabel={sortOption}
-          onOptionSelect={(option) => setSortOption(option.value)}
+          onOptionSelect={(option) => setSortOption(option.id)}
         />
       </div>
       <div className="deck-tile-container">

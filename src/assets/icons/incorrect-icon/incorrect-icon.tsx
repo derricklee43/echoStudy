@@ -7,5 +7,11 @@ interface IncorrectIconProps {
 }
 
 export const IncorrectIcon = ({ className = '' }: IncorrectIconProps) => {
-  return <IncorrectSvg className={`incorrect-icon ${className}`} />;
+  return (
+    <IncorrectSvg
+      className={`incorrect-icon ${className}`}
+      aria-label="incorrect"
+      role="graphics-document"
+    />
+  );
 };

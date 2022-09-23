@@ -8,8 +8,8 @@ import './drop-down-options.scss';
  *
  */
 export interface DropDownOption<T> {
-  id: string;
-  value: T;
+  id: T;
+  value: React.ReactNode;
   focusable: boolean;
 }
 
@@ -28,7 +28,7 @@ interface DropDownOptionsProps<T> {
  *  When enabled, a nested DropDownOptions component will not work due to
  *  this restriction: https://stackoverflow.com/a/6433475/14356299
  */
-export const DropDownOptions = <T extends React.ReactNode>({
+export const DropDownOptions = <T extends React.Key>({
   className = '',
   ellipsisOverflow = true,
   show,

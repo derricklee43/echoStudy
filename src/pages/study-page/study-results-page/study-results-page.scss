@@ -1,8 +1,6 @@
 @import '../../../assets/colors';
 @import '../../../assets/styles';
 
-$flashcard-icon-width: 60px;
-
 .study-results-page {
   @include flex-center;
   flex-direction: column;
@@ -77,20 +75,5 @@ $flashcard-icon-width: 60px;
   .studied-cards-divider {
     width: 100%;
     margin: 20px 0px;
-  }
-
-  .study-results-flashcard-container {
-    @include flex-center;
-    width: 100%;
-
-    .study-results-flashcard-icon {
-      width: $flashcard-icon-width;
-      padding-right: 10px;
-      @include flex-center;
-    }
-
-    .study-results-flashcard {
-      margin-right: $flashcard-icon-width;
-    }
   }
 }

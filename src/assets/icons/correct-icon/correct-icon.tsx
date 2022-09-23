@@ -7,5 +7,11 @@ interface CorrectIconProps {
 }
 
 export const CorrectIcon = ({ className = '' }: CorrectIconProps) => {
-  return <CorrectSvg className={`correct-icon ${className}`} />;
+  return (
+    <CorrectSvg
+      className={`correct-icon ${className}`}
+      aria-label="correct"
+      role="graphics-document"
+    />
+  );
 };
