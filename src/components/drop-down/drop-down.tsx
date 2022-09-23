@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useEscapePress } from '../../hooks/use-key-press';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
@@ -29,6 +30,7 @@ export const DropDown = <T extends React.ReactNode>({
   const dropDownMenuRef = useRef(null);
   useOutsideClick(dropDownMenuRef, () => setIsOpen(false));
   useFocusTrap(dropDownMenuRef, isOpen);
+  useEscapePress(() => setIsOpen(false), isOpen);
 
   return (
     <div className={`drop-down ${className}`}>

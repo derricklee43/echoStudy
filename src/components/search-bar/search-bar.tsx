@@ -4,6 +4,7 @@ import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import { debounce, noop } from '../../helpers/func';
 import { includesIgnoreCase } from '../../helpers/string';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useEscapePress } from '../../hooks/use-key-press';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
@@ -46,6 +47,7 @@ export const SearchBar = ({
   const wrapperDivRef = useRef(null);
   useOutsideClick(wrapperDivRef, () => setHasClickedSinceLastChange(true));
   useFocusTrap(wrapperDivRef, shouldShowDropDown());
+  useEscapePress(() => setHasClickedSinceLastChange(true), shouldShowDropDown());
 
   return (
     <div className="c-search-bar-wrapper" ref={wrapperDivRef}>

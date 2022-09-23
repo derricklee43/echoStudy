@@ -7,9 +7,8 @@ $bg-opacity: 0; // opacity to set background if modal is open
 .c-account-popup-overlay {
   z-index: $z-popup-modal;
   position: fixed;
-  inset: 0;
-  min-width: 100%;
-  min-height: 100%;
+  right: 0;
+  top: 0;
   background-color: rgba(0, 0, 0, $bg-opacity);
   transition: visibility 150ms ease-out, opacity 150ms ease-out;
 
@@ -30,8 +29,7 @@ $bg-opacity: 0; // opacity to set background if modal is open
   right: $header-gap;
   top: 1px;
   background: $white;
-  padding: 8px 16px;
-  border-radius: $standard-radius;
+  border-radius: $standard-radius * 0.75;
 
   @media screen and (max-width: $small-screen) {
     right: 0;

@@ -29,21 +29,19 @@ const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: Wel
   const popupClass = showPopup ? 'popup' : '';
 
   return (
-    <div
-      className={`c-header-welcome-user ${popupClass} ${className}`}
-      onClick={() => setShowPopup((curr) => !curr)}
-    >
-      <div className="c-welcome-presentable">
-        <span className="greeting-text">{`hi, ${userData?.username}`}</span>
-        <img className="profile-picture" src={pfpUrl} loading="lazy" />
+    <>
+      <div className={`c-header-welcome-user ${popupClass} ${className}`}>
+        <div className="c-welcome-presentable" onClick={() => setShowPopup((curr) => !curr)}>
+          <span className="greeting-text">{`hi, ${userData?.username}`}</span>
+          <img className="profile-picture" src={pfpUrl} loading="lazy" />
+        </div>
       </div>
-
       <AccountPopup
         className={`welcome-account-popup ${className}`}
         showTrigger={showPopup}
-        onClose={() => setShowPopup((curr) => !curr)}
+        onClose={() => setShowPopup(false)}
       >
-        <div className="c-welcome-presentable">
+        <div className="c-welcome-presentable" onClick={() => setShowPopup((curr) => !curr)}>
           <span className="greeting-text">{`hi, ${userData?.username}`}</span>
           <img className="profile-picture" src={pfpUrl} loading="lazy" />
         </div>
@@ -54,7 +52,7 @@ const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: Wel
           log out
         </Button>
       </AccountPopup>
-    </div>
+    </>
   );
 };
 

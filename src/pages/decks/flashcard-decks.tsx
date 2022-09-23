@@ -84,12 +84,10 @@ export const FlashcardDecksPage = () => {
   }
 
   function onAddDeckClicked() {
-    // todo: maybe different route without any params (:deckId) since there is no 'deck' yet
     navigate(paths.createDeck);
   }
 
   async function fetchDecksAndRefresh() {
-    // todo: should get deck by user id in the future
     const fetchedDecks = await decksClient.getAllDecks();
     setUserDecks(fetchedDecks);
   }

@@ -151,9 +151,9 @@ export function useUserClient() {
   }
 
   function getProfilePictureUrl(email: string): string {
-    // if the email isn't linked with Gravatar, the `d=identicon` query param generates a random unique img
+    // if the email isn't linked with Gravatar, the `d=retro` query param generates a random unique 8-bit img
     // we do this to avoid displaying the default boring Gravatar icon; instead, a unique one to the email hash
     const emailHash = Md5.hashStr(email.trim().toLowerCase());
-    return `https://gravatar.com/avatar/${emailHash}?d=identicon`;
+    return `https://gravatar.com/avatar/${emailHash}?d=retro`;
   }
 }

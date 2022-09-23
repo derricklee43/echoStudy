@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { CancelIcon } from '../../../assets/icons/cancel-icon/cancel-icon';
 import { useFocusFirst } from '../../../hooks/use-focus-first';
 import { useFocusTrap } from '../../../hooks/use-focus-trap';
+import { useEscapePress } from '../../../hooks/use-key-press';
 import { useOutsideClick } from '../../../hooks/use-outside-click';
 import './account-popup.scss';
 
@@ -10,7 +11,6 @@ export interface AccountPopupProps {
   className?: string;
   children: React.ReactNode;
   showTrigger: boolean;
-  outsideClickFiresOnClose?: boolean;
   onClose: () => void;
 }
 
@@ -18,13 +18,13 @@ export const AccountPopup = ({
   className = '',
   children,
   showTrigger,
-  outsideClickFiresOnClose = false,
   onClose,
 }: AccountPopupProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(contentRef, () => onClose(), outsideClickFiresOnClose);
+  useOutsideClick(contentRef, () => onClose());
   useFocusTrap(contentRef, showTrigger);
+  useEscapePress(() => onClose(), showTrigger);
 
   const showClass = showTrigger ? 'visible' : 'hidden';
 

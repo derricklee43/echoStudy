@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { useFocusFirst } from '../../hooks/use-focus-first';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useEscapePress } from '../../hooks/use-key-press';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import './popup-modal.scss';
 
@@ -30,6 +31,8 @@ export const PopupModal = ({
 
   // accessibility: auto-focus the first focusable element (if any)
   useFocusFirst(contentRef, showTrigger);
+
+  useEscapePress(() => onClose(), showTrigger);
 
   // render onto <div id="portal"></div> instead of in parent hierarchy but still propagate events
   return ReactDOM.createPortal(

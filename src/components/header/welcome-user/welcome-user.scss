@@ -5,10 +5,9 @@
 .welcome-account-popup {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 
   .c-welcome-presentable {
-    padding-bottom: 4px;
+    padding: 8px 16px;
 
     .greeting-text {
       display: block;
@@ -18,8 +17,10 @@
 
   .profile-button,
   .logout-button {
+    margin: 0px 2px 2px 2px;
     padding: 12px;
     border: none;
+    border-radius: $standard-radius / 2;
     background-color: $deck-cover-blue;
     text-align: right;
   }
@@ -28,6 +29,7 @@
 // fallback styles
 .c-account-popup-fallback {
   .logout-button {
+    @include hover($light-blue);
     padding: 12px;
     border: none;
     background-color: $electric-blue;
