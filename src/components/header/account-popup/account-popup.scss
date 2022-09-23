@@ -6,7 +6,7 @@ $bg-opacity: 0; // opacity to set background if modal is open
 
 .c-account-popup-overlay {
   z-index: $z-popup-modal;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
   background-color: rgba(0, 0, 0, $bg-opacity);
