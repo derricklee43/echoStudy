@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../../animations/fade';
 import { MicrophoneIcon } from '../../../assets/icons/microphone-icon/microphone-icon';
+import nextCardSound from '../../../assets/sounds/soft_thud.wav';
 import { AudioControlBar } from '../../../components/audio-control-bar/audio-control-bar';
 import { PageHeader } from '../../../components/page-header/page-header';
 import { ProgressBar } from '../../../components/progress-bar/progress-bar';
@@ -10,7 +11,8 @@ import { noop } from '../../../helpers/func';
 import { usePlayLesson } from '../../../hooks/use-play-lesson';
 import { useStopWatch } from '../../../hooks/use-stop-watch';
 import { Deck } from '../../../models/deck';
-import { LessonCard } from '../../../models/lesson-card';
+import { LazyAudio } from '../../../models/lazy-audio';
+import { LessonCard, LessonCardOutcome } from '../../../models/lesson-card';
 import './study-lesson-page.scss';
 
 interface StudyPageLessonProps {
@@ -24,7 +26,7 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
   const [hasLessonStarted, setHasLessonStarted] = useState(false);
   const {
-    currentCardKey,
+    currentCard,
     activeCardSide,
     completedCards,
     isCapturingSpeech,
@@ -39,8 +41,12 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
   });
   const percentComplete = (completedCards.length / numCards) * 100;
 
+  useEffect(() => {
+    const nextCardAudio = new LazyAudio(nextCardSound);
+    nextCardAudio.play();
+  }, [currentCard.key, hasLessonStarted]);
+
   const showCover = !hasLessonStarted;
-  const currentCard = getCurrentCard();
 
   return (
     <div className="study-lesson-page">
@@ -93,12 +99,20 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
   }
 
   function getCard() {
+    const cardFaceClasses: Record<LessonCardOutcome, string> = {
+      correct: 'correct-card-face',
+      incorrect: 'incorrect-card-face',
+      unseen: '',
+    };
+    const cardFaceClass = cardFaceClasses[currentCard.outcome];
+
     return (
       <StudyFlashcard
         id={currentCard.key}
         variant="light"
+        cardFaceClass={cardFaceClass}
         frontContent={currentCard.front.text}
-        backContent={currentCard?.back.text}
+        backContent={currentCard.back.text}
         backLabel="definition"
         frontLabel="term"
         activeSide={activeCardSide}
@@ -131,14 +145,6 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
     setIsPaused(true);
     pauseStopWatch();
     pause();
-  }
-
-  function getCurrentCard() {
-    const currentCard = deck.cards.find((c) => c.key === currentCardKey);
-    if (currentCard === undefined) {
-      throw Error(`deck does not contain card with key: ${currentCardKey}`);
-    }
-    return currentCard;
   }
 
   function handleProgressBarAnimationCompletion() {
