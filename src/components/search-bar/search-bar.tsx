@@ -102,11 +102,11 @@ export const SearchBar = ({
   }
 
   function optionIncludesValueFilter(option: DropDownOption<string>) {
-    const optionId = option.id;
+    const optionVal = option.value as string;
     const searchVal = value.trim();
     return dropDownIgnoreCase
-      ? includesIgnoreCase(optionId, searchVal)
-      : optionId.includes(searchVal);
+      ? includesIgnoreCase(optionVal, searchVal)
+      : optionVal.includes(searchVal);
   }
 
   function hasText() {
