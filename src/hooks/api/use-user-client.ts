@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { Md5 } from 'ts-md5';
 import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
 import {
@@ -10,7 +11,13 @@ import {
   registerUserInfoToJson,
 } from '../../models/register-user';
 import { paths } from '../../routing/paths';
-import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
+import {
+  AuthJwt,
+  authJwtState,
+  authJwtToJson,
+  isAuthJwt,
+  jsonToAuthJwt,
+} from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
 import { useLocalStorage } from '../use-local-storage';
 
@@ -31,6 +38,8 @@ export function useUserClient() {
     login,
     loginDebug, // remove this once we have user login page
     logout,
+
+    getProfilePictureUrl,
   };
 
   /**
@@ -79,12 +88,10 @@ export function useUserClient() {
   async function login(email: string, password: string): Promise<boolean> {
     const numRetries = 0; // don't retry (e.g. 401 means incorrect user creds)
 
-    // if jwt exists, we just refresh the token and early exit
-    if (authJwt && authJwt.accessToken && authJwt.refreshToken) {
-      const refreshed = await _tryRefresh(authJwt);
-      if (refreshed) {
-        return true;
-      }
+    // if jwt exists, we just early exit
+    // the fetch wrapper can refresh when it is actually invalid
+    if (isAuthJwt(authJwt)) {
+      return true;
     }
 
     // authenticate the user
@@ -108,8 +115,7 @@ export function useUserClient() {
   }
 
   async function _tryRefresh(authJwt: AuthJwt) {
-    const authJwtValid = authJwt && authJwt.accessToken && authJwt.refreshToken;
-    if (!authJwtValid) {
+    if (!isAuthJwt(authJwt)) {
       return false;
     }
 
@@ -138,9 +144,16 @@ export function useUserClient() {
     return login('johndoe@gmail.com', '123ABC!@#def');
   }
 
-  async function logout() {
+  function logout() {
     simpleLocalStorage.remove(LocalStorageKeys.authJwt);
     setAuthJwt(undefined);
     navigate(paths.home, { replace: true }); // todo: logout page?
+  }
+
+  function getProfilePictureUrl(email: string): string {
+    // if the email isn't linked with Gravatar, the `d=identicon` query param generates a random unique img
+    // we do this to avoid displaying the default boring Gravatar icon; instead, a unique one to the email hash
+    const emailHash = Md5.hashStr(email.trim().toLowerCase());
+    return `https://gravatar.com/avatar/${emailHash}?d=identicon`;
   }
 }

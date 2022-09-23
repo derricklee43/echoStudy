@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+$bg-opacity: 0; // opacity to set background if modal is open
+
+.c-account-popup-overlay {
+  z-index: $z-popup-modal;
+  position: fixed;
+  inset: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background-color: rgba(0, 0, 0, $bg-opacity);
+  transition: visibility 150ms ease-out, opacity 150ms ease-out;
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.c-account-popup-content {
+  z-index: $z-popup-modal;
+  position: absolute;
+  right: $header-gap;
+  top: 1px;
+  background: $white;
+  padding: 8px 16px;
+  border-radius: $standard-radius;
+
+  @media screen and (max-width: $small-screen) {
+    right: 0;
+  }
+
+  .c-popup-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $blue;
+    font-family: 'Comfortaa';
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
