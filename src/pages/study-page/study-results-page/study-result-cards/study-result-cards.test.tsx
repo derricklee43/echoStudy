@@ -15,14 +15,11 @@ const MARK_AS_INCORRECT_LABEL = 'mark as incorrect';
 const MARK_AS_SKIPPED_LABEL = 'mark as skipped';
 
 describe('StudyResultCards', () => {
-  let testDeck: Deck;
   let testLessonCards: LessonCard[];
 
   beforeEach(() => {
-    testDeck = createNewDeck();
-
     const testCards = [getTestFoxCard(), getTestMonkeyCard(), getTestMouseCard()];
-    testLessonCards = testCards.map((card) => createNewLessonCard(card, testDeck, 1));
+    testLessonCards = testCards.map((card) => createNewLessonCard(card, createNewDeck(), 1));
   });
 
   it('should render correctly with default props', () => {
