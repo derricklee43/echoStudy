@@ -28,7 +28,7 @@ export const DropDown = <T extends React.ReactNode>({
   const accentVariant = variant === 'dark' ? 'light' : 'dark';
 
   const dropDownMenuRef = useRef(null);
-  useOutsideClick(dropDownMenuRef, () => setIsOpen(false));
+  useOutsideClick(dropDownMenuRef, () => setIsOpen(false), isOpen);
   useFocusTrap(dropDownMenuRef, isOpen);
   useEscapePress(() => setIsOpen(false), isOpen);
 

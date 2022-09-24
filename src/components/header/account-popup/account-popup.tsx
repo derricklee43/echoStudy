@@ -22,7 +22,7 @@ export const AccountPopup = ({
 }: AccountPopupProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(contentRef, () => onClose());
+  useOutsideClick(contentRef, () => onClose(), showTrigger);
   useFocusTrap(contentRef, showTrigger);
   useEscapePress(() => onClose(), showTrigger);
 

@@ -24,14 +24,10 @@ export const PopupModal = ({
 }: PopupModalProps) => {
   // handle clicking outside modal if `outsideClickFiresOnClose` is enabled
   const contentRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(contentRef, () => onClose(), outsideClickFiresOnClose);
 
-  // trap accessibility controls (i.e. tabbing) in the content
-  useFocusTrap(contentRef, showTrigger); // hook/unhook when showTrigger changes
-
-  // accessibility: auto-focus the first focusable element (if any)
-  useFocusFirst(contentRef, showTrigger);
-
+  useOutsideClick(contentRef, () => onClose(), showTrigger && outsideClickFiresOnClose);
+  useFocusTrap(contentRef, showTrigger); // trap accessibility controls (i.e. tabbing) in the content
+  useFocusFirst(contentRef, showTrigger); // accessibility: auto-focus the first focusable element (if any)
   useEscapePress(() => onClose(), showTrigger);
 
   // render onto <div id="portal"></div> instead of in parent hierarchy but still propagate events

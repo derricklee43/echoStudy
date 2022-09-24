@@ -45,7 +45,7 @@ export const SearchBar = ({
 
   // hide dropdown after clicking outside the search bar wrapper div
   const wrapperDivRef = useRef(null);
-  useOutsideClick(wrapperDivRef, () => setHasClickedSinceLastChange(true));
+  useOutsideClick(wrapperDivRef, () => setHasClickedSinceLastChange(true), shouldShowDropDown());
   useFocusTrap(wrapperDivRef, shouldShowDropDown());
   useEscapePress(() => setHasClickedSinceLastChange(true), shouldShowDropDown());
 

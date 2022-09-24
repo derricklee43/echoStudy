@@ -17,17 +17,17 @@ export const useKeyPress = (
   useEffect(() => {
     if (!active) return;
 
-    const handleEscapeKey = (event: KeyboardEvent) => {
+    const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === key) {
         action(event);
       }
     };
-    document.addEventListener('keydown', handleEscapeKey);
+    document.addEventListener('keydown', handleKeyPress);
 
     // destructor; called when component using this hook gets destroyed or a dependency changes
     return () => {
       if (!active) return;
-      document.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener('keydown', handleKeyPress);
     };
   }, [key, action, active, ...extraDeps]);
 };
