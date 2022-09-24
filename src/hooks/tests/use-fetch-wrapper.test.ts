@@ -75,6 +75,20 @@ describe('useFetchWrapper', () => {
     await expect(fetchNext()).rejects.toThrow(); // invalid/invalid
   });
 
+  it('should override prepend url if the request contains an absolute url', async () => {
+    const fetchWrapper = setupFetchWrapper();
+
+    fetchMock.mockResponseOnce(JSON.stringify({ data: '12345' }), {
+      headers: { ...jsonContent },
+    });
+    //  https://test.test.noprependpls (which passes mock regex)
+    const absoluteUrl = TEST_DOMAIN + '.noprependpls';
+    await fetchWrapper.get(absoluteUrl);
+
+    // expect(fetchMock).toBeCalledWith(absoluteUrl);
+    expect(fetchMock.mock.calls[0][0]).toEqual(absoluteUrl);
+  });
+
   function setupFetchWrapper() {
     const { result } = renderHook(() => useFetchWrapper(TEST_DOMAIN), {
       wrapper: ({ children }) => withTestRoots(children),

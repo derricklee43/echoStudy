@@ -1,8 +1,7 @@
 @import '../../assets/colors';
 @import '../../assets/styles';
 
-$element-gap: 16px;
-$search-bar-offset: ($content-padding - $element-gap);
+$search-bar-offset: ($content-padding - $header-gap);
 
 .c-header {
   z-index: $z-header;
@@ -31,7 +30,7 @@ $search-bar-offset: ($content-padding - $element-gap);
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    gap: $element-gap;
+    gap: $header-gap;
 
     .c-header-nav {
       @include hover-pointer;
@@ -60,7 +59,7 @@ $search-bar-offset: ($content-padding - $element-gap);
 
       @media screen and (max-width: $small-screen) {
         flex: 0;
-        padding-left: ($element-gap);
+        padding-left: ($header-gap);
       }
 
       a.c-header-anchor {
@@ -102,10 +101,10 @@ $search-bar-offset: ($content-padding - $element-gap);
       justify-content: flex-end;
       align-items: center;
       flex: 0 0 min(20vw, 100px);
-      padding-right: $element-gap * 2;
+      padding-right: $header-gap * 2;
 
       @media screen and (max-width: $small-screen) {
-        padding-right: $element-gap;
+        padding-right: $header-gap;
       }
 
       button {
@@ -116,8 +115,7 @@ $search-bar-offset: ($content-padding - $element-gap);
           background-color: transparent;
         }
 
-        &.sign-in-button,
-        &.logout-button {
+        &.sign-in-button {
           background-color: $electric-blue;
         }
       }

@@ -1,7 +1,7 @@
 import React, { ReactNode, useRef, useState } from 'react';
 import { KebabMenuIcon } from '../../assets/icons/kebab-menu-icon/kebab-menu-icon';
-import { noop } from '../../helpers/func';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useEscapePress } from '../../hooks/use-key-press';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
@@ -25,8 +25,9 @@ export const KebabMenu = <I extends string, V extends ReactNode>({
   onOptionSelect,
 }: KebabMenuProps<I, V>) => {
   const kebabMenuRef = useRef(null);
-  useOutsideClick(kebabMenuRef, () => setIsOpen(false));
+  useOutsideClick(kebabMenuRef, () => setIsOpen(false), isOpen);
   useFocusTrap(kebabMenuRef, isOpen);
+  useEscapePress(() => setIsOpen(false), isOpen);
 
   return (
     <div className={`c-kebab-menu $${className}`} ref={kebabMenuRef}>
