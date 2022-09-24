@@ -34,14 +34,4 @@ $bg-opacity: 0; // opacity to set background if modal is open
   @media screen and (max-width: $small-screen) {
     right: 0;
   }
-
-  .c-popup-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: $blue;
-    font-family: 'Comfortaa';
-    font-weight: bold;
-    font-size: 20px;
-  }
 }

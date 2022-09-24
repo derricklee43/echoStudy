@@ -27,8 +27,8 @@ export interface UserInfo {
   phoneNumber?: string;
 }
 
-export const userInfoState = selector<UserInfo | undefined>({
-  key: 'userInfoState',
+export const userInfoStateAsync = selector<UserInfo | undefined>({
+  key: 'userInfoStateAsync',
   get: async ({ get }) => {
     const authJwt = get(authJwtState);
 
