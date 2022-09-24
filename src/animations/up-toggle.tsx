@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useIsFirstRender } from '../hooks/use-is-first-render';
 
 interface UpToggleProps {
   className?: string;
@@ -14,13 +15,7 @@ export const UpToggle = ({
   defaultContent,
   alternateContent,
 }: UpToggleProps) => {
-  // prevents transition on mount
-  const [isFirstRender, setIsFirstRender] = useState(true);
-
-  // enables transition after mount
-  useEffect(() => {
-    setIsFirstRender(false);
-  }, []);
+  const isFirstRender = useIsFirstRender();
 
   const inactiveVariant = { y: 30, opacity: 0 };
   const variants = {

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../../animations/fade';
 import { MicrophoneIcon } from '../../../assets/icons/microphone-icon/microphone-icon';
-import nextCardSound from '../../../assets/sounds/soft_thud.wav';
+import nextCardSound from '../../../assets/sounds/next-card-sound.wav';
 import { AudioControlBar } from '../../../components/audio-control-bar/audio-control-bar';
 import { PageHeader } from '../../../components/page-header/page-header';
 import { ProgressBar } from '../../../components/progress-bar/progress-bar';
 import { StudyFlashcard } from '../../../components/study-flashcard/study-flashcard';
 import { noop } from '../../../helpers/func';
+import { useIsFirstRender } from '../../../hooks/use-is-first-render';
 import { usePlayLesson } from '../../../hooks/use-play-lesson';
 import { useStopWatch } from '../../../hooks/use-stop-watch';
 import { Deck } from '../../../models/deck';
@@ -22,6 +23,7 @@ interface StudyPageLessonProps {
 
 export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps) => {
   const numCards = 4; // TODO: we will want to make this configurable or just pull in all past due cards
+  const isFirstRender = useIsFirstRender();
   const [isPaused, setIsPaused] = useState(true);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
   const [hasLessonStarted, setHasLessonStarted] = useState(false);
@@ -42,6 +44,9 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
   const percentComplete = (completedCards.length / numCards) * 100;
 
   useEffect(() => {
+    if (isFirstRender) {
+      return;
+    }
     const nextCardAudio = new LazyAudio(nextCardSound);
     nextCardAudio.play();
   }, [currentCard.key, hasLessonStarted]);
