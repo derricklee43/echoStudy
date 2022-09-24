@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../../animations/fade';
 import { MicrophoneIcon } from '../../../assets/icons/microphone-icon/microphone-icon';
-import nextCardSound from '../../../assets/sounds/next-card-sound.wav';
+import nextCardSound from '../../../assets/sounds/next-card.wav';
 import { AudioControlBar } from '../../../components/audio-control-bar/audio-control-bar';
 import { PageHeader } from '../../../components/page-header/page-header';
 import { ProgressBar } from '../../../components/progress-bar/progress-bar';
