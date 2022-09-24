@@ -41,7 +41,7 @@ export const LanguageDropDown = <T extends DeckLanguages | CardLanguages>({
     </div>
   );
 
-  function handleOptionSelect(option: DropDownOption<T[number]>) {
+  function handleOptionSelect(option: DropDownOption<T[number], T[number]>) {
     const newLanguage = option.id;
     onLanguageSelect(newLanguage);
   }

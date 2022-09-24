@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import { KebabMenuIcon } from '../../assets/icons/kebab-menu-icon/kebab-menu-icon';
 import { noop } from '../../helpers/func';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
@@ -7,23 +7,23 @@ import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
 import './kebab-menu.scss';
 
-interface KebabMenuProps<T> {
+interface KebabMenuProps<I, V> {
   className?: string;
   variant: 'blue' | 'white' | 'green' | 'red' | 'light-blue';
-  options?: DropDownOption<T>[];
+  options?: DropDownOption<I, V>[];
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  onOptionSelect?: (option: DropDownOption<T>) => void;
+  onOptionSelect?: (option: DropDownOption<I, V>) => void;
 }
 
-export const KebabMenu = <T extends React.Key>({
+export const KebabMenu = <I extends string, V extends ReactNode>({
   className = '',
   variant,
   options,
   isOpen,
   setIsOpen,
   onOptionSelect,
-}: KebabMenuProps<T>) => {
+}: KebabMenuProps<I, V>) => {
   const kebabMenuRef = useRef(null);
   useOutsideClick(kebabMenuRef, () => setIsOpen(false));
   useFocusTrap(kebabMenuRef, isOpen);

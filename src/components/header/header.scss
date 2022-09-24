@@ -46,7 +46,7 @@ $search-bar-offset: ($content-padding - $element-gap);
         align-items: center;
       }
 
-      @media screen and (min-width: $medium-screen) {
+      @media screen and (min-width: $large-screen) {
         display: none;
       }
     }
@@ -88,7 +88,7 @@ $search-bar-offset: ($content-padding - $element-gap);
       align-items: center;
       flex: 8 1 auto;
 
-      @media screen and (max-width: $medium-screen) {
+      @media screen and (max-width: $large-screen) {
         display: none;
       }
 

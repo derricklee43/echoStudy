@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { CorrectIcon } from '../../../../assets/icons/correct-icon/correct-icon';
 import { IncorrectIcon } from '../../../../assets/icons/incorrect-icon/incorrect-icon';
 import { SkippedIcon } from '../../../../assets/icons/skipped-icon/skipped-icon';
@@ -71,10 +71,12 @@ export const StudyResultCards = ({ lessonCards, onLessonCardsChange }: StudyResu
       unseen: 'mark as skipped',
     };
 
-    const options: DropDownOption<LessonCardOutcome>[] = LessonCardOutcomes.map((outcome) => {
-      const value = <div className="study-results-card-option">{optionsText[outcome]}</div>;
-      return { id: outcome, focusable: true, value };
-    });
+    const options: DropDownOption<LessonCardOutcome, ReactNode>[] = LessonCardOutcomes.map(
+      (outcome) => {
+        const value = <div className="study-results-card-option">{optionsText[outcome]}</div>;
+        return { id: outcome, focusable: true, value };
+      }
+    );
 
     return options.filter((option) => option.id !== outcome);
   }
@@ -86,7 +88,10 @@ export const StudyResultCards = ({ lessonCards, onLessonCardsChange }: StudyResu
     setOpenMenuCardKey(isOpen ? cardKey : '');
   }
 
-  function handleOptionSelect(option: DropDownOption<LessonCardOutcome>, cardKey: string) {
+  function handleOptionSelect(
+    option: DropDownOption<LessonCardOutcome, ReactNode>,
+    cardKey: string
+  ) {
     const index = lessonCards.findIndex((card) => card.key === cardKey);
     const newLessonCards = [...lessonCards];
     newLessonCards[index] = { ...newLessonCards[index], outcome: option.id };

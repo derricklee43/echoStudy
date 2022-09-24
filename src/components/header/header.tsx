@@ -111,7 +111,7 @@ export const Header = ({
     }
   }
 
-  function getDeckOptions(): DropDownOption<string>[] {
+  function getDeckOptions(): DropDownOption<string, string>[] {
     return decks.map((deck) => ({
       id: deck.metaData.id.toString(),
       value: deck.metaData.title,

@@ -13,13 +13,13 @@ export interface SearchBarProps {
   initialText?: string;
   placeholder?: string;
   disabled?: boolean;
-  dropDownData?: DropDownOption<string>[];
+  dropDownData?: DropDownOption<string, string>[];
   dropDownIgnoreCase?: boolean;
   debounceMs?: number;
   onChange?: (value: string) => void;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
-  onDropdownClick?: (option: DropDownOption<string>) => void;
+  onDropdownClick?: (option: DropDownOption<string, string>) => void;
 }
 
 export const SearchBar = ({
@@ -101,8 +101,8 @@ export const SearchBar = ({
     );
   }
 
-  function optionIncludesValueFilter(option: DropDownOption<string>) {
-    const optionVal = option.value as string;
+  function optionIncludesValueFilter(option: DropDownOption<string, string>) {
+    const optionVal = option.value;
     const searchVal = value.trim();
     return dropDownIgnoreCase
       ? includesIgnoreCase(optionVal, searchVal)

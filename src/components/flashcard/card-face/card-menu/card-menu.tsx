@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
 import { AllCardLanguages, CardLanguage } from '../../../../models/language';
 import { DropDownOption } from '../../../drop-down-options/drop-down-options';
 import { KebabMenu } from '../../../kebab-menu/kebab-menu';
 import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
 import './card-menu.scss';
+
+const langDropdownId = 'lang';
+const swapOptionId = 'swap';
+
+const dropDownOptionIDs = [langDropdownId, swapOptionId] as const;
+type CardMenuDropdownID = typeof dropDownOptionIDs[number];
 
 interface CardFaceProps {
   language: CardLanguage;
@@ -22,10 +28,8 @@ export const CardMenu = ({
   onSwapContentClick,
 }: CardFaceProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const langDropdownId = 'lang';
-  const swapOptionId = 'swap';
 
-  const options: DropDownOption<React.Key>[] = [
+  const options: DropDownOption<CardMenuDropdownID, ReactNode>[] = [
     { id: langDropdownId, focusable: false, value: getLanguageDropdownOption() },
     { id: swapOptionId, focusable: true, value: getSwapOption() },
   ];
@@ -41,7 +45,7 @@ export const CardMenu = ({
     />
   );
 
-  function handleOptionSelect(option: DropDownOption<React.ReactNode>) {
+  function handleOptionSelect(option: DropDownOption<CardMenuDropdownID, ReactNode>) {
     if (option.id === swapOptionId) {
       onSwapContentClick();
       setIsOpen(false);
