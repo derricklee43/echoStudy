@@ -15,11 +15,11 @@ export const SIDEBAR_ROUTE_ITEMS: SidebarRouteItemProps[] = [
     route: paths.createDeck,
   },
   {
-    name: 'study',
-    route: paths.study,
-  },
-  {
     name: 'search',
     route: paths.search,
+  },
+  {
+    name: 'my profile',
+    route: paths.profile,
   },
 ];
