@@ -6,7 +6,7 @@ import './bubble-divider.scss';
 
 interface BubbleDividerProps {
   variantColor?: 'dark' | 'light';
-  variantType?: 'divider' | 'drop-down';
+  variantType?: 'divider' | 'drop-down' | 'drop-down-reveal';
   className?: string;
   buttonClassName?: string;
   label: string;
@@ -23,9 +23,12 @@ export const BubbleDivider = ({
 }: BubbleDividerProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // should the divider move with the content (hugs the bottom)?
+  const shouldParchmentScroll = variantType !== 'drop-down-reveal';
+
   return (
     <div className={`c-bubble-divider-container ${className}`}>
-      <AnimatePresence>{isOpen && getChildren()}</AnimatePresence>
+      {shouldParchmentScroll && <AnimatePresence>{isOpen && getChildren()}</AnimatePresence>}
       <div className={`c-bubble-divider ${variantColor}`}>
         <hr />
         <Button
@@ -33,10 +36,11 @@ export const BubbleDivider = ({
           onClick={handleBubbleClick}
         >
           {label}
-          {variantType === 'drop-down' && getArrow()}
+          {['drop-down', 'drop-down-reveal'].includes(variantType) && getArrow()}
         </Button>
         <hr />
       </div>
+      {!shouldParchmentScroll && <AnimatePresence>{isOpen && getChildren()}</AnimatePresence>}
     </div>
   );
 
@@ -62,12 +66,20 @@ export const BubbleDivider = ({
   }
 
   function handleBubbleClick() {
-    if (variantType === 'drop-down') {
+    if (['drop-down', 'drop-down-reveal'].includes(variantType)) {
       setIsOpen(!isOpen);
     }
   }
 
   function getArrow() {
-    return <ArrowIcon className="c-bubble-divider-arrow" orientation={isOpen ? 'up' : 'down'} />;
+    let orientation: 'up' | 'down' | undefined;
+
+    if (variantType === 'drop-down') {
+      orientation = isOpen ? 'up' : 'down';
+    } else if (variantType === 'drop-down-reveal') {
+      orientation = isOpen ? 'down' : 'up';
+    }
+
+    return <ArrowIcon className="c-bubble-divider-arrow" orientation={orientation} />;
   }
 };

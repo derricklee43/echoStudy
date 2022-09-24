@@ -45,15 +45,25 @@ const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: Wel
           <span className="greeting-text">{`hi, ${userData?.username}`}</span>
           <img className="profile-picture" src={pfpUrl} loading="lazy" />
         </div>
-        <Button className="profile-button" onClick={(event) => onProfileClick?.(event)}>
+        <Button className="profile-button" onClick={handleProfileClick}>
           my profile
         </Button>
-        <Button className="logout-button" onClick={(event) => onLogoutClick?.(event)}>
+        <Button className="logout-button" onClick={handleLogoutClick}>
           log out
         </Button>
       </AccountPopup>
     </>
   );
+
+  function handleProfileClick(event: React.MouseEvent) {
+    onProfileClick?.(event);
+    setShowPopup(false);
+  }
+
+  function handleLogoutClick(event: React.MouseEvent) {
+    onLogoutClick?.(event);
+    setShowPopup(false);
+  }
 };
 
 function getFallback(props: WelcomeUserProps) {
