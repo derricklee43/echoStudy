@@ -44,7 +44,9 @@ const AsyncProfilePage = () => {
         <PageHeader label="my profile" goBackLabel="go back" onGoBackClick={() => navigate(-1)} />
       </div>
       <div className="user-details">
-        <img className="profile-picture" src={pfpUrl} loading="lazy" />
+        <div className="profile-picture-container">
+          <img className="profile-picture" src={pfpUrl} loading="lazy" />
+        </div>
         <span className="username">{`@${userData?.username}`}</span>
         <span className="full-name">{userData?.email.toLowerCase()}</span>
         <span className="date-joined">member since 2022</span>

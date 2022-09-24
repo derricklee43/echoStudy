@@ -9,6 +9,7 @@ $deck-cover-blue: #3e4154;
 $flashcard-white: #cfd2e3;
 $green: #8bc0a3;
 $red: #c08b8b;
+$light-red: #e16060;
 
 $white: #ffff;
 
@@ -17,4 +18,14 @@ $blue-hover: #1e1f31;
 $light-placeholder: #636b8b;
 $dark-placeholder: #595c80;
 
-$light-red: #e16060;
+$blue-gradient: linear-gradient(
+  90deg,
+  #4a57b5,
+  #196eca,
+  #0084da,
+  #0099e4,
+  #00ade9,
+  #00c0ea,
+  #00d3e8,
+  #06e4e4
+);

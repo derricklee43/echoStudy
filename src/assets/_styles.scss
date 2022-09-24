@@ -94,9 +94,9 @@ $z-popup-modal: 1024;
 }
 
 @include animation-mixin($white);
-@mixin infinite-pulse {
+@mixin infinite-pulse($time: 1s) {
   box-shadow: 0 0 0 $white;
-  animation: pulse 1s infinite;
+  animation: pulse $time infinite;
 }
 
 @mixin light-hr {
