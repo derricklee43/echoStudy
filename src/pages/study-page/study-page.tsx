@@ -40,7 +40,14 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
     return <StudyLessonPage deck={deck} onLessonComplete={handleLessonComplete} />;
   }
   function getStudyLessonResultsPage() {
-    return <StudyResultsPage lessonCards={lessonCards} deck={deck} lessonTime={lessonTime} />;
+    return (
+      <StudyResultsPage
+        lessonCards={lessonCards}
+        deck={deck}
+        lessonTime={lessonTime}
+        onLessonCardsChange={setLessonCards}
+      />
+    );
   }
 
   function handleLessonComplete(lessonCards: LessonCard[], lessonTime: number) {

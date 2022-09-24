@@ -3,7 +3,9 @@ import { CardContent } from './card-content';
 import { Deck } from './deck';
 import { DeckLanguage } from './language';
 
-export type LessonCardOutcome = 'unseen' | 'correct' | 'incorrect';
+export const LessonCardOutcomes = ['correct', 'unseen', 'incorrect'] as const;
+
+export type LessonCardOutcome = typeof LessonCardOutcomes[number];
 
 export interface LessonCard extends Card {
   front: LessonCardContent;

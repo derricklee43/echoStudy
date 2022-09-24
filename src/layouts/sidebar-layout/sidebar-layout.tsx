@@ -15,8 +15,8 @@ export const SidebarLayout = () => {
     if (!navToggled) return;
 
     const resizeHandler = throttle(() => {
-      // if greater than medium size (768px), hide nav
-      if (window.innerWidth > 768) {
+      // if greater than large size (1024px), hide nav
+      if (window.innerWidth > 1024) {
         setNavToggled(false);
       }
     }, 250);

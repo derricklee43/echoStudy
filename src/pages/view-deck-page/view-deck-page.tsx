@@ -48,15 +48,18 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
   );
 
   function getFlashcards() {
-    return deck.cards.map((card) => (
-      <ReadOnlyFlashcard
-        key={card.key}
-        variant="light-blue"
-        frontText={card.front.text}
-        backText={card.back.text}
-        onFrontSpeakerClick={() => playLazyAudio(card.front.audio)}
-        onBackSpeakerClick={() => playLazyAudio(card.back.audio)}
-      />
+    return deck.cards.map((card, index) => (
+      <div className="view-deck-flashcard-container" key={card.key}>
+        <div className="view-deck-flashcard-index">{`${index + 1}.`}</div>
+        <ReadOnlyFlashcard
+          className="view-deck-flashcard"
+          variant="light-blue"
+          frontText={card.front.text}
+          backText={card.back.text}
+          onFrontSpeakerClick={() => playLazyAudio(card.front.audio)}
+          onBackSpeakerClick={() => playLazyAudio(card.back.audio)}
+        />
+      </div>
     ));
   }
 

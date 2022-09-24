@@ -11,20 +11,20 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
 .sidebar-layout-header {
   .c-header-content {
     .c-header-title {
-      @media screen and (max-width: $medium-screen) {
+      @media screen and (max-width: $large-screen) {
         flex: 1;
       }
     }
 
     .c-header-title {
-      @media screen and (max-width: $medium-screen) {
+      @media screen and (max-width: $large-screen) {
         flex: 1;
         padding: unset;
       }
     }
 
     .c-account-buttons {
-      @media screen and (max-width: $medium-screen) {
+      @media screen and (max-width: $large-screen) {
         flex: 1;
       }
     }
@@ -32,12 +32,12 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
 }
 
 .sidebar-layout-sidebar {
-  @media screen and (max-width: $large-screen) {
+  @media screen and (max-width: $giant-screen) {
     padding-left: unset;
     width: $sidebar-width / 1.15;
   }
 
-  @media screen and (max-width: $medium-screen) {
+  @media screen and (max-width: $large-screen) {
     display: none;
   }
 }
@@ -47,11 +47,11 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
   margin-left: $sidebar-width;
   padding-top: $header-height;
 
-  @media screen and (max-width: $large-screen) {
+  @media screen and (max-width: $giant-screen) {
     margin-left: ($sidebar-width / 1.15);
   }
 
-  @media screen and (max-width: $medium-screen) {
+  @media screen and (max-width: $large-screen) {
     margin-left: 0;
   }
 
@@ -64,7 +64,7 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
     max-width: 1700px;
     margin: auto;
 
-    @media screen and (max-width: $medium-screen) {
+    @media screen and (max-width: $large-screen) {
       height: calc($content-height + 16px); // to offset flashcard-decks margin shrinking
       padding: 16px ($content-padding / 2);
     }
