@@ -2,9 +2,16 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import { deferredPromise } from '../../helpers/promise';
 import { isDefined, objectSchemaSimple } from '../../helpers/validator';
 import { paths } from '../../routing/paths';
-import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
+import {
+  AuthJwt,
+  authJwtState,
+  authJwtToJson,
+  isAuthJwt,
+  jsonToAuthJwt,
+} from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
 import { useLocalStorage } from '../use-local-storage';
 
@@ -18,6 +25,9 @@ export const isFetchError = objectSchemaSimple<FetchError>({
   statusCode: 'number',
   message: 'string',
 });
+
+// file scoped (static) promise lock on refreshes
+let refreshPromiseLock: Promise<unknown> | undefined = undefined;
 
 /**
  * Fetch wrapper that handles user authentication and automatic token renewal per request.
@@ -119,9 +129,15 @@ export function useFetchWrapper(prependApiUrl?: string) {
       // intermediate step(s) before retrying
       try {
         await _middlewareFetchRetry(statusCode);
+
+        // there was a previous refresh going, block until it completes
+        if (refreshPromiseLock) {
+          await refreshPromiseLock;
+        }
       } catch (error) {
         console.error('Error occurred during fetch retry middleware', error);
       }
+
       return _retryFetch(url, method, body, retriesLeft);
     }
   }
@@ -131,15 +147,25 @@ export function useFetchWrapper(prependApiUrl?: string) {
     switch (statusCode) {
       // jwt expired, refresh the token before retrying
       case 401:
-        const authJwt = _getCurrAuthJwt();
-        const authJwtValid = authJwt && authJwt.accessToken && authJwt.refreshToken;
-        if (authJwtValid) {
-          const payload = authJwtToJson(authJwt);
-          const jwtData = await _retryFetch('/Refresh', 'POST', payload, 0);
-          const newAuthJwt = jsonToAuthJwt(jwtData);
+        if (refreshPromiseLock) {
+          return;
+        }
 
-          simpleLocalStorage.upsert(LocalStorageKeys.authJwt, newAuthJwt);
-          setAuthJwt(newAuthJwt);
+        const authJwt = _getCurrAuthJwt();
+        if (isAuthJwt(authJwt)) {
+          const payload = authJwtToJson(authJwt);
+          const deferred = deferredPromise();
+
+          try {
+            refreshPromiseLock = deferred.promise;
+            const jwtData = await _retryFetch('/Refresh', 'POST', payload, 0);
+            const newAuthJwt = jsonToAuthJwt(jwtData);
+
+            simpleLocalStorage.upsert(LocalStorageKeys.authJwt, newAuthJwt);
+            setAuthJwt(newAuthJwt);
+          } finally {
+            deferred.resolve();
+          }
         }
         break;
     }
