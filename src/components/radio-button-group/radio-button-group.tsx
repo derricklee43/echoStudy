@@ -1,34 +1,44 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button } from '../../components/button/button';
 import './radio-button-group.scss';
 
-export type RadioButtonOptions = Record<string, React.ReactNode>;
+export type RadioButtonOption<I extends string, V extends ReactNode> = { id: I; value: V };
 
-interface ImportCardsPopupProps {
+interface ImportCardsPopupProps<I extends string, V> {
+  variant: 'dark' | 'light';
   className?: string;
-  radioButtonOptions: RadioButtonOptions;
-  selectedButtonKey: string;
-  onButtonSelect: (radioButtonKey: string) => void;
+  radioButtonOptions: RadioButtonOption<I, V>[];
+  selectedButtonId: I;
+  onButtonSelect: (radioButtonId: I) => void;
 }
 
-export const RadioButtonGroup = ({
+export const RadioButtonGroup = <I extends string, V>({
+  variant,
   className = '',
   radioButtonOptions,
-  selectedButtonKey,
+  selectedButtonId,
   onButtonSelect,
-}: ImportCardsPopupProps) => {
+}: ImportCardsPopupProps<I, V>) => {
   return (
-    <div className={`radio-button-group ${className}`}>
-      {Object.entries(radioButtonOptions).map(([key, buttonContent]) => (
-        <Button
-          key={key}
-          className="button-group-radio-button"
-          variant={key === selectedButtonKey ? 'dark' : 'light'}
-          onClick={() => onButtonSelect(key)}
-        >
-          {buttonContent}
-        </Button>
-      ))}
+    <div className={`radio-button-group ${variant} ${className}`}>
+      {radioButtonOptions.map(getButton)}
     </div>
   );
+
+  function getButton(option: RadioButtonOption<I, V>) {
+    const isSelected = option.id === selectedButtonId;
+    const className = isSelected ? 'selected' : 'unselected';
+    console.log(isSelected);
+    const buttonVariant = variant === 'dark' || isSelected ? 'dark' : 'light';
+    return (
+      <Button
+        key={option.id}
+        className={`button-group-radio-button ${className}`}
+        variant={buttonVariant}
+        onClick={() => onButtonSelect(option.id)}
+      >
+        {option.value}
+      </Button>
+    );
+  }
 };

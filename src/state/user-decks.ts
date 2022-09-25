@@ -1,7 +1,6 @@
 import { atom, selector } from 'recoil';
 import { compare, shuffle } from '../helpers/sort';
 import { Deck } from '../models/deck';
-import { testEnglishDeck } from '../models/mock/deck.mock';
 
 export const AllSortRules = [
   'sequential',

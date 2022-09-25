@@ -1,14 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import React, { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { StudyResultCards } from './study-result-cards';
 import { noop } from '../../../../helpers/func';
-import { createNewDeck, Deck } from '../../../../models/deck';
+import { createNewDeck } from '../../../../models/deck';
 import { createNewLessonCard, LessonCard } from '../../../../models/lesson-card';
 import {
   getTestFoxCard,
   getTestMonkeyCard,
   getTestMouseCard,
 } from '../../../../models/mock/card.mock';
-import { StudyResultCards } from './study-result-cards';
 
 const MARK_AS_CORRECT_LABEL = 'mark as correct';
 const MARK_AS_INCORRECT_LABEL = 'mark as incorrect';

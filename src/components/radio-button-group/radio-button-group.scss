@@ -1,13 +1,23 @@
 @import '../../assets/styles';
+@import '../../assets/colors';
 .radio-button-group {
-  @include flex-center;
+  display: flex;
   gap: 10px;
-  padding: 8px 20px;
 
   .button-group-radio-button {
     padding: 8px 20px;
-    &.dark {
+  }
+
+  &.light {
+    .selected {
       border-color: transparent;
+    }
+  }
+
+  &.dark {
+    .unselected {
+      background-color: transparent;
+      color: $light-blue;
     }
   }
 }

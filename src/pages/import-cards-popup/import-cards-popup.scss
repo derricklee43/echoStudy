@@ -14,12 +14,9 @@
     }
   }
 
-  .import-cards-divider {
-    margin: 25px 0px;
-
-    .import-cards-divider-button {
-      padding: 5px 25px;
-    }
+  .import-cards-button-group {
+    @include flex-center;
+    margin: 8px 20px;
   }
 
   .import-cards-input-container {

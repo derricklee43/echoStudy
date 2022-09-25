@@ -63,7 +63,7 @@ describe('MetaDataEditor', () => {
     expect(mockOnDeckChange).toBeCalled();
   });
 
-  it('should call onDeckChange when meta data is changed', () => {
+  it('should call onDeleteClick when delete button is clicked', () => {
     const { metaData } = testEnglishDeck(1);
     const mockOnDeleteClick = jest.fn();
     render(

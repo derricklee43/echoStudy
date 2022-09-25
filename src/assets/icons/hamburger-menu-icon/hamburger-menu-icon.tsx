@@ -1,5 +1,4 @@
 import React from 'react';
-import { noop } from '../../../helpers/func';
 import { ReactComponent as HamburgerMenuSvg } from '../../svg/hamburger-menu.svg';
 import './hamburger-menu-icon.scss';
 

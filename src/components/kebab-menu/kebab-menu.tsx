@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import { KebabMenuIcon } from '../../assets/icons/kebab-menu-icon/kebab-menu-icon';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
 import { useEscapePress } from '../../hooks/use-key-press';
