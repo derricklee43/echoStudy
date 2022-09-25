@@ -1,15 +1,21 @@
 @import '../../../../assets/colors';
 @import '../../../../assets/styles';
 
-.card-menu-language-dropdown {
-  white-space: nowrap;
-}
+.c-card-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
 
-.card-menu-swap-option {
-  display: flex;
-  align-items: center;
+  .card-menu-language-dropdown {
+    white-space: nowrap;
+  }
 
-  .card-menu-swap-icon {
-    margin-right: 10px;
+  .card-menu-swap-option {
+    display: flex;
+    align-items: center;
+
+    .card-menu-swap-icon {
+      margin-right: 10px;
+    }
   }
 }

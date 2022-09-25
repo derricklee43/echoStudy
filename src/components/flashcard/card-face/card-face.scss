@@ -36,12 +36,6 @@ $button-strip-height: 35px;
     color: $light-blue;
   }
 
-  .c-card-menu {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
   .card-face-textarea {
     @include hover-pointer;
     background-color: transparent;
