@@ -10,14 +10,9 @@ import { TextArea } from '../../components/text-area/text-area';
 import { Card, createNewCard } from '../../models/card';
 import './import-cards-popup.scss';
 
-const TERM_SEPARATORS = [' ', ','] as const;
-type TermSeparator = typeof TERM_SEPARATORS[number];
-
-const CARD_SEPARATORS = [';', '\n'] as const;
-type CardSeparator = typeof CARD_SEPARATORS[number];
-
-const IMPORT_METHODS = ['FILE', 'CLIPBOARD'] as const;
-type ImportMethod = typeof IMPORT_METHODS[number];
+type TermSeparator = ' ' | ',';
+type CardSeparator = ';' | '\n';
+type ImportMethod = 'FILE' | 'CLIPBOARD';
 
 const termDefSeparatorOptions: RadioButtonOption<TermSeparator, string>[] = [
   { id: ',', value: 'commas' },

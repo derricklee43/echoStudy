@@ -28,7 +28,6 @@ export const RadioButtonGroup = <I extends string, V>({
   function getButton(option: RadioButtonOption<I, V>) {
     const isSelected = option.id === selectedButtonId;
     const className = isSelected ? 'selected' : 'unselected';
-    console.log(isSelected);
     const buttonVariant = variant === 'dark' || isSelected ? 'dark' : 'light';
     return (
       <Button
