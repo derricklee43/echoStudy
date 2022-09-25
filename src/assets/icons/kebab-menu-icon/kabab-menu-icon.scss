@@ -2,7 +2,19 @@
 @import '../../styles';
 
 .kebab-icon {
-  &.light path {
+  &.white path {
     fill: $white;
+  }
+
+  &.green path {
+    fill: $green;
+  }
+
+  &.red path {
+    fill: $red;
+  }
+
+  &.light-blue path {
+    fill: $light-blue;
   }
 }

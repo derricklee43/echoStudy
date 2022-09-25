@@ -44,7 +44,7 @@ export const FlashcardDecksPage = () => {
           options={AllSortRules.map((item) => ({ id: item, value: item, focusable: true }))}
           label="sort by"
           buttonLabel={sortOption}
-          onOptionSelect={(option) => setSortOption(option.value)}
+          onOptionSelect={(option) => setSortOption(option.id)}
         />
       </div>
       <div className="deck-tile-container">
@@ -84,12 +84,10 @@ export const FlashcardDecksPage = () => {
   }
 
   function onAddDeckClicked() {
-    // todo: maybe different route without any params (:deckId) since there is no 'deck' yet
     navigate(paths.createDeck);
   }
 
   async function fetchDecksAndRefresh() {
-    // todo: should get deck by user id in the future
     const fetchedDecks = await decksClient.getAllDecks();
     setUserDecks(fetchedDecks);
   }

@@ -1,0 +1,22 @@
+@import '../../../../assets/colors';
+@import '../../../../assets/styles';
+
+.study-results-flashcard-container {
+  @include flex-center;
+  width: 100%;
+
+  .study-results-flashcard-icon {
+    width: 60px;
+    padding-right: 10px;
+    @include flex-center;
+
+    @media screen and (max-width: $medium-screen) {
+      padding: 0px;
+    }
+
+    .study-results-card-option {
+      @include flex-center;
+      padding: 8px;
+    }
+  }
+}

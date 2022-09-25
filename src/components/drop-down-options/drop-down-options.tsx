@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '../../animations/fade';
 import { Button } from '../button/button';
@@ -7,18 +7,18 @@ import './drop-down-options.scss';
 /**
  *
  */
-export interface DropDownOption<T> {
-  id: string;
-  value: T;
+export interface DropDownOption<I, V> {
+  id: I;
+  value: V;
   focusable: boolean;
 }
 
-interface DropDownOptionsProps<T> {
+interface DropDownOptionsProps<I, V> {
   className?: string;
   ellipsisOverflow: boolean;
   show: boolean;
-  options?: DropDownOption<T>[];
-  onOptionSelect: (option: DropDownOption<T>) => void;
+  options?: DropDownOption<I, V>[];
+  onOptionSelect: (option: DropDownOption<I, V>) => void;
 }
 
 /**
@@ -28,13 +28,13 @@ interface DropDownOptionsProps<T> {
  *  When enabled, a nested DropDownOptions component will not work due to
  *  this restriction: https://stackoverflow.com/a/6433475/14356299
  */
-export const DropDownOptions = <T extends React.ReactNode>({
+export const DropDownOptions = <I extends string, V extends ReactNode>({
   className = '',
   ellipsisOverflow = true,
   show,
   options,
   onOptionSelect,
-}: DropDownOptionsProps<T>) => {
+}: DropDownOptionsProps<I, V>) => {
   return (
     <AnimatePresence>
       {show && options !== undefined && (
@@ -45,7 +45,7 @@ export const DropDownOptions = <T extends React.ReactNode>({
     </AnimatePresence>
   );
 
-  function getOption(option: DropDownOption<T>) {
+  function getOption(option: DropDownOption<I, V>) {
     const dropDownOverflow = ellipsisOverflow ? 'ellipsis-overflow' : '';
     const className = `c-drop-down-option ${dropDownOverflow}`;
     if (option.focusable) {

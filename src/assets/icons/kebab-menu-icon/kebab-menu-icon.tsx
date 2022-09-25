@@ -4,9 +4,9 @@ import './kabab-menu-icon.scss';
 
 interface KebabMenuIconProps {
   className?: string;
-  variant?: 'dark' | 'light';
+  variant?: 'blue' | 'white' | 'green' | 'red' | 'light-blue';
 }
 
-export const KebabMenuIcon = ({ className = '', variant = 'dark' }: KebabMenuIconProps) => {
+export const KebabMenuIcon = ({ className = '', variant = 'blue' }: KebabMenuIconProps) => {
   return <KebabMenuSvg className={`kebab-icon ${variant} ${className}`} />;
 };

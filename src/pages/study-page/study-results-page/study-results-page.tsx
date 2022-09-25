@@ -1,32 +1,30 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { StudyResultCards } from './study-result-cards/study-result-cards';
 import { CardStackIcon } from '../../../assets/icons/card-stack-icon/card-stack-icon';
 import { ClockIcon } from '../../../assets/icons/clock-icon/clock-icon';
-import { CorrectIcon } from '../../../assets/icons/correct-icon/correct-icon';
-import { IncorrectIcon } from '../../../assets/icons/incorrect-icon/incorrect-icon';
-import { SkippedIcon } from '../../../assets/icons/skipped-icon/skipped-icon';
 import { StarIcon } from '../../../assets/icons/star-con/star-icon';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
 import { Button } from '../../../components/button/button';
-import {
-  ReadOnlyFlashcard,
-  ReadOnlyFlashcardVariant,
-} from '../../../components/read-only-flashcard/read-only-flashcard';
 import { getFormattedMilliseconds } from '../../../helpers/time';
-import { useLazyAudioPlayer } from '../../../hooks/use-lazy-audio-player';
 import { Deck } from '../../../models/deck';
-import { LessonCard, LessonCardOutcome } from '../../../models/lesson-card';
+import { LessonCard } from '../../../models/lesson-card';
 import { paths } from '../../../routing/paths';
 import './study-results-page.scss';
 
 interface StudyResultsPageProps {
   deck: Deck;
   lessonCards: LessonCard[];
+  onLessonCardsChange: (lessonCards: LessonCard[]) => void;
   lessonTime: number;
 }
 
-export const StudyResultsPage = ({ deck, lessonCards, lessonTime }: StudyResultsPageProps) => {
-  const { playLazyAudio } = useLazyAudioPlayer();
+export const StudyResultsPage = ({
+  deck,
+  lessonCards,
+  lessonTime,
+  onLessonCardsChange,
+}: StudyResultsPageProps) => {
   const navigate = useNavigate();
 
   const title = `${deck.metaData.title} Lesson Results`;
@@ -46,7 +44,7 @@ export const StudyResultsPage = ({ deck, lessonCards, lessonTime }: StudyResults
         variantType="divider"
         label="studied cards"
       />
-      {getLessonCards()}
+      <StudyResultCards lessonCards={lessonCards} onLessonCardsChange={onLessonCardsChange} />
     </div>
   );
 
@@ -93,37 +91,5 @@ export const StudyResultsPage = ({ deck, lessonCards, lessonTime }: StudyResults
         </div>
       </>
     );
-  }
-
-  function getLessonCards() {
-    const icons: Record<LessonCardOutcome, React.ReactNode> = {
-      correct: <CorrectIcon />,
-      incorrect: <IncorrectIcon />,
-      unseen: <SkippedIcon />,
-    };
-
-    const variants: Record<LessonCardOutcome, ReadOnlyFlashcardVariant> = {
-      correct: 'green',
-      incorrect: 'red',
-      unseen: 'light-blue',
-    };
-
-    return lessonCards.map((card) => {
-      const icon = icons[card.outcome];
-      const variant = variants[card.outcome];
-      return (
-        <div key={card.key} className="study-results-flashcard-container">
-          <div className="study-results-flashcard-icon">{icon}</div>
-          <ReadOnlyFlashcard
-            className="study-results-flashcard"
-            variant={variant}
-            frontText={card.front.text}
-            backText={card.back.text}
-            onFrontSpeakerClick={() => playLazyAudio(card.front.audio)}
-            onBackSpeakerClick={() => playLazyAudio(card.back.audio)}
-          />
-        </div>
-      );
-    });
   }
 };

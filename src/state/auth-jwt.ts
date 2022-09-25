@@ -1,5 +1,11 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
+import { ECHOSTUDY_API_URL } from '../helpers/api';
 import { objectSchemaSimple } from '../helpers/validator';
+import { useFetchWrapper } from '../hooks/api/use-fetch-wrapper';
+
+///////////////
+/// AuthJwt ///
+///////////////
 
 export interface AuthJwt {
   accessToken: string;
@@ -9,6 +15,45 @@ export interface AuthJwt {
 export const authJwtState = atom<AuthJwt | undefined>({
   key: 'authJwtState',
   default: undefined,
+});
+
+////////////////
+/// UserInfo ///
+////////////////
+
+export interface UserInfo {
+  username: string;
+  email: string;
+  phoneNumber?: string;
+}
+
+export const userInfoStateAsync = selector<UserInfo | undefined>({
+  key: 'userInfoStateAsync',
+  get: async ({ get }) => {
+    const authJwt = get(authJwtState);
+
+    if (!isAuthJwt(authJwt)) {
+      return undefined;
+    }
+
+    // we unfortuantely cannot use `useFetchWrapper` since that adds hooks (breaks rule of hooks)
+    // either we replace this selector with effects in a nested component that updates this atom
+    // or we write a new fetcher to avoid using stateful hooks (which doesn't seem really possible)
+    try {
+      const response = await fetch(`${ECHOSTUDY_API_URL}/users`, {
+        method: 'GET',
+        headers: {
+          ...{ Authorization: `Bearer ${authJwt.accessToken}` },
+        },
+      });
+      const userInfo = await response.json();
+
+      return { ...userInfo, phoneNumber: userInfo.phoneNumber ?? undefined };
+    } catch (error) {
+      console.error('An error occurred while resolving userInfoState selector:', error);
+      return undefined;
+    }
+  },
 });
 
 ////////////////////////

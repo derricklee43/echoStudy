@@ -4,6 +4,7 @@ import { ReactComponent as SearchIcon } from '../../assets/svg/search-icon.svg';
 import { debounce, noop } from '../../helpers/func';
 import { includesIgnoreCase } from '../../helpers/string';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
+import { useEscapePress } from '../../hooks/use-key-press';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
@@ -13,13 +14,13 @@ export interface SearchBarProps {
   initialText?: string;
   placeholder?: string;
   disabled?: boolean;
-  dropDownData?: DropDownOption<string>[];
+  dropDownData?: DropDownOption<string, string>[];
   dropDownIgnoreCase?: boolean;
   debounceMs?: number;
   onChange?: (value: string) => void;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
-  onDropdownClick?: (option: DropDownOption<string>) => void;
+  onDropdownClick?: (option: DropDownOption<string, string>) => void;
 }
 
 export const SearchBar = ({
@@ -44,8 +45,9 @@ export const SearchBar = ({
 
   // hide dropdown after clicking outside the search bar wrapper div
   const wrapperDivRef = useRef(null);
-  useOutsideClick(wrapperDivRef, () => setHasClickedSinceLastChange(true));
+  useOutsideClick(wrapperDivRef, () => setHasClickedSinceLastChange(true), shouldShowDropDown());
   useFocusTrap(wrapperDivRef, shouldShowDropDown());
+  useEscapePress(() => setHasClickedSinceLastChange(true), shouldShowDropDown());
 
   return (
     <div className="c-search-bar-wrapper" ref={wrapperDivRef}>
@@ -101,7 +103,7 @@ export const SearchBar = ({
     );
   }
 
-  function optionIncludesValueFilter(option: DropDownOption<string>) {
+  function optionIncludesValueFilter(option: DropDownOption<string, string>) {
     const optionVal = option.value;
     const searchVal = value.trim();
     return dropDownIgnoreCase

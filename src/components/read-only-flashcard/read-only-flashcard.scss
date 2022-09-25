@@ -9,6 +9,12 @@ $card-height: 175px;
   width: 100%;
   gap: 20px;
   margin: 10px 0px;
+
+  @media screen and (max-width: $medium-screen) {
+    display: block;
+    margin: 25px 0px;
+  }
+
   .rof-card-face {
     display: flex;
     flex-grow: 1;
@@ -19,6 +25,12 @@ $card-height: 175px;
     height: $card-height;
     text-align: center;
     overflow-y: auto;
+
+    @media screen and (max-width: $medium-screen) {
+      &:first-child {
+        margin-bottom: 10px;
+      }
+    }
 
     .rof-button-strip {
       position: sticky;

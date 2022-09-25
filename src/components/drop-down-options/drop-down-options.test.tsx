@@ -58,7 +58,7 @@ describe('DropDownOptions', () => {
         ellipsisOverflow={false}
         show={true}
         options={TEST_OPTIONS_SMALL}
-        onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
+        onOptionSelect={(option) => mockOnOptionSelect(option.value)}
       />
     );
 
@@ -77,7 +77,7 @@ describe('DropDownOptions', () => {
         ellipsisOverflow={false}
         show={true}
         options={testOptions}
-        onOptionSelect={(option: DropDownOption<string>) => mockOnOptionSelect(option.value)}
+        onOptionSelect={(option) => mockOnOptionSelect(option.value)}
       />
     );
 

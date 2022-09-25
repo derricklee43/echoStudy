@@ -1,0 +1,82 @@
+@import '../../../assets/colors';
+@import '../../../assets/styles';
+
+// popup styles
+.welcome-account-popup {
+  display: flex;
+  flex-direction: column;
+
+  .c-welcome-presentable {
+    padding: 8px 16px;
+
+    .greeting-text {
+      display: block;
+      color: $blue;
+    }
+  }
+
+  .profile-button,
+  .logout-button {
+    margin: 0px 2px 2px 2px;
+    padding: 12px;
+    border: none;
+    border-radius: $standard-radius / 2;
+    background-color: $deck-cover-blue;
+    text-align: right;
+  }
+}
+
+// fallback styles
+.c-account-popup-fallback {
+  .logout-button {
+    @include hover($light-blue);
+    padding: 12px;
+    border: none;
+    background-color: $electric-blue;
+  }
+}
+
+// normal styles
+.c-header-welcome-user {
+  // classes to apply when popup toggled
+  &.popup {
+    position: relative;
+
+    .presentable {
+      // not display none; we still want it to take up space
+      visibility: hidden;
+    }
+  }
+
+  .with-popup {
+    display: none;
+  }
+}
+
+// main presentation (name-image) for this component
+.c-welcome-presentable {
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+
+  .greeting-text {
+    color: $white;
+    font-weight: bold;
+    white-space: nowrap;
+    align-self: center;
+    padding-top: 2px;
+
+    max-width: max(150px, 20vw);
+    @include ellipsis-overflow;
+
+    @media screen and (max-width: $large-screen) {
+      display: none;
+    }
+  }
+
+  .profile-picture {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+}

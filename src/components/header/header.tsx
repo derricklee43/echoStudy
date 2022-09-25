@@ -2,11 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { WelcomeUser } from './welcome-user/welcome-user';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '../../assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { useUserClient } from '../../hooks/api/use-user-client';
 import { paths } from '../../routing/paths';
-import { authJwtState } from '../../state/auth-jwt';
+import { authJwtState, isAuthJwt } from '../../state/auth-jwt';
 import { navToggledState } from '../../state/nav';
 import { userDecksSortedState } from '../../state/user-decks';
 import { Button } from '../button/button';
@@ -29,6 +30,7 @@ export const Header = ({
 }: HeaderProps) => {
   const authJwt = useRecoilValue(authJwtState);
   const decks = useRecoilValue(userDecksSortedState);
+
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
 
   const userClient = useUserClient();
@@ -91,12 +93,8 @@ export const Header = ({
   }
 
   function getAccountButtons() {
-    if (authJwt && authJwt.accessToken && authJwt.refreshToken) {
-      return (
-        <Button onClick={handleLogoutClick} className="logout-button">
-          logout
-        </Button>
-      );
+    if (isAuthJwt(authJwt)) {
+      return <WelcomeUser onProfileClick={handleProfileClick} onLogoutClick={handleLogoutClick} />;
     } else {
       return (
         <>
@@ -111,7 +109,7 @@ export const Header = ({
     }
   }
 
-  function getDeckOptions(): DropDownOption<string>[] {
+  function getDeckOptions(): DropDownOption<string, string>[] {
     return decks.map((deck) => ({
       id: deck.metaData.id.toString(),
       value: deck.metaData.title,
@@ -125,6 +123,10 @@ export const Header = ({
 
   function handleSignInClick() {
     navigate(paths.signIn, { replace: true }); // replace may be a mistake, we'll see
+  }
+
+  function handleProfileClick() {
+    navigate(paths.profile);
   }
 
   function handleLogoutClick() {

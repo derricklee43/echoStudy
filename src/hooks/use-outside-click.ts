@@ -22,9 +22,7 @@ export const useOutsideClick = (
         action(event);
       }
     };
-
     document.addEventListener('mousedown', handleOutsideClick);
-
     // destructor; called when component using this hook gets destroyed or a dependency changes
     return () => {
       if (!active) return;

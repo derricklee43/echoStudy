@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
-import { objectSchemaSimple } from '../../helpers/validator';
+import { isDefined, objectSchemaSimple } from '../../helpers/validator';
 import { paths } from '../../routing/paths';
 import { AuthJwt, authJwtState, authJwtToJson, jsonToAuthJwt } from '../../state/auth-jwt';
 import { LocalStorageKeys } from '../../state/init';
@@ -76,7 +76,12 @@ export function useFetchWrapper(prependApiUrl?: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     const maybeContentTypeHeader = body ? { 'Content-Type': 'application/json' } : undefined;
-    const resolvedUrl = (prependApiUrl ?? '') + url;
+
+    // only prepend if url is NOT an absolute url
+    let resolvedUrl = url;
+    if (!url.includes('://') && isDefined(prependApiUrl)) {
+      resolvedUrl = prependApiUrl + url;
+    }
 
     const response = await fetch(resolvedUrl, {
       method: method,
@@ -161,6 +166,8 @@ export function useFetchWrapper(prependApiUrl?: string) {
       return undefined;
     }
 
+    // NOTE: this needs to be updated to include more types as needed
+    // (e.g. image/jpeg, text/blob, etrc.)
     if (contentType?.startsWith('application/json')) {
       return JSON.parse(text);
     } else if (contentType?.startsWith('text/plain')) {
