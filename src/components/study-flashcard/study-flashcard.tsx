@@ -9,6 +9,7 @@ interface StudyFlashcardProps {
   backContent: ReactNode;
   activeSide: 'front' | 'back';
   variant: 'light' | 'dark';
+  cardFaceClass?: string;
   frontLabel?: string;
   backLabel?: string;
   id: string;
@@ -17,6 +18,7 @@ interface StudyFlashcardProps {
 export const StudyFlashcard = ({
   frontContent,
   frontLabel = '',
+  cardFaceClass = '',
   backContent,
   backLabel = '',
   activeSide,
@@ -31,7 +33,7 @@ export const StudyFlashcard = ({
         initial={{ x: 15, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -15, opacity: 0 }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.25 }}
       >
         <FlipTile
           className="study-card"
@@ -47,7 +49,7 @@ export const StudyFlashcard = ({
 
   function getCardFace(content: ReactNode, label: string) {
     return (
-      <div className={`c-study-flashcard-content  ${variant}`}>
+      <div className={`c-study-flashcard-content  ${variant} ${cardFaceClass}`}>
         <label className="c-study-flashcard-side-label">{label}</label>
         {content}
       </div>

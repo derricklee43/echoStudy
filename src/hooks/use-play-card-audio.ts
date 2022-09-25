@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
+import correctSound from '../assets/sounds/correct.wav';
+import incorrectSound from '../assets/sounds/incorrect.wav';
 import { LazyAudio } from '../models/lazy-audio';
 import { LessonCard } from '../models/lesson-card';
 
@@ -69,6 +71,8 @@ export function usePlayCardAudio() {
     // play front audio
     setActiveCard(lessonCard.key);
     setActiveCardSide('front');
+
+    await wait(500);
     await playCardAudio(frontAudio);
 
     // Start capturing speech
@@ -85,8 +89,11 @@ export function usePlayCardAudio() {
     // I think this is reasonable for now, but we might want to come up with a better system in the future.
     const capturedSpeech = await capturedSpeechPromise;
     const wasCorrect = capturedSpeech.transcript === lessonCard.back.text;
+
     const outcome = wasCorrect ? 'correct' : 'incorrect';
-    console.log(capturedSpeech.transcript, outcome);
+    const sound = wasCorrect ? correctSound : incorrectSound;
+    const outcomeAudio = new LazyAudio(sound);
+    await playCardAudio(outcomeAudio);
 
     // play back audio
     setActiveCardSide('back');

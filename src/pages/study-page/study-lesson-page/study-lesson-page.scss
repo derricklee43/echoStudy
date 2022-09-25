@@ -22,6 +22,14 @@
       }
     }
 
+    .correct-card-face {
+      background-color: $green;
+    }
+
+    .incorrect-card-face {
+      background-color: $red;
+    }
+
     .study-page-progress-bar {
       padding: 40px 0px 20px 0px;
     }

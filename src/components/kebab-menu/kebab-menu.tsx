@@ -30,7 +30,7 @@ export const KebabMenu = <I extends string, V extends ReactNode>({
   useEscapePress(() => setIsOpen(false), isOpen);
 
   return (
-    <div className={`c-kebab-menu $${className}`} ref={kebabMenuRef}>
+    <div className={`c-kebab-menu ${className}`} ref={kebabMenuRef}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
         variant="invisible"

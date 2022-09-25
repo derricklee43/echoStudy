@@ -28,7 +28,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   } = usePlayCardAudio();
 
   return {
-    currentCardKey: currentCard?.key,
+    currentCard,
     activeCardSide,
     completedCards: [...completedCards],
     isCapturingSpeech,
@@ -59,6 +59,11 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     // TODO: will want a stopwatch to both replay current card and play previous card
     clearAudio();
     const next = previousCard(currentCard, upcomingCards, completedCards);
+
+    // undo the last result
+    const updatedCard: LessonCard = { ...next.currentCard, outcome: 'unseen' };
+    setCurrentCard(updatedCard);
+
     if (!isPaused) {
       playCard(next.currentCard, next.upcomingCards, next.completedCards);
     }
@@ -80,6 +85,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
 
     // TODO: for future lesson types we would update the upcoming cards
     const updatedCard = await playAudio(currentCard);
+    setCurrentCard(updatedCard);
     const next = nextCard(updatedCard, upcomingCards, completedCards);
 
     playCard(next.currentCard, next.upcomingCards, next.completedCards);
