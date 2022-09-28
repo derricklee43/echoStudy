@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'path';
 import { RegistrationPanel } from '../../components/registration-panel/registration-panel';
 import { TextBox } from '../../components/text-box/text-box';
 import { isEmptyObject } from '../../helpers/validator';

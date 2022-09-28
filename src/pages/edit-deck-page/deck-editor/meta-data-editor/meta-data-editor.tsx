@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
 import { Button } from '../../../../components/button/button';
 import { LanguageDropDown } from '../../../../components/language-drop-down/drop-down-options/language-drop-down';
+import {
+  RadioButtonGroup,
+  RadioButtonOption,
+} from '../../../../components/radio-button-group/radio-button-group';
 import { TextArea } from '../../../../components/text-area/text-area';
 import { TextBox } from '../../../../components/text-box/text-box';
 import { Card } from '../../../../models/card';
-import { DeckMetaData } from '../../../../models/deck';
-import { AllDeckLanguages, DeckLanguage } from '../../../../models/language';
+import { Access, DeckMetaData } from '../../../../models/deck';
+import { AllDeckLanguages } from '../../../../models/language';
 import { ImportCardsPopup } from '../../../import-cards-popup/import-cards-popup';
 import './meta-data-editor.scss';
 
@@ -24,13 +28,12 @@ export const MetaDataEditor = ({
   onImportedCardsAdd,
 }: DeckEditorProps) => {
   const [showImportModal, setShowImportModal] = useState(false);
-
   return (
     <div className="deck-meta">
       <div className="deck-meta-title">
         <TextBox
           variant="dark"
-          onChange={handleDeckTitleChange}
+          onChange={(title) => handleDeckUpdate('title', title)}
           value={deckMetaData.title}
           label="title"
           placeholder="add a title"
@@ -44,7 +47,7 @@ export const MetaDataEditor = ({
           variant="dark"
           placeholder="add a description"
           value={deckMetaData.desc}
-          onChange={handleDeckDescChange}
+          onChange={(desc) => handleDeckUpdate('desc', desc)}
         />
         <div className="popup-buttons">
           <Button onClick={handleImportClick} size="medium">
@@ -67,16 +70,25 @@ export const MetaDataEditor = ({
             languages={AllDeckLanguages}
             label="default term language"
             language={deckMetaData.frontLang}
-            onLanguageSelect={handleFrontLanguageSelect}
+            onLanguageSelect={(lang) => handleDeckUpdate('frontLang', lang)}
             variant="dark"
           />
           <LanguageDropDown
             label="default definition language"
             languages={AllDeckLanguages}
             language={deckMetaData.backLang}
-            onLanguageSelect={handleBackLanguageSelect}
+            onLanguageSelect={(lang) => handleDeckUpdate('backLang', lang)}
             variant="dark"
           />
+          <div>
+            <div className="deck-meta-access-level-label">who can see your deck?</div>
+            <RadioButtonGroup
+              variant="dark"
+              onButtonSelect={(access) => handleDeckUpdate('access', access)}
+              selectedButtonId={deckMetaData.access}
+              radioButtonOptions={getAccessOptions()}
+            />
+          </div>
           <Button onClick={onDeleteClick} size="medium">
             delete deck
           </Button>
@@ -85,20 +97,15 @@ export const MetaDataEditor = ({
     </div>
   );
 
-  function handleFrontLanguageSelect(frontLang: DeckLanguage) {
-    onDeckMetaDataChange({ ...deckMetaData, frontLang });
+  function getAccessOptions(): RadioButtonOption<Access, string>[] {
+    return [
+      { id: 'Private', value: 'just me' },
+      { id: 'Public', value: 'everyone' },
+    ];
   }
 
-  function handleBackLanguageSelect(backLang: DeckLanguage) {
-    onDeckMetaDataChange({ ...deckMetaData, backLang });
-  }
-
-  function handleDeckTitleChange(title: string) {
-    onDeckMetaDataChange({ ...deckMetaData, title });
-  }
-
-  function handleDeckDescChange(desc: string) {
-    onDeckMetaDataChange({ ...deckMetaData, desc });
+  function handleDeckUpdate<T extends keyof DeckMetaData>(key: T, value: DeckMetaData[T]) {
+    onDeckMetaDataChange({ ...deckMetaData, [key]: value });
   }
 
   function handleImportClick() {

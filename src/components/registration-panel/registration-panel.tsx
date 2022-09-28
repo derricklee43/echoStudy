@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UpToggle } from '../../animations/up-toggle';
 import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
 import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';

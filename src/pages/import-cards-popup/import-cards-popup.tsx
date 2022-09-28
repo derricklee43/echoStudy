@@ -1,44 +1,44 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Button } from '../../components/button/button';
 import { FileInput, ImportedFile } from '../../components/file-input/file-input';
 import { PopupModal } from '../../components/popup-modal/popup-modal';
 import {
   RadioButtonGroup,
-  RadioButtonOptions,
+  RadioButtonOption,
 } from '../../components/radio-button-group/radio-button-group';
 import { TextArea } from '../../components/text-area/text-area';
 import { Card, createNewCard } from '../../models/card';
 import './import-cards-popup.scss';
+
+type TermSeparator = ' ' | ',';
+type CardSeparator = ';' | '\n';
+type ImportMethod = 'FILE' | 'CLIPBOARD';
+
+const termDefSeparatorOptions: RadioButtonOption<TermSeparator, string>[] = [
+  { id: ',', value: 'commas' },
+  { id: ' ', value: 'spaces' },
+];
+
+const cardSeparatorOptions: RadioButtonOption<CardSeparator, string>[] = [
+  { id: ';', value: 'semicolons' },
+  { id: '\n', value: 'new lines' },
+];
+
+const importMethodOptions: RadioButtonOption<ImportMethod, string>[] = [
+  { id: 'FILE', value: 'upload file' },
+  { id: 'CLIPBOARD', value: 'copy and paste' },
+];
 
 interface ImportCardsPopupProps {
   showPopup: boolean;
   onClose: (importedCards: Card[]) => void;
 }
 
-const termDefSeparatorOptions: RadioButtonOptions = {
-  ',': 'commas',
-  ' ': 'spaces',
-};
-
-const cardSeparatorOptions: RadioButtonOptions = {
-  ';': 'semicolons',
-  '\n': 'new lines',
-};
-
-const enum IMPORT_METHODS {
-  'FILE' = 'FILE',
-  'CLIPBOARD' = 'CLIPBOARD',
-}
-const importMethodOptions: RadioButtonOptions = {
-  [IMPORT_METHODS.FILE]: 'upload file',
-  [IMPORT_METHODS.CLIPBOARD]: 'copy and paste',
-};
-
 export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) => {
-  const [termDefSeparator, setTermDefSeparator] = useState('');
-  const [cardSeparator, setCardSeparator] = useState('');
+  const [termDefSeparator, setTermDefSeparator] = useState<TermSeparator>(',');
+  const [cardSeparator, setCardSeparator] = useState<CardSeparator>(';');
   const [textAreaValue, setTextAreaValue] = useState('');
-  const [importMethod, setImportMethod] = useState('');
+  const [importMethod, setImportMethod] = useState<ImportMethod>('FILE');
   const [importedFile, setImportedFile] = useState<ImportedFile>();
 
   const isImportable = isImportConfigValid();
@@ -50,20 +50,26 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
           1. what separates the terms and definitions?
         </div>
         <RadioButtonGroup
+          className="import-cards-button-group"
+          variant="light"
           radioButtonOptions={termDefSeparatorOptions}
-          selectedButtonKey={termDefSeparator}
+          selectedButtonId={termDefSeparator}
           onButtonSelect={setTermDefSeparator}
         />
         <div className="import-cards-list-item-label">2. what separates each card?</div>
         <RadioButtonGroup
+          className="import-cards-button-group"
+          variant="light"
           radioButtonOptions={cardSeparatorOptions}
-          selectedButtonKey={cardSeparator}
+          selectedButtonId={cardSeparator}
           onButtonSelect={setCardSeparator}
         />
         <div className="import-cards-list-item-label">3. how to import your cards?</div>
         <RadioButtonGroup
+          className="import-cards-button-group"
+          variant="light"
           radioButtonOptions={importMethodOptions}
-          selectedButtonKey={importMethod}
+          selectedButtonId={importMethod}
           onButtonSelect={onImportMethodChange}
         />
         <div className="import-cards-input-container"> {getImportComponent()}</div>
@@ -81,7 +87,7 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
     </PopupModal>
   );
 
-  function onImportMethodChange(newImportMethod: string) {
+  function onImportMethodChange(newImportMethod: ImportMethod) {
     if (newImportMethod == importMethod) {
       return;
     }
@@ -91,31 +97,30 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
   }
 
   function getImportComponent() {
-    if (importMethod === IMPORT_METHODS.CLIPBOARD) {
-      return (
+    const importComponents: Record<ImportMethod, ReactNode> = {
+      CLIPBOARD: (
         <TextArea
           lines={5}
           placeholder="copy and paste your cards here"
           value={textAreaValue}
           onChange={setTextAreaValue}
         />
-      );
-    }
-    if (importMethod === IMPORT_METHODS.FILE) {
-      return (
+      ),
+      FILE: (
         <FileInput
           className="browse-files-button-container"
           label="choose a file"
           importedFile={importedFile}
           onImportedFileChange={setImportedFile}
         />
-      );
-    }
-    return undefined;
+      ),
+    };
+
+    return importComponents[importMethod];
   }
 
   function handleImportClick() {
-    const isImportedFile = importMethod === IMPORT_METHODS.CLIPBOARD;
+    const isImportedFile = importMethod === 'CLIPBOARD';
     const content = isImportedFile ? textAreaValue : importedFile?.content;
     if (content === undefined) {
       return;
@@ -142,10 +147,7 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
   }
 
   function isImportConfigValid() {
-    if (importMethod === '') {
-      return false;
-    }
-    const content = importMethod === IMPORT_METHODS.FILE ? importedFile?.content : textAreaValue;
-    return termDefSeparator && cardSeparator && content?.length;
+    const content = importMethod === 'FILE' ? importedFile?.content : textAreaValue;
+    return content?.length;
   }
 };

@@ -1,7 +1,6 @@
 import { atom, selector } from 'recoil';
 import { ECHOSTUDY_API_URL } from '../helpers/api';
 import { objectSchemaSimple } from '../helpers/validator';
-import { useFetchWrapper } from '../hooks/api/use-fetch-wrapper';
 
 ///////////////
 /// AuthJwt ///

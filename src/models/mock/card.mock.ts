@@ -1,8 +1,8 @@
 import {
   getTestFoxBack,
   getTestFoxFront,
-  getTestMonkeyFront,
   getTestMonkeyBack,
+  getTestMonkeyFront,
   getTestMouseBack,
   getTestMouseFront,
 } from './card-content.mock';
