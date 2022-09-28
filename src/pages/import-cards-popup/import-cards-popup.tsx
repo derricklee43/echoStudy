@@ -136,8 +136,8 @@ export const ImportCardsPopup = ({ showPopup, onClose }: ImportCardsPopupProps) 
 
     const newCards = wellFormedCardTextArr.map(([frontText, backText]) => {
       const card = createNewCard();
-      card.front.text = frontText;
-      card.back.text = backText;
+      card.front.text = frontText.trim();
+      card.back.text = backText.trim();
       return card;
     });
 
