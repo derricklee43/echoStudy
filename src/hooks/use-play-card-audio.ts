@@ -88,9 +88,13 @@ export function usePlayCardAudio() {
     // Currently if the user pauses while the recording is going, we will only get the results back before the pause.
     // I think this is reasonable for now, but we might want to come up with a better system in the future.
     const capturedSpeech = await capturedSpeechPromise;
-    const wasCorrect = capturedSpeech.transcript === lessonCard.back.text;
+    const expectedText = lessonCard.back.text.trim().toLocaleLowerCase();
+    const actualText = capturedSpeech.transcript.trim().toLocaleLowerCase();
+    const wasCorrect = expectedText === actualText;
 
     const outcome = wasCorrect ? 'correct' : 'incorrect';
+    console.log(lessonCard.back.text, capturedSpeech.transcript, 'was correct: ' + wasCorrect);
+
     const sound = wasCorrect ? correctSound : incorrectSound;
     const outcomeAudio = new LazyAudio(sound);
     await playCardAudio(outcomeAudio);
