@@ -133,6 +133,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
         // there was a previous refresh going, block until it completes
         if (refreshPromiseLock) {
           await refreshPromiseLock;
+          refreshPromiseLock = undefined;
         }
       } catch (error) {
         console.error('Error occurred during fetch retry middleware', error);
