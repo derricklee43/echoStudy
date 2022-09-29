@@ -54,7 +54,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   function skipCard() {
     clearAudio();
     const next = nextCard(currentCard, upcomingCards, completedCards);
-    if (!isPaused) {
+    if (!isPaused && next) {
       playCard(next.currentCard, next.upcomingCards, next.completedCards);
     }
   }
@@ -92,7 +92,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     setCurrentCard(updatedCard);
     const next = nextCard(updatedCard, upcomingCards, completedCards);
 
-    playCard(next.currentCard, next.upcomingCards, next.completedCards);
+    next && playCard(next.currentCard, next.upcomingCards, next.completedCards);
   }
 
   function nextCard(
@@ -100,12 +100,17 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     upcomingCards: LessonCard[],
     completedCards: LessonCard[]
   ) {
+    if (!upcomingCards[0] && completedCards.map((card) => card.key).includes(currentCard.key)) {
+      return false;
+    }
+
     const newCompletedCards = [currentCard, ...completedCards];
     const newCurrentCard: LessonCard = upcomingCards[0] ?? currentCard;
     const newUpcomingCards = upcomingCards.slice(1);
     setCurrentCard(newCurrentCard);
     setCompletedCards(newCompletedCards);
     setUpcomingCards(newUpcomingCards);
+
     return {
       currentCard: newCurrentCard,
       completedCards: newCompletedCards,

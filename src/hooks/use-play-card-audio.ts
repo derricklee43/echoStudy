@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useMountedRef } from './use-mounted-ref';
 import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
 import correctSound from '../assets/sounds/correct.wav';
@@ -16,6 +17,7 @@ export function usePlayCardAudio() {
   const [activeCardKey, setActiveCard] = useState<string>('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
+  const mountedRef = useMountedRef();
   useEffect(() => {
     return () => clearAudio();
   }, []);
@@ -125,6 +127,11 @@ export function usePlayCardAudio() {
   }
 
   function playCardAudio(audio: LazyAudio) {
+    // component was unmounted
+    if (!mountedRef.current) {
+      return Promise.reject(`The audio wasn't played because the audio player was unmounted.`);
+    }
+
     activeAudioRef.current = audio;
     return new Promise<void>((resolve, reject) => {
       audio.once('end', () => resolve());

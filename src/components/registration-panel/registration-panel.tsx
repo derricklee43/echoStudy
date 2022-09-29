@@ -34,7 +34,11 @@ export const RegistrationPanel = ({
         <div className="registration-form">
           <div>{formHeader}</div>
           {children}
-          <Button onClick={onSubmitClick} className="registration-button">
+          <Button
+            className="registration-button"
+            disabled={submitLabelLoading}
+            onClick={onSubmitClick}
+          >
             {getSubmitButtonToggle(submitLabel)}
           </Button>
         </div>

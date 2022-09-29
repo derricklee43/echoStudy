@@ -160,6 +160,7 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
       const lessonCards = completedCards.reverse();
       const lessonTime = getElapsedTime();
       onLessonComplete(lessonCards, lessonTime);
+      pause(); // avoids lingering audio if manually clicked to completion
     }
   }
 
