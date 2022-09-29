@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { usePlayCardAudio } from './use-play-card-audio';
+import { useSpacedRepetition } from './use-spaced-repetition';
 import { Deck } from '../models/deck';
 import { createNewLessonCard, LessonCard } from '../models/lesson-card';
 
@@ -12,11 +13,14 @@ interface UsePlayLessonSettings {
 }
 
 export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
+  const spacedRepetition = useMemo(() => useSpacedRepetition(), []);
+
   const [firstCard, ...restCards] = getLessonCards(deck, numCards);
   const [currentCard, setCurrentCard] = useState<LessonCard>(firstCard);
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
+
   const {
     pauseAudio,
     resumeAudio,
@@ -130,13 +134,14 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
       upcomingCards: newUpcomingCards,
     };
   }
-}
 
-// TODO: Add Sorting and Filtering based in settings
-function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
-  if (deck.cards.length < numCards) {
-    throw Error('deck not contain enough cards specified in the lesson');
+  // TODO: Add Sorting and Filtering based in settings
+  function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
+    if (deck.cards.length < numCards) {
+      throw Error('deck not contain enough cards specified in the lesson');
+    }
+
+    const cards = spacedRepetition.gatherStudyCards(deck, numCards);
+    return cards.map((card) => createNewLessonCard(card, deck, 1));
   }
-  const cards = deck.cards.slice(0, numCards);
-  return cards.map((card) => createNewLessonCard(card, deck, 1));
 }
