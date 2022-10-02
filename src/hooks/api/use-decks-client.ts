@@ -58,13 +58,13 @@ export function useDecksClient() {
 
   // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
-    const decksData = await fetchWrapper.get('/Decks');
+    const decksData = (await fetchWrapper.get('/Decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   // GET: /Decks/Public
   async function getPublicDecks(): Promise<Deck[]> {
-    const decksData = await fetchWrapper.get('/Decks/Public');
+    const decksData = (await fetchWrapper.get('/Decks/Public')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
