@@ -56,7 +56,7 @@ export function usePlayCardAudio() {
       }
       return;
     }
-    activeAudioRef.current.reset();
+    activeAudioRef.current.stop();
   }
 
   async function playAudio(lessonCard: LessonCard): Promise<LessonCard> {
@@ -79,7 +79,7 @@ export function usePlayCardAudio() {
     const capturedSpeechPromise = captureSpeech(lessonCard.back.language);
 
     // wait before flip
-    const backDuration = await backAudio.getDuration();
+    const backDuration = await backAudio.durationAsync();
     await wait(getPauseLength(backDuration));
 
     // Stop capturing speech if not already ended
@@ -113,7 +113,7 @@ export function usePlayCardAudio() {
 
     await playCardAudio(audio);
 
-    const duration = await audio.getDuration();
+    const duration = await audio.durationAsync();
     await wait(getPauseLength(duration));
 
     return repeatAudio(audio, times - 1);
@@ -127,8 +127,9 @@ export function usePlayCardAudio() {
   function playCardAudio(audio: LazyAudio) {
     activeAudioRef.current = audio;
     return new Promise<void>((resolve, reject) => {
-      audio.addEventListener('ended', () => resolve(), { once: true });
-      audio.addEventListener('error', () => reject('unable to play audio'), { once: true });
+      audio.once('end', () => resolve());
+      audio.once('loaderror', () => reject('unable to load audio'));
+      audio.once('playerror', () => reject('unable to play audio'));
       audio.play();
     });
   }
