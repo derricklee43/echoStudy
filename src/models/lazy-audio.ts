@@ -30,9 +30,16 @@ export class LazyAudio extends Howl {
   // alternatively, we can set `html5: true` and `preload: 'metadata'`
   public async durationAsync(id?: number | undefined): Promise<number> {
     if (this.state() === 'unloaded') {
-      this.load();
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         this.once('load', () => resolve(super.duration(id)));
+        this.once('loaderror', () => {
+          console.error('Failed to load duration for audio file, defaulting to 0.0.');
+          reject(0.0);
+        });
+
+        // intentionally register handlers before loading!
+        // smaller files might load too fast...
+        this.load();
       });
     } else {
       return super.duration(id);

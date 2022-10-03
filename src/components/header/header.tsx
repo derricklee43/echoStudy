@@ -118,11 +118,11 @@ export const Header = ({
   }
 
   function handleSignUpClick() {
-    navigate(paths.signUp, { replace: true }); // replace may be a mistake, we'll see
+    navigate(paths.signUp);
   }
 
   function handleSignInClick() {
-    navigate(paths.signIn, { replace: true }); // replace may be a mistake, we'll see
+    navigate(paths.signIn);
   }
 
   function handleProfileClick() {

@@ -22,7 +22,10 @@ interface StudyPageLessonProps {
 }
 
 export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps) => {
-  const numCards = 4; // TODO: we will want to make this configurable or just pull in all past due cards
+  // TODO: we will want to make this configurable or just pull in all past due cards
+  // making this the min of (# of cards, 5) for demo purposes
+  const numCards = Math.min(deck.cards.length, 5);
+
   const isFirstRender = useIsFirstRender();
   const [isPaused, setIsPaused] = useState(true);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
@@ -157,6 +160,7 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
       const lessonCards = completedCards.reverse();
       const lessonTime = getElapsedTime();
       onLessonComplete(lessonCards, lessonTime);
+      pause(); // avoids lingering audio if manually clicked to completion
     }
   }
 
