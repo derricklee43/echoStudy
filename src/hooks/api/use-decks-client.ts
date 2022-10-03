@@ -1,5 +1,6 @@
 import { useFetchWrapper } from './use-fetch-wrapper';
 import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import { asUtcDate } from '../../helpers/time';
 import { Deck } from '../../models/deck';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -131,9 +132,9 @@ function JsonToDeck(obj: any): Deck {
       frontLang: obj['default_flang'],
       backLang: obj['default_blang'],
       ownerId: obj['ownerId'],
-      dateCreated: new Date(obj['date_created']),
-      dateUpdated: new Date(obj['date_updated']),
-      dateTouched: new Date(obj['date_touched']),
+      dateCreated: asUtcDate(obj['date_created']),
+      dateUpdated: asUtcDate(obj['date_updated']),
+      dateTouched: asUtcDate(obj['date_touched']),
     },
     cards: [],
   };

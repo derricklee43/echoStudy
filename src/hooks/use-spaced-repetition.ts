@@ -128,15 +128,12 @@ export function getDaysUntilStale(card: Card) {
     return 0;
   }
 
-  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-  // TODO TODO TODO TODO TODO
-  const dateNow = new Date(); // TODO: time needs to match timezone with server.
-  // TODO TODO TODO TODO TODO
-  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
   const box = scoreToBox(card.score);
   const daysUntilPoolable = BoxStaleDays[box];
-  const daysLastStudied = daysBetween(dateNow, card.dateUpdated);
+
+  // relative time is fine since we save the JS dates are in UTC ms
+  const dateNow = new Date();
+  const daysLastStudied = daysBetween(dateNow, card.dateTouched);
   const daysUntilStale = daysUntilPoolable - daysLastStudied;
   return daysUntilStale;
 }

@@ -1,5 +1,6 @@
 import { useFetchWrapper } from './use-fetch-wrapper';
 import { ECHOSTUDY_API_URL, ensureHttps } from '../../helpers/api';
+import { asUtcDate } from '../../helpers/time';
 import { Card, createNewCard } from '../../models/card';
 import { LazyAudio } from '../../models/lazy-audio';
 
@@ -147,9 +148,9 @@ function JsonToCard(obj: any): Card {
   const card = createNewCard();
   card.id = obj['id'];
   card.score = obj['score'];
-  card.dateCreated = new Date(obj['date_created']);
-  card.dateUpdated = new Date(obj['date_updated']);
-  card.dateTouched = new Date(obj['date_touched']);
+  card.dateCreated = asUtcDate(obj['date_created']);
+  card.dateUpdated = asUtcDate(obj['date_updated']);
+  card.dateTouched = asUtcDate(obj['date_touched']);
   card.front = {
     language: obj['flang'],
     text: obj['ftext'],
