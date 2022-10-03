@@ -9,7 +9,9 @@ import { StarIcon } from '../../../assets/icons/star-con/star-icon';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
 import { Button } from '../../../components/button/button';
 import { getFormattedMilliseconds } from '../../../helpers/time';
+import { useCardsClient } from '../../../hooks/api/use-cards-client';
 import { usePrompt } from '../../../hooks/use-prompt';
+import { MAX_SCORE } from '../../../hooks/use-spaced-repetition';
 import { Deck } from '../../../models/deck';
 import { LessonCard } from '../../../models/lesson-card';
 import { paths } from '../../../routing/paths';
@@ -28,6 +30,7 @@ export const StudyResultsPage = ({
   lessonTime,
   onLessonCardsChange,
 }: StudyResultsPageProps) => {
+  const cardsClient = useCardsClient();
   const navigate = useNavigate();
 
   // block navigation if finish isn't clicked; otherwise, redirect back to the deck
@@ -67,7 +70,7 @@ export const StudyResultsPage = ({
         <Button size="medium" onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)}>
           study again
         </Button>
-        <Button size="medium" disabled={isUpdating} onClick={_handleFinishClick}>
+        <Button size="medium" disabled={isUpdating} onClick={handleFinishClick}>
           <UpToggle
             className="finish-lesson-content-container"
             showDefault={!isUpdating}
@@ -116,19 +119,48 @@ export const StudyResultsPage = ({
     );
   }
 
-  async function _handleFinishClick() {
+  async function handleFinishClick() {
     if (isUpdating) {
       return;
     }
 
+    // update card scores
     setIsUpdating(true);
-
-    // TODO: send request
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
+    await _updateAllCardScores();
     setIsUpdating(false);
 
     // navigation is handled with a side effect on `areResultsApplied`
     setAreResultsApplied(true);
+  }
+
+  // TODO: it might be beneficial to have an endpoint to batch these (an array of {id, score})
+  // we are currently making requests equal to the number of seen lesson cards (marked correct/incorrect)
+  async function _updateAllCardScores() {
+    if (isUpdating) {
+      return;
+    }
+
+    const promises = [];
+
+    // create promise to update cards with new scores
+    for (const lessonCard of lessonCards) {
+      if (lessonCard.outcome === 'unseen') {
+        continue;
+      }
+
+      // spaced repetition: if correct, score is increased by 1; otherwise reset to 0
+      let newScore = 0;
+      if (lessonCard.outcome === 'correct') {
+        newScore = Math.min(lessonCard.score + 1, MAX_SCORE);
+      }
+
+      if (lessonCard.id) {
+        promises.push(cardsClient.updateCardScoreById(lessonCard.id, newScore));
+      } else {
+        throw new Error(`Failed to update lesson card: id was undefined`); // this shouldn't be possible...
+      }
+    }
+
+    return Promise.all(promises);
   }
 };

@@ -93,10 +93,10 @@ export function useCardsClient() {
     return Promise.all(cards.map((card) => updateCardById(card)));
   }
 
-  // PATCH: /Cards/Touch={id}&{score}
+  // POST: /Cards/Study
   async function updateCardScoreById(id: number, score: number): Promise<void> {
-    // note: potentially might be POST in the future
-    throw new Error('Not implemented');
+    const requestBody = { id: id, score: score };
+    return fetchWrapper.post('/Cards/Study', requestBody);
   }
 
   /////////////////
