@@ -8,7 +8,7 @@ import { IdentityErrorCode } from '../../models/register-user';
 import { paths } from '../../routing/paths';
 import './sign-up-page.scss';
 
-interface FormError {
+interface SignUpFormError {
   email?: string;
   username?: string;
   password?: string;
@@ -22,7 +22,7 @@ export const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [formError, setFormError] = useState<FormError>();
+  const [formError, setFormError] = useState<SignUpFormError>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
@@ -72,7 +72,7 @@ export const SignUpPage = () => {
 
   function getLabelError(
     init: string,
-    formErrorValue: (formError: FormError) => string | undefined
+    formErrorValue: (formError: SignUpFormError) => string | undefined
   ) {
     const errorValue = formErrorValue(formError ?? {});
     if (!init && !errorValue) {
@@ -95,7 +95,8 @@ export const SignUpPage = () => {
 
     // simple client side verifications
     {
-      const newFormError: FormError = {};
+      const newFormError: SignUpFormError = {};
+      console.log(userName.length, password.length);
       if (userName === '') {
         newFormError.username ??= 'Username should not be empty.';
       }
@@ -144,7 +145,7 @@ export const SignUpPage = () => {
         }
       } else {
         const identityErrors = data.response;
-        const newFormError: FormError = {};
+        const newFormError: SignUpFormError = {};
         // apply all errors, but first error of group takes precedence if there are multiple
         identityErrors.forEach((err) => {
           const code: IdentityErrorCode = err.code;
