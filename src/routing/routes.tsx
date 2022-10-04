@@ -13,7 +13,7 @@ import { LandingPage } from '../pages/landing-page/landing-page';
 import { NotFoundPage } from '../pages/not-found-page/not-found-page';
 import { ProfilePage } from '../pages/profile-page/profile-page';
 import { SignInPage } from '../pages/sign-in-page/sign-in-page';
-import { SignUpPage } from '../pages/sign-up/sign-up-page';
+import { SignUpPage } from '../pages/sign-up-page/sign-up-page';
 import { StudyPage } from '../pages/study-page/study-page';
 import { ViewDeckPage } from '../pages/view-deck-page/view-deck-page';
 
