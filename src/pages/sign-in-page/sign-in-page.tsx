@@ -36,12 +36,19 @@ export const SignInPage = () => {
         {getLabelError('', (formError) => formError.generic)}
       </div>
       <div className="field-container">
-        <TextBox label="email" variant="dark-white" value={email} onChange={setEmail} />
+        <TextBox
+          label="email"
+          autoComplete="email"
+          variant="dark-white"
+          value={email}
+          onChange={setEmail}
+        />
         {getLabelError('', (formError) => formError.email)}
       </div>
       <div className="field-container">
         <TextBox
           label="password"
+          autoComplete="current-password"
           variant="dark-white"
           inputType="password"
           value={password}
@@ -60,6 +67,8 @@ export const SignInPage = () => {
     if (isSubmitting) {
       return;
     }
+
+    setFormError(undefined);
 
     // simple client side verifications
     {

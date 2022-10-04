@@ -36,12 +36,24 @@ export const SignUpPage = () => {
       onSwapPanelClick={handleSwapPanelClick}
     >
       <div className="field-container">
-        <TextBox label="username" variant="dark-white" value={userName} onChange={setUserName} />
+        <TextBox
+          label="username"
+          autoComplete="username"
+          variant="dark-white"
+          value={userName}
+          onChange={setUserName}
+        />
         {getLabelError('', (formError) => formError.username)}
       </div>
 
       <div className="field-container">
-        <TextBox label="email" variant="dark-white" value={email} onChange={setEmail} />
+        <TextBox
+          label="email"
+          autoComplete="email"
+          variant="dark-white"
+          value={email}
+          onChange={setEmail}
+        />
         {getLabelError('', (formError) => formError.email)}
       </div>
 
@@ -49,6 +61,7 @@ export const SignUpPage = () => {
         <div className="password-fields">
           <TextBox
             label="password"
+            autoComplete="new-password"
             variant="dark-white"
             inputType="password"
             value={password}
@@ -56,6 +69,7 @@ export const SignUpPage = () => {
           />
           <TextBox
             label="confirm password"
+            autoComplete="new-password"
             inputType="password"
             variant="dark-white"
             value={confirmPassword}
@@ -92,6 +106,8 @@ export const SignUpPage = () => {
     if (isSubmitting) {
       return;
     }
+
+    setFormError(undefined);
 
     // simple client side verifications
     {

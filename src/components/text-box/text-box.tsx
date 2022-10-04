@@ -6,6 +6,7 @@ export interface TextBoxProps {
   inputType?: string; // (e.g. 'text', 'password')
   label?: React.ReactNode;
   placeholder?: string;
+  autoComplete?: string;
   disabled?: boolean;
   variant?: 'light' | 'dark' | 'dark-white';
   className?: string;
@@ -17,6 +18,7 @@ export const TextBox = ({
   inputType = 'text',
   label,
   placeholder,
+  autoComplete = 'off',
   disabled,
   variant = 'light',
   className,
@@ -34,6 +36,7 @@ export const TextBox = ({
       <input
         className="c-text-box-input"
         placeholder={placeholder}
+        autoComplete={autoComplete}
         value={value}
         type={inputType}
         onFocus={() => setFocused(true)}
