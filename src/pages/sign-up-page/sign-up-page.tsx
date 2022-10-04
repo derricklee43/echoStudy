@@ -112,7 +112,6 @@ export const SignUpPage = () => {
     // simple client side verifications
     {
       const newFormError: SignUpFormError = {};
-      console.log(userName.length, password.length);
       if (userName === '') {
         newFormError.username ??= 'Username should not be empty.';
       }
