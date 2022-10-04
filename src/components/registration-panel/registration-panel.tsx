@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Fade } from '../../animations/fade';
 import { UpToggle } from '../../animations/up-toggle';
 import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
 import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
@@ -36,35 +37,37 @@ export const RegistrationPanel = ({
 
   return (
     <div className={`registration-component-wrapper ${className}`}>
-      <div className="registration-component">
-        <div className="registration-header">echoStudy</div>
-        <div className="registration-sub-header">learn anything. study anywhere.</div>
-        <div className="registration-form">
-          <div>{formHeader}</div>
-          {children}
-          <Button
-            className="registration-button"
-            disabled={submitLabelLoading || isContinuingAsGuest}
-            onClick={onSubmitClick}
-          >
-            {getSubmitButtonToggle()}
-          </Button>
+      <Fade>
+        <div className="registration-component">
+          <div className="registration-header">echoStudy</div>
+          <div className="registration-sub-header">learn anything. study anywhere.</div>
+          <div className="registration-form">
+            <div>{formHeader}</div>
+            {children}
+            <Button
+              className="registration-button"
+              disabled={submitLabelLoading || isContinuingAsGuest}
+              onClick={onSubmitClick}
+            >
+              {getSubmitButtonToggle()}
+            </Button>
+          </div>
+          <BubbleDivider variantColor="dark" variantType="divider" label="or" />
+          <div className="registration-button-group">
+            <Button onClick={onSwapPanelClick} variant="dark" className="registration-button">
+              {swapPanelLabel}
+            </Button>
+            <Button
+              className="registration-button"
+              variant="dark"
+              disabled={submitLabelLoading || isContinuingAsGuest}
+              onClick={handleContinueAsGuestClick}
+            >
+              {getContinueAsGuestToggle()}
+            </Button>
+          </div>
         </div>
-        <BubbleDivider variantColor="dark" variantType="divider" label="or" />
-        <div className="registration-button-group">
-          <Button onClick={onSwapPanelClick} variant="dark" className="registration-button">
-            {swapPanelLabel}
-          </Button>
-          <Button
-            className="registration-button"
-            variant="dark"
-            disabled={submitLabelLoading || isContinuingAsGuest}
-            onClick={handleContinueAsGuestClick}
-          >
-            {getContinueAsGuestToggle()}
-          </Button>
-        </div>
-      </div>
+      </Fade>
     </div>
   );
 
