@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UpToggle } from '../../animations/up-toggle';
 import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
 import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
 import { Button } from '../../components/button/button';
+import { useUserClient } from '../../hooks/api/use-user-client';
+import { paths } from '../../routing/paths';
 import './registration-panel.scss';
 
 interface RegistrationPanelProps {
@@ -26,6 +29,11 @@ export const RegistrationPanel = ({
   onSubmitClick,
   onSwapPanelClick,
 }: RegistrationPanelProps) => {
+  const { loginDebug } = useUserClient();
+  const navigate = useNavigate();
+
+  const [isContinuingAsGuest, setIsContinuingAsGuest] = useState(false);
+
   return (
     <div className={`registration-component-wrapper ${className}`}>
       <div className="registration-component">
@@ -36,10 +44,10 @@ export const RegistrationPanel = ({
           {children}
           <Button
             className="registration-button"
-            disabled={submitLabelLoading}
+            disabled={submitLabelLoading || isContinuingAsGuest}
             onClick={onSubmitClick}
           >
-            {getSubmitButtonToggle(submitLabel)}
+            {getSubmitButtonToggle()}
           </Button>
         </div>
         <BubbleDivider variantColor="dark" variantType="divider" label="or" />
@@ -48,23 +56,24 @@ export const RegistrationPanel = ({
             {swapPanelLabel}
           </Button>
           <Button
-            onClick={handleContinueAsGuestClick}
-            variant="dark"
             className="registration-button"
+            variant="dark"
+            disabled={submitLabelLoading || isContinuingAsGuest}
+            onClick={handleContinueAsGuestClick}
           >
-            continue as guest
+            {getContinueAsGuestToggle()}
           </Button>
         </div>
       </div>
     </div>
   );
 
-  function getSubmitButtonToggle(defaultContent: string) {
+  function getSubmitButtonToggle() {
     return (
       <UpToggle
-        className="submit-form-container"
+        className="submit-form-toggle"
         showDefault={!submitLabelLoading}
-        defaultContent={defaultContent}
+        defaultContent={submitLabel}
         alternateContent={
           <div className="submit-form-loading">
             <LoadingIcon />
@@ -75,7 +84,37 @@ export const RegistrationPanel = ({
     );
   }
 
-  function handleContinueAsGuestClick() {
-    console.log('TODO: continue to site as guest');
+  function getContinueAsGuestToggle() {
+    return (
+      <UpToggle
+        className="continue-as-guest-toggle"
+        showDefault={!isContinuingAsGuest}
+        defaultContent="continue as guest"
+        alternateContent={
+          <div className="continue-as-guest-loading">
+            <LoadingIcon />
+            <label>logging in</label>
+          </div>
+        }
+      />
+    );
+  }
+
+  async function handleContinueAsGuestClick() {
+    setIsContinuingAsGuest(true);
+
+    // for convenience, we log in as John Doe for now
+    // TODO: disallow empty username+password since we consider that as an anonymous user
+    await loginDebug();
+
+    // navigate to the previous page redirected here, or /decks page as a fallback
+    const hasPreviousPage = window.history.state && window.history.state.idx > 0;
+    if (hasPreviousPage) {
+      navigate(-1);
+    } else {
+      navigate(paths.decks);
+    }
+
+    setIsContinuingAsGuest(false);
   }
 };

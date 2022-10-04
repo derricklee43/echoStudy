@@ -39,6 +39,20 @@
       margin-bottom: 50px;
     }
 
+    // all registration buttons
+    .registration-button {
+      border-color: $white;
+      color: $white;
+      padding: 10px;
+
+      &:not(.disabled) {
+        @include hover($electric-blue);
+        @include hover-pointer;
+        background-color: transparent;
+        display: inline-block;
+      }
+    }
+
     .registration-form {
       display: flex;
       flex-direction: column;
@@ -51,13 +65,7 @@
       }
 
       .registration-button {
-        @include hover($electric-blue);
-        @include hover-pointer;
-        width: fit-content;
-        border-color: $white;
-        color: $white;
-
-        .submit-form-container {
+        .submit-form-toggle {
           @include flex-center;
           width: fit-content;
           height: 20px;
@@ -73,19 +81,24 @@
     }
 
     .registration-button-group {
+      display: flex;
       margin-top: 40px;
+
       .registration-button {
         margin: 8px;
       }
-    }
-    .registration-button {
-      @include hover($electric-blue);
-      @include hover-pointer;
-      display: inline-block;
-      border-color: $white;
-      color: $white;
-      background-color: transparent;
-      padding: 10px;
+
+      .continue-as-guest-toggle {
+        @include flex-center;
+        width: fit-content;
+
+        .continue-as-guest-loading {
+          @include flex-center;
+          label {
+            padding-left: 8px;
+          }
+        }
+      }
     }
   }
 }
