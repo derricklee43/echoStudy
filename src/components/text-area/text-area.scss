@@ -9,11 +9,32 @@ $label-font-size: 14px;
 $label-legend-font-size: 12px;
 
 .c-text-area-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
   box-sizing: border-box;
   width: 100%;
+
+  &:hover .c-copy-icon {
+    @include hover-pointer;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.c-copy-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  transition: visibility 200ms ease-out, opacity 200ms ease-out;
+  visibility: show;
+  opacity: 0;
+
+  &:active {
+    fill-opacity: 0.5;
+  }
 }
 
 .c-text-area-label {
