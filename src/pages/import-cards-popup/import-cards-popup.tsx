@@ -1,19 +1,19 @@
 import React, { ReactNode, useState } from 'react';
-import { Button } from '../../components/button/button';
-import { FileInput, ImportedFile } from '../../components/file-input/file-input';
-import { PopupModal } from '../../components/popup-modal/popup-modal';
+import { Button } from '@/components/button/button';
+import { FileInput, ImportedFile } from '@/components/file-input/file-input';
+import { PopupModal } from '@/components/popup-modal/popup-modal';
 import {
   RadioButtonGroup,
   RadioButtonOption,
-} from '../../components/radio-button-group/radio-button-group';
-import { TextArea } from '../../components/text-area/text-area';
-import { Card, createNewCard } from '../../models/card';
+} from '@/components/radio-button-group/radio-button-group';
+import { TextArea } from '@/components/text-area/text-area';
+import { Card, createNewCard } from '@/models/card';
 import {
   CardSeparator,
   cardSeparatorOptions,
   termDefSeparatorOptions,
   TermSeparator,
-} from '../edit-deck-page/deck-editor/meta-data-editor/popup-types';
+} from '@/pages/edit-deck-page/deck-editor/meta-data-editor/popup-types';
 import './import-cards-popup.scss';
 
 type ImportMethod = 'FILE' | 'CLIPBOARD';

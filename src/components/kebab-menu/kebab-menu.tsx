@@ -1,10 +1,10 @@
 import React, { ReactNode, useRef } from 'react';
-import { KebabMenuIcon } from '../../assets/icons/kebab-menu-icon/kebab-menu-icon';
-import { useFocusTrap } from '../../hooks/use-focus-trap';
-import { useEscapePress } from '../../hooks/use-key-press';
-import { useOutsideClick } from '../../hooks/use-outside-click';
-import { Button } from '../button/button';
-import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
+import { KebabMenuIcon } from '@/assets/icons/kebab-menu-icon/kebab-menu-icon';
+import { Button } from '@/components/button/button';
+import { DropDownOption, DropDownOptions } from '@/components/drop-down-options/drop-down-options';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useEscapePress } from '@/hooks/use-key-press';
+import { useOutsideClick } from '@/hooks/use-outside-click';
 import './kebab-menu.scss';
 
 interface KebabMenuProps<I, V> {

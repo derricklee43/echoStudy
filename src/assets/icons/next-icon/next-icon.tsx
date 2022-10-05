@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as NextSvg } from '../../svg/next.svg';
+import { ReactComponent as NextSvg } from '@/assets/svg/next.svg';
 import './next-icon.scss';
 
 interface NextIconProps {

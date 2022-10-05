@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Fade } from '@/animations/fade';
+import { LoadingPage } from '@/components/loading-page/loading-page';
+import { isDefined } from '@/helpers/validator';
+import { useCardsClient } from '@/hooks/api/use-cards-client';
+import { useDecksClient } from '@/hooks/api/use-decks-client';
+import { Deck } from '@/models/deck';
+import { paths } from '@/routing/paths';
 import { DeckEditor } from './deck-editor/deck-editor';
-import { Fade } from '../../animations/fade';
-import { LoadingPage } from '../../components/loading-page/loading-page';
-import { isDefined } from '../../helpers/validator';
-import { useCardsClient } from '../../hooks/api/use-cards-client';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { Deck } from '../../models/deck';
-import { paths } from '../../routing/paths';
 import './edit-deck-page.scss';
 
 interface EditDeckPageProps {

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
+import { Deck } from '@/models/deck';
+import { createNewLessonCard, LessonCard } from '@/models/lesson-card';
 import { usePlayCardAudio } from './use-play-card-audio';
 import { useSpacedRepetition } from './use-spaced-repetition';
-import { Deck } from '../models/deck';
-import { createNewLessonCard, LessonCard } from '../models/lesson-card';
 
 // TODO: Add other lesson types
 type lessonType = 'review' | 'studyNew' | 'spacedRepetition';

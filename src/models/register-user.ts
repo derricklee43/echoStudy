@@ -1,4 +1,4 @@
-import { objectSchemaSimple } from '../helpers/validator';
+import { objectSchemaSimple } from '@/helpers/validator';
 
 // for user registration requests
 export interface RegisterUserInfo {

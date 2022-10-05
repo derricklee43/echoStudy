@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Button } from '../../components/button/button';
+import { Button } from '@/components/button/button';
 import './radio-button-group.scss';
 
 export type RadioButtonOption<I extends string, V extends ReactNode> = { id: I; value: V };

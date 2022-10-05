@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as PreviousSvg } from '../../svg/previous.svg';
+import { ReactComponent as PreviousSvg } from '@/assets/svg/previous.svg';
 import './previous-icon.scss';
 
 interface PreviousIconProps {

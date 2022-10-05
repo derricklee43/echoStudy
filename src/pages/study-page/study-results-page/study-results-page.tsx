@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UpToggle } from '@/animations/up-toggle';
+import { CardStackIcon } from '@/assets/icons/card-stack-icon/card-stack-icon';
+import { ClockIcon } from '@/assets/icons/clock-icon/clock-icon';
+import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
+import { StarIcon } from '@/assets/icons/star-icon/star-icon';
+import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
+import { Button } from '@/components/button/button';
+import { getFormattedMilliseconds } from '@/helpers/time';
+import { useCardsClient } from '@/hooks/api/use-cards-client';
+import { usePrompt } from '@/hooks/use-prompt';
+import { MAX_SCORE } from '@/hooks/use-spaced-repetition';
+import { Deck } from '@/models/deck';
+import { LessonCard } from '@/models/lesson-card';
+import { paths } from '@/routing/paths';
 import { StudyResultCards } from './study-result-cards/study-result-cards';
-import { UpToggle } from '../../../animations/up-toggle';
-import { CardStackIcon } from '../../../assets/icons/card-stack-icon/card-stack-icon';
-import { ClockIcon } from '../../../assets/icons/clock-icon/clock-icon';
-import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
-import { StarIcon } from '../../../assets/icons/star-icon/star-icon';
-import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
-import { Button } from '../../../components/button/button';
-import { getFormattedMilliseconds } from '../../../helpers/time';
-import { useCardsClient } from '../../../hooks/api/use-cards-client';
-import { usePrompt } from '../../../hooks/use-prompt';
-import { MAX_SCORE } from '../../../hooks/use-spaced-repetition';
-import { Deck } from '../../../models/deck';
-import { LessonCard } from '../../../models/lesson-card';
-import { paths } from '../../../routing/paths';
 import './study-results-page.scss';
 
 interface StudyResultsPageProps {

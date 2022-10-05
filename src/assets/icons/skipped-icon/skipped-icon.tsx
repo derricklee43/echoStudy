@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as SkippedSvg } from '../../svg/skipped.svg';
+import { ReactComponent as SkippedSvg } from '@/assets/svg/skipped.svg';
 import './skipped-icon.scss';
 
 interface SkippedIconProps {

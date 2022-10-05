@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import TextareaAutoSize from 'react-textarea-autosize';
+import { CardContent } from '@/models/card-content';
+import { CardLanguage } from '@/models/language';
 import { CardMenu } from './card-menu/card-menu';
-import { CardContent } from '../../../models/card-content';
-import { CardLanguage } from '../../../models/language';
 import './card-face.scss';
 
 interface CardFaceProps {

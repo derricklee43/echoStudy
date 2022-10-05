@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as DownArrow } from '../../svg/down-arrow.svg';
+import { ReactComponent as DownArrow } from '@/assets/svg/down-arrow.svg';
 import './arrow-icon.scss';
 
 interface ArrowProps {

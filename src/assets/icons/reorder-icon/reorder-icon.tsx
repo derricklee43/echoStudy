@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as ReorderSvg } from '../../svg/reorder.svg';
+import { ReactComponent as ReorderSvg } from '@/assets/svg/reorder.svg';
 import './reorder-icon.scss';
 
 interface ReorderIconProps {

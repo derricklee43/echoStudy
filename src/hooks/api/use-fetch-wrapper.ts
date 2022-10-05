@@ -1,19 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { ECHOSTUDY_API_URL } from '../../helpers/api';
-import { deferredPromise } from '../../helpers/promise';
-import { isDefined, objectSchemaSimple } from '../../helpers/validator';
-import { paths } from '../../routing/paths';
-import {
-  AuthJwt,
-  authJwtState,
-  authJwtToJson,
-  isAuthJwt,
-  jsonToAuthJwt,
-} from '../../state/auth-jwt';
-import { LocalStorageKeys } from '../../state/init';
-import { useLocalStorage } from '../use-local-storage';
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { deferredPromise } from '@/helpers/promise';
+import { isDefined, objectSchemaSimple } from '@/helpers/validator';
+import { useLocalStorage } from '@/hooks/use-local-storage';
+import { paths } from '@/routing/paths';
+import { AuthJwt, authJwtState, authJwtToJson, isAuthJwt, jsonToAuthJwt } from '@/state/auth-jwt';
+import { LocalStorageKeys } from '@/state/init';
 
 export interface FetchError {
   statusCode: number;

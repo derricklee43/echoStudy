@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { Card } from '@/models/card';
 import { ImportCardsPopup } from './import-cards-popup';
-import { noop } from '../../helpers/func';
-import { Card } from '../../models/card';
 
 describe('ImportCardsPopup', () => {
   beforeEach(() => {

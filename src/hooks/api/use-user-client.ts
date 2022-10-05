@@ -1,25 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { Md5 } from 'ts-md5';
-import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
-import { ECHOSTUDY_API_URL } from '../../helpers/api';
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import {
   IdentityError,
   isRegisterSuccess,
   RegisterSuccess,
   RegisterUserInfo,
   registerUserInfoToJson,
-} from '../../models/register-user';
-import { paths } from '../../routing/paths';
-import {
-  AuthJwt,
-  authJwtState,
-  authJwtToJson,
-  isAuthJwt,
-  jsonToAuthJwt,
-} from '../../state/auth-jwt';
-import { LocalStorageKeys } from '../../state/init';
-import { useLocalStorage } from '../use-local-storage';
+} from '@/models/register-user';
+import { paths } from '@/routing/paths';
+import { AuthJwt, authJwtState, authJwtToJson, isAuthJwt, jsonToAuthJwt } from '@/state/auth-jwt';
+import { LocalStorageKeys } from '@/state/init';
+import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */

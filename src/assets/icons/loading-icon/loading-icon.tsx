@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fade } from '../../../animations/fade';
+import { Fade } from '@/animations/fade';
 import './loading-icon.scss';
 
 interface LoadingIconProps {

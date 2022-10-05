@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as FlashcardDownArrow } from '../../svg/flashcard-down-arrow.svg';
+import { ReactComponent as FlashcardDownArrow } from '@/assets/svg/flashcard-down-arrow.svg';
 import './flashcard-arrow-icon.scss';
 
 interface FlashcardArrowIconProps {

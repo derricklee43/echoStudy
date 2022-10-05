@@ -1,4 +1,4 @@
-import { RadioButtonOption } from '../../../../components/radio-button-group/radio-button-group';
+import { RadioButtonOption } from '@/components/radio-button-group/radio-button-group';
 
 export type TermSeparator = ' ' | ',';
 export type CardSeparator = ';' | '\n';

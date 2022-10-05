@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
-import { CopyIcon } from '../../assets/icons/copy-icon/copy-icon';
-import { ReactComponent as LockIcon } from '../../assets/svg/security-lock.svg';
+import { CopyIcon } from '@/assets/icons/copy-icon/copy-icon';
+import { ReactComponent as LockIcon } from '@/assets/svg/security-lock.svg';
 import './text-area.scss';
 
 export interface TextAreaProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as PlaySvg } from '../../svg/play.svg';
+import { ReactComponent as PlaySvg } from '@/assets/svg/play.svg';
 import './play-icon.scss';
 
 interface PlayIconProps {

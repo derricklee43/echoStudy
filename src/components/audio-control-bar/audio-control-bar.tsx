@@ -1,9 +1,9 @@
 import React from 'react';
-import { NextIcon } from '../../assets/icons/next-icon/next-icon';
-import { PauseIcon } from '../../assets/icons/pause-icon/pause-icon';
-import { PlayIcon } from '../../assets/icons/play-icon/play-icon';
-import { PreviousIcon } from '../../assets/icons/previous-icon/previous-icon';
-import { Button } from '../button/button';
+import { NextIcon } from '@/assets/icons/next-icon/next-icon';
+import { PauseIcon } from '@/assets/icons/pause-icon/pause-icon';
+import { PlayIcon } from '@/assets/icons/play-icon/play-icon';
+import { PreviousIcon } from '@/assets/icons/previous-icon/previous-icon';
+import { Button } from '@/components/button/button';
 import './audio-control-bar.scss';
 
 interface AudioControlBarProps {

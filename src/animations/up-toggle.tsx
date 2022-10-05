@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useIsFirstRender } from '../hooks/use-is-first-render';
+import { useIsFirstRender } from '@/hooks/use-is-first-render';
 
 interface UpToggleProps {
   className?: string;

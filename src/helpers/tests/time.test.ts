@@ -1,4 +1,4 @@
-import { getFormattedMilliseconds } from '../time';
+import { getFormattedMilliseconds } from '@/helpers/time';
 
 describe('getFormattedMilliseconds', () => {
   it('should return ~0:01 for times less than one second', () => {

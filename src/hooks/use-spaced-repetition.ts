@@ -1,7 +1,7 @@
-import { compare, shuffle } from '../helpers/sort';
-import { daysBetween } from '../helpers/time';
-import { Card } from '../models/card';
-import { Deck } from '../models/deck';
+import { compare, shuffle } from '@/helpers/sort';
+import { daysBetween } from '@/helpers/time';
+import { Card } from '@/models/card';
+import { Deck } from '@/models/deck';
 
 /**
  * Provides an interface that takes a deck and outputs a series of cards fit for study.

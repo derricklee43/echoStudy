@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
-import { Button } from '../../components/button/button';
-import { PopupModal } from '../../components/popup-modal/popup-modal';
-import { RadioButtonGroup } from '../../components/radio-button-group/radio-button-group';
-import { TextArea } from '../../components/text-area/text-area';
-import { Card } from '../../models/card';
+import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
+import { Button } from '@/components/button/button';
+import { PopupModal } from '@/components/popup-modal/popup-modal';
+import { RadioButtonGroup } from '@/components/radio-button-group/radio-button-group';
+import { TextArea } from '@/components/text-area/text-area';
+import { Card } from '@/models/card';
 import {
   CardSeparator,
   cardSeparatorOptions,
   termDefSeparatorOptions,
   TermSeparator,
-} from '../edit-deck-page/deck-editor/meta-data-editor/popup-types';
+} from '@/pages/edit-deck-page/deck-editor/meta-data-editor/popup-types';
 import './export-cards-popup.scss';
 
 interface ExportCardsPopupProps {

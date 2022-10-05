@@ -1,6 +1,6 @@
 import React from 'react';
-import { noop } from '../../../helpers/func';
-import { ReactComponent as CancelIconSvg } from '../../svg/cancel-icon.svg';
+import { ReactComponent as CancelIconSvg } from '@/assets/svg/cancel-icon.svg';
+import { noop } from '@/helpers/func';
 import './cancel-icon.scss';
 
 interface CancelIconProps {

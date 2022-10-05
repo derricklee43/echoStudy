@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RegistrationPanel } from '../../components/registration-panel/registration-panel';
-import { TextBox } from '../../components/text-box/text-box';
-import { isEmptyObject } from '../../helpers/validator';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { IdentityErrorCode } from '../../models/register-user';
-import { paths } from '../../routing/paths';
+import { RegistrationPanel } from '@/components/registration-panel/registration-panel';
+import { TextBox } from '@/components/text-box/text-box';
+import { isEmptyObject } from '@/helpers/validator';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { IdentityErrorCode } from '@/models/register-user';
+import { paths } from '@/routing/paths';
 import './sign-up-page.scss';
 
 interface SignUpFormError {
