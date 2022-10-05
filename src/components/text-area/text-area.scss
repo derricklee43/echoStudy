@@ -62,6 +62,7 @@ $label-legend-font-size: 12px;
 }
 
 .c-text-area {
+  @include webkit-scrollbar;
   font-family: 'Comfortaa';
   border: 1px solid $white;
   border-radius: $standard-radius;
