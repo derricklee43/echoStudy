@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.0.0-alpha.7",
+    "@dword-design/eslint-plugin-import-alias": "^2.0.7",
     "@testing-library/react": "^12.1.3",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/dom-speech-recognition": "^0.0.1",
