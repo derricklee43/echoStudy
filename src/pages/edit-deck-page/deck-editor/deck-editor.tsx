@@ -75,7 +75,7 @@ export const DeckEditor = ({
         </div>
       </div>
       <MetaDataEditor
-        deckMetaData={deck.metaData}
+        deck={deck}
         onDeckMetaDataChange={updateMetaData}
         onDeleteClick={onDeleteDeckClick}
         onImportedCardsAdd={handleImportedCards}
