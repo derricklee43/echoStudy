@@ -8,21 +8,15 @@ import {
 } from '../../components/radio-button-group/radio-button-group';
 import { TextArea } from '../../components/text-area/text-area';
 import { Card, createNewCard } from '../../models/card';
+import {
+  CardSeparator,
+  cardSeparatorOptions,
+  termDefSeparatorOptions,
+  TermSeparator,
+} from '../edit-deck-page/deck-editor/meta-data-editor/popup-types';
 import './import-cards-popup.scss';
 
-type TermSeparator = ' ' | ',';
-type CardSeparator = ';' | '\n';
 type ImportMethod = 'FILE' | 'CLIPBOARD';
-
-const termDefSeparatorOptions: RadioButtonOption<TermSeparator, string>[] = [
-  { id: ',', value: 'commas' },
-  { id: ' ', value: 'spaces' },
-];
-
-const cardSeparatorOptions: RadioButtonOption<CardSeparator, string>[] = [
-  { id: ';', value: 'semicolons' },
-  { id: '\n', value: 'new lines' },
-];
 
 const importMethodOptions: RadioButtonOption<ImportMethod, string>[] = [
   { id: 'FILE', value: 'upload file' },

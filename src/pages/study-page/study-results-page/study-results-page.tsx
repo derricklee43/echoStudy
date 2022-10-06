@@ -5,7 +5,7 @@ import { UpToggle } from '../../../animations/up-toggle';
 import { CardStackIcon } from '../../../assets/icons/card-stack-icon/card-stack-icon';
 import { ClockIcon } from '../../../assets/icons/clock-icon/clock-icon';
 import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
-import { StarIcon } from '../../../assets/icons/star-con/star-icon';
+import { StarIcon } from '../../../assets/icons/star-icon/star-icon';
 import { BubbleDivider } from '../../../components/bubble-divider/bubble-divider';
 import { Button } from '../../../components/button/button';
 import { getFormattedMilliseconds } from '../../../helpers/time';
