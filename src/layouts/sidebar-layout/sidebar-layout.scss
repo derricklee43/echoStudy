@@ -1,5 +1,5 @@
-@import '../../assets/colors';
-@import '../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 // screen height without header
 $height-without-header: calc(100vh - #{$header-height});

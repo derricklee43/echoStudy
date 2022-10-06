@@ -1,5 +1,6 @@
-@import '../../assets/colors';
-@import '../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
+
 .button {
   @include hover-pointer;
   padding: 3px 13px;

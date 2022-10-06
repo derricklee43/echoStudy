@@ -1,5 +1,5 @@
-@import '../../colors';
-@import '../../styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 svg.flashcard-arrow-icon {
   @include standard-transition;
