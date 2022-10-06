@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Fade } from '@/animations/fade';
+import { UpToggle } from '@/animations/up-toggle';
+import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
+import { PlusIcon } from '@/assets/icons/plus-icon/plus-icon';
+import { Button } from '@/components/button/button';
+import { FlashcardSet } from '@/components/flashcard-set/flashcard-set';
+import { PageHeader } from '@/components/page-header/page-header';
+import { useDeckEditor } from '@/hooks/use-deck-editor';
+import { usePrompt } from '@/hooks/use-prompt';
+import { Card, createNewCard } from '@/models/card';
+import { Deck } from '@/models/deck';
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
-import { Fade } from '../../../animations/fade';
-import { UpToggle } from '../../../animations/up-toggle';
-import { LoadingIcon } from '../../../assets/icons/loading-icon/loading-icon';
-import { PlusIcon } from '../../../assets/icons/plus-icon/plus-icon';
-import { Button } from '../../../components/button/button';
-import { FlashcardSet } from '../../../components/flashcard-set/flashcard-set';
-import { PageHeader } from '../../../components/page-header/page-header';
-import { useDeckEditor } from '../../../hooks/use-deck-editor';
-import { usePrompt } from '../../../hooks/use-prompt';
-import { Card, createNewCard } from '../../../models/card';
-import { Deck } from '../../../models/deck';
 import './deck-editor.scss';
 
 interface DeckEditorProps {

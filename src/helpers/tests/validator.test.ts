@@ -1,4 +1,4 @@
-import { isObject, objectSchemaSimple } from '../validator';
+import { isObject, objectSchemaSimple } from '@/helpers/validator';
 
 describe('validator', () => {
   it('should type-guard that subject is an object iff it is a js object', () => {

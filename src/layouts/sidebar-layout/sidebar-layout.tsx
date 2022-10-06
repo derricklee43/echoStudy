@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { Header } from '../../components/header/header';
-import { Sidebar } from '../../components/sidebar/sidebar';
-import { throttle } from '../../helpers/func';
-import { navToggledState } from '../../state/nav';
+import { Header } from '@/components/header/header';
+import { Sidebar } from '@/components/sidebar/sidebar';
+import { throttle } from '@/helpers/func';
+import { navToggledState } from '@/state/nav';
 import './sidebar-layout.scss';
 
 export const SidebarLayout = () => {

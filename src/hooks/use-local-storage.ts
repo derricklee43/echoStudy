@@ -1,4 +1,4 @@
-import { isObject, isString } from '../helpers/validator';
+import { isObject, isString } from '@/helpers/validator';
 
 /**
  * Provides a simple interface to browser local storage with added support for:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as LanguageSvg } from '../../svg/language.svg';
+import { ReactComponent as LanguageSvg } from '@/assets/svg/language.svg';
 import './language-icon.scss';
 
 interface LanguageIconProps {

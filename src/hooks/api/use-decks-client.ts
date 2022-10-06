@@ -1,7 +1,7 @@
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { asUtcDate } from '@/helpers/time';
+import { Deck } from '@/models/deck';
 import { useFetchWrapper } from './use-fetch-wrapper';
-import { ECHOSTUDY_API_URL } from '../../helpers/api';
-import { asUtcDate } from '../../helpers/time';
-import { Deck } from '../../models/deck';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */

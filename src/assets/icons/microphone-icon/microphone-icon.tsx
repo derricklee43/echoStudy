@@ -1,6 +1,6 @@
 import React from 'react';
-import { noop } from '../../../helpers/func';
-import { ReactComponent as MicrophoneIconSvg } from '../../svg/microphone.svg';
+import { ReactComponent as MicrophoneIconSvg } from '@/assets/svg/microphone.svg';
+import { noop } from '@/helpers/func';
 import './microphone-icon.scss';
 
 interface MicrophoneIconProps {

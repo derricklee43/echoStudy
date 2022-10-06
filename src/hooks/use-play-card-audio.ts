@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import correctSound from '@/assets/sounds/correct.wav';
+import incorrectSound from '@/assets/sounds/incorrect.wav';
+import { LazyAudio } from '@/models/lazy-audio';
+import { LessonCard } from '@/models/lesson-card';
 import { useMountedRef } from './use-mounted-ref';
 import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
-import correctSound from '../assets/sounds/correct.wav';
-import incorrectSound from '../assets/sounds/incorrect.wav';
-import { LazyAudio } from '../models/lazy-audio';
-import { LessonCard } from '../models/lesson-card';
 
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios

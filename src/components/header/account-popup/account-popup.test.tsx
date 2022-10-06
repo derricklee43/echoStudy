@@ -1,9 +1,9 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderWithTestRoots } from '@/app.test';
+import { noop } from '@/helpers/func';
 import { AccountPopup } from './account-popup';
-import { renderWithTestRoots } from '../../../app.test';
-import { noop } from '../../../helpers/func';
 
 describe('AccountPopup', () => {
   const DEFAULT_CHILDREN = <div>test123</div>;

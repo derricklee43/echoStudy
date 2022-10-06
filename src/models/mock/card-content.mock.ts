@@ -1,5 +1,5 @@
-import { CardContent, createNewCardContent } from '../card-content';
-import { LazyAudio } from '../lazy-audio';
+import { CardContent, createNewCardContent } from '@/models/card-content';
+import { LazyAudio } from '@/models/lazy-audio';
 
 export const getTestFoxFront = (): CardContent => {
   const content = createNewCardContent();

@@ -2,17 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
+import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-menu-icon';
+import { Button } from '@/components/button/button';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
+import { SearchBar } from '@/components/search-bar/search-bar';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { paths } from '@/routing/paths';
+import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
+import { navToggledState } from '@/state/nav';
+import { userDecksSortedState } from '@/state/user-decks';
 import { WelcomeUser } from './welcome-user/welcome-user';
-import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
-import { HamburgerMenuIcon } from '../../assets/icons/hamburger-menu-icon/hamburger-menu-icon';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { paths } from '../../routing/paths';
-import { authJwtState, isAuthJwt } from '../../state/auth-jwt';
-import { navToggledState } from '../../state/nav';
-import { userDecksSortedState } from '../../state/user-decks';
-import { Button } from '../button/button';
-import { DropDownOption } from '../drop-down-options/drop-down-options';
-import { SearchBar } from '../search-bar/search-bar';
 import './header.scss';
 
 interface HeaderProps {

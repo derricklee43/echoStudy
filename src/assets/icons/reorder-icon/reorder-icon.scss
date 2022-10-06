@@ -1,5 +1,5 @@
-@import '../../colors';
-@import '../../styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 svg.reorder-icon {
   @include standard-transition;

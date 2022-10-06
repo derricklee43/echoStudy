@@ -1,8 +1,8 @@
 import React from 'react';
-import { LanguageIcon } from '../../../assets/icons/language-icon/language-icon';
-import { CardLanguages, DeckLanguages } from '../../../models/language';
-import { DropDown } from '../../drop-down/drop-down';
-import { DropDownOption } from '../../drop-down-options/drop-down-options';
+import { LanguageIcon } from '@/assets/icons/language-icon/language-icon';
+import { DropDown } from '@/components/drop-down/drop-down';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
+import { CardLanguages, DeckLanguages } from '@/models/language';
 import './language-drop-down.scss';
 
 interface LanguageDropDownProps<T extends DeckLanguages | CardLanguages> {

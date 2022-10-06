@@ -7,12 +7,12 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SearchBar } from './search-bar';
 import {
   TEST_OPTIONS_SINGLE,
   TEST_OPTIONS_SMALL,
   TEST_OPTIONS_SMALL_VALUES,
-} from '../drop-down-options/options.mock';
+} from '@/components/drop-down-options/options.mock';
+import { SearchBar } from './search-bar';
 
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
 const TEST_INITIAL_TEXT = 'TEST_INITIAL_TEXT';

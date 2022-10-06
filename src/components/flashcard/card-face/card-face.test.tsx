@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { createNewCardContent } from '@/models/card-content';
 import { CardFace } from './card-face';
-import { noop } from '../../../helpers/func';
-import { createNewCardContent } from '../../../models/card-content';
 
 describe('CardFace', () => {
   it('should hide kebab menu when inactive', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as PauseSvg } from '../../svg/pause.svg';
+import { ReactComponent as PauseSvg } from '@/assets/svg/pause.svg';
 import './pause-icon.scss';
 
 interface PauseIconProps {

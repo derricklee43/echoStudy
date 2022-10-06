@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { Card } from '@/models/card';
+import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '@/models/mock/card.mock';
 import { FlashcardSet } from './flashcard-set';
-import { noop } from '../../helpers/func';
-import { Card } from '../../models/card';
-import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
 
 describe('FlashcardSet', () => {
   let TEST_FOX_CARD: Card;

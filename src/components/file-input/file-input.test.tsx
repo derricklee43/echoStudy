@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
 import { FileInput, ImportedFile } from './file-input';
-import { noop } from '../../helpers/func';
 
 describe('FileInput', () => {
   let testLabel: string;

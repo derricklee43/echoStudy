@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fade } from '../../animations/fade';
-import { Button } from '../../components/button/button';
-import { PageHeader } from '../../components/page-header/page-header';
-import { ReadOnlyFlashcard } from '../../components/read-only-flashcard/read-only-flashcard';
-import { getFormattedDate } from '../../helpers/time';
-import { useLazyAudioPlayer } from '../../hooks/use-lazy-audio-player';
-import { Deck } from '../../models/deck';
-import { paths } from '../../routing/paths';
+import { Fade } from '@/animations/fade';
+import { Button } from '@/components/button/button';
+import { PageHeader } from '@/components/page-header/page-header';
+import { ReadOnlyFlashcard } from '@/components/read-only-flashcard/read-only-flashcard';
+import { getFormattedDate } from '@/helpers/time';
+import { useLazyAudioPlayer } from '@/hooks/use-lazy-audio-player';
+import { Deck } from '@/models/deck';
+import { paths } from '@/routing/paths';
 import './view-deck-page.scss';
 
 interface ViewDeckPageProps {

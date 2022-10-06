@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Fade } from '../../animations/fade';
-import { Button } from '../button/button';
+import { Fade } from '@/animations/fade';
+import { Button } from '@/components/button/button';
 import './drop-down-options.scss';
 
 /**

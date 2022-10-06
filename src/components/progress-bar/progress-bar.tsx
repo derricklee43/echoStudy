@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { clamp } from '../../helpers/func';
+import { clamp } from '@/helpers/func';
 import './progress-bar.scss';
 
 interface ProgressBarProps {

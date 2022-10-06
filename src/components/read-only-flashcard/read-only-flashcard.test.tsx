@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { getTestMonkeyCard } from '@/models/mock/card.mock';
 import { ReadOnlyFlashcard } from './read-only-flashcard';
-import { noop } from '../../helpers/func';
-import { getTestMonkeyCard } from '../../models/mock/card.mock';
 
 describe('ReadOnlyFlashcard', () => {
   it('should render correctly when readonly', () => {

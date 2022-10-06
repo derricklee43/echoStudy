@@ -1,6 +1,6 @@
 import React from 'react';
-import { SpeakerIcon } from '../../assets/icons/speaker-icon/speaker-icon';
-import { Button } from '../button/button';
+import { SpeakerIcon } from '@/assets/icons/speaker-icon/speaker-icon';
+import { Button } from '@/components/button/button';
 import './read-only-flashcard.scss';
 
 export type ReadOnlyFlashcardVariant = 'red' | 'green' | 'light-blue';

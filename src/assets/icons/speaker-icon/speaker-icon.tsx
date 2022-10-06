@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as SpeakerSvg } from '../../svg/speaker.svg';
+import { ReactComponent as SpeakerSvg } from '@/assets/svg/speaker.svg';
 import './speaker-icon.scss';
 
 interface SpeakerIconProps {

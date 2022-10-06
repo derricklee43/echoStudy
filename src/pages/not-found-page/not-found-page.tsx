@@ -1,6 +1,6 @@
 import React from 'react';
-import waveImage from '../../assets/images/wave.png';
-import { Header } from '../../components/header/header';
+import waveImage from '@/assets/images/wave.png';
+import { Header } from '@/components/header/header';
 import './not-found-page.scss';
 
 export const NotFoundPage = () => {

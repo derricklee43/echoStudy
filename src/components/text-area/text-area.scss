@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
-@import '../../assets/colors';
-@import '../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 // textarea also supports a 'col' attribute: 'col=20' => fit 20 characters per row
 // using this attribute would mean being able to remove `width: 100%` definitions in CSS

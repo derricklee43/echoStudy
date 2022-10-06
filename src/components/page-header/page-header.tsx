@@ -1,6 +1,6 @@
 import React from 'react';
-import { BackArrowIcon } from '../../assets/icons/back-arrow-icon/back-arrow-icon';
-import { Button } from '../button/button';
+import { BackArrowIcon } from '@/assets/icons/back-arrow-icon/back-arrow-icon';
+import { Button } from '@/components/button/button';
 import './page-header.scss';
 
 interface PageHeaderProps {

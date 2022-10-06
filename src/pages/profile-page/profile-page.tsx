@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
-import { DeckCover } from '../../components/deck-cover/deck-cover';
-import { LoadingPage } from '../../components/loading-page/loading-page';
-import { PageHeader } from '../../components/page-header/page-header';
-import { useDecksClient } from '../../hooks/api/use-decks-client';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { Deck } from '../../models/deck';
-import { paths } from '../../routing/paths';
-import { userInfoStateAsync } from '../../state/auth-jwt';
-import { userDecksSortedState, userDecksState } from '../../state/user-decks';
+import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
+import { DeckCover } from '@/components/deck-cover/deck-cover';
+import { LoadingPage } from '@/components/loading-page/loading-page';
+import { PageHeader } from '@/components/page-header/page-header';
+import { useDecksClient } from '@/hooks/api/use-decks-client';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { Deck } from '@/models/deck';
+import { paths } from '@/routing/paths';
+import { userInfoStateAsync } from '@/state/auth-jwt';
+import { userDecksSortedState, userDecksState } from '@/state/user-decks';
 import './profile-page.scss';
 
 export const ProfilePage = () => {

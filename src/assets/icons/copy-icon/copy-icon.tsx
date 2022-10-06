@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as CopySvg } from '../../svg/copy.svg';
+import { ReactComponent as CopySvg } from '@/assets/svg/copy.svg';
 import './copy-icon.scss';
 
 interface CopyIconProps {

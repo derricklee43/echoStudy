@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
-import { ECHOSTUDY_API_URL } from '../helpers/api';
-import { objectSchemaSimple } from '../helpers/validator';
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { objectSchemaSimple } from '@/helpers/validator';
 
 ///////////////
 /// AuthJwt ///

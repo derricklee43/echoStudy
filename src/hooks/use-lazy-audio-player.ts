@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LazyAudio } from '../models/lazy-audio';
+import { LazyAudio } from '@/models/lazy-audio';
 
 export function useLazyAudioPlayer() {
   const [playingAudioFile, setPlayingAudioFile] = useState<LazyAudio>();

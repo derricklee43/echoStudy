@@ -1,21 +1,21 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { loadDeck, ResourceLoader } from '@/components/resource-loader/resource-loader';
+import { AlreadyAuthorizedLayout } from '@/layouts/already-authorized-layout/already-authorized-layout';
+import { AuthorizedRouteLayout } from '@/layouts/authorized-route-layout/authorized-route-layout';
+import { FullscreenLayout } from '@/layouts/full-screen-layout/full-screen-layout';
+import { SidebarLayout } from '@/layouts/sidebar-layout/sidebar-layout';
+import { Deck } from '@/models/deck';
+import { FlashcardDecksPage } from '@/pages/decks/flashcard-decks';
+import { EditDeckPage } from '@/pages/edit-deck-page/edit-deck-page';
+import { LandingPage } from '@/pages/landing-page/landing-page';
+import { NotFoundPage } from '@/pages/not-found-page/not-found-page';
+import { ProfilePage } from '@/pages/profile-page/profile-page';
+import { SignInPage } from '@/pages/sign-in-page/sign-in-page';
+import { SignUpPage } from '@/pages/sign-up-page/sign-up-page';
+import { StudyPage } from '@/pages/study-page/study-page';
+import { ViewDeckPage } from '@/pages/view-deck-page/view-deck-page';
 import { paths } from './paths';
-import { loadDeck, ResourceLoader } from '../components/resource-loader/resource-loader';
-import { AlreadyAuthorizedLayout } from '../layouts/already-authorized-layout/already-authorized-layout';
-import { AuthorizedRouteLayout } from '../layouts/authorized-route-layout/authorized-route-layout';
-import { FullscreenLayout } from '../layouts/full-screen-layout/full-screen-layout';
-import { SidebarLayout } from '../layouts/sidebar-layout/sidebar-layout';
-import { Deck } from '../models/deck';
-import { FlashcardDecksPage } from '../pages/decks/flashcard-decks';
-import { EditDeckPage } from '../pages/edit-deck-page/edit-deck-page';
-import { LandingPage } from '../pages/landing-page/landing-page';
-import { NotFoundPage } from '../pages/not-found-page/not-found-page';
-import { ProfilePage } from '../pages/profile-page/profile-page';
-import { SignInPage } from '../pages/sign-in-page/sign-in-page';
-import { SignUpPage } from '../pages/sign-up-page/sign-up-page';
-import { StudyPage } from '../pages/study-page/study-page';
-import { ViewDeckPage } from '../pages/view-deck-page/view-deck-page';
 
 // sidebar navigation is in `./sidebar/sidebar-routes.tsx`
 // this component is to define all the possible routes for the app

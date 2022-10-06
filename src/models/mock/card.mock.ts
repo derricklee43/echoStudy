@@ -1,3 +1,4 @@
+import { Card, createNewCard } from '@/models/card';
 import {
   getTestFoxBack,
   getTestFoxFront,
@@ -6,7 +7,6 @@ import {
   getTestMouseBack,
   getTestMouseFront,
 } from './card-content.mock';
-import { Card, createNewCard } from '../card';
 
 export const getTestFoxCard = (score?: number, dateTouched?: Date): Card => {
   const testCard = createNewCard();

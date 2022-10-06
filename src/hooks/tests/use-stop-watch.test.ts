@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { withFakeTimers } from '../../helpers/test';
-import { useStopWatch } from '../use-stop-watch';
+import { withFakeTimers } from '@/helpers/test';
+import { useStopWatch } from '@/hooks/use-stop-watch';
 
 describe('useStopWatch', () => {
   const setup = () => {

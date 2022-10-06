@@ -2,11 +2,11 @@ import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MutableSnapshot } from 'recoil';
+import { renderWithTestRoots } from '@/app.test';
+import { testEnglishDeck } from '@/models/mock/deck.mock';
+import { paths } from '@/routing/paths';
+import { userDecksState } from '@/state/user-decks';
 import { Header } from './header';
-import { renderWithTestRoots } from '../../app.test';
-import { testEnglishDeck } from '../../models/mock/deck.mock';
-import { paths } from '../../routing/paths';
-import { userDecksState } from '../../state/user-decks';
 
 describe('Header', () => {
   it('should render correctly with default props', () => {

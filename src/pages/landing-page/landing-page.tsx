@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fade } from '../../animations/fade';
-import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
-import waveImage from '../../assets/images/wave.png';
-import { Button } from '../../components/button/button';
-import { Header } from '../../components/header/header';
-import { paths } from '../../routing/paths';
+import { Fade } from '@/animations/fade';
+import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import waveImage from '@/assets/images/wave.png';
+import { Button } from '@/components/button/button';
+import { Header } from '@/components/header/header';
+import { paths } from '@/routing/paths';
 import './landing-page.scss';
 
 const headerClassName = 'header-anchor';

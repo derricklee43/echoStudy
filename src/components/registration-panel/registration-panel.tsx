@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fade } from '../../animations/fade';
-import { UpToggle } from '../../animations/up-toggle';
-import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
-import { BubbleDivider } from '../../components/bubble-divider/bubble-divider';
-import { Button } from '../../components/button/button';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { paths } from '../../routing/paths';
+import { Fade } from '@/animations/fade';
+import { UpToggle } from '@/animations/up-toggle';
+import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
+import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
+import { Button } from '@/components/button/button';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { paths } from '@/routing/paths';
 import './registration-panel.scss';
 
 interface RegistrationPanelProps {

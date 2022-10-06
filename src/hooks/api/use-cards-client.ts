@@ -1,8 +1,8 @@
+import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
+import { asUtcDate } from '@/helpers/time';
+import { Card, createNewCard } from '@/models/card';
+import { LazyAudio } from '@/models/lazy-audio';
 import { useFetchWrapper } from './use-fetch-wrapper';
-import { ECHOSTUDY_API_URL, ensureHttps } from '../../helpers/api';
-import { asUtcDate } from '../../helpers/time';
-import { Card, createNewCard } from '../../models/card';
-import { LazyAudio } from '../../models/lazy-audio';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
