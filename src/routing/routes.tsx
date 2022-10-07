@@ -31,6 +31,7 @@ export const PageRoutes = () => {
           <Route path={`${paths.study}/:deckId`} element={getStudyPage()} />
           <Route path={paths.profile} element={<ProfilePage />} />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
 
       <Route element={<FullscreenLayout />}>
@@ -39,7 +40,6 @@ export const PageRoutes = () => {
           <Route path={paths.signUp} element={<SignUpPage />} />
         </Route>
         <Route path={paths.home} element={<LandingPage />} />
-        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
