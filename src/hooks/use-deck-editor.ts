@@ -1,5 +1,5 @@
 import { useReducer, useState } from 'react';
-import { Card } from '@/models/card';
+import { Card, filterBlankCards } from '@/models/card';
 import { Deck, DeckMetaData } from '@/models/deck';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
@@ -66,7 +66,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       const deckId = state.currentDeck.metaData.id;
       const promises = [
         decksClient.updateDeckById(state.currentDeck),
-        cardsClient.addCards(Object.values(state.addedCards), deckId),
+        cardsClient.addCards(Object.values(state.addedCards).filter(filterBlankCards), deckId),
         cardsClient.updateCardsById(Object.values(state.updatedCards)),
         cardsClient.deleteCards(Object.values(state.deletedCards)),
         // Todo: we need to send the reordered cards too

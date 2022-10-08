@@ -5,6 +5,7 @@ import { LoadingPage } from '@/components/loading-page/loading-page';
 import { isDefined } from '@/helpers/validator';
 import { useCardsClient } from '@/hooks/api/use-cards-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
+import { filterBlankCards } from '@/models/card';
 import { Deck } from '@/models/deck';
 import { paths } from '@/routing/paths';
 import { DeckEditor } from './deck-editor/deck-editor';
@@ -46,7 +47,7 @@ export const EditDeckPage = ({ deck }: EditDeckPageProps) => {
   async function handleCreateDeckClick(deck: Deck) {
     return _withLoadingUntilResolved('Creating your new deck...', async () => {
       const newDeckId = await addDeck(deck);
-      await addCards(deck.cards, newDeckId);
+      await addCards(deck.cards.filter(filterBlankCards), newDeckId);
       navigateToViewDeck(newDeckId);
     });
   }

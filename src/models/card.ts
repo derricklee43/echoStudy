@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { isBlankString } from '@/helpers/validator';
 import { CardContent, createNewCardContent } from './card-content';
 export interface Card {
   id?: number;
@@ -22,4 +23,8 @@ export function createNewCard(): Card {
     dateUpdated: new Date(),
     dateTouched: new Date(),
   };
+}
+
+export function filterBlankCards(card: Card) {
+  return !isBlankString(card.front.text) && !isBlankString(card.back.text);
 }
