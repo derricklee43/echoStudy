@@ -2,6 +2,7 @@ import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
 import { asUtcDate } from '@/helpers/time';
 import { Card, createNewCard } from '@/models/card';
 import { LazyAudio } from '@/models/lazy-audio';
+import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -25,7 +26,7 @@ export function useCardsClient() {
     addCards,
     updateCardById,
     updateCardsById,
-    updateCardScoreById,
+    updateCardScores,
 
     // removals
     deleteCard,
@@ -70,15 +71,15 @@ export function useCardsClient() {
   //////////////////////
 
   // POST: /Cards
-  async function addCard(card: Card, deckId: number): Promise<number> {
-    const { id } = await fetchWrapper.post('/Cards', cardToJson(card, deckId));
-    return id;
+  async function addCard(card: Card, deckId: number): Promise<NewCardsResponse> {
+    return addCards([card], deckId);
   }
 
-  // POST: /Cards
-  // Todo: Add batching
-  async function addCards(cards: Card[], deckId: number): Promise<number[]> {
-    return Promise.all(cards.map((card) => addCard(card, deckId)));
+  // POST: /Cards (batching)
+  async function addCards(cards: Card[], deckId: number): Promise<NewCardsResponse> {
+    const cardsToAdd = cards.map((card) => cardToJson(card, deckId));
+    const response = await fetchWrapper.post('/Cards', cardsToAdd);
+    return response;
   }
 
   // POST: /Cards/{id}
@@ -95,9 +96,8 @@ export function useCardsClient() {
   }
 
   // POST: /Cards/Study
-  async function updateCardScoreById(id: number, score: number): Promise<void> {
-    const requestBody = { id: id, score: score };
-    return fetchWrapper.post('/Cards/Study', requestBody);
+  async function updateCardScores(cardScores: UpdateCardScoreRequest[]): Promise<void> {
+    return fetchWrapper.post('/Cards/Study', cardScores);
   }
 
   /////////////////

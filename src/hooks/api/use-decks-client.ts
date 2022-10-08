@@ -1,6 +1,7 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { asUtcDate } from '@/helpers/time';
 import { Deck } from '@/models/deck';
+import { NewDecksResponse } from './interfaces/deck-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -74,9 +75,9 @@ export function useDecksClient() {
   //////////////////////
 
   // POST: /Decks
-  async function addDeck(deck: Deck): Promise<number> {
-    const { id } = await fetchWrapper.post('/Decks', deckToJson(deck));
-    return id;
+  async function addDeck(deck: Deck): Promise<NewDecksResponse> {
+    const response = await fetchWrapper.post('/Decks', [deckToJson(deck)]);
+    return response;
   }
 
   // POST: /Decks/{id}

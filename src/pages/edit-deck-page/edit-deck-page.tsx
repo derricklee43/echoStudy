@@ -18,7 +18,7 @@ interface EditDeckPageProps {
 export const EditDeckPage = ({ deck }: EditDeckPageProps) => {
   const navigate = useNavigate();
   const { deleteDeckById, addDeck } = useDecksClient();
-  const { addCards } = useCardsClient();
+  const cardsClient = useCardsClient();
 
   // when this is not undefined, show a loading animation for long-running operations
   const [loadingLabel, setLoadingLabel] = useState<string | undefined>();
@@ -46,8 +46,11 @@ export const EditDeckPage = ({ deck }: EditDeckPageProps) => {
 
   async function handleCreateDeckClick(deck: Deck) {
     return _withLoadingUntilResolved('Creating your new deck...', async () => {
-      const newDeckId = await addDeck(deck);
-      await addCards(deck.cards.filter(filterBlankCards), newDeckId);
+      const deckResponse = await addDeck(deck);
+      const newDeckId = deckResponse.ids[0];
+
+      const cardsWithContent = deck.cards.filter(filterBlankCards);
+      await cardsClient.addCards(cardsWithContent, newDeckId);
       navigateToViewDeck(newDeckId);
     });
   }

@@ -70,7 +70,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
         cardsClient.updateCardsById(Object.values(state.updatedCards)),
         cardsClient.deleteCards(Object.values(state.deletedCards)),
         // Todo: we need to send the reordered cards too
-        // Todo: add batching
+        // Todo: add batching (for update and delete cards)
       ];
       await Promise.all(promises);
       dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
