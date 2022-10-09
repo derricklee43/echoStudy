@@ -25,8 +25,8 @@ export function useCardsClient() {
     // adds & updates
     addCard,
     addCards,
-    updateCardById,
-    updateCardsById,
+    updateCard,
+    updateCards,
     updateCardScores,
 
     // removals
@@ -81,13 +81,13 @@ export function useCardsClient() {
   }
 
   // POST: /Cards/Update
-  async function updateCardById(card: Card): Promise<NewCardsResponse> {
+  async function updateCard(card: Card): Promise<NewCardsResponse> {
     assertIdIsNumber(card.id);
-    return updateCardsById([card]);
+    return updateCards([card]);
   }
 
   // POST: /Cards/Update
-  async function updateCardsById(cards: Card[]): Promise<NewCardsResponse> {
+  async function updateCards(cards: Card[]): Promise<NewCardsResponse> {
     cards.forEach((card) => assertIdIsNumber(card.id));
 
     const cardsToUpdate = cards.map((card) => cardToJson(card));
