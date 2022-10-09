@@ -31,6 +31,10 @@ $bg-opacity: 0; // opacity to set background if modal is open
   background: $white;
   border-radius: $standard-radius * 0.75;
 
+  &.fixed {
+    position: fixed;
+  }
+
   @media screen and (max-width: $small-screen) {
     right: 0;
   }

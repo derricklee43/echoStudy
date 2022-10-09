@@ -8,6 +8,7 @@ import './welcome-user.scss';
 
 interface WelcomeUserProps {
   className?: string;
+  fixed?: boolean;
   onProfileClick?: (event: React.MouseEvent) => void;
   onLogoutClick?: (event: React.MouseEvent) => void;
 }
@@ -20,7 +21,12 @@ export const WelcomeUser = (props: WelcomeUserProps) => {
   );
 };
 
-const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: WelcomeUserProps) => {
+const AsyncWelcomeUser = ({
+  className = '',
+  fixed = false,
+  onProfileClick,
+  onLogoutClick,
+}: WelcomeUserProps) => {
   const userData = useRecoilValue(userInfoStateAsync);
   const userClient = useUserClient();
   const pfpUrl = userClient.getProfilePictureUrl(userData?.email ?? '');
@@ -38,6 +44,7 @@ const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: Wel
       </div>
       <AccountPopup
         className={`welcome-account-popup ${className}`}
+        fixed={fixed}
         showTrigger={showPopup}
         onClose={() => setShowPopup(false)}
       >
