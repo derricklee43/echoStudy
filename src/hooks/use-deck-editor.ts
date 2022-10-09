@@ -67,7 +67,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       const promises = [
         decksClient.updateDeckById(state.currentDeck),
         cardsClient.addCards(Object.values(state.addedCards).filter(filterBlankCards), deckId),
-        cardsClient.updateCardsById(Object.values(state.updatedCards)),
+        cardsClient.updateCardsById(Object.values(state.updatedCards).filter(filterBlankCards)),
         cardsClient.deleteCards(Object.values(state.deletedCards)),
         // Todo: we need to send the reordered cards too
         // Todo: add batching (for update and delete cards)
