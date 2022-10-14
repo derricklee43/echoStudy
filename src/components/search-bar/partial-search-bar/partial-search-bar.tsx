@@ -1,36 +1,35 @@
 import React, { ChangeEvent, KeyboardEvent, ReactNode, useMemo, useRef, useState } from 'react';
 import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
+import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
 import { Button } from '@/components/button/button';
 import { DropDownOption, DropDownOptions } from '@/components/drop-down-options/drop-down-options';
 import { debounce, noop } from '@/helpers/func';
+import { isString } from '@/helpers/validator';
 import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { useEscapePress } from '@/hooks/use-key-press';
 import { useOutsideClick } from '@/hooks/use-outside-click';
-import './base-search-bar.scss';
+import './partial-search-bar.scss';
 
 export interface SearchBarProps {
-  searchValue: string;
+  searchValue?: string;
   placeholder?: string;
   disabled?: boolean;
-  searchResults?: SearchResult<string, string>[];
+  searchResults?: DropDownOption<string, ReactNode>[];
   debounceMs?: number;
+  areResultsLoading?: boolean;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
   onSearchValueChange?: (value: string) => void;
+  onSearchResultSelect?: (searchResult: DropDownOption<string, ReactNode>) => void;
 }
 
-export interface SearchResult<S, U> extends DropDownOption<S, U> {
-  onSelect: () => void;
-}
-
-// TODO restrict BaseSearchBarProps to exclude intintalText and dropDownText
-export interface BaseSearchBarProps extends SearchBarProps {
+export interface PartialSearchBarProps extends SearchBarProps {
   leftChild: ReactNode;
   shouldShowResults: boolean;
   onShouldShowResultsChange: (shouldShow: boolean) => void;
 }
 
-export const BaseSearchBar = ({
+export const PartialSearchBar = ({
   leftChild,
   searchValue,
   shouldShowResults,
@@ -38,11 +37,13 @@ export const BaseSearchBar = ({
   disabled,
   debounceMs = 250,
   searchResults,
+  areResultsLoading = false,
+  onSearchResultSelect,
   onSearchValueChange,
   onEnterPressed,
   onDebouncedChange,
   onShouldShowResultsChange,
-}: BaseSearchBarProps) => {
+}: PartialSearchBarProps) => {
   const debouncedChange = useMemo(
     () => debounce(onDebouncedChange ?? noop, debounceMs),
     [onDebouncedChange, debounceMs]
@@ -51,13 +52,13 @@ export const BaseSearchBar = ({
   // hide dropdown after clicking outside the search bar wrapper div
   const wrapperDivRef = useRef(null);
   useOutsideClick(wrapperDivRef, () => onShouldShowResultsChange(false));
-  useFocusTrap(wrapperDivRef, shouldShowDropDown());
-  useEscapePress(() => onShouldShowResultsChange(false), shouldShowDropDown());
+  useFocusTrap(wrapperDivRef, shouldShowSearchResults());
+  useEscapePress(() => onShouldShowResultsChange(false), shouldShowSearchResults());
 
   return (
     <div className="c-search-bar-wrapper" ref={wrapperDivRef}>
       <div className="c-search-bar-content">
-        {leftChild}
+        <div className="left-child"> {leftChild}</div>
         <input
           className="c-search-bar-input"
           placeholder={placeholder}
@@ -76,43 +77,49 @@ export const BaseSearchBar = ({
           <CancelIcon variant="light" />
         </Button>
       </div>
-      <div>{getSearchResults()}</div>
+      <div>
+        <DropDownOptions
+          show={shouldShowSearchResults()}
+          options={getSearchResults()}
+          ellipsisOverflow={true}
+          onOptionSelect={handleDropDownOptionSelect}
+        />
+      </div>
     </div>
   );
 
-  function shouldShowDropDown() {
-    return hasSearchResults() && shouldShowResults;
-  }
-
-  function hasSearchResults() {
-    if (!searchResults || !searchValue) return false;
-    return searchResults.length > 0;
+  function shouldShowSearchResults() {
+    return hasText() && shouldShowResults;
   }
 
   function getSearchResults() {
-    return (
-      <DropDownOptions
-        show={shouldShowDropDown()}
-        options={searchResults}
-        ellipsisOverflow={true}
-        onOptionSelect={handleDropDownOptionSelect}
-      />
-    );
+    if (areResultsLoading) {
+      return getLoadingResult();
+    }
+    if (searchResults === undefined) {
+      return [];
+    }
+    if (searchResults.length === 0) {
+      return getNoResultsFoundResult();
+    }
+    return searchResults;
   }
 
-  function handleDropDownOptionSelect(option: DropDownOption<string, string>) {
+  function handleDropDownOptionSelect(option: DropDownOption<string, ReactNode>) {
     const searchResult = searchResults?.find(({ id }) => id === option.id);
     if (searchResult === undefined) {
       throw Error('unable to find selected search result');
     }
-    searchResult.onSelect();
+    onSearchResultSelect?.(searchResult);
     const changedValue = option.value ?? searchValue;
-    informChange(changedValue);
+    if (isString(changedValue)) {
+      informChange(changedValue);
+    }
     onShouldShowResultsChange(false); // hide since clicked
   }
 
   function hasText() {
-    return searchValue && searchValue.length > 0;
+    return !!searchValue && searchValue.length > 0;
   }
 
   function informChange(value: string) {
@@ -135,5 +142,19 @@ export const BaseSearchBar = ({
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  function getLoadingResult(): DropDownOption<string, ReactNode>[] {
+    const loading = (
+      <div className="loading-result">
+        <LoadingIcon className="loading-result-icon" /> loading...
+      </div>
+    );
+    return [{ id: '', value: loading, focusable: false }];
+  }
+
+  function getNoResultsFoundResult(): DropDownOption<string, ReactNode>[] {
+    const noResults = <div className="no-results">no results found...</div>;
+    return [{ id: '', value: noResults, focusable: false }];
   }
 };

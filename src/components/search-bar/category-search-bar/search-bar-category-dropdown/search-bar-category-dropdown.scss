@@ -1,16 +1,13 @@
 @import '../../../../assets/colors';
 @import '../../../../assets/styles';
 
-// TODO: move into base-search-bar.scss
-$height: 40px;
-
 .category-dropdown {
   width: fit-content;
   position: relative;
   height: 100%;
 
   .category-dropdown-button {
-    height: $height;
+    height: 100%;
     font-size: 15px;
     width: fit-content;
     border: none;

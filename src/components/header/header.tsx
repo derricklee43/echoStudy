@@ -9,6 +9,7 @@ import { DropDownOption } from '@/components/drop-down-options/drop-down-options
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useSearchCategories } from '@/hooks/use-search-categories';
+import { useSearchResultFilter } from '@/hooks/use-search-result-filter';
 import { paths } from '@/routing/paths';
 import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
 import { navToggledState } from '@/state/nav';
@@ -39,12 +40,16 @@ export const Header = ({
 
   const {
     searchValue,
-    searchCategory,
     searchResults,
+    searchCategory,
     searchCategories,
-    setSearchCategory,
+    isLoading,
     setSearchValue,
-  } = useSearchCategories();
+    setSearchCategory,
+    navigateToResult,
+  } = useSearchCategories(false);
+
+  const placeholder = `search ${searchCategory.id}...`;
 
   return (
     <div className={`c-header ${fixed ? 'fixed' : ''} ${className}`}>
@@ -67,13 +72,15 @@ export const Header = ({
           {showSearchBar && (
             <div className="c-search-bar-sizer">
               <CategorySearchBar
-                placeholder={`search ${searchCategory.id}...`}
+                searchValue={searchValue}
                 selectedCategory={searchCategory}
                 searchCategories={searchCategories}
                 searchResults={searchResults}
-                searchValue={searchValue}
+                placeholder={placeholder}
+                areResultsLoading={isLoading}
                 onSearchValueChange={setSearchValue}
-                onSelectedCategoryChange={setSearchCategory}
+                onCategorySelect={setSearchCategory}
+                onSearchResultSelect={navigateToResult}
               />
             </div>
           )}
@@ -121,14 +128,6 @@ export const Header = ({
         </>
       );
     }
-  }
-
-  function getDeckOptions(): DropDownOption<string, string>[] {
-    return decks.map((deck) => ({
-      id: deck.metaData.id.toString(),
-      value: deck.metaData.title,
-      focusable: true,
-    }));
   }
 
   function handleSignUpClick() {

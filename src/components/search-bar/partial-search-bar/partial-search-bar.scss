@@ -19,18 +19,8 @@ $font-size: 20px;
     justify-content: space-between;
     width: 100%;
 
-    .c-search-icon-container {
-      @include flex-center;
-      border-top-left-radius: $standard-radius;
-      border-bottom-left-radius: $standard-radius;
-      width: $height;
-      height: $height;
-      transition: all 100ms ease-in-out;
-
-      &.has-text {
-        border-right: 1px solid $light-blue;
-        background-color: $blue;
-      }
+    .left-child {
+      height: 40px;
     }
 
     .c-search-bar-input {
@@ -58,9 +48,16 @@ $font-size: 20px;
     }
   }
 
-  .search-result-header {
-    font-size: 16px;
-    margin: 5px 0px;
-    color: $electric-blue;
+  .loading-result {
+    display: flex;
+    align-items: center;
+    .loading-result-icon {
+      margin-right: 10px;
+    }
+  }
+
+  .no-results {
+    font-size: 18px;
+    color: $grey;
   }
 }

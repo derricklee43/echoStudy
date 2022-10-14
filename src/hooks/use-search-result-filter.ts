@@ -1,9 +1,9 @@
-import { SearchResult } from '@/components/search-bar/base-search-bar/base-search-bar';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 
 export const useSearchResultFilter = (isCaseSensitive: boolean) => {
   return { filterSearchResults };
 
-  function filterSearchResults<T>(searchOptions: SearchResult<T, string>[], searchValue: string) {
+  function filterSearchResults<T>(searchOptions: DropDownOption<T, string>[], searchValue: string) {
     return searchOptions.filter(({ value }) => resultContainsValue(value, searchValue));
   }
 

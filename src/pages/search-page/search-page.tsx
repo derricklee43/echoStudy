@@ -9,28 +9,35 @@ import './search-page.scss';
 export const SearchPage = () => {
   const {
     searchValue,
-    searchCategory,
     searchResults,
+    searchCategory,
     searchCategories,
-    setSearchCategory,
+    isLoading,
     setSearchValue,
-  } = useSearchCategories();
+    setSearchCategory,
+    navigateToResult,
+  } = useSearchCategories(false);
 
+  const placeholder = `search ${searchCategory.id}...`;
   return (
     <div>
       <PageHeader label="search" goBackLabel="go back" onGoBackClick={noop} />
       <CategorySearchBar
-        searchCategories={searchCategories}
-        selectedCategory={searchCategory}
-        onSelectedCategoryChange={setSearchCategory}
-        searchResults={searchResults}
         searchValue={searchValue}
+        selectedCategory={searchCategory}
+        searchCategories={searchCategories}
+        searchResults={searchResults}
+        placeholder={placeholder}
+        areResultsLoading={isLoading}
         onSearchValueChange={setSearchValue}
+        onCategorySelect={setSearchCategory}
+        onSearchResultSelect={navigateToResult}
       />
       <SearchBar
         searchValue={searchValue}
         onSearchValueChange={setSearchValue}
         searchResults={searchResults}
+        areResultsLoading={isLoading}
       />
     </div>
   );

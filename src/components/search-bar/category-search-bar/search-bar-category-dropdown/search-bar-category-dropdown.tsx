@@ -4,7 +4,7 @@ import { DropDownOption, DropDownOptions } from '@/components/drop-down-options/
 import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { useEscapePress } from '@/hooks/use-key-press';
 import { useOutsideClick } from '@/hooks/use-outside-click';
-import './category-search-bar-dropdown.scss';
+import './search-bar-category-dropdown.scss';
 
 interface SearchBarCategoryDropdownProps<T, S> {
   categories: DropDownOption<T, S>[];

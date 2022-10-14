@@ -1,43 +1,40 @@
 import React, { ReactNode, useState } from 'react';
 import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 import {
-  BaseSearchBar,
+  PartialSearchBar,
   SearchBarProps,
-} from '@/components/search-bar/base-search-bar/base-search-bar';
-import { SearchBarCategoryDropdown } from './category-search-bar-dropdown/category-search-bar-dropdown';
-import './category-search-bar.scss';
+} from '@/components/search-bar/partial-search-bar/partial-search-bar';
+import { SearchBarCategoryDropdown } from './search-bar-category-dropdown/search-bar-category-dropdown';
 
-export interface CategorySearchBarProps<T extends string, S extends ReactNode>
-  extends SearchBarProps {
+export interface CategorySearchBarProps<T, S> extends SearchBarProps {
   searchCategories: DropDownOption<T, S>[];
   selectedCategory: DropDownOption<T, S>;
-  dropDownIgnoreCase?: boolean;
-  onSelectedCategoryChange: (category: DropDownOption<T, S>) => void;
+  onCategorySelect: (category: DropDownOption<T, S>) => void;
 }
 
 export const CategorySearchBar = <T extends string, S extends ReactNode>({
   searchCategories,
   selectedCategory,
-  onSelectedCategoryChange,
+  onCategorySelect,
   ...baseSearchBarProps
 }: CategorySearchBarProps<T, S>) => {
   const [shouldShowResults, setShouldShowResults] = useState(false);
 
   const categoryDropdown = (
     <SearchBarCategoryDropdown
-      onClick={() => setShouldShowResults(false)}
       selectedCategory={selectedCategory}
-      onCategorySelect={onSelectedCategoryChange}
       categories={searchCategories}
+      onCategorySelect={onCategorySelect}
+      onClick={() => setShouldShowResults(false)}
     />
   );
 
   return (
-    <BaseSearchBar
+    <PartialSearchBar
       {...baseSearchBarProps}
       leftChild={categoryDropdown}
-      onShouldShowResultsChange={setShouldShowResults}
       shouldShowResults={shouldShowResults}
+      onShouldShowResultsChange={setShouldShowResults}
     />
   );
 };

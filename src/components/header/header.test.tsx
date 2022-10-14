@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MutableSnapshot } from 'recoil';
 import { renderWithTestRoots } from '@/app.test';
@@ -15,7 +15,7 @@ describe('Header', () => {
     expect(screen.queryByText('sign in')).toBeInTheDocument();
   });
 
-  it('should route to view deck when dropdown option clicked', () => {
+  it('should route to view deck when dropdown option clicked', async () => {
     const testDeck = testEnglishDeck(0);
     const initRecoilState = (snapshot: MutableSnapshot) => {
       snapshot.set(userDecksState, [testDeck]);
@@ -24,6 +24,7 @@ describe('Header', () => {
 
     // type one letter of test deck title then click dropdown option
     userEvent.type(screen.getByRole('textbox'), testDeck.metaData.title.substring(0, 1));
+    await waitFor(() => expect(screen.queryByText(testDeck.metaData.title)).toBeInTheDocument());
     fireEvent.click(screen.getByText(testDeck.metaData.title));
 
     expect(history.location.pathname).toBe(`${paths.deck}/${testDeck.metaData.id}`);

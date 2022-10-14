@@ -87,7 +87,7 @@ const AsyncProfilePage = () => {
   }
 
   function _reduceDecksByAccess() {
-    return sortedDecks.reduce(
+    return (sortedDecks ?? []).reduce(
       (result: Record<'privateDecks' | 'publicDecks', Deck[]>, deck: Deck) => {
         const accessLevel = deck.metaData.access;
         const key = accessLevel === 'Private' ? 'privateDecks' : 'publicDecks';
