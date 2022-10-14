@@ -1,4 +1,4 @@
-import { SearchResult } from '../components/search-bar/base-search-bar/base-search-bar';
+import { SearchResult } from '@/components/search-bar/base-search-bar/base-search-bar';
 
 export const useSearchResultFilter = (isCaseSensitive: boolean) => {
   return { filterSearchResults };

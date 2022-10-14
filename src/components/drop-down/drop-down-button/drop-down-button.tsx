@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { ArrowIcon } from '../../../assets/icons/arrow-icon/arrow-icon';
-import { Button } from '../../button/button';
+import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import { Button } from '@/components/button/button';
 import './drop-down-button.scss';
 
 export interface DropDownButtonProps {

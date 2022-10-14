@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { RegistrationPanel } from '@/components/registration-panel/registration-panel';
 import { TextBox } from '@/components/text-box/text-box';
 import { isEmptyObject } from '@/helpers/validator';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { paths } from '@/routing/paths';
 import './sign-in-page.scss';
 
@@ -14,7 +14,7 @@ interface SignInFormError {
 }
 
 export const SignInPage = () => {
-  const userClient = useUserClient();
+  const userClient = useAccountClient();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

@@ -1,7 +1,10 @@
 import React, { ReactNode, useState } from 'react';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
+import {
+  BaseSearchBar,
+  SearchBarProps,
+} from '@/components/search-bar/base-search-bar/base-search-bar';
 import { SearchBarCategoryDropdown } from './category-search-bar-dropdown/category-search-bar-dropdown';
-import { DropDownOption } from '../../drop-down-options/drop-down-options';
-import { BaseSearchBar, SearchBarProps } from '../base-search-bar/base-search-bar';
 import './category-search-bar.scss';
 
 export interface CategorySearchBarProps<T extends string, S extends ReactNode>

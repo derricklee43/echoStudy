@@ -1,9 +1,9 @@
 import React from 'react';
-import { PageHeader } from '../../components/page-header/page-header';
-import { CategorySearchBar } from '../../components/search-bar/category-search-bar/category-search-bar';
-import { SearchBar } from '../../components/search-bar/search-bar';
-import { noop } from '../../helpers/func';
-import { useSearchCategories } from '../../hooks/use-search-categories';
+import { PageHeader } from '@/components/page-header/page-header';
+import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
+import { SearchBar } from '@/components/search-bar/search-bar';
+import { noop } from '@/helpers/func';
+import { useSearchCategories } from '@/hooks/use-search-categories';
 import './search-page.scss';
 
 export const SearchPage = () => {

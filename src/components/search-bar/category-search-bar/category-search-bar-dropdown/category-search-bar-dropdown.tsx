@@ -1,9 +1,9 @@
 import React, { ReactNode, useRef, useState } from 'react';
-import { useFocusTrap } from '../../../../hooks/use-focus-trap';
-import { useEscapePress } from '../../../../hooks/use-key-press';
-import { useOutsideClick } from '../../../../hooks/use-outside-click';
-import { DropDownButton } from '../../../drop-down/drop-down-button/drop-down-button';
-import { DropDownOption, DropDownOptions } from '../../../drop-down-options/drop-down-options';
+import { DropDownButton } from '@/components/drop-down/drop-down-button/drop-down-button';
+import { DropDownOption, DropDownOptions } from '@/components/drop-down-options/drop-down-options';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useEscapePress } from '@/hooks/use-key-press';
+import { useOutsideClick } from '@/hooks/use-outside-click';
 import './category-search-bar-dropdown.scss';
 
 interface SearchBarCategoryDropdownProps<T, S> {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Button } from '@/components/button/button';
 import { AccountPopup } from '@/components/header/account-popup/account-popup';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { userInfoStateAsync } from '@/state/auth-jwt';
 import './welcome-user.scss';
 
@@ -22,7 +22,7 @@ export const WelcomeUser = (props: WelcomeUserProps) => {
 
 const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: WelcomeUserProps) => {
   const userData = useRecoilValue(userInfoStateAsync);
-  const userClient = useUserClient();
+  const userClient = useAccountClient();
   const pfpUrl = userClient.getProfilePictureUrl(userData?.email ?? '');
 
   const [showPopup, setShowPopup] = useState(false);

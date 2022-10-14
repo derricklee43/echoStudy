@@ -6,27 +6,14 @@ import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { Button } from '@/components/button/button';
 import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
-import { SearchBar } from '@/components/search-bar/search-bar';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
+import { useAccountClient } from '@/hooks/api/use-account-client';
+import { useSearchCategories } from '@/hooks/use-search-categories';
 import { paths } from '@/routing/paths';
 import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
 import { navToggledState } from '@/state/nav';
 import { userDecksSortedState } from '@/state/user-decks';
 import { WelcomeUser } from './welcome-user/welcome-user';
-<<<<<<< HEAD
-import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
-import { HamburgerMenuIcon } from '../../assets/icons/hamburger-menu-icon/hamburger-menu-icon';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { useSearchCategories } from '../../hooks/use-search-categories';
-import { paths } from '../../routing/paths';
-import { authJwtState, isAuthJwt } from '../../state/auth-jwt';
-import { navToggledState } from '../../state/nav';
-import { userDecksSortedState } from '../../state/user-decks';
-import { Button } from '../button/button';
-import { DropDownOption } from '../drop-down-options/drop-down-options';
-import { CategorySearchBar } from '../search-bar/category-search-bar/category-search-bar';
-=======
->>>>>>> main
 import './header.scss';
 
 interface HeaderProps {
@@ -47,7 +34,7 @@ export const Header = ({
 
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
 
-  const userClient = useUserClient();
+  const userClient = useAccountClient();
   const navigate = useNavigate();
 
   const {

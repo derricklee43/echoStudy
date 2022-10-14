@@ -5,8 +5,8 @@ import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
-import { useUserClient } from '@/hooks/api/use-user-client';
 import { Deck } from '@/models/deck';
 import { paths } from '@/routing/paths';
 import { userInfoStateAsync } from '@/state/auth-jwt';
@@ -23,7 +23,7 @@ export const ProfilePage = () => {
 
 const AsyncProfilePage = () => {
   const navigate = useNavigate();
-  const userClient = useUserClient();
+  const userClient = useAccountClient();
   const decksClient = useDecksClient();
 
   const setUserDecks = useSetRecoilState(userDecksState);
