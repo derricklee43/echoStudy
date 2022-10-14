@@ -1,4 +1,5 @@
 import React, { ReactNode, useRef, useState } from 'react';
+<<<<<<< HEAD
 import { DropDownButton } from './drop-down-button/drop-down-button';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
@@ -6,6 +7,14 @@ import { useEscapePress } from '../../hooks/use-key-press';
 import { useOutsideClick } from '../../hooks/use-outside-click';
 import { Button } from '../button/button';
 import { DropDownOption, DropDownOptions } from '../drop-down-options/drop-down-options';
+=======
+import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import { Button } from '@/components/button/button';
+import { DropDownOption, DropDownOptions } from '@/components/drop-down-options/drop-down-options';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useEscapePress } from '@/hooks/use-key-press';
+import { useOutsideClick } from '@/hooks/use-outside-click';
+>>>>>>> main
 import './drop-down.scss';
 
 interface DropDownProps<I, V> {

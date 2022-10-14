@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { CancelIcon } from '../../../assets/icons/cancel-icon/cancel-icon';
-import { useFocusFirst } from '../../../hooks/use-focus-first';
-import { useFocusTrap } from '../../../hooks/use-focus-trap';
-import { useEscapePress } from '../../../hooks/use-key-press';
-import { useOutsideClick } from '../../../hooks/use-outside-click';
+import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
+import { useFocusFirst } from '@/hooks/use-focus-first';
+import { useFocusTrap } from '@/hooks/use-focus-trap';
+import { useEscapePress } from '@/hooks/use-key-press';
+import { useOutsideClick } from '@/hooks/use-outside-click';
 import './account-popup.scss';
 
 export interface AccountPopupProps {

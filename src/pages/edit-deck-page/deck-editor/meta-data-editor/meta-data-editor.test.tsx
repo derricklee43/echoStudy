@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { testEnglishDeck } from '@/models/mock/deck.mock';
 import { MetaDataEditor } from './meta-data-editor';
-import { noop } from '../../../../helpers/func';
-import { testEnglishDeck } from '../../../../models/mock/deck.mock';
 
 describe('MetaDataEditor', () => {
   beforeEach(() => {
@@ -12,10 +12,10 @@ describe('MetaDataEditor', () => {
   });
 
   it('should render correctly with default props', () => {
-    const { metaData } = testEnglishDeck(1);
+    const deck = testEnglishDeck(1);
     render(
       <MetaDataEditor
-        deckMetaData={metaData}
+        deck={deck}
         onDeckMetaDataChange={noop}
         onDeleteClick={noop}
         onImportedCardsAdd={noop}
@@ -24,15 +24,15 @@ describe('MetaDataEditor', () => {
     expect(screen.queryAllByText('import cards').length).toEqual(2);
     expect(screen.queryByText('export deck')).toBeInTheDocument();
     expect(screen.queryByText('advanced settings')).toBeInTheDocument();
-    expect(screen.queryByDisplayValue(metaData.title)).toBeInTheDocument();
-    expect(screen.queryByDisplayValue(metaData.desc)).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(deck.metaData.title)).toBeInTheDocument();
+    expect(screen.queryByDisplayValue(deck.metaData.desc)).toBeInTheDocument();
   });
 
   it('should hide advanced settings until dropdown is clicked', () => {
-    const { metaData } = testEnglishDeck(1);
+    const deck = testEnglishDeck(1);
     render(
       <MetaDataEditor
-        deckMetaData={metaData}
+        deck={deck}
         onDeckMetaDataChange={noop}
         onDeleteClick={noop}
         onImportedCardsAdd={noop}
@@ -49,26 +49,26 @@ describe('MetaDataEditor', () => {
   });
 
   it('should call onDeckChange when meta data is changed', () => {
-    const { metaData } = testEnglishDeck(1);
+    const deck = testEnglishDeck(1);
     const mockOnDeckChange = jest.fn();
     render(
       <MetaDataEditor
-        deckMetaData={metaData}
+        deck={deck}
         onDeckMetaDataChange={mockOnDeckChange}
         onDeleteClick={noop}
         onImportedCardsAdd={noop}
       />
     );
-    userEvent.type(screen.getByDisplayValue(metaData.title), 't');
+    userEvent.type(screen.getByDisplayValue(deck.metaData.title), 't');
     expect(mockOnDeckChange).toBeCalled();
   });
 
   it('should call onDeleteClick when delete button is clicked', () => {
-    const { metaData } = testEnglishDeck(1);
+    const deck = testEnglishDeck(1);
     const mockOnDeleteClick = jest.fn();
     render(
       <MetaDataEditor
-        deckMetaData={metaData}
+        deck={deck}
         onDeckMetaDataChange={noop}
         onDeleteClick={mockOnDeleteClick}
         onImportedCardsAdd={noop}

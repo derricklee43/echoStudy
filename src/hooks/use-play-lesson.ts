@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Deck } from '@/models/deck';
+import { createNewLessonCard, LessonCard } from '@/models/lesson-card';
 import { usePlayCardAudio } from './use-play-card-audio';
-import { Deck } from '../models/deck';
-import { createNewLessonCard, LessonCard } from '../models/lesson-card';
+import { useSpacedRepetition } from './use-spaced-repetition';
 
 // TODO: Add other lesson types
 type lessonType = 'review' | 'studyNew' | 'spacedRepetition';
@@ -12,11 +13,14 @@ interface UsePlayLessonSettings {
 }
 
 export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
+  const spacedRepetition = useMemo(() => useSpacedRepetition(), []);
+
   const [firstCard, ...restCards] = getLessonCards(deck, numCards);
   const [currentCard, setCurrentCard] = useState<LessonCard>(firstCard);
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
+
   const {
     pauseAudio,
     resumeAudio,
@@ -50,7 +54,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
   function skipCard() {
     clearAudio();
     const next = nextCard(currentCard, upcomingCards, completedCards);
-    if (!isPaused) {
+    if (!isPaused && next) {
       playCard(next.currentCard, next.upcomingCards, next.completedCards);
     }
   }
@@ -88,7 +92,7 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     setCurrentCard(updatedCard);
     const next = nextCard(updatedCard, upcomingCards, completedCards);
 
-    playCard(next.currentCard, next.upcomingCards, next.completedCards);
+    next && playCard(next.currentCard, next.upcomingCards, next.completedCards);
   }
 
   function nextCard(
@@ -96,12 +100,17 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     upcomingCards: LessonCard[],
     completedCards: LessonCard[]
   ) {
+    if (!upcomingCards[0] && completedCards.map((card) => card.key).includes(currentCard.key)) {
+      return false;
+    }
+
     const newCompletedCards = [currentCard, ...completedCards];
     const newCurrentCard: LessonCard = upcomingCards[0] ?? currentCard;
     const newUpcomingCards = upcomingCards.slice(1);
     setCurrentCard(newCurrentCard);
     setCompletedCards(newCompletedCards);
     setUpcomingCards(newUpcomingCards);
+
     return {
       currentCard: newCurrentCard,
       completedCards: newCompletedCards,
@@ -130,13 +139,14 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
       upcomingCards: newUpcomingCards,
     };
   }
-}
 
-// TODO: Add Sorting and Filtering based in settings
-function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
-  if (deck.cards.length < numCards) {
-    throw Error('deck not contain enough cards specified in the lesson');
+  // TODO: Add Sorting and Filtering based in settings
+  function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
+    if (deck.cards.length < numCards) {
+      throw Error('deck not contain enough cards specified in the lesson');
+    }
+
+    const cards = spacedRepetition.gatherStudyCards(deck, numCards);
+    return cards.map((card) => createNewLessonCard(card, deck, 1));
   }
-  const cards = deck.cards.slice(0, numCards);
-  return cards.map((card) => createNewLessonCard(card, deck, 1));
 }

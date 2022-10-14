@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
 import { Button } from './button';
-import { noop } from '../../helpers/func';
 
 const TEST_CHILDREN = 'TEST_CHILDREN';
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import correctSound from '@/assets/sounds/correct.wav';
+import incorrectSound from '@/assets/sounds/incorrect.wav';
+import { LazyAudio } from '@/models/lazy-audio';
+import { LessonCard } from '@/models/lesson-card';
+import { useMountedRef } from './use-mounted-ref';
 import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
-import correctSound from '../assets/sounds/correct.wav';
-import incorrectSound from '../assets/sounds/incorrect.wav';
-import { LazyAudio } from '../models/lazy-audio';
-import { LessonCard } from '../models/lesson-card';
 
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios
@@ -16,6 +17,7 @@ export function usePlayCardAudio() {
   const [activeCardKey, setActiveCard] = useState<string>('');
   const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
+  const mountedRef = useMountedRef();
   useEffect(() => {
     return () => clearAudio();
   }, []);
@@ -56,7 +58,7 @@ export function usePlayCardAudio() {
       }
       return;
     }
-    activeAudioRef.current.reset();
+    activeAudioRef.current.stop();
   }
 
   async function playAudio(lessonCard: LessonCard): Promise<LessonCard> {
@@ -79,7 +81,7 @@ export function usePlayCardAudio() {
     const capturedSpeechPromise = captureSpeech(lessonCard.back.language);
 
     // wait before flip
-    const backDuration = await backAudio.getDuration();
+    const backDuration = await backAudio.durationAsync();
     await wait(getPauseLength(backDuration));
 
     // Stop capturing speech if not already ended
@@ -113,7 +115,7 @@ export function usePlayCardAudio() {
 
     await playCardAudio(audio);
 
-    const duration = await audio.getDuration();
+    const duration = await audio.durationAsync();
     await wait(getPauseLength(duration));
 
     return repeatAudio(audio, times - 1);
@@ -125,10 +127,16 @@ export function usePlayCardAudio() {
   }
 
   function playCardAudio(audio: LazyAudio) {
+    // component was unmounted
+    if (!mountedRef.current) {
+      return Promise.reject(`The audio wasn't played because the audio player was unmounted.`);
+    }
+
     activeAudioRef.current = audio;
     return new Promise<void>((resolve, reject) => {
-      audio.addEventListener('ended', () => resolve(), { once: true });
-      audio.addEventListener('error', () => reject('unable to play audio'), { once: true });
+      audio.once('end', () => resolve());
+      audio.once('loaderror', () => reject('unable to load audio'));
+      audio.once('playerror', () => reject('unable to play audio'));
       audio.play();
     });
   }

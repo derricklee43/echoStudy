@@ -1,5 +1,5 @@
-@import '../../assets/colors';
-@import '../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 // screen height without header
 $height-without-header: calc(100vh - #{$header-height});
@@ -8,7 +8,7 @@ $height-without-header: calc(100vh - #{$header-height});
 $content-height: calc(100vh - #{$header-height + $content-padding});
 
 // only modify the <Header /> that has this class (which should only be this layout)
-.sidebar-layout-header {
+.sidebar-layout-header.signed-in {
   .c-header-content {
     .c-header-title {
       @media screen and (max-width: $large-screen) {
@@ -44,15 +44,18 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
 
 .sidebar-layout-page-wrap {
   height: $height-without-header;
-  margin-left: $sidebar-width;
   padding-top: $header-height;
 
-  @media screen and (max-width: $giant-screen) {
-    margin-left: ($sidebar-width / 1.15);
-  }
+  &.signed-in {
+    margin-left: $sidebar-width;
 
-  @media screen and (max-width: $large-screen) {
-    margin-left: 0;
+    @media screen and (max-width: $giant-screen) {
+      margin-left: ($sidebar-width / 1.15);
+    }
+
+    @media screen and (max-width: $large-screen) {
+      margin-left: 0;
+    }
   }
 
   > .sidebar-layout-content {

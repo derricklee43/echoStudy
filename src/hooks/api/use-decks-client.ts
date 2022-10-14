@@ -1,6 +1,7 @@
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { asUtcDate } from '@/helpers/time';
+import { Deck } from '@/models/deck';
 import { useFetchWrapper } from './use-fetch-wrapper';
-import { ECHOSTUDY_API_URL } from '../../helpers/api';
-import { Deck } from '../../models/deck';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -58,13 +59,13 @@ export function useDecksClient() {
 
   // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
-    const decksData = await fetchWrapper.get('/Decks');
+    const decksData = (await fetchWrapper.get('/Decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   // GET: /Decks/Public
   async function getPublicDecks(): Promise<Deck[]> {
-    const decksData = await fetchWrapper.get('/Decks/Public');
+    const decksData = (await fetchWrapper.get('/Decks/Public')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
@@ -131,9 +132,9 @@ function JsonToDeck(obj: any): Deck {
       frontLang: obj['default_flang'],
       backLang: obj['default_blang'],
       ownerId: obj['ownerId'],
-      dateCreated: new Date(obj['date_created']),
-      dateUpdated: new Date(obj['date_updated']),
-      dateTouched: new Date(obj['date_touched']),
+      dateCreated: asUtcDate(obj['date_created']),
+      dateUpdated: asUtcDate(obj['date_updated']),
+      dateTouched: asUtcDate(obj['date_touched']),
     },
     cards: [],
   };

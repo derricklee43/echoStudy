@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LoadingIcon } from '../../assets/icons/loading-icon/loading-icon';
+import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
 import './loading-page.scss';
 
 interface LoadingPageProps {

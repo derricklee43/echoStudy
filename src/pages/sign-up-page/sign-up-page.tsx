@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RegistrationPanel } from '../../components/registration-panel/registration-panel';
-import { TextBox } from '../../components/text-box/text-box';
-import { isEmptyObject } from '../../helpers/validator';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { IdentityErrorCode } from '../../models/register-user';
-import { paths } from '../../routing/paths';
+import { RegistrationPanel } from '@/components/registration-panel/registration-panel';
+import { TextBox } from '@/components/text-box/text-box';
+import { isEmptyObject } from '@/helpers/validator';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { IdentityErrorCode } from '@/models/register-user';
+import { paths } from '@/routing/paths';
 import './sign-up-page.scss';
 
-interface FormError {
+interface SignUpFormError {
   email?: string;
   username?: string;
   password?: string;
@@ -22,7 +22,7 @@ export const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [formError, setFormError] = useState<FormError>();
+  const [formError, setFormError] = useState<SignUpFormError>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
@@ -36,12 +36,24 @@ export const SignUpPage = () => {
       onSwapPanelClick={handleSwapPanelClick}
     >
       <div className="field-container">
-        <TextBox label="username" variant="dark-white" value={userName} onChange={setUserName} />
+        <TextBox
+          label="username"
+          autoComplete="username"
+          variant="dark-white"
+          value={userName}
+          onChange={setUserName}
+        />
         {getLabelError('', (formError) => formError.username)}
       </div>
 
       <div className="field-container">
-        <TextBox label="email" variant="dark-white" value={email} onChange={setEmail} />
+        <TextBox
+          label="email"
+          autoComplete="email"
+          variant="dark-white"
+          value={email}
+          onChange={setEmail}
+        />
         {getLabelError('', (formError) => formError.email)}
       </div>
 
@@ -49,6 +61,7 @@ export const SignUpPage = () => {
         <div className="password-fields">
           <TextBox
             label="password"
+            autoComplete="new-password"
             variant="dark-white"
             inputType="password"
             value={password}
@@ -56,6 +69,7 @@ export const SignUpPage = () => {
           />
           <TextBox
             label="confirm password"
+            autoComplete="new-password"
             inputType="password"
             variant="dark-white"
             value={confirmPassword}
@@ -72,7 +86,7 @@ export const SignUpPage = () => {
 
   function getLabelError(
     init: string,
-    formErrorValue: (formError: FormError) => string | undefined
+    formErrorValue: (formError: SignUpFormError) => string | undefined
   ) {
     const errorValue = formErrorValue(formError ?? {});
     if (!init && !errorValue) {
@@ -93,9 +107,11 @@ export const SignUpPage = () => {
       return;
     }
 
+    setFormError(undefined);
+
     // simple client side verifications
     {
-      const newFormError: FormError = {};
+      const newFormError: SignUpFormError = {};
       if (userName === '') {
         newFormError.username ??= 'Username should not be empty.';
       }
@@ -144,7 +160,7 @@ export const SignUpPage = () => {
         }
       } else {
         const identityErrors = data.response;
-        const newFormError: FormError = {};
+        const newFormError: SignUpFormError = {};
         // apply all errors, but first error of group takes precedence if there are multiple
         identityErrors.forEach((err) => {
           const code: IdentityErrorCode = err.code;

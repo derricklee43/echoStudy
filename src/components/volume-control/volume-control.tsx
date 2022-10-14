@@ -1,6 +1,6 @@
 import React from 'react';
-import { SpeakerIcon } from '../../assets/icons/speaker-icon/speaker-icon';
-import { clamp } from '../../helpers/func';
+import { SpeakerIcon } from '@/assets/icons/speaker-icon/speaker-icon';
+import { clamp } from '@/helpers/func';
 import './volume-control.scss';
 
 interface VolumeControlProps {

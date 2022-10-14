@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { LazyAudio } from '../models/lazy-audio';
+import { LazyAudio } from '@/models/lazy-audio';
 
 export function useLazyAudioPlayer() {
   const [playingAudioFile, setPlayingAudioFile] = useState<LazyAudio>();
   // stops audio on destroy
   useEffect(() => {
     return () => {
-      playingAudioFile?.reset();
+      playingAudioFile?.stop();
     };
   }, [playingAudioFile]);
 
@@ -19,7 +19,7 @@ export function useLazyAudioPlayer() {
     }
 
     // stop any current playing audio
-    playingAudioFile?.reset();
+    playingAudioFile?.stop();
 
     // play the new one
     setPlayingAudioFile(audioFile);

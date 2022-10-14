@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
-import { compare, shuffle } from '../helpers/sort';
-import { Deck } from '../models/deck';
+import { compare, shuffle } from '@/helpers/sort';
+import { Deck } from '@/models/deck';
 
 export const AllSortRules = [
   'sequential',
@@ -13,13 +13,13 @@ export const AllSortRules = [
 export type SortRules = typeof AllSortRules;
 export type SortRule = SortRules[number];
 
-// mutatable: raw user decks
+// mutable: raw user decks
 export const userDecksState = atom<Deck[]>({
   key: 'userDecksState',
   default: [],
 });
 
-// mutatable: sort order
+// mutable: sort order
 export const userDecksSortRuleState = atom<SortRule>({
   key: 'userDecksSortRuleState',
   default: 'last created',

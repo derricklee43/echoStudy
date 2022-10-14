@@ -1,12 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fade } from '../../animations/fade';
-import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
-import waveImage from '../../assets/images/wave.png';
-import { Button } from '../../components/button/button';
-import { Header } from '../../components/header/header';
-import { useUserClient } from '../../hooks/api/use-user-client';
-import { paths } from '../../routing/paths';
+import { Fade } from '@/animations/fade';
+import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import waveImage from '@/assets/images/wave.png';
+import { Button } from '@/components/button/button';
+import { Header } from '@/components/header/header';
+import { paths } from '@/routing/paths';
 import './landing-page.scss';
 
 const headerClassName = 'header-anchor';
@@ -18,7 +17,6 @@ const enum pages {
 }
 
 export const LandingPage = () => {
-  const { loginDebug } = useUserClient();
   const navigate = useNavigate();
 
   return (
@@ -43,12 +41,12 @@ export const LandingPage = () => {
               </div>
               <div className="action-button-container">
                 <Button className="action-button" variant="dark" onClick={handleSignInClick}>
-                  {'sign in'}
+                  sign in
                 </Button>
               </div>
               <div className="action-button-container">
                 <Button className="action-button" variant="dark" onClick={handleSignUpClick}>
-                  {'create an account'}
+                  create an account
                 </Button>
               </div>
             </div>
@@ -128,17 +126,7 @@ export const LandingPage = () => {
   }
 
   function handleSignInClick() {
-    // hardcoded user; we should really have a login page but this will suffice for now
-    // also, it might make sense to not show this landing page to users who are logged in already
-    loginDebug().then(() => {
-      // navigate to the previous page redirected here, or /decks page as a fallback
-      const hasPreviousPage = window.history.state && window.history.state.idx > 0;
-      if (hasPreviousPage) {
-        navigate(-1);
-      } else {
-        navigate('/decks');
-      }
-    });
+    navigate(paths.signIn);
   }
 
   function handleSignUpClick() {

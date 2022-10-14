@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Deck } from '../../models/deck';
-import { Button } from '../button/button';
-import { FlipTile } from '../flip-tile/flip-tile';
-import { ProgressBar } from '../progress-bar/progress-bar';
+import { Button } from '@/components/button/button';
+import { FlipTile } from '@/components/flip-tile/flip-tile';
+import { ProgressBar } from '@/components/progress-bar/progress-bar';
+import { Deck } from '@/models/deck';
 import './deck-cover.scss';
 
 interface DeckCoverProps {

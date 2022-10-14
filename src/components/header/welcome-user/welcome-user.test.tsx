@@ -4,10 +4,10 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { MutableSnapshot } from 'recoil';
+import { renderWithTestRoots } from '@/app.test';
+import { authJwtState, UserInfo, userInfoStateAsync } from '@/state/auth-jwt';
+import { userDecksState } from '@/state/user-decks';
 import { WelcomeUser } from './welcome-user';
-import { renderWithTestRoots } from '../../../app.test';
-import { authJwtState, UserInfo, userInfoStateAsync } from '../../../state/auth-jwt';
-import { userDecksState } from '../../../state/user-decks';
 
 // provide fetchMock global and disable mocking initially
 enableFetchMocks();

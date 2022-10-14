@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { Card } from '../../models/card';
-import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '../../models/mock/card.mock';
-import { testEnglishDeck } from '../../models/mock/deck.mock';
-import { BoxStaleDays, scoreToBox, useSpacedRepetition } from '../use-spaced-repetition';
+import { BoxStaleDays, scoreToBox, useSpacedRepetition } from '@/hooks/use-spaced-repetition';
+import { Card } from '@/models/card';
+import { getTestFoxCard, getTestMonkeyCard, getTestMouseCard } from '@/models/mock/card.mock';
+import { testEnglishDeck } from '@/models/mock/deck.mock';
 
 describe('useSpacedRepetition', () => {
   const setup = () => {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Deck } from '@/models/deck';
+import { LessonCard } from '@/models/lesson-card';
 import { StudyLessonPage } from './study-lesson-page/study-lesson-page';
 import { StudyResultsPage } from './study-results-page/study-results-page';
-import { Deck } from '../../models/deck';
-import { LessonCard } from '../../models/lesson-card';
 import './study-page.scss';
 
 interface StudyPageProps {

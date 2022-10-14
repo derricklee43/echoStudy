@@ -1,5 +1,5 @@
-@import '../../../assets/colors';
-@import '../../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 .study-results-page {
   @include flex-center;
@@ -31,6 +31,19 @@
     .study-results-page-nav-buttons {
       justify-content: flex-end;
       gap: 20px;
+
+      .finish-lesson-content-container {
+        @include flex-center;
+        width: 100px;
+        height: 20px;
+
+        .finish-lesson-loading {
+          @include flex-center;
+          label {
+            padding-left: 8px;
+          }
+        }
+      }
     }
 
     @media screen and (max-width: $large-screen) {

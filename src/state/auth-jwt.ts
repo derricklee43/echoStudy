@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil';
-import { ECHOSTUDY_API_URL } from '../helpers/api';
-import { objectSchemaSimple } from '../helpers/validator';
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { objectSchemaSimple } from '@/helpers/validator';
 
 ///////////////
 /// AuthJwt ///
@@ -35,7 +35,7 @@ export const userInfoStateAsync = selector<UserInfo | undefined>({
       return undefined;
     }
 
-    // we unfortuantely cannot use `useFetchWrapper` since that adds hooks (breaks rule of hooks)
+    // we unfortunately cannot use `useFetchWrapper` since that adds hooks (breaks rule of hooks)
     // either we replace this selector with effects in a nested component that updates this atom
     // or we write a new fetcher to avoid using stateful hooks (which doesn't seem really possible)
     try {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as SwapSvg } from '../../svg/swap.svg';
+import { ReactComponent as SwapSvg } from '@/assets/svg/swap.svg';
 import './swap-icon.scss';
 
 interface SwapIconProps {

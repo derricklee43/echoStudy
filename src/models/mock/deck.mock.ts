@@ -1,4 +1,4 @@
-import { Deck, DeckMetaData } from '../deck';
+import { Deck, DeckMetaData } from '@/models/deck';
 
 const mockDates = {
   dateCreated: new Date(),

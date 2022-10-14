@@ -1,0 +1,56 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.export-cards-popup-content {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  color: $grey;
+
+  .export-cards-list-item-label {
+    margin-top: 22px;
+    margin-bottom: 12px;
+
+    &:first-child {
+      margin-top: 0px;
+    }
+  }
+
+  .export-cards-button-group {
+    @include flex-center;
+    margin: 8px 20px;
+  }
+
+  .export-cards-output-container {
+    margin-top: 12px;
+    padding: 0px 25px;
+
+    .export-cards-divider-button {
+      font-size: 12px;
+      width: 40px;
+      height: 24px;
+    }
+
+    .export-cards-divider {
+      padding-top: 8px;
+      padding-bottom: 16px;
+    }
+
+    .export-cards-submit-button-container {
+      @include flex-center;
+    }
+
+    .export-cards-download-button {
+      font-size: 14px;
+      padding: 8px 20px;
+      color: $white;
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+      &.dark {
+        border-color: transparent;
+      }
+    }
+  }
+}

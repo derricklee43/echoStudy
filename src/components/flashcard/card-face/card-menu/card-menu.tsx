@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from 'react';
-import { SwapIcon } from '../../../../assets/icons/swap-icon/swap-icon';
-import { AllCardLanguages, CardLanguage } from '../../../../models/language';
-import { DropDownOption } from '../../../drop-down-options/drop-down-options';
-import { KebabMenu } from '../../../kebab-menu/kebab-menu';
-import { LanguageDropDown } from '../../../language-drop-down/drop-down-options/language-drop-down';
+import { SwapIcon } from '@/assets/icons/swap-icon/swap-icon';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
+import { KebabMenu } from '@/components/kebab-menu/kebab-menu';
+import { LanguageDropDown } from '@/components/language-drop-down/drop-down-options/language-drop-down';
+import { AllCardLanguages, CardLanguage } from '@/models/language';
 import './card-menu.scss';
 
 const langDropdownId = 'lang';

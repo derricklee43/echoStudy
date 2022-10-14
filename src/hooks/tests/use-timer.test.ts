@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { withFakeTimers } from '../../helpers/test';
-import { useTimer } from '../use-timer';
+import { withFakeTimers } from '@/helpers/test';
+import { useTimer } from '@/hooks/use-timer';
 
 describe('useTimer', () => {
   let mockCallback: jest.Mock<void, []>;

@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { withTestRoots } from '../../app.test';
-import { isFetchError, useFetchWrapper } from '../api/use-fetch-wrapper';
+import { withTestRoots } from '@/app.test';
+import { isFetchError, useFetchWrapper } from '@/hooks/api/use-fetch-wrapper';
 
 // provide fetchMock global and disable mocking initially
 enableFetchMocks();

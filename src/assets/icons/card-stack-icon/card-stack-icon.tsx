@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as CardStackSvg } from '../../svg/card-stack.svg';
+import { ReactComponent as CardStackSvg } from '@/assets/svg/card-stack.svg';
 import './card-stack-icon.scss';
 
 interface CardStackIconProps {

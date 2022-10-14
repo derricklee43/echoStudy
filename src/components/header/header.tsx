@@ -2,7 +2,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
+import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-menu-icon';
+import { Button } from '@/components/button/button';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
+import { SearchBar } from '@/components/search-bar/search-bar';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { paths } from '@/routing/paths';
+import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
+import { navToggledState } from '@/state/nav';
+import { userDecksSortedState } from '@/state/user-decks';
 import { WelcomeUser } from './welcome-user/welcome-user';
+<<<<<<< HEAD
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '../../assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { useUserClient } from '../../hooks/api/use-user-client';
@@ -14,6 +25,8 @@ import { userDecksSortedState } from '../../state/user-decks';
 import { Button } from '../button/button';
 import { DropDownOption } from '../drop-down-options/drop-down-options';
 import { CategorySearchBar } from '../search-bar/category-search-bar/category-search-bar';
+=======
+>>>>>>> main
 import './header.scss';
 
 interface HeaderProps {
@@ -132,11 +145,11 @@ export const Header = ({
   }
 
   function handleSignUpClick() {
-    navigate(paths.signUp, { replace: true }); // replace may be a mistake, we'll see
+    navigate(paths.signUp);
   }
 
   function handleSignInClick() {
-    navigate(paths.signIn, { replace: true }); // replace may be a mistake, we'll see
+    navigate(paths.signIn);
   }
 
   function handleProfileClick() {

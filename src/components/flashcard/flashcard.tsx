@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import { Card } from '@/models/card';
+import { CardContent } from '@/models/card-content';
 import { CardFace } from './card-face/card-face';
-import { Card } from '../../models/card';
-import { CardContent } from '../../models/card-content';
 import './flashcard.scss';
 
 interface FlashcardProps {

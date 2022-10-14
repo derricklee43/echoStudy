@@ -21,6 +21,14 @@ export function dateToUtcMs(date: Date): number {
 }
 
 /**
+ * Some date strings omit the UTC offset.
+ * This adds the Zulu (Z) to imply the date string is in UTC (GMT +0000).
+ */
+export function asUtcDate(dateString: string): Date {
+  return new Date(`${dateString}Z`);
+}
+
+/**
  * @returns returns the date formatted as MM/DD/YYYY
  */
 export function getFormattedDate(date: Date) {

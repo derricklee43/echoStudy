@@ -1,7 +1,7 @@
-import { compare, shuffle } from '../helpers/sort';
-import { daysBetween } from '../helpers/time';
-import { Card } from '../models/card';
-import { Deck } from '../models/deck';
+import { compare, shuffle } from '@/helpers/sort';
+import { daysBetween } from '@/helpers/time';
+import { Card } from '@/models/card';
+import { Deck } from '@/models/deck';
 
 /**
  * Provides an interface that takes a deck and outputs a series of cards fit for study.
@@ -21,8 +21,6 @@ import { Deck } from '../models/deck';
  *   --       2d       5d       1wk      2wk
  */
 export function useSpacedRepetition() {
-  // TODO: this is likely the file to expose methods to update card scores
-  // thus this hook is relatively small now, but we'll use the useCardClient in the future
   return { gatherStudyCards };
 
   /**
@@ -99,9 +97,11 @@ export const BoxStaleDays: Record<Box, number> = {
   BOX5: 14,
 };
 
+export const MAX_SCORE = Object.keys(BoxStaleDays).length - 1;
+
 export function scoreToBox(score: number): Box {
   // shouldn't really happen, but just as a fail-safe
-  if (score >= 5) {
+  if (score > MAX_SCORE) {
     return 'BOX5';
   }
 
@@ -128,15 +128,12 @@ export function getDaysUntilStale(card: Card) {
     return 0;
   }
 
-  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-  // TODO TODO TODO TODO TODO
-  const dateNow = new Date(); // TODO: time needs to match timezone with server.
-  // TODO TODO TODO TODO TODO
-  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
   const box = scoreToBox(card.score);
   const daysUntilPoolable = BoxStaleDays[box];
-  const daysLastStudied = daysBetween(dateNow, card.dateUpdated);
+
+  // relative time is fine since we save the JS dates are in UTC ms
+  const dateNow = new Date();
+  const daysLastStudied = daysBetween(dateNow, card.dateTouched);
   const daysUntilStale = daysUntilPoolable - daysLastStudied;
   return daysUntilStale;
 }

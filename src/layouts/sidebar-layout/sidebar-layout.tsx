@@ -1,14 +1,19 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { Header } from '../../components/header/header';
-import { Sidebar } from '../../components/sidebar/sidebar';
-import { throttle } from '../../helpers/func';
-import { navToggledState } from '../../state/nav';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Header } from '@/components/header/header';
+import { Sidebar } from '@/components/sidebar/sidebar';
+import { throttle } from '@/helpers/func';
+import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
+import { navToggledState } from '@/state/nav';
 import './sidebar-layout.scss';
 
 export const SidebarLayout = () => {
+  const authJwt = useRecoilValue(authJwtState);
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
+
+  const isSignedIn = isAuthJwt(authJwt);
+  const signedInClass = isSignedIn ? 'signed-in' : '';
 
   // if nav open, listen for resizing to hide if resized to be bigger than breakpoint
   useEffect(() => {
@@ -29,9 +34,13 @@ export const SidebarLayout = () => {
 
   return (
     <>
-      <Header className="sidebar-layout-header" showHamburgerToggle={true} />
-      <Sidebar className="sidebar-layout-sidebar" />
-      <div className="sidebar-layout-page-wrap">
+      <Header
+        className={`sidebar-layout-header ${signedInClass}`}
+        showHamburgerToggle={isSignedIn}
+        showSearchBar={isSignedIn}
+      />
+      {isSignedIn && <Sidebar className="sidebar-layout-sidebar" />}
+      <div className={`sidebar-layout-page-wrap ${signedInClass}`}>
         <div className="sidebar-layout-content">
           <Outlet />
         </div>

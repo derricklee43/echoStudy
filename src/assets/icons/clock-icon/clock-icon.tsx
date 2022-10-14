@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as ClockSvg } from '../../svg/clock.svg';
+import { ReactComponent as ClockSvg } from '@/assets/svg/clock.svg';
 import './clock-icon.scss';
 
 interface ClockIconProps {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
-import { Button } from '../button/button';
+import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import { Button } from '@/components/button/button';
 import './bubble-divider.scss';
 
 interface BubbleDividerProps {

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Fade } from '../../../animations/fade';
-import { MicrophoneIcon } from '../../../assets/icons/microphone-icon/microphone-icon';
-import nextCardSound from '../../../assets/sounds/next-card.wav';
-import { AudioControlBar } from '../../../components/audio-control-bar/audio-control-bar';
-import { PageHeader } from '../../../components/page-header/page-header';
-import { ProgressBar } from '../../../components/progress-bar/progress-bar';
-import { StudyFlashcard } from '../../../components/study-flashcard/study-flashcard';
-import { noop } from '../../../helpers/func';
-import { useIsFirstRender } from '../../../hooks/use-is-first-render';
-import { usePlayLesson } from '../../../hooks/use-play-lesson';
-import { useStopWatch } from '../../../hooks/use-stop-watch';
-import { Deck } from '../../../models/deck';
-import { LazyAudio } from '../../../models/lazy-audio';
-import { LessonCard, LessonCardOutcome } from '../../../models/lesson-card';
+import { Fade } from '@/animations/fade';
+import { MicrophoneIcon } from '@/assets/icons/microphone-icon/microphone-icon';
+import nextCardSound from '@/assets/sounds/next-card.wav';
+import { AudioControlBar } from '@/components/audio-control-bar/audio-control-bar';
+import { PageHeader } from '@/components/page-header/page-header';
+import { ProgressBar } from '@/components/progress-bar/progress-bar';
+import { StudyFlashcard } from '@/components/study-flashcard/study-flashcard';
+import { noop } from '@/helpers/func';
+import { useIsFirstRender } from '@/hooks/use-is-first-render';
+import { usePlayLesson } from '@/hooks/use-play-lesson';
+import { useStopWatch } from '@/hooks/use-stop-watch';
+import { Deck } from '@/models/deck';
+import { LazyAudio } from '@/models/lazy-audio';
+import { LessonCard, LessonCardOutcome } from '@/models/lesson-card';
 import './study-lesson-page.scss';
 
 interface StudyPageLessonProps {
@@ -22,7 +22,10 @@ interface StudyPageLessonProps {
 }
 
 export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps) => {
-  const numCards = 4; // TODO: we will want to make this configurable or just pull in all past due cards
+  // TODO: we will want to make this configurable or just pull in all past due cards
+  // making this the min of (# of cards, 5) for demo purposes
+  const numCards = Math.min(deck.cards.length, 5);
+
   const isFirstRender = useIsFirstRender();
   const [isPaused, setIsPaused] = useState(true);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
@@ -157,6 +160,7 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
       const lessonCards = completedCards.reverse();
       const lessonTime = getElapsedTime();
       onLessonComplete(lessonCards, lessonTime);
+      pause(); // avoids lingering audio if manually clicked to completion
     }
   }
 

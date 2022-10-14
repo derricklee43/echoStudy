@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { Card, createNewCard } from '@/models/card';
+import { getTestFoxCard } from '@/models/mock/card.mock';
 import { Flashcard } from './flashcard';
-import { noop } from '../../helpers/func';
-import { Card, createNewCard } from '../../models/card';
-import { getTestFoxCard } from '../../models/mock/card.mock';
 
 describe('Flashcard', () => {
   it('should render correctly when inactive', () => {

@@ -1,6 +1,6 @@
 import { MutableSnapshot } from 'recoil';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { AuthJwt, authJwtState } from './auth-jwt';
-import { useLocalStorage } from '../hooks/use-local-storage';
 
 export const enum LocalStorageKeys {
   'authJwt' = 'auth-jwt',

@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
-import { ReactComponent as LockIcon } from '../../assets/svg/security-lock.svg';
+import { CopyIcon } from '@/assets/icons/copy-icon/copy-icon';
+import { ReactComponent as LockIcon } from '@/assets/svg/security-lock.svg';
 import './text-area.scss';
 
 export interface TextAreaProps {
@@ -36,6 +37,7 @@ export const TextArea = ({
           {label}
         </label>
       )}
+      {readonly && <CopyIcon className="c-copy-icon" onClick={handleCopyClick} />}
       <textarea
         className={`c-text-area ${readonly ? 'readonly' : ''}`}
         rows={lines}
@@ -67,5 +69,13 @@ export const TextArea = ({
 
   function onChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
     onChange?.(e.target.value);
+  }
+
+  async function handleCopyClick() {
+    if (!navigator.clipboard) {
+      console.warn('Could not copy from text area, this browser may not support the Clipboard API');
+      return;
+    }
+    value && (await navigator.clipboard.writeText(value));
   }
 };

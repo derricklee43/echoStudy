@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as KebabMenuSvg } from '../../svg/kebab-menu.svg';
+import { ReactComponent as KebabMenuSvg } from '@/assets/svg/kebab-menu.svg';
 import './kabab-menu-icon.scss';
 
 interface KebabMenuIconProps {

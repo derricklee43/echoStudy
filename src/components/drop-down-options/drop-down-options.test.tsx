@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { withFakeTimers } from '@/helpers/test';
 import { DropDownOption, DropDownOptions } from './drop-down-options';
 import {
   TEST_OPTIONS_SINGLE,
@@ -8,8 +10,6 @@ import {
   TEST_OPTIONS_SMALL,
   TEST_OPTIONS_SMALL_VALUES,
 } from './options.mock';
-import { noop } from '../../helpers/func';
-import { withFakeTimers } from '../../helpers/test';
 
 describe('DropDownOptions', () => {
   it('should render correctly with default props', () => {

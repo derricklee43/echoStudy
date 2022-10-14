@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as StarSvg } from '../../svg/star.svg';
+import { ReactComponent as StarSvg } from '@/assets/svg/star.svg';
 import './star-icon.scss';
 
 interface StarIconProps {

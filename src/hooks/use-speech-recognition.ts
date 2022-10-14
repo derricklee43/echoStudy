@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { CapturedSpeech } from '../models/captured-speech';
-import { DeckLanguage, getLanguageCode } from '../models/language';
+import { CapturedSpeech } from '@/models/captured-speech';
+import { DeckLanguage, getLanguageCode } from '@/models/language';
 
 export function useCaptureSpeech() {
   const speechRecognitionRef = useRef(getSpeechRecognitionObj());

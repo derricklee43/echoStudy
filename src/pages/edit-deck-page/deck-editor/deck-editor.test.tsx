@@ -1,11 +1,11 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderWithTestRoots } from '@/app.test';
+import { noop } from '@/helpers/func';
+import { createNewDeck } from '@/models/deck';
+import { testEnglishDeck } from '@/models/mock/deck.mock';
 import { DeckEditor } from './deck-editor';
-import { renderWithTestRoots } from '../../../app.test';
-import { noop } from '../../../helpers/func';
-import { createNewDeck } from '../../../models/deck';
-import { testEnglishDeck } from '../../../models/mock/deck.mock';
 
 jest.mock('../../../hooks/use-prompt');
 

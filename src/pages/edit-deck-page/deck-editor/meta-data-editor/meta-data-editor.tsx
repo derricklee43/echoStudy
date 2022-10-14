@@ -1,33 +1,38 @@
 import React, { useState } from 'react';
-import { BubbleDivider } from '../../../../components/bubble-divider/bubble-divider';
-import { Button } from '../../../../components/button/button';
-import { LanguageDropDown } from '../../../../components/language-drop-down/drop-down-options/language-drop-down';
+import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
+import { Button } from '@/components/button/button';
+import { LanguageDropDown } from '@/components/language-drop-down/drop-down-options/language-drop-down';
 import {
   RadioButtonGroup,
   RadioButtonOption,
-} from '../../../../components/radio-button-group/radio-button-group';
-import { TextArea } from '../../../../components/text-area/text-area';
-import { TextBox } from '../../../../components/text-box/text-box';
-import { Card } from '../../../../models/card';
-import { Access, DeckMetaData } from '../../../../models/deck';
-import { AllDeckLanguages } from '../../../../models/language';
-import { ImportCardsPopup } from '../../../import-cards-popup/import-cards-popup';
+} from '@/components/radio-button-group/radio-button-group';
+import { TextArea } from '@/components/text-area/text-area';
+import { TextBox } from '@/components/text-box/text-box';
+import { Card } from '@/models/card';
+import { Access, Deck, DeckMetaData } from '@/models/deck';
+import { AllDeckLanguages } from '@/models/language';
+import { ExportCardsPopup } from '@/pages/export-cards-popup/export-cards-popup';
+import { ImportCardsPopup } from '@/pages/import-cards-popup/import-cards-popup';
 import './meta-data-editor.scss';
 
-interface DeckEditorProps {
-  deckMetaData: DeckMetaData;
+interface MetaDataEditorProps {
+  deck: Deck;
   onDeckMetaDataChange: (metaData: DeckMetaData) => void;
   onDeleteClick: (event: React.MouseEvent) => void;
   onImportedCardsAdd: (cards: Card[]) => void;
 }
 
 export const MetaDataEditor = ({
-  deckMetaData,
+  deck,
   onDeckMetaDataChange,
   onDeleteClick,
   onImportedCardsAdd,
-}: DeckEditorProps) => {
+}: MetaDataEditorProps) => {
   const [showImportModal, setShowImportModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+
+  const deckMetaData = deck.metaData;
+
   return (
     <div className="deck-meta">
       <div className="deck-meta-title">
@@ -54,9 +59,15 @@ export const MetaDataEditor = ({
             import cards
           </Button>
           <ImportCardsPopup showPopup={showImportModal} onClose={handleImportCardsPopupClose} />
-          <Button onClick={handleExportClick} size="medium">
+          <Button onClick={() => setShowExportModal(true)} size="medium">
             export deck
           </Button>
+          <ExportCardsPopup
+            title={deck.metaData.title || 'cards'}
+            cards={deck.cards}
+            showPopup={showExportModal}
+            onClose={() => setShowExportModal(false)}
+          />
         </div>
       </div>
       <BubbleDivider
@@ -115,9 +126,5 @@ export const MetaDataEditor = ({
   function handleImportCardsPopupClose(cards: Card[]) {
     setShowImportModal(false);
     onImportedCardsAdd(cards);
-  }
-
-  function handleExportClick() {
-    console.log('clicked!');
   }
 };

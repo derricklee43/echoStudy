@@ -1,5 +1,5 @@
-@import '../../assets/colors';
-@import '../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 .pg-flashcard-decks {
   display: flex;
@@ -34,6 +34,7 @@
   }
 
   .deck-tile-container {
+    @include webkit-scrollbar;
     display: grid;
     // 325px deck cover width + 10px deck cover margin
     grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));

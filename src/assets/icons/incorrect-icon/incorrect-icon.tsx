@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as IncorrectSvg } from '../../svg/incorrect.svg';
+import { ReactComponent as IncorrectSvg } from '@/assets/svg/incorrect.svg';
 import './incorrect-icon.scss';
 
 interface IncorrectIconProps {

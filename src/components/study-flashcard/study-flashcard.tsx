@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { noop } from '../../helpers/func';
-import { FlipTile } from '../flip-tile/flip-tile';
+import { FlipTile } from '@/components/flip-tile/flip-tile';
+import { noop } from '@/helpers/func';
 import './study-flashcard.scss';
 
 interface StudyFlashcardProps {

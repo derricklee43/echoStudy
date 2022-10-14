@@ -1,15 +1,15 @@
 import React, { ReactNode, useState } from 'react';
-import { CorrectIcon } from '../../../../assets/icons/correct-icon/correct-icon';
-import { IncorrectIcon } from '../../../../assets/icons/incorrect-icon/incorrect-icon';
-import { SkippedIcon } from '../../../../assets/icons/skipped-icon/skipped-icon';
-import { DropDownOption } from '../../../../components/drop-down-options/drop-down-options';
-import { KebabMenu } from '../../../../components/kebab-menu/kebab-menu';
+import { CorrectIcon } from '@/assets/icons/correct-icon/correct-icon';
+import { IncorrectIcon } from '@/assets/icons/incorrect-icon/incorrect-icon';
+import { SkippedIcon } from '@/assets/icons/skipped-icon/skipped-icon';
+import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
+import { KebabMenu } from '@/components/kebab-menu/kebab-menu';
 import {
   ReadOnlyFlashcard,
   ReadOnlyFlashcardVariant,
-} from '../../../../components/read-only-flashcard/read-only-flashcard';
-import { useLazyAudioPlayer } from '../../../../hooks/use-lazy-audio-player';
-import { LessonCard, LessonCardOutcome, LessonCardOutcomes } from '../../../../models/lesson-card';
+} from '@/components/read-only-flashcard/read-only-flashcard';
+import { useLazyAudioPlayer } from '@/hooks/use-lazy-audio-player';
+import { LessonCard, LessonCardOutcome, LessonCardOutcomes } from '@/models/lesson-card';
 import './study-result-cards.scss';
 
 interface StudyResultCardsProps {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { SIDEBAR_ROUTE_ITEMS } from '../../routing/sidebar-routes';
-import { navToggledState } from '../../state/nav';
+import { SIDEBAR_ROUTE_ITEMS } from '@/routing/sidebar-routes';
+import { navToggledState } from '@/state/nav';
 import './sidebar.scss';
 
 interface SidebarProps {

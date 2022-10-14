@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { noop } from '@/helpers/func';
+import { testEnglishDeck } from '@/models/mock/deck.mock';
 import { DeckCover } from './deck-cover';
-import { noop } from '../../helpers/func';
-import { testEnglishDeck } from '../../models/mock/deck.mock';
 
 const TEST_DECK = testEnglishDeck(0);
 

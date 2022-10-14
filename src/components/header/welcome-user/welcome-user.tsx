@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useUserClient } from '../../../hooks/api/use-user-client';
-import { userInfoStateAsync } from '../../../state/auth-jwt';
-import { Button } from '../../button/button';
-import { AccountPopup } from '../account-popup/account-popup';
+import { Button } from '@/components/button/button';
+import { AccountPopup } from '@/components/header/account-popup/account-popup';
+import { useUserClient } from '@/hooks/api/use-user-client';
+import { userInfoStateAsync } from '@/state/auth-jwt';
 import './welcome-user.scss';
 
 interface WelcomeUserProps {
