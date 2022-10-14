@@ -6,13 +6,14 @@ import { WelcomeUser } from './welcome-user/welcome-user';
 import { CancelIcon } from '../../assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '../../assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { useUserClient } from '../../hooks/api/use-user-client';
+import { useSearchCategories } from '../../hooks/use-search-categories';
 import { paths } from '../../routing/paths';
 import { authJwtState, isAuthJwt } from '../../state/auth-jwt';
 import { navToggledState } from '../../state/nav';
 import { userDecksSortedState } from '../../state/user-decks';
 import { Button } from '../button/button';
 import { DropDownOption } from '../drop-down-options/drop-down-options';
-import { SearchBar } from '../search-bar/search-bar';
+import { CategorySearchBar } from '../search-bar/category-search-bar/category-search-bar';
 import './header.scss';
 
 interface HeaderProps {
@@ -36,6 +37,15 @@ export const Header = ({
   const userClient = useUserClient();
   const navigate = useNavigate();
 
+  const {
+    searchValue,
+    searchCategory,
+    searchResults,
+    searchCategories,
+    setSearchCategory,
+    setSearchValue,
+  } = useSearchCategories();
+
   return (
     <div className={`c-header ${fixed ? 'fixed' : ''} ${className}`}>
       <div className="c-header-content">
@@ -56,10 +66,14 @@ export const Header = ({
         <div className="c-search-bar-container">
           {showSearchBar && (
             <div className="c-search-bar-sizer">
-              <SearchBar
-                placeholder="search my decks"
-                dropDownData={getDeckOptions()}
-                onDropdownClick={({ id }) => navigate(`${paths.deck}/${id}`)}
+              <CategorySearchBar
+                placeholder={`search ${searchCategory.id}...`}
+                selectedCategory={searchCategory}
+                searchCategories={searchCategories}
+                searchResults={searchResults}
+                searchValue={searchValue}
+                onSearchValueChange={setSearchValue}
+                onSelectedCategoryChange={setSearchCategory}
               />
             </div>
           )}

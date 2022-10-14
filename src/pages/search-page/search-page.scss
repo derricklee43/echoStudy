@@ -1,0 +1,11 @@
+@import '../../assets/styles';
+@import '../../assets/colors';
+
+.search-page-search-bar {
+  @include flex-center;
+
+  .search-page-search-bar-input {
+    height: 50px;
+    box-sizing: border-box;
+  }
+}

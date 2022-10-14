@@ -1,4 +1,5 @@
 import React, { ReactNode, useRef, useState } from 'react';
+import { DropDownButton } from './drop-down-button/drop-down-button';
 import { ArrowIcon } from '../../assets/icons/arrow-icon/arrow-icon';
 import { useFocusTrap } from '../../hooks/use-focus-trap';
 import { useEscapePress } from '../../hooks/use-key-press';
@@ -36,25 +37,18 @@ export const DropDown = <I extends string, V extends ReactNode>({
     <div className={`drop-down ${className}`}>
       <label className={accentVariant}>{label}</label>
       <div className="drop-down-menu" ref={dropDownMenuRef}>
-        {getDropDownButton()}
+        <DropDownButton variant={variant} onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+          <label>{buttonLabel}</label>
+        </DropDownButton>
         <DropDownOptions
           show={isOpen}
           options={options}
           onOptionSelect={handleOptionSelect}
-          ellipsisOverflow={false}
+          ellipsisOverflow={true}
         />
       </div>
     </div>
   );
-
-  function getDropDownButton() {
-    return (
-      <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
-        <label>{buttonLabel}</label>
-        <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
-      </Button>
-    );
-  }
 
   function handleOptionSelect(option: DropDownOption<I, V>) {
     onOptionSelect(option);

@@ -22,7 +22,7 @@
     border-radius: 0;
     text-align: left;
 
-    & .ellipsis-overflow {
+    &.ellipsis-overflow {
       @include ellipsis-overflow;
     }
 

@@ -12,6 +12,7 @@ import { EditDeckPage } from '../pages/edit-deck-page/edit-deck-page';
 import { LandingPage } from '../pages/landing-page/landing-page';
 import { NotFoundPage } from '../pages/not-found-page/not-found-page';
 import { ProfilePage } from '../pages/profile-page/profile-page';
+import { SearchPage } from '../pages/search-page/search-page';
 import { SignInPage } from '../pages/sign-in-page/sign-in-page';
 import { SignUpPage } from '../pages/sign-up/sign-up-page';
 import { StudyPage } from '../pages/study-page/study-page';
@@ -30,6 +31,7 @@ export const PageRoutes = () => {
           <Route path={paths.createDeck} element={getEditDeckPage(true)} />
           <Route path={`${paths.study}/:deckId`} element={getStudyPage()} />
           <Route path={paths.profile} element={<ProfilePage />} />
+          <Route path={paths.search} element={<SearchPage />} />
         </Route>
       </Route>
 
