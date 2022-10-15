@@ -21,11 +21,7 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
   return (
     <Fade className="view-deck-page">
       <div className="view-deck-header">
-        <PageHeader
-          label={deck.metaData.title}
-          onGoBackClick={navigateBackToDecks}
-          goBackLabel="back to decks"
-        />
+        <PageHeader label={deck.metaData.title} />
         <div>
           <Button onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)} size="medium">
             study
@@ -61,9 +57,5 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
         />
       </div>
     ));
-  }
-
-  function navigateBackToDecks() {
-    navigate(paths.decks);
   }
 };

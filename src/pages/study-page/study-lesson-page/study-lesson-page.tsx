@@ -58,7 +58,7 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
 
   return (
     <div className="study-lesson-page">
-      <PageHeader label={deck.metaData.title} onGoBackClick={noop} goBackLabel="go back" />
+      <PageHeader label={deck.metaData.title} />
       <div className="study-lesson-page-content">
         <div className="study-flashcard-container">
           <div className="pulsing-microphone-container">

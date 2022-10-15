@@ -41,7 +41,7 @@ const AsyncProfilePage = () => {
   return (
     <div className="pg-profile-page">
       <div className="profile-page-header">
-        <PageHeader label="my profile" goBackLabel="go back" onGoBackClick={() => navigate(-1)} />
+        <PageHeader label="my profile" />
       </div>
       <div className="user-details">
         <div className="profile-picture-container">

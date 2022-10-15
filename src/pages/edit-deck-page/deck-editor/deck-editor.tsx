@@ -56,11 +56,7 @@ export const DeckEditor = ({
   return (
     <div className="deck-editor">
       <div className="deck-editor-header">
-        <PageHeader
-          label={isNewDeck ? 'create deck' : 'edit deck'}
-          goBackLabel={isNewDeck ? 'back to decks' : 'back to deck'}
-          onGoBackClick={onGoBackClick}
-        />
+        <PageHeader label={isNewDeck ? 'create deck' : 'edit deck'} />
         <div className="deck-editor-save-buttons">
           {getDiscardChangesButton()}
           <Button
