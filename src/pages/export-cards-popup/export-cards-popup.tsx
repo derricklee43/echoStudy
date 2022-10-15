@@ -99,7 +99,7 @@ export const ExportCardsPopup = ({ title, cards, showPopup, onClose }: ExportCar
       .replace('T', '-');
 
     element.href = URL.createObjectURL(file);
-    element.download = safeTitle + '-' + safeDate;
+    element.download = safeTitle + '-' + safeDate + '.txt';
     document.body.appendChild(element); // required to work in Firefox
 
     element.click();

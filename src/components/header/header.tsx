@@ -115,7 +115,13 @@ export const Header = ({
 
   function getAccountButtons() {
     if (isAuthJwt(authJwt)) {
-      return <WelcomeUser onProfileClick={handleProfileClick} onLogoutClick={handleLogoutClick} />;
+      return (
+        <WelcomeUser
+          fixed={fixed}
+          onProfileClick={handleProfileClick}
+          onLogoutClick={handleLogoutClick}
+        />
+      );
     } else {
       return (
         <>

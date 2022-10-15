@@ -38,3 +38,11 @@ export function isEmptyObject(subject: unknown): subject is Record<string, never
 export function isString(subject: unknown): subject is string {
   return typeof subject === 'string';
 }
+
+export function isBlankString(subject: unknown): subject is '' {
+  return isString(subject) && subject === '';
+}
+
+export function isNumber(subject: unknown): subject is number {
+  return typeof subject === 'number';
+}

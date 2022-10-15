@@ -1,7 +1,9 @@
 import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
 import { asUtcDate } from '@/helpers/time';
+import { isDefined, isNumber } from '@/helpers/validator';
 import { Card, createNewCard } from '@/models/card';
 import { LazyAudio } from '@/models/lazy-audio';
+import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -23,16 +25,13 @@ export function useCardsClient() {
     // adds & updates
     addCard,
     addCards,
-    updateCardById,
-    updateCardsById,
-    updateCardScoreById,
+    updateCard,
+    updateCards,
+    updateCardScores,
 
     // removals
     deleteCard,
     deleteCards,
-    deleteCardsByUserId,
-    deleteCardsByEmail,
-    deleteCardsByDeckId,
   };
 
   ///////////////
@@ -70,80 +69,68 @@ export function useCardsClient() {
   //////////////////////
 
   // POST: /Cards
-  async function addCard(card: Card, deckId: number): Promise<number> {
-    const { id } = await fetchWrapper.post('/Cards', cardToJson(card, deckId));
-    return id;
+  async function addCard(card: Card, deckId: number): Promise<NewCardsResponse> {
+    return addCards([card], deckId);
   }
 
   // POST: /Cards
-  // Todo: Add batching
-  async function addCards(cards: Card[], deckId: number): Promise<number[]> {
-    return Promise.all(cards.map((card) => addCard(card, deckId)));
+  async function addCards(cards: Card[], deckId: number): Promise<NewCardsResponse> {
+    const cardsToAdd = cards.map((card) => cardToJson(card, deckId));
+    const response = await fetchWrapper.post('/Cards', cardsToAdd);
+    return response;
   }
 
-  // POST: /Cards/{id}
-  async function updateCardById(card: Card): Promise<number> {
+  // POST: /Cards/Update
+  async function updateCard(card: Card): Promise<NewCardsResponse> {
     assertIdIsNumber(card.id);
-    const { id } = await fetchWrapper.post(`/Cards/${card.id}`, cardToJson(card));
-    return id;
+    return updateCards([card]);
   }
 
-  // POST: /Cards/{id}
-  // Todo: Add batching
-  async function updateCardsById(cards: Card[]): Promise<number[]> {
-    return Promise.all(cards.map((card) => updateCardById(card)));
+  // POST: /Cards/Update
+  async function updateCards(cards: Card[]): Promise<NewCardsResponse> {
+    cards.forEach((card) => assertIdIsNumber(card.id));
+
+    const cardsToUpdate = cards.map((card) => cardToJson(card));
+    const response = await fetchWrapper.post(`/Cards/Update`, cardsToUpdate);
+    return response;
   }
 
   // POST: /Cards/Study
-  async function updateCardScoreById(id: number, score: number): Promise<void> {
-    const requestBody = { id: id, score: score };
-    return fetchWrapper.post('/Cards/Study', requestBody);
+  async function updateCardScores(cardScores: UpdateCardScoreRequest[]): Promise<void> {
+    return fetchWrapper.post('/Cards/Study', cardScores);
   }
 
   /////////////////
   /// deletions ///
   /////////////////
 
-  // POST: /Cards/Delete/{id}
+  // POST: /Cards/Delete
   async function deleteCard(card: Card): Promise<void> {
     assertIdIsNumber(card.id);
-    fetchWrapper.post(`/Cards/Delete/${card.id}`);
+    return deleteCards([card]);
   }
 
-  // POST: /Cards/Delete/{id}
-  // Todo: Add Batching
+  // POST: /Cards/Delete
   async function deleteCards(cards: Card[]): Promise<void> {
-    Promise.all(cards.map((card) => deleteCard(card)));
-  }
+    cards.forEach((card) => assertIdIsNumber(card.id));
 
-  // DELETE: /Cards/DeleteUserCards={userId}
-  async function deleteCardsByUserId(userId: number): Promise<void> {
-    throw new Error('Not implemented');
-  }
-
-  // DELETE: /Cards​/DeleteUserCardsByEmail={userEmail}
-  async function deleteCardsByEmail(userEmail: string): Promise<void> {
-    throw new Error('Not implemented');
-  }
-
-  // DELETE: /Cards/DeleteDeckCards={deckId}
-  async function deleteCardsByDeckId(deckId: number): Promise<void> {
-    throw new Error('Not implemented');
+    const cardsToDelete = cards.map((card) => card.id).filter(isDefined);
+    return fetchWrapper.post(`/Cards/Delete`, cardsToDelete);
   }
 }
 
 function cardToJson(card: Card, deckId?: number) {
-  // TODO: backend needs to support way to update score
   return {
     frontText: card.front.text,
     backText: card.back.text,
     frontLang: card.front.language,
     backLang: card.back.language,
-    userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0',
+    cardId: card.id, // required when updating cards
     deckId,
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function JsonToCard(obj: any): Card {
   const card = createNewCard();
   card.id = obj['id'];
@@ -164,8 +151,8 @@ function JsonToCard(obj: any): Card {
   return card;
 }
 
-function assertIdIsNumber(num: any) {
-  if (isNaN(num)) {
+function assertIdIsNumber(num: number | undefined) {
+  if (!isNumber(num) || isNaN(num)) {
     throw new Error(`received id was not a number: ${num}`);
   }
 }
