@@ -14,7 +14,7 @@ interface SignInFormError {
 }
 
 export const SignInPage = () => {
-  const userClient = useAccountClient();
+  const accountClient = useAccountClient();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -92,7 +92,7 @@ export const SignInPage = () => {
 
     try {
       setIsSubmitting(true);
-      const success = await userClient.login(email, password);
+      const success = await accountClient.login(email, password);
       if (success) {
         // navigate to the previous page redirected here, or /decks page as a fallback
         const hasPreviousPage = window.history.state && window.history.state.idx > 0;

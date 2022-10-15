@@ -15,7 +15,7 @@ interface SignUpFormError {
 }
 
 export const SignUpPage = () => {
-  const userClient = useAccountClient();
+  const accountClient = useAccountClient();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
@@ -139,7 +139,7 @@ export const SignUpPage = () => {
 
     try {
       setIsSubmitting(true);
-      const data = await userClient.register({
+      const data = await accountClient.register({
         username: userName,
         email,
         password,
@@ -154,7 +154,7 @@ export const SignUpPage = () => {
         const { id } = data.response;
         console.log('Successfully registered:', id);
         // sign in and redirect to decks page
-        const success = await userClient.login(email, password);
+        const success = await accountClient.login(email, password);
         if (success) {
           navigate(paths.decks);
         }

@@ -22,8 +22,8 @@ export const WelcomeUser = (props: WelcomeUserProps) => {
 
 const AsyncWelcomeUser = ({ className = '', onProfileClick, onLogoutClick }: WelcomeUserProps) => {
   const userData = useRecoilValue(userInfoStateAsync);
-  const userClient = useAccountClient();
-  const pfpUrl = userClient.getProfilePictureUrl(userData?.email ?? '');
+  const accountClient = useAccountClient();
+  const pfpUrl = accountClient.getProfilePictureUrl(userData?.email ?? '');
 
   const [showPopup, setShowPopup] = useState(false);
   const popupClass = showPopup ? 'popup' : '';

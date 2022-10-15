@@ -23,14 +23,14 @@ export const ProfilePage = () => {
 
 const AsyncProfilePage = () => {
   const navigate = useNavigate();
-  const userClient = useAccountClient();
+  const accountClient = useAccountClient();
   const decksClient = useDecksClient();
 
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
 
-  const pfpUrl = userClient.getProfilePictureUrl(userData?.email ?? '');
+  const pfpUrl = accountClient.getProfilePictureUrl(userData?.email ?? '');
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
 
   // fetch flashcard decks on load

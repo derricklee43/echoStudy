@@ -35,7 +35,7 @@ export const Header = ({
 
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
 
-  const userClient = useAccountClient();
+  const accountClient = useAccountClient();
   const navigate = useNavigate();
 
   const {
@@ -143,6 +143,6 @@ export const Header = ({
   }
 
   function handleLogoutClick() {
-    userClient.logout();
+    accountClient.logout();
   }
 };
