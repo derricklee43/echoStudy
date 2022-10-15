@@ -5,8 +5,8 @@ import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
-import { useUserClient } from '@/hooks/api/use-user-client';
 import { Deck } from '@/models/deck';
 import { paths } from '@/routing/paths';
 import { userInfoStateAsync } from '@/state/auth-jwt';
@@ -23,14 +23,14 @@ export const ProfilePage = () => {
 
 const AsyncProfilePage = () => {
   const navigate = useNavigate();
-  const userClient = useUserClient();
+  const accountClient = useAccountClient();
   const decksClient = useDecksClient();
 
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
 
-  const pfpUrl = userClient.getProfilePictureUrl(userData?.email ?? '');
+  const pfpUrl = accountClient.getProfilePictureUrl(userData?.email ?? '');
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
 
   // fetch flashcard decks on load
@@ -87,7 +87,7 @@ const AsyncProfilePage = () => {
   }
 
   function _reduceDecksByAccess() {
-    return sortedDecks.reduce(
+    return (sortedDecks ?? []).reduce(
       (result: Record<'privateDecks' | 'publicDecks', Deck[]>, deck: Deck) => {
         const accessLevel = deck.metaData.access;
         const key = accessLevel === 'Private' ? 'privateDecks' : 'publicDecks';

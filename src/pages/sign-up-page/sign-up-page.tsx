@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { RegistrationPanel } from '@/components/registration-panel/registration-panel';
 import { TextBox } from '@/components/text-box/text-box';
 import { isEmptyObject } from '@/helpers/validator';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { IdentityErrorCode } from '@/models/register-user';
 import { paths } from '@/routing/paths';
 import './sign-up-page.scss';
@@ -15,7 +15,7 @@ interface SignUpFormError {
 }
 
 export const SignUpPage = () => {
-  const userClient = useUserClient();
+  const accountClient = useAccountClient();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
@@ -139,7 +139,7 @@ export const SignUpPage = () => {
 
     try {
       setIsSubmitting(true);
-      const data = await userClient.register({
+      const data = await accountClient.register({
         username: userName,
         email,
         password,
@@ -154,7 +154,7 @@ export const SignUpPage = () => {
         const { id } = data.response;
         console.log('Successfully registered:', id);
         // sign in and redirect to decks page
-        const success = await userClient.login(email, password);
+        const success = await accountClient.login(email, password);
         if (success) {
           navigate(paths.decks);
         }

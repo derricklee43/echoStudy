@@ -1,0 +1,64 @@
+@use '@/components/search-bar/partial-search-bar/shared' as search-bar;
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+// probably need to make all these props
+
+$font-size: 20px;
+
+.c-search-bar-wrapper {
+  border-radius: $standard-radius;
+  position: relative;
+  border: 1px solid $light-blue;
+  width: 100%;
+  height: search-bar.$height;
+  background-color: $black;
+
+  .c-search-bar-content {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .left-child {
+      height: search-bar.$height;
+    }
+
+    .c-search-bar-input {
+      border-radius: $standard-radius;
+      flex: auto;
+      font-family: 'Comfortaa';
+      border: none;
+      outline: none;
+      background-color: $black;
+      color: $flashcard-white;
+      font-size: $font-size;
+      height: search-bar.$height;
+      padding-left: 8px;
+      box-sizing: border-box;
+    }
+
+    .c-cancel-icon-container {
+      display: none;
+      width: search-bar.$height;
+      height: search-bar.$height;
+
+      &.has-text {
+        @include flex-center;
+      }
+    }
+  }
+
+  .loading-result {
+    display: flex;
+    align-items: center;
+    .loading-result-icon {
+      margin-right: 10px;
+    }
+  }
+
+  .no-results {
+    font-size: 18px;
+    color: $grey;
+  }
+}

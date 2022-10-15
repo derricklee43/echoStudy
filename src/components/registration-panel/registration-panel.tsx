@@ -5,7 +5,7 @@ import { UpToggle } from '@/animations/up-toggle';
 import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { Button } from '@/components/button/button';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { paths } from '@/routing/paths';
 import './registration-panel.scss';
 
@@ -30,7 +30,7 @@ export const RegistrationPanel = ({
   onSubmitClick,
   onSwapPanelClick,
 }: RegistrationPanelProps) => {
-  const { loginDebug } = useUserClient();
+  const { loginDebug } = useAccountClient();
   const navigate = useNavigate();
 
   const [isContinuingAsGuest, setIsContinuingAsGuest] = useState(false);

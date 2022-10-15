@@ -21,7 +21,7 @@ import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 /**
  * Client targetting endpoints for user related actions
  */
-export function useUserClient() {
+export function useAccountClient() {
   const [authJwt, setAuthJwt] = useRecoilState(authJwtState);
   const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
   const simpleLocalStorage = useLocalStorage();

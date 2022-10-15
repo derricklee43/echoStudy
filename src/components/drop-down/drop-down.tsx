@@ -11,18 +11,24 @@ interface DropDownProps<I, V> {
   variant?: 'dark' | 'light';
   label?: React.ReactNode;
   className?: string;
+  buttonClassName?: string;
   options: DropDownOption<I, V>[];
   buttonLabel: React.ReactNode;
+  ellipsisOverflow?: boolean;
   onOptionSelect: (option: DropDownOption<I, V>) => void;
+  onClick?: () => void;
 }
 
 export const DropDown = <I extends string, V extends ReactNode>({
   variant = 'dark',
-  label = '',
+  label,
   className = '',
+  buttonClassName = '',
+  ellipsisOverflow = false,
   options,
   buttonLabel,
   onOptionSelect,
+  onClick,
 }: DropDownProps<I, V>) => {
   const [isOpen, setIsOpen] = useState(false);
   const accentVariant = variant === 'dark' ? 'light' : 'dark';
@@ -33,28 +39,26 @@ export const DropDown = <I extends string, V extends ReactNode>({
   useEscapePress(() => setIsOpen(false), isOpen);
 
   return (
-    <div className={`drop-down ${className}`}>
-      <label className={accentVariant}>{label}</label>
+    <div className={`drop-down ${className}`} onClick={onClick}>
+      {label !== undefined && <label className={accentVariant}>{label}</label>}
       <div className="drop-down-menu" ref={dropDownMenuRef}>
-        {getDropDownButton()}
+        <Button
+          variant={variant}
+          onClick={() => setIsOpen(!isOpen)}
+          className={`drop-down-button ${buttonClassName}`}
+        >
+          {buttonLabel}
+          <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
+        </Button>
         <DropDownOptions
           show={isOpen}
           options={options}
           onOptionSelect={handleOptionSelect}
-          ellipsisOverflow={false}
+          ellipsisOverflow={ellipsisOverflow}
         />
       </div>
     </div>
   );
-
-  function getDropDownButton() {
-    return (
-      <Button variant={variant} onClick={() => setIsOpen(!isOpen)}>
-        <label>{buttonLabel}</label>
-        <ArrowIcon variant={accentVariant} orientation={isOpen ? 'up' : 'down'} />
-      </Button>
-    );
-  }
 
   function handleOptionSelect(option: DropDownOption<I, V>) {
     onOptionSelect(option);

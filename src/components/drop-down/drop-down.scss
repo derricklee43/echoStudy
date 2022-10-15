@@ -25,6 +25,16 @@
   }
 }
 
+.drop-down-button {
+  @include ellipsis-overflow;
+  @include hover-pointer;
+  width: 100%;
+  padding: 5px 0px 5px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 // avoid nesting in .drop-down to make menu more easily targetable
 .drop-down-menu {
   position: relative;
@@ -32,22 +42,4 @@
 
   // consumer should set width manually if a fixed size is desired
   width: fit-content;
-
-  > button {
-    width: 100%;
-    padding: 5px 0px 5px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    label {
-      @include ellipsis-overflow;
-      @include hover-pointer;
-    }
-
-    .drop-down-arrow-icon {
-      @include flex-center;
-      margin: 0 10px 0 0;
-    }
-  }
 }

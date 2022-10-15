@@ -1,0 +1,10 @@
+@use '@/components/search-bar/partial-search-bar/shared' as search-bar;
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.category-dropdown-button {
+  height: search-bar.$height;
+  border: none;
+  border-right: 1px solid $light-blue;
+  border-radius: $standard-radius 0px 0px $standard-radius;
+}

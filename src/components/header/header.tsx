@@ -6,8 +6,10 @@ import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { Button } from '@/components/button/button';
 import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
-import { SearchBar } from '@/components/search-bar/search-bar';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
+import { useAccountClient } from '@/hooks/api/use-account-client';
+import { useSearchCategories } from '@/hooks/use-search-categories';
+import { useSearchResultFilter } from '@/hooks/use-search-result-filter';
 import { paths } from '@/routing/paths';
 import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
 import { navToggledState } from '@/state/nav';
@@ -33,8 +35,21 @@ export const Header = ({
 
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
 
-  const userClient = useUserClient();
+  const accountClient = useAccountClient();
   const navigate = useNavigate();
+
+  const {
+    searchValue,
+    searchResults,
+    searchCategory,
+    searchCategories,
+    isLoading,
+    setSearchValue,
+    setSearchCategory,
+    navigateToResult,
+  } = useSearchCategories(false);
+
+  const placeholder = `search ${searchCategory.id}...`;
 
   return (
     <div className={`c-header ${fixed ? 'fixed' : ''} ${className}`}>
@@ -56,10 +71,16 @@ export const Header = ({
         <div className="c-search-bar-container">
           {showSearchBar && (
             <div className="c-search-bar-sizer">
-              <SearchBar
-                placeholder="search my decks"
-                dropDownData={getDeckOptions()}
-                onDropdownClick={({ id }) => navigate(`${paths.deck}/${id}`)}
+              <CategorySearchBar
+                searchValue={searchValue}
+                selectedCategory={searchCategory}
+                searchCategories={searchCategories}
+                searchResults={searchResults}
+                placeholder={placeholder}
+                areResultsLoading={isLoading}
+                onSearchValueChange={setSearchValue}
+                onCategorySelect={setSearchCategory}
+                onSearchResultSelect={navigateToResult}
               />
             </div>
           )}
@@ -115,14 +136,6 @@ export const Header = ({
     }
   }
 
-  function getDeckOptions(): DropDownOption<string, string>[] {
-    return decks.map((deck) => ({
-      id: deck.metaData.id.toString(),
-      value: deck.metaData.title,
-      focusable: true,
-    }));
-  }
-
   function handleSignUpClick() {
     navigate(paths.signUp);
   }
@@ -136,6 +149,6 @@ export const Header = ({
   }
 
   function handleLogoutClick() {
-    userClient.logout();
+    accountClient.logout();
   }
 };

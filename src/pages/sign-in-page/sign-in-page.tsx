@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { RegistrationPanel } from '@/components/registration-panel/registration-panel';
 import { TextBox } from '@/components/text-box/text-box';
 import { isEmptyObject } from '@/helpers/validator';
-import { useUserClient } from '@/hooks/api/use-user-client';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { paths } from '@/routing/paths';
 import './sign-in-page.scss';
 
@@ -14,7 +14,7 @@ interface SignInFormError {
 }
 
 export const SignInPage = () => {
-  const userClient = useUserClient();
+  const accountClient = useAccountClient();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -92,7 +92,7 @@ export const SignInPage = () => {
 
     try {
       setIsSubmitting(true);
-      const success = await userClient.login(email, password);
+      const success = await accountClient.login(email, password);
       if (success) {
         // navigate to the previous page redirected here, or /decks page as a fallback
         const hasPreviousPage = window.history.state && window.history.state.idx > 0;
