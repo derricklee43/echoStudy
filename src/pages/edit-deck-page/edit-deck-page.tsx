@@ -5,6 +5,7 @@ import { LoadingPage } from '@/components/loading-page/loading-page';
 import { isDefined } from '@/helpers/validator';
 import { useCardsClient } from '@/hooks/api/use-cards-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
+import { filterBlankCards } from '@/models/card';
 import { Deck } from '@/models/deck';
 import { paths } from '@/routing/paths';
 import { DeckEditor } from './deck-editor/deck-editor';
@@ -17,7 +18,7 @@ interface EditDeckPageProps {
 export const EditDeckPage = ({ deck }: EditDeckPageProps) => {
   const navigate = useNavigate();
   const { deleteDeckById, addDeck } = useDecksClient();
-  const { addCards } = useCardsClient();
+  const cardsClient = useCardsClient();
 
   // when this is not undefined, show a loading animation for long-running operations
   const [loadingLabel, setLoadingLabel] = useState<string | undefined>();
@@ -45,8 +46,11 @@ export const EditDeckPage = ({ deck }: EditDeckPageProps) => {
 
   async function handleCreateDeckClick(deck: Deck) {
     return _withLoadingUntilResolved('Creating your new deck...', async () => {
-      const newDeckId = await addDeck(deck);
-      await addCards(deck.cards, newDeckId);
+      const deckResponse = await addDeck(deck);
+      const newDeckId = deckResponse.ids[0];
+
+      const cardsWithContent = deck.cards.filter(filterBlankCards);
+      await cardsClient.addCards(cardsWithContent, newDeckId);
       navigateToViewDeck(newDeckId);
     });
   }

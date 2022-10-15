@@ -1,5 +1,5 @@
 import { useReducer, useState } from 'react';
-import { Card } from '@/models/card';
+import { Card, filterBlankCards } from '@/models/card';
 import { Deck, DeckMetaData } from '@/models/deck';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
@@ -64,13 +64,16 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     setIsSaving(true);
     try {
       const deckId = state.currentDeck.metaData.id;
+      const addedCards = Object.values(state.addedCards).filter(filterBlankCards);
+      const updatedCards = Object.values(state.updatedCards).filter(filterBlankCards);
+      const deletedCards = Object.values(state.deletedCards);
+
       const promises = [
         decksClient.updateDeckById(state.currentDeck),
-        cardsClient.addCards(Object.values(state.addedCards), deckId),
-        cardsClient.updateCardsById(Object.values(state.updatedCards)),
-        cardsClient.deleteCards(Object.values(state.deletedCards)),
+        ...[addedCards.length > 0 ? cardsClient.addCards(addedCards, deckId) : []],
+        ...[updatedCards.length > 0 ? cardsClient.updateCards(updatedCards) : []],
+        ...[deletedCards.length > 0 ? cardsClient.deleteCards(deletedCards) : []],
         // Todo: we need to send the reordered cards too
-        // Todo: add batching
       ];
       await Promise.all(promises);
       dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });

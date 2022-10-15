@@ -8,6 +8,7 @@ import { StarIcon } from '@/assets/icons/star-icon/star-icon';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { Button } from '@/components/button/button';
 import { getFormattedMilliseconds } from '@/helpers/time';
+import { UpdateCardScoreRequest } from '@/hooks/api/interfaces/card-data';
 import { useCardsClient } from '@/hooks/api/use-cards-client';
 import { usePrompt } from '@/hooks/use-prompt';
 import { MAX_SCORE } from '@/hooks/use-spaced-repetition';
@@ -133,14 +134,12 @@ export const StudyResultsPage = ({
     setAreResultsApplied(true);
   }
 
-  // TODO: it might be beneficial to have an endpoint to batch these (an array of {id, score})
-  // we are currently making requests equal to the number of seen lesson cards (marked correct/incorrect)
   async function _updateAllCardScores() {
     if (isUpdating) {
       return;
     }
 
-    const promises = [];
+    const scoreUpdates: UpdateCardScoreRequest[] = [];
 
     // create promise to update cards with new scores
     for (const lessonCard of lessonCards) {
@@ -155,12 +154,12 @@ export const StudyResultsPage = ({
       }
 
       if (lessonCard.id) {
-        promises.push(cardsClient.updateCardScoreById(lessonCard.id, newScore));
+        scoreUpdates.push({ id: lessonCard.id, score: newScore });
       } else {
         throw new Error(`Failed to update lesson card: id was undefined`); // this shouldn't be possible...
       }
     }
 
-    return Promise.all(promises);
+    return cardsClient.updateCardScores(scoreUpdates);
   }
 };
