@@ -7,13 +7,13 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PartialSearchBar } from './partial-search-bar';
 import {
   TEST_OPTIONS_SINGLE,
   TEST_OPTIONS_SMALL,
   TEST_OPTIONS_SMALL_VALUES,
 } from '@/components/drop-down-options/options.mock';
 import { noop } from '@/helpers/func';
+import { PartialSearchBar } from './partial-search-bar';
 
 const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
 const TEST_INITIAL_TEXT = 'TEST_INITIAL_TEXT';

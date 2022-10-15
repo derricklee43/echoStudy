@@ -1,10 +1,11 @@
 import React, { ReactNode, useState } from 'react';
+import { DropDown } from '@/components/drop-down/drop-down';
 import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 import {
   PartialSearchBar,
   SearchBarProps,
 } from '@/components/search-bar/partial-search-bar/partial-search-bar';
-import { SearchBarCategoryDropdown } from './search-bar-category-dropdown/search-bar-category-dropdown';
+import './category-search-bar.scss';
 
 export interface CategorySearchBarProps<T, S> extends SearchBarProps {
   searchCategories: DropDownOption<T, S>[];
@@ -21,11 +22,13 @@ export const CategorySearchBar = <T extends string, S extends ReactNode>({
   const [shouldShowResults, setShouldShowResults] = useState(false);
 
   const categoryDropdown = (
-    <SearchBarCategoryDropdown
-      selectedCategory={selectedCategory}
-      categories={searchCategories}
-      onCategorySelect={onCategorySelect}
+    <DropDown
+      buttonLabel={selectedCategory.value}
+      options={searchCategories}
+      onOptionSelect={onCategorySelect}
       onClick={() => setShouldShowResults(false)}
+      buttonClassName="category-dropdown-button"
+      ellipsisOverflow={false}
     />
   );
 

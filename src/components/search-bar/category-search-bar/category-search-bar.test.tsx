@@ -1,10 +1,5 @@
 import React from 'react';
 import {
-  TEST_OPTIONS_SINGLE,
-  TEST_OPTIONS_SMALL,
-  TEST_OPTIONS_SMALL_VALUES,
-} from '@/components/drop-down-options/options.mock';
-import {
   fireEvent,
   render,
   screen,
@@ -12,8 +7,13 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { CategorySearchBar } from './category-search-bar';
+import {
+  TEST_OPTIONS_SINGLE,
+  TEST_OPTIONS_SMALL,
+  TEST_OPTIONS_SMALL_VALUES,
+} from '@/components/drop-down-options/options.mock';
 import { noop } from '@/helpers/func';
+import { CategorySearchBar } from './category-search-bar';
 
 describe('SearchBar', () => {
   it('should render correctly with default props', () => {

@@ -1,9 +1,10 @@
+@use '@/components/search-bar/partial-search-bar/shared' as search-bar;
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;700&display=swap');
-@import '../../../assets/colors';
-@import '../../../assets/styles';
+@import '@/assets/colors';
+@import '@/assets/styles';
 
 // probably need to make all these props
-$height: 40px;
+
 $font-size: 20px;
 
 .c-search-bar-wrapper {
@@ -11,7 +12,7 @@ $font-size: 20px;
   position: relative;
   border: 1px solid $light-blue;
   width: 100%;
-  height: $height;
+  height: search-bar.$height;
   background-color: $black;
 
   .c-search-bar-content {
@@ -20,7 +21,7 @@ $font-size: 20px;
     width: 100%;
 
     .left-child {
-      height: 40px;
+      height: search-bar.$height;
     }
 
     .c-search-bar-input {
@@ -32,15 +33,15 @@ $font-size: 20px;
       background-color: $black;
       color: $flashcard-white;
       font-size: $font-size;
-      height: $height;
+      height: search-bar.$height;
       padding-left: 8px;
       box-sizing: border-box;
     }
 
     .c-cancel-icon-container {
       display: none;
-      width: $height;
-      height: $height;
+      width: search-bar.$height;
+      height: search-bar.$height;
 
       &.has-text {
         @include flex-center;

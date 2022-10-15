@@ -22,8 +22,7 @@ interface DropDownOptionsProps<I, V> {
 }
 
 /**
- *  if subscriber sets ellipsisOver to false, it is the consumer's responsibility
- *  to guard against overflows.
+ *  if subscriber sets ellipsisOver to false, the options will expand to fit the content
  *
  *  When enabled, a nested DropDownOptions component will not work due to
  *  this restriction: https://stackoverflow.com/a/6433475/14356299
@@ -35,10 +34,11 @@ export const DropDownOptions = <I extends string, V extends ReactNode>({
   options,
   onOptionSelect,
 }: DropDownOptionsProps<I, V>) => {
+  const optionsClass = 'c-drop-down-options' + (ellipsisOverflow ? ' ellipsis-overflow' : '');
   return (
     <AnimatePresence>
       {show && options !== undefined && (
-        <Fade fadeIn={false} className={`c-drop-down-options ${className}`}>
+        <Fade fadeIn={false} className={`${optionsClass} ${className}`}>
           {options.map(getOption)}
         </Fade>
       )}
@@ -46,8 +46,7 @@ export const DropDownOptions = <I extends string, V extends ReactNode>({
   );
 
   function getOption(option: DropDownOption<I, V>) {
-    const dropDownOverflow = ellipsisOverflow ? 'ellipsis-overflow' : '';
-    const className = `c-drop-down-option ${dropDownOverflow}`;
+    const className = 'c-drop-down-option';
     if (option.focusable) {
       return (
         <Button
