@@ -21,7 +21,7 @@ export const SearchPage = () => {
   const placeholder = `search ${searchCategory.id}...`;
   return (
     <div>
-      <PageHeader label="search" goBackLabel="go back" onGoBackClick={noop} />
+      <PageHeader label="search" />
       <CategorySearchBar
         searchValue={searchValue}
         selectedCategory={searchCategory}
