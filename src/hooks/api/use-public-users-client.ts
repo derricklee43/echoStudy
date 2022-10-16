@@ -1,11 +1,5 @@
-import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
-import { asUtcDate } from '@/helpers/time';
-import { isDefined, isNumber } from '@/helpers/validator';
-import { Card, createNewCard } from '@/models/card';
-import { LazyAudio } from '@/models/lazy-audio';
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { PublicUser } from '@/models/public-user';
-import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';
-import { useAccountClient } from './use-account-client';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -15,17 +9,16 @@ import { useFetchWrapper } from './use-fetch-wrapper';
  */
 export function usePublicUsersClient() {
   const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
-  const { getProfilePictureUrl } = useAccountClient();
 
   return { getPublicUsers };
 
-  // GET: /Users/names
+  // GET: /Users/Names
   async function getPublicUsernames() {
     const usernames: string[] = await fetchWrapper.get('/users/names');
     return usernames;
   }
 
-  // GET: /Users/username
+  // GET: /Users/Username
   async function getPublicUsers() {
     const usernames = await getPublicUsernames();
     const allUsersRequests = usernames.map((username) => fetchWrapper.get(`/users/${username}`));

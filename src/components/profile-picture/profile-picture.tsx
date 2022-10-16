@@ -10,7 +10,7 @@ export interface UserTileProps {
 
 export const ProfilePicture = ({ username = '', className = '', showGlow }: UserTileProps) => {
   const { getProfilePictureUrl } = useAccountClient();
-  const pfpUrl = getProfilePictureUrl(username ?? '');
+  const pfpUrl = getProfilePictureUrl(username);
 
   const glowClass = showGlow ? 'prof-pic-glow' : '';
   return (
