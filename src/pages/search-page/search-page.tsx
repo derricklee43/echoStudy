@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/page-header/page-header';
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { UserTile } from '@/components/user-tile/user-tile';
 import { useSearchCategories } from '@/hooks/use-search-categories';
+import { Deck } from '@/models/deck';
 import './search-page.scss';
 
 export const SearchPage = () => {
@@ -68,11 +69,13 @@ export const SearchPage = () => {
     }
 
     if (searchCategory.id === 'my decks') {
-      return getMyDeckTiles();
+      const decks = categorySearchResults[searchCategory.id];
+      return getDeckTiles(false, decks);
     }
 
     if (searchCategory.id === 'public decks') {
-      return getPublicDeckTiles();
+      const decks = categorySearchResults[searchCategory.id];
+      return getDeckTiles(true, decks);
     }
 
     throw Error('unexpected category');
@@ -96,34 +99,13 @@ export const SearchPage = () => {
     );
   }
 
-  // TODO: create PublicDeck Type with client and refactor this function
-  function getPublicDeckTiles() {
-    const decks = categorySearchResults['public decks'];
+  function getDeckTiles(showAuthor: boolean, decks?: Deck[]) {
     if (decks === undefined) {
       return;
     }
     const deckTiles = decks.map((deck) => {
-      const id = deck.metaData.id.toString();
-      return (
-        <DeckTile
-          key={deck.metaData.id}
-          title={deck.metaData.title}
-          description={deck.metaData.desc}
-          numCards={deck.cards.length}
-          author="Tim Burton"
-          onClick={() => navigateToResult('my decks', id)}
-        />
-      );
-    });
-    return <div className="search-page-public-deck-tiles">{deckTiles}</div>;
-  }
-
-  function getMyDeckTiles() {
-    const decks = categorySearchResults['public decks'];
-    if (decks === undefined) {
-      return;
-    }
-    const deckTiles = decks.map((deck) => {
+      // TODO: Ask Mason or Jon to add the author email and replace
+      const author = showAuthor ? deck.metaData.ownerId : undefined;
       const id = deck.metaData.id.toString();
       return (
         <DeckTile
@@ -132,9 +114,10 @@ export const SearchPage = () => {
           description={deck.metaData.desc}
           numCards={deck.cards.length}
           onClick={() => navigateToResult('my decks', id)}
+          author={author}
         />
       );
     });
-    return <div className="search-page-my-deck-tiles">{deckTiles}</div>;
+    return <div className="search-page-deck-tiles">{deckTiles}</div>;
   }
 };

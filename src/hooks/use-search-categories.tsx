@@ -5,6 +5,7 @@ import { DropDownOption } from '@/components/drop-down-options/drop-down-options
 import { Deck } from '@/models/deck';
 import { PublicUser } from '@/models/public-user';
 import { paths } from '@/routing/paths';
+import { publicDecksState } from '@/state/public-decks';
 import { userDecksSortedState, userDecksState } from '@/state/user-decks';
 import { usersState } from '@/state/users';
 import { useDecksClient } from './api/use-decks-client';
@@ -26,8 +27,9 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
 
   const { stringArrayIncludesValue } = useSearchResultFilter(isCaseSensitive);
 
-  // My Decks
-  const { getAllDecks } = useDecksClient();
+  // Decks
+  const { getAllDecks, getPublicDecks } = useDecksClient();
+  const [publicDecks, setPublicDecks] = useRecoilState(publicDecksState);
   const setUserDecks = useSetRecoilState(userDecksState);
   const decks = useRecoilValue(userDecksSortedState);
 
@@ -40,7 +42,7 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
   const categorySearchResults = getFilteredCategorySearchResults();
   const searchResultDropdownOptions = getFilteredDropdownOptions(categorySearchResults);
   const searchCategories = getSearchCategories();
-  console.log('rerendered');
+
   return {
     searchValue,
     categorySearchResults,
@@ -78,13 +80,15 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
       setUserDecks(decks);
     }
     if (category === 'users' && users === undefined) {
-      console.log('started');
       const users = await getPublicUsers();
       setUsers(users);
-      console.log('finished');
     }
 
-    // TODO: fetch public Decks
+    // TODO: Ask Mason or Jon to filter out public decks of self, or filter them in the useDecksClient
+    if (category === 'public decks' && publicDecks === undefined) {
+      const publicDecks = await getPublicDecks();
+      setPublicDecks(publicDecks);
+    }
   }
 
   function getSearchCategories(): DropDownOption<SearchCategory, string>[] {
@@ -95,8 +99,8 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
     // TODO: I wanted to export the search results without having to check the types on the other side
     // if this is too slow we can switch only filtering one at a time and checking type when consuming
     return {
-      'my decks': getFilteredDecks(),
-      'public decks': getFilteredDecks(),
+      'my decks': getFilteredDecks(decks),
+      'public decks': getFilteredDecks(publicDecks),
       users: getFilteredUsers(),
     };
   }
@@ -117,7 +121,7 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
     });
   }
 
-  function getFilteredDecks() {
+  function getFilteredDecks(decks?: Deck[]) {
     return decks?.filter((deck) => {
       const deckSearchFields = [deck.metaData.title];
       return stringArrayIncludesValue(deckSearchFields, searchValue);

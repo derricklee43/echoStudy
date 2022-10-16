@@ -13,11 +13,7 @@
   @include wrapping-grid(250px, 32px, 20px);
 }
 
-.search-page-my-deck-tiles {
-  @include wrapping-grid(335px, 32px, 20px);
-}
-
-.search-page-public-deck-tiles {
+.search-page-deck-tiles {
   @include wrapping-grid(350px, 32px, 20px);
 }
 
