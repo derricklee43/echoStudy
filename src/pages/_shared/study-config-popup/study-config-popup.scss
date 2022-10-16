@@ -1,0 +1,99 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.study-config-popup-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 20vw;
+  gap: 16px;
+  padding-top: 8px;
+
+  .scp-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+
+    span {
+      font-weight: 600;
+
+      &.blue {
+        color: $blue;
+      }
+      &.grey {
+        color: $grey;
+      }
+    }
+
+    .progress-bar-container {
+      display: flex;
+      gap: 8px;
+      padding: {
+        top: 8px;
+        bottom: 4px;
+      }
+
+      .scp-progress-bar {
+        flex: 1;
+      }
+
+      .progress-label {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .scp-study-type {
+    width: 100%;
+    button {
+      border-radius: $standard-radius / 2;
+      width: 100%;
+    }
+  }
+
+  .scp-order-dropdown {
+  }
+
+  .scp-max-cards {
+    .max-cards-content {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+
+      .max-cards-textbox {
+        width: 56px;
+
+        input {
+          font-size: 18px;
+        }
+
+        input[type='number'] {
+          appearance: textfield;
+        }
+
+        input[type='number']::-webkit-inner-spin-button,
+        input[type='number']::-webkit-outer-spin-button {
+          appearance: none;
+          margin: 0;
+        }
+      }
+    }
+
+    .max-cards-error {
+      font-size: 13px;
+      color: $light-red;
+      padding-top: 0.33rem;
+    }
+  }
+
+  .scp-start-lesson {
+    padding-top: 8px;
+
+    button {
+      font-size: 16px;
+      font-weight: 600;
+      height: 48px;
+      width: 100%;
+    }
+  }
+}

@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
+import { isDefined, isString } from '@/helpers/validator';
 import './text-box.scss';
 
-export interface TextBoxProps {
-  value?: string;
+export interface TextBoxProps<T extends string | number = string> {
+  value?: T | '';
   inputType?: string; // (e.g. 'text', 'password')
   label?: React.ReactNode;
   placeholder?: string;
@@ -13,8 +14,8 @@ export interface TextBoxProps {
   onChange?: (value: string) => void;
 }
 
-export const TextBox = ({
-  value = '',
+export const TextBox = <T extends string | number = string>({
+  value,
   inputType = 'text',
   label,
   placeholder,
@@ -23,7 +24,7 @@ export const TextBox = ({
   variant = 'light',
   className,
   onChange,
-}: TextBoxProps) => {
+}: TextBoxProps<T>) => {
   const [isFocused, setFocused] = useState(false);
 
   return (
@@ -48,7 +49,9 @@ export const TextBox = ({
   );
 
   function shouldShowAsLegend() {
-    const hasText = !!value && value.length > 0;
+    // generic could be a number but value is '' to show no value
+    const notBlank = isDefined(value) && value !== '';
+    const hasText = notBlank || (isString(value) && value.length > 0);
     return isFocused || hasText;
   }
 

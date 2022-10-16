@@ -62,7 +62,7 @@ export const DeckCover = ({
           <ProgressBar
             variant="gradient"
             className="deck-cover-progress-bar"
-            percent={Math.max(percentStudied, 15)} // looks ugly at >15
+            percent={Math.max(percentStudied, 15)} // looks ugly at <15
             label={`${percentStudied}% studied`}
           />
           <Button bubbleOnClickEvent={false} onClick={onViewClick}>
