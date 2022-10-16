@@ -82,7 +82,7 @@ export const FlashcardDecksPage = () => {
       <DeckCover
         key={deck.metaData.id}
         deck={deck}
-        onStudyClick={() => handleStudyClick(deck)}
+        onStudyClick={() => setDeckStudySelection(deck)}
         onViewClick={() => handleViewClick(deck.metaData.id)}
       />
     ));
@@ -90,11 +90,6 @@ export const FlashcardDecksPage = () => {
 
   function handleViewClick(id: number) {
     navigate(`${paths.deck}/${id}`);
-  }
-
-  function handleStudyClick(deck: Deck) {
-    setDeckStudySelection(deck);
-    // navigate(`${paths.study}/${id}`);
   }
 
   function onAddDeckClicked() {
