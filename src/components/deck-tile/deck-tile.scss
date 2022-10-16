@@ -2,24 +2,14 @@
 @import '@/assets/colors';
 
 .deck-tile {
+  @include outlined-tile(350px, 175px);
   background-color: transparent;
   display: inline-flex;
-  // justify-content: start;
-  // align-items: flex-start;
   flex-direction: column;
-  // flex-wrap: wrap;
-  border: 1px solid $light-blue;
-  border-radius: 20px;
   padding: 10px;
-  width: 350px;
-  height: 175px;
-  @include standard-transition;
-  @include hover-pointer;
 
   &:hover,
   &:focus {
-    border-color: $white;
-
     .dt-text-light-blue {
       color: $white;
     }

@@ -114,10 +114,6 @@ $z-popup-modal: 1024;
 @mixin outlined-tile($width, $height) {
   @include standard-transition;
   @include hover-pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   border: 1px solid $light-blue;
   border-radius: 20px;
   width: $width;

@@ -5,7 +5,6 @@ import { PageHeader } from '@/components/page-header/page-header';
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { UserTile } from '@/components/user-tile/user-tile';
 import { useSearchCategories } from '@/hooks/use-search-categories';
-import { Deck } from '@/models/deck';
 import './search-page.scss';
 
 export const SearchPage = () => {
@@ -47,7 +46,7 @@ export const SearchPage = () => {
     if (searchResults.length === 0) {
       return getNoResultsMessage();
     }
-    return getSearchResults();
+    return searchCategory.id === 'users' ? getUserTiles() : getDeckTiles(searchCategory.id);
   }
 
   function getLoadingIcon() {
@@ -63,49 +62,29 @@ export const SearchPage = () => {
     return <div className="search-page-no-results-message">no results found...</div>;
   }
 
-  function getSearchResults() {
-    if (searchCategory.id === 'users') {
-      return getUserTiles();
-    }
-
-    if (searchCategory.id === 'my decks') {
-      const decks = categorySearchResults[searchCategory.id];
-      return getDeckTiles(false, decks);
-    }
-
-    if (searchCategory.id === 'public decks') {
-      const decks = categorySearchResults[searchCategory.id];
-      return getDeckTiles(true, decks);
-    }
-
-    throw Error('unexpected category');
-  }
-
   function getUserTiles() {
     const users = categorySearchResults['users'];
     if (users === undefined) {
       return;
     }
-    return (
-      <div className="search-page-user-tiles">
-        {users.map((user) => (
-          <UserTile
-            key={user.username}
-            user={user}
-            onClick={() => navigateToResult('users', user.username)}
-          />
-        ))}
-      </div>
-    );
+    const userTiles = users.map((user) => (
+      <UserTile
+        key={user.username}
+        user={user}
+        onClick={() => navigateToResult('users', user.username)}
+      />
+    ));
+    return <div className="search-page-user-tiles">{userTiles}</div>;
   }
 
-  function getDeckTiles(showAuthor: boolean, decks?: Deck[]) {
+  function getDeckTiles(category: 'my decks' | 'public decks') {
+    const decks = categorySearchResults[category];
     if (decks === undefined) {
       return;
     }
+    const showAuthor = category === 'public decks';
     const deckTiles = decks.map((deck) => {
-      // TODO: Ask Mason or Jon to add the author email and replace
-      const author = showAuthor ? deck.metaData.ownerId : undefined;
+      const author = showAuthor ? deck.metaData.ownerId : undefined; // TODO: Ask Mason or Jon to add the author email and replace
       const id = deck.metaData.id.toString();
       return (
         <DeckTile
@@ -113,7 +92,7 @@ export const SearchPage = () => {
           title={deck.metaData.title}
           description={deck.metaData.desc}
           numCards={deck.cards.length}
-          onClick={() => navigateToResult('my decks', id)}
+          onClick={() => navigateToResult(category, id)}
           author={author}
         />
       );

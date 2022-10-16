@@ -3,13 +3,16 @@
 
 .user-tile {
   @include outlined-tile(250px, 175px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
   &:hover,
   &:focus {
     .user-tile-username {
       color: $white;
     }
-
     .user-tile-num-decks {
       color: $light-blue;
     }
