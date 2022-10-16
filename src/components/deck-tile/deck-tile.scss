@@ -1,0 +1,60 @@
+@import '@/assets/styles';
+@import '@/assets/colors';
+
+.deck-tile {
+  background-color: transparent;
+  display: inline-flex;
+  // justify-content: start;
+  // align-items: flex-start;
+  flex-direction: column;
+  // flex-wrap: wrap;
+  border: 1px solid $light-blue;
+  border-radius: 20px;
+  padding: 10px;
+  width: 350px;
+  height: 175px;
+  @include standard-transition;
+  @include hover-pointer;
+
+  &:hover,
+  &:focus {
+    border-color: $white;
+
+    .dt-text-light-blue {
+      color: $white;
+    }
+
+    .dt-text-gray {
+      color: $light-blue;
+    }
+  }
+
+  .dt-text-light-blue {
+    @include standard-transition;
+    color: $light-blue;
+  }
+
+  .dt-text-gray {
+    @include standard-transition;
+    color: $grey;
+  }
+
+  .dt-title {
+    color: $white;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .dt-description {
+    flex-grow: 1;
+    overflow-y: scroll;
+    text-align: left;
+    padding: 5px 0px;
+    margin: 0px;
+  }
+
+  .dt-author {
+    width: 100%;
+    text-align: right;
+  }
+}

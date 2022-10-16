@@ -1,11 +1,29 @@
 @import '@/assets/styles';
 @import '@/assets/colors';
 
-.search-page-search-bar {
-  @include flex-center;
+.search-page-category-search-bar {
+  margin-top: 20px;
+}
 
-  .search-page-search-bar-input {
-    height: 50px;
-    box-sizing: border-box;
-  }
+.search-page-loading-icon {
+  margin-top: 100px;
+}
+
+.search-page-user-tiles {
+  @include wrapping-grid(250px, 32px, 20px);
+}
+
+.search-page-my-deck-tiles {
+  @include wrapping-grid(335px, 32px, 20px);
+}
+
+.search-page-public-deck-tiles {
+  @include wrapping-grid(350px, 32px, 20px);
+}
+
+.search-page-no-results-message {
+  margin: 100px;
+  @include flex-center;
+  color: $grey;
+  font-size: 40px;
 }

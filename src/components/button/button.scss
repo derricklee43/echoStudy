@@ -14,43 +14,43 @@
     cursor: default;
   }
 
-  &.dark {
-    @include blue-hover;
-    border-color: $light-blue;
-    background-color: $blue;
-    color: $white;
-
-    &:disabled {
-      color: $light-blue;
-      background-color: $dark-grey-blue;
-    }
-  }
-
-  &.light {
-    @include white-hover;
-    background-color: $white;
-    border-color: $blue;
-    color: $blue;
-
-    &:disabled {
-      border-color: $grey;
-      color: $grey;
-
-      &:hover {
-        background-color: $white;
-      }
-    }
-  }
-
   &.medium {
     padding: 20px 30px;
     border-radius: 10px;
   }
+}
 
-  &.invisible {
-    margin: 0px;
-    padding: 0px;
-    border: none;
-    background-color: transparent;
+.dark-button {
+  @include blue-hover;
+  border-color: $light-blue;
+  background-color: $blue;
+  color: $white;
+
+  &:disabled {
+    color: $light-blue;
+    background-color: $dark-grey-blue;
   }
+}
+
+.light-button {
+  @include white-hover;
+  background-color: $white;
+  border-color: $blue;
+  color: $blue;
+
+  &:disabled {
+    border-color: $grey;
+    color: $grey;
+
+    &:hover {
+      background-color: $white;
+    }
+  }
+}
+
+.invisible-button {
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  background-color: transparent;
 }

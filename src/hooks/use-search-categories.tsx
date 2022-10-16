@@ -9,7 +9,7 @@ import { useDecksClient } from './api/use-decks-client';
 import { useSearchResultFilter } from './use-search-result-filter';
 
 const ALL_SEARCH_CATEGORIES = ['my decks', 'public decks', 'users'] as const;
-type SearchCategory = typeof ALL_SEARCH_CATEGORIES[number];
+export type SearchCategory = typeof ALL_SEARCH_CATEGORIES[number];
 
 export const useSearchCategories = (isCaseSensitive: boolean) => {
   const [searchCategory, setSearchCategory] = useState(getSearchCategories()[0]);

@@ -5,7 +5,7 @@ import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
-import { useAccountClient } from '@/hooks/api/use-account-client';
+import { ProfilePicture } from '@/components/profile-picture/profile-picture';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { Deck } from '@/models/deck';
 import { paths } from '@/routing/paths';
@@ -23,14 +23,12 @@ export const ProfilePage = () => {
 
 const AsyncProfilePage = () => {
   const navigate = useNavigate();
-  const accountClient = useAccountClient();
   const decksClient = useDecksClient();
 
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
 
-  const pfpUrl = accountClient.getProfilePictureUrl(userData?.email ?? '');
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
 
   // fetch flashcard decks on load
@@ -44,9 +42,7 @@ const AsyncProfilePage = () => {
         <PageHeader label="my profile" />
       </div>
       <div className="user-details">
-        <div className="profile-picture-container">
-          <img className="profile-picture" src={pfpUrl} loading="lazy" />
-        </div>
+        <ProfilePicture username={userData?.email} showGlow={true} />
         <span className="username">{`@${userData?.username}`}</span>
         <span className="full-name">{userData?.email.toLowerCase()}</span>
         <span className="date-joined">member since 2022</span>

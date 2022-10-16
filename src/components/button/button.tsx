@@ -23,11 +23,11 @@ export const Button = ({
   onClick,
 }: ButtonProps) => {
   const disabledClass = disabled ? 'disabled' : '';
-
+  const variantClass = variant + '-button';
   return (
     <button
       disabled={disabled}
-      className={`button ${variant} ${size} ${className} ${disabledClass}`}
+      className={`button ${variantClass} ${size} ${className} ${disabledClass}`}
       onClick={handleClick}
       aria-label={ariaLabel}
     >
