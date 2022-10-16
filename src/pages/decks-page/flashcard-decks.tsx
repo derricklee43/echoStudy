@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
@@ -6,6 +6,7 @@ import { DropDown } from '@/components/drop-down/drop-down';
 import { noop } from '@/helpers/func';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { createNewDeck, Deck } from '@/models/deck';
+import { StudyConfigPopup } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { paths } from '@/routing/paths';
 import {
   AllSortRules,
@@ -29,39 +30,51 @@ export const FlashcardDecksPage = () => {
   const [sortOption, setSortOption] = useRecoilState(userDecksSortRuleState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
 
+  const [deckStudySelection, setDeckStudySelection] = useState<Deck>();
+
   // fetch flashcard decks on load
   useEffect(() => {
     fetchDecksAndRefresh();
   }, []);
 
   return (
-    <div className="pg-flashcard-decks">
-      <div className="decks-page-header">
-        <label>flashcard decks</label>
-        <DropDown
-          className="align-right"
-          variant="dark"
-          options={AllSortRules.map((item) => ({ id: item, value: item, focusable: true }))}
-          label="sort by"
-          buttonLabel={sortOption}
-          onOptionSelect={(option) => setSortOption(option.id)}
+    <>
+      <div className="pg-flashcard-decks">
+        <div className="decks-page-header">
+          <label>flashcard decks</label>
+          <DropDown
+            className="align-right"
+            variant="dark"
+            options={AllSortRules.map((item) => ({ id: item, value: item, focusable: true }))}
+            label="sort by"
+            buttonLabel={sortOption}
+            onOptionSelect={(option) => setSortOption(option.id)}
+          />
+        </div>
+        <div className="deck-tile-container">
+          <DeckCover
+            flippable={false}
+            onClick={onAddDeckClicked}
+            deck={addNewDeckEntity}
+            onStudyClick={noop}
+            onViewClick={noop}
+          />
+          {getDeckCovers()}
+        </div>
+        <div className="footer-page-number">
+          {/* no functionality, just text :P */}
+          <label>page 1 of 1</label>
+        </div>
+      </div>
+
+      {deckStudySelection && (
+        <StudyConfigPopup
+          deck={deckStudySelection}
+          showPopup={!!deckStudySelection}
+          onClose={() => setDeckStudySelection(undefined)}
         />
-      </div>
-      <div className="deck-tile-container">
-        <DeckCover
-          flippable={false}
-          onClick={onAddDeckClicked}
-          deck={addNewDeckEntity}
-          onStudyClick={noop}
-          onViewClick={noop}
-        />
-        {getDeckCovers()}
-      </div>
-      <div className="footer-page-number">
-        {/* no functionality, just text :P */}
-        <label>page 1 of 1</label>
-      </div>
-    </div>
+      )}
+    </>
   );
 
   function getDeckCovers() {
@@ -69,7 +82,7 @@ export const FlashcardDecksPage = () => {
       <DeckCover
         key={deck.metaData.id}
         deck={deck}
-        onStudyClick={() => handleStudyClick(deck.metaData.id)}
+        onStudyClick={() => handleStudyClick(deck)}
         onViewClick={() => handleViewClick(deck.metaData.id)}
       />
     ));
@@ -79,8 +92,9 @@ export const FlashcardDecksPage = () => {
     navigate(`${paths.deck}/${id}`);
   }
 
-  function handleStudyClick(id: number) {
-    navigate(`${paths.study}/${id}`);
+  function handleStudyClick(deck: Deck) {
+    setDeckStudySelection(deck);
+    // navigate(`${paths.study}/${id}`);
   }
 
   function onAddDeckClicked() {

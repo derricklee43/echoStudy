@@ -14,18 +14,16 @@ import { useStopWatch } from '@/hooks/use-stop-watch';
 import { Deck } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
 import { LessonCard, LessonCardOutcome } from '@/models/lesson-card';
+import { StudyConfigQueryParams } from '@/pages/_shared/study-config-popup/study-config-popup';
 import './study-lesson-page.scss';
 
 interface StudyPageLessonProps {
   deck: Deck;
+  configParams: StudyConfigQueryParams;
   onLessonComplete: (lessonCards: LessonCard[], lessonTime: number) => void;
 }
 
-export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps) => {
-  // TODO: we will want to make this configurable or just pull in all past due cards
-  // making this the min of (# of cards, 5) for demo purposes
-  const numCards = Math.min(deck.cards.length, 5);
-
+export const StudyLessonPage = ({ deck, configParams, onLessonComplete }: StudyPageLessonProps) => {
   const isFirstRender = useIsFirstRender();
   const [isPaused, setIsPaused] = useState(true);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
@@ -41,9 +39,10 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
     replay,
   } = usePlayLesson({
     deck,
-    lessonType: 'studyNew',
-    numCards,
+    configParams,
   });
+
+  const numCards = Math.min(configParams.maxCards ?? 5, deck.cards.length); // coerce to <= deck length
   const percentComplete = (completedCards.length / numCards) * 100;
 
   useEffect(() => {

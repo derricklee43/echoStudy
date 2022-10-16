@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UpToggle } from '@/animations/up-toggle';
 import { CardStackIcon } from '@/assets/icons/card-stack-icon/card-stack-icon';
 import { ClockIcon } from '@/assets/icons/clock-icon/clock-icon';
@@ -33,6 +33,7 @@ export const StudyResultsPage = ({
 }: StudyResultsPageProps) => {
   const cardsClient = useCardsClient();
   const navigate = useNavigate();
+  const { search: queryParams } = useLocation();
 
   // block navigation if finish isn't clicked; otherwise, redirect back to the deck
   const [areResultsApplied, setAreResultsApplied] = useState(false); // all done?
@@ -68,7 +69,10 @@ export const StudyResultsPage = ({
   function getNavButtons() {
     return (
       <div className="study-results-page-nav-buttons">
-        <Button size="medium" onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)}>
+        <Button
+          size="medium"
+          onClick={() => navigate(`${paths.study}/${deck.metaData.id}${queryParams}`)}
+        >
           study again
         </Button>
         <Button size="medium" disabled={isUpdating} onClick={handleFinishClick}>

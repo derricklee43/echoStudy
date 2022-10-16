@@ -1,21 +1,25 @@
 import { useMemo, useState } from 'react';
+import { compare, shuffle } from '@/helpers/sort';
+import { Card } from '@/models/card';
 import { Deck } from '@/models/deck';
 import { createNewLessonCard, LessonCard } from '@/models/lesson-card';
+import { StudyConfigQueryParams } from '@/pages/_shared/study-config-popup/study-config-popup';
+import { SortRule } from '@/state/user-decks';
 import { usePlayCardAudio } from './use-play-card-audio';
 import { useSpacedRepetition } from './use-spaced-repetition';
 
-// TODO: Add other lesson types
-type lessonType = 'review' | 'studyNew' | 'spacedRepetition';
 interface UsePlayLessonSettings {
   deck: Deck;
-  numCards: number;
-  lessonType: lessonType;
+  configParams: StudyConfigQueryParams;
 }
 
-export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
+export function usePlayLesson({ deck, configParams }: UsePlayLessonSettings) {
+  const _maxCards = configParams.maxCards ?? 5;
+  const numCards = Math.min(_maxCards, deck.cards.length);
+
   const spacedRepetition = useMemo(() => useSpacedRepetition(), []);
 
-  const [firstCard, ...restCards] = getLessonCards(deck, numCards);
+  const [firstCard, ...restCards] = getLessonCards(deck, configParams);
   const [currentCard, setCurrentCard] = useState<LessonCard>(firstCard);
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
@@ -140,13 +144,32 @@ export function usePlayLesson({ deck, numCards }: UsePlayLessonSettings) {
     };
   }
 
-  // TODO: Add Sorting and Filtering based in settings
-  function getLessonCards(deck: Deck, numCards: number): LessonCard[] {
-    if (deck.cards.length < numCards) {
-      throw Error('deck not contain enough cards specified in the lesson');
-    }
+  // TODO: Add Filtering based in settings
+  function getLessonCards(deck: Deck, configParams: StudyConfigQueryParams): LessonCard[] {
+    const cards =
+      configParams.studyType === 'review'
+        ? spacedRepetition.gatherStudyCards(deck, numCards)
+        : _sortCardsByRule(deck.cards, configParams.order ?? 'random').slice(0, numCards);
 
-    const cards = spacedRepetition.gatherStudyCards(deck, numCards);
     return cards.map((card) => createNewLessonCard(card, deck, 1));
+  }
+
+  function _sortCardsByRule(cards: Card[], sortRule: SortRule): Card[] {
+    switch (sortRule) {
+      case 'sequential':
+        return cards.sort(); // natural ordering
+
+      case 'last created':
+        return cards.sort((a, b) => compare(b.dateCreated, a.dateCreated)); // descending
+
+      case 'last updated':
+        return cards.sort((a, b) => compare(b.dateUpdated, a.dateUpdated)); // descending
+
+      case 'last studied':
+        return cards.sort((a, b) => compare(b.dateTouched, a.dateTouched)); // descending
+
+      case 'random':
+        return shuffle(cards);
+    }
   }
 }
