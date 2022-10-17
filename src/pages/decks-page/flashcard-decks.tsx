@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
@@ -6,7 +6,6 @@ import { DropDown } from '@/components/drop-down/drop-down';
 import { noop } from '@/helpers/func';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { createNewDeck, Deck } from '@/models/deck';
-import { StudyConfigPopup } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { paths } from '@/routing/paths';
 import {
   AllSortRules,
@@ -29,8 +28,6 @@ export const FlashcardDecksPage = () => {
   // sort rule & the deck with the sort rule applied
   const [sortOption, setSortOption] = useRecoilState(userDecksSortRuleState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
-
-  const [deckStudySelection, setDeckStudySelection] = useState<Deck>();
 
   // fetch flashcard decks on load
   useEffect(() => {
@@ -66,14 +63,6 @@ export const FlashcardDecksPage = () => {
           <label>page 1 of 1</label>
         </div>
       </div>
-
-      {deckStudySelection && (
-        <StudyConfigPopup
-          deck={deckStudySelection}
-          showPopup={!!deckStudySelection}
-          onClose={() => setDeckStudySelection(undefined)}
-        />
-      )}
     </>
   );
 
@@ -82,10 +71,14 @@ export const FlashcardDecksPage = () => {
       <DeckCover
         key={deck.metaData.id}
         deck={deck}
-        onStudyClick={() => setDeckStudySelection(deck)}
+        onStudyClick={() => handleStudyClick(deck.metaData.id)}
         onViewClick={() => handleViewClick(deck.metaData.id)}
       />
     ));
+  }
+
+  function handleStudyClick(id: number) {
+    navigate(`${paths.study}/${id}`);
   }
 
   function handleViewClick(id: number) {

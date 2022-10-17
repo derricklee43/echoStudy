@@ -18,12 +18,13 @@ import { AllSortRules, SortRule } from '@/state/user-decks';
 import './study-config-popup.scss';
 
 interface StudyConfigPopupProps {
+  studyConfig?: StudyConfiguration; // optionally prefill initial values
   deck: Deck;
   showPopup: boolean;
-  onClose: () => void;
+  onClose: (studyConfig: StudyConfiguration) => void;
 }
 
-export interface StudyConfigQueryParams {
+export interface StudyConfiguration {
   studyType: StudyType;
   order: SortRule;
   maxCards: number;
@@ -35,19 +36,31 @@ const studyTypeOptions: RadioButtonOption<StudyType, string>[] = [
   { id: 'review', value: 'review cards' },
 ];
 
-export const StudyConfigPopup = ({ deck, showPopup, onClose }: StudyConfigPopupProps) => {
+export const StudyConfigPopup = ({
+  studyConfig,
+  deck,
+  showPopup,
+  onClose,
+}: StudyConfigPopupProps) => {
   const numCards = deck.metaData.cardIds.length;
+  const _initialMaxCards = Math.min(studyConfig?.maxCards ?? 5, numCards);
   const percentStudied = 57; // TODO study percent
 
-  const [studyType, setStudyType] = useState<StudyType>('new-cards');
-  const [orderOption, setOrderOption] = useState<SortRule>('last created');
-  const [maxCardsValue, setMaxCardsValue] = useState<number | ''>(Math.min(5, numCards));
+  const [studyType, setStudyType] = useState<StudyType>(studyConfig?.studyType ?? 'new-cards');
+  const [orderOption, setOrderOption] = useState<SortRule>(studyConfig?.order ?? 'last created');
+  const [maxCardsValue, setMaxCardsValue] = useState<number | ''>(_initialMaxCards);
   const [maxCardsError, setMaxCardsError] = useState<string>();
 
   const navigate = useNavigate();
 
   return (
-    <PopupModal headerLabel={deck.metaData.title} showTrigger={showPopup} onClose={onClose}>
+    <PopupModal
+      headerLabel={deck.metaData.title}
+      showTrigger={showPopup}
+      onClose={handlePopupClose}
+      escapeFiresOnClose={false}
+      outsideClickFiresOnClose={false}
+    >
       <div className="study-config-popup-content">
         <div className="scp-stats">
           <div>
@@ -131,7 +144,7 @@ export const StudyConfigPopup = ({ deck, showPopup, onClose }: StudyConfigPopupP
     }
 
     const deckId = deck.metaData.id;
-    const params: Partial<Record<keyof StudyConfigQueryParams, string>> = {
+    const params: Partial<Record<keyof StudyConfiguration, string>> = {
       studyType: studyType,
       ...(studyType !== 'review' && { order: orderOption }),
       maxCards: isNumber(maxCardsValue) ? maxCardsValue.toString() : '1',
@@ -140,6 +153,14 @@ export const StudyConfigPopup = ({ deck, showPopup, onClose }: StudyConfigPopupP
     navigate({
       pathname: `${paths.study}/${deckId}`,
       search: `?${createSearchParams(params)}`,
+    });
+  }
+
+  function handlePopupClose() {
+    onClose({
+      studyType: studyType,
+      order: orderOption,
+      maxCards: isNumber(maxCardsValue) ? maxCardsValue : 1,
     });
   }
 

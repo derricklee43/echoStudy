@@ -34,8 +34,6 @@ const AsyncProfilePage = () => {
   const pfpUrl = accountClient.getProfilePictureUrl(userData?.email ?? '');
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
 
-  const [deckStudySelection, setDeckStudySelection] = useState<Deck>();
-
   // fetch flashcard decks on load
   useEffect(() => {
     fetchDecksAndRefresh();
@@ -74,14 +72,6 @@ const AsyncProfilePage = () => {
           )}
         </BubbleDivider>
       </div>
-
-      {deckStudySelection && (
-        <StudyConfigPopup
-          deck={deckStudySelection}
-          showPopup={!!deckStudySelection}
-          onClose={() => setDeckStudySelection(undefined)}
-        />
-      )}
     </>
   );
 
@@ -92,7 +82,7 @@ const AsyncProfilePage = () => {
         <DeckCover
           key={deckId}
           deck={deck}
-          onStudyClick={() => setDeckStudySelection(deck)}
+          onStudyClick={() => navigate(`${paths.study}/${deckId}`)}
           onViewClick={() => navigate(`${paths.deck}/${deckId}`)}
         />
       );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UpToggle } from '@/animations/up-toggle';
 import { CardStackIcon } from '@/assets/icons/card-stack-icon/card-stack-icon';
 import { ClockIcon } from '@/assets/icons/clock-icon/clock-icon';
@@ -14,6 +14,7 @@ import { usePrompt } from '@/hooks/use-prompt';
 import { MAX_SCORE } from '@/hooks/use-spaced-repetition';
 import { Deck } from '@/models/deck';
 import { LessonCard } from '@/models/lesson-card';
+import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { paths } from '@/routing/paths';
 import { StudyResultCards } from './study-result-cards/study-result-cards';
 import './study-results-page.scss';
@@ -21,6 +22,7 @@ import './study-results-page.scss';
 interface StudyResultsPageProps {
   deck: Deck;
   lessonCards: LessonCard[];
+  studyConfig: StudyConfiguration;
   onLessonCardsChange: (lessonCards: LessonCard[]) => void;
   lessonTime: number;
 }
@@ -28,12 +30,12 @@ interface StudyResultsPageProps {
 export const StudyResultsPage = ({
   deck,
   lessonCards,
+  studyConfig,
   lessonTime,
   onLessonCardsChange,
 }: StudyResultsPageProps) => {
   const cardsClient = useCardsClient();
   const navigate = useNavigate();
-  const { search: queryParams } = useLocation();
 
   // block navigation if finish isn't clicked; otherwise, redirect back to the deck
   const [areResultsApplied, setAreResultsApplied] = useState(false); // all done?
@@ -71,7 +73,7 @@ export const StudyResultsPage = ({
       <div className="study-results-page-nav-buttons">
         <Button
           size="medium"
-          onClick={() => navigate(`${paths.study}/${deck.metaData.id}${queryParams}`)}
+          onClick={() => navigate(`${paths.study}/${deck.metaData.id}`, { state: studyConfig })}
         >
           study again
         </Button>

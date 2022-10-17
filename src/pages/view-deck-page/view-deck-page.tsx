@@ -19,15 +19,13 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
   const { playLazyAudio } = useLazyAudioPlayer();
   const navigate = useNavigate();
 
-  const [showStudyConfigPopup, setShowStudyConfigPopup] = useState(false);
-
   return (
     <>
       <Fade className="view-deck-page">
         <div className="view-deck-header">
           <PageHeader label={deck.metaData.title} />
           <div>
-            <Button onClick={() => setShowStudyConfigPopup(true)} size="medium">
+            <Button onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)} size="medium">
               study
             </Button>
             <Button onClick={() => navigate(`${paths.editDeck}/${deck.metaData.id}`)} size="medium">
@@ -45,12 +43,6 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
           <div className="empty-card-set-placeholder">you currently have no cards in this deck</div>
         )}
       </Fade>
-
-      <StudyConfigPopup
-        deck={deck}
-        showPopup={showStudyConfigPopup}
-        onClose={() => setShowStudyConfigPopup(false)}
-      />
     </>
   );
 

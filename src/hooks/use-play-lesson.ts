@@ -3,23 +3,23 @@ import { compare, shuffle } from '@/helpers/sort';
 import { Card } from '@/models/card';
 import { Deck } from '@/models/deck';
 import { createNewLessonCard, LessonCard } from '@/models/lesson-card';
-import { StudyConfigQueryParams } from '@/pages/_shared/study-config-popup/study-config-popup';
+import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { SortRule } from '@/state/user-decks';
 import { usePlayCardAudio } from './use-play-card-audio';
 import { useSpacedRepetition } from './use-spaced-repetition';
 
 interface UsePlayLessonSettings {
   deck: Deck;
-  configParams: StudyConfigQueryParams;
+  studyConfig: StudyConfiguration;
 }
 
-export function usePlayLesson({ deck, configParams }: UsePlayLessonSettings) {
-  const _maxCards = configParams.maxCards ?? 5;
+export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
+  const _maxCards = studyConfig.maxCards ?? 5;
   const numCards = Math.min(_maxCards, deck.cards.length);
 
   const spacedRepetition = useMemo(() => useSpacedRepetition(), []);
 
-  const [firstCard, ...restCards] = getLessonCards(deck, configParams);
+  const [firstCard, ...restCards] = getLessonCards(deck, studyConfig);
   const [currentCard, setCurrentCard] = useState<LessonCard>(firstCard);
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
@@ -145,11 +145,11 @@ export function usePlayLesson({ deck, configParams }: UsePlayLessonSettings) {
   }
 
   // TODO: Add Filtering based in settings
-  function getLessonCards(deck: Deck, configParams: StudyConfigQueryParams): LessonCard[] {
+  function getLessonCards(deck: Deck, studyConfig: StudyConfiguration): LessonCard[] {
     const cards =
-      configParams.studyType === 'review'
+      studyConfig.studyType === 'review'
         ? spacedRepetition.gatherStudyCards(deck, numCards)
-        : _sortCardsByRule(deck.cards, configParams.order ?? 'random').slice(0, numCards);
+        : _sortCardsByRule(deck.cards, studyConfig.order ?? 'random').slice(0, numCards);
 
     return cards.map((card) => createNewLessonCard(card, deck, 1));
   }
