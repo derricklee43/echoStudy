@@ -8,10 +8,30 @@ $flashcard-index-container-width: 45px;
   color: $white;
   .view-deck-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    button:first-child {
-      margin-right: 15px;
+    // gap: 16px;
+
+    // <= screen size
+    @media screen and (max-width: $sm-md-screen) {
+      position: relative;
+      padding: 8px 0px;
+
+      .action-button-group {
+        position: absolute;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    // > screen size
+    @media screen and (min-width: calc($sm-md-screen + 1px)) {
+      align-items: center;
+
+      button:nth-child(odd) {
+        margin-right: 16px;
+      }
     }
   }
   .view-deck-divider {
