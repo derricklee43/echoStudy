@@ -111,6 +111,11 @@ $z-popup-modal: 1024;
   }
 }
 
+@mixin deck-cover-wrapping-grid {
+  // 325px deck cover width + 10px deck cover margin
+  @include wrapping-grid(335px, 32px, 20px);
+}
+
 @mixin outlined-tile($width, $height) {
   @include standard-transition;
   @include hover-pointer;

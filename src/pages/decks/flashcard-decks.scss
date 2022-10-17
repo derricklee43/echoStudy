@@ -35,8 +35,7 @@
 
   .deck-tile-container {
     @include webkit-scrollbar;
-    // 325px deck cover width + 10px deck cover margin
-    @include wrapping-grid(335px, 32px, 20px);
+    @include deck-cover-wrapping-grid;
 
     // ideally should have no more than 9-12 decks/pg to avoid overflow
     overflow-x: hidden;

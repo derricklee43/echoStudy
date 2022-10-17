@@ -1,13 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { DeckTile } from '@/components/deck-tile/deck-tile';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { UserTile } from '@/components/user-tile/user-tile';
 import { useSearchCategories } from '@/hooks/use-search-categories';
+import { paths } from '@/routing/paths';
 import './search-page.scss';
 
 export const SearchPage = () => {
+  const navigate = useNavigate();
   const {
     searchValue,
     searchCategory,
@@ -46,7 +50,10 @@ export const SearchPage = () => {
     if (searchResults.length === 0) {
       return getNoResultsMessage();
     }
-    return searchCategory.id === 'users' ? getUserTiles() : getDeckTiles(searchCategory.id);
+    if (searchCategory.id === 'users') {
+      return getUserTiles();
+    }
+    return searchCategory.id === 'my decks' ? getMyDeckCovers() : getPublicDeckTiles();
   }
 
   function getLoadingIcon() {
@@ -77,14 +84,32 @@ export const SearchPage = () => {
     return <div className="search-page-user-tiles">{userTiles}</div>;
   }
 
-  function getDeckTiles(category: 'my decks' | 'public decks') {
-    const decks = categorySearchResults[category];
+  function getMyDeckCovers() {
+    const decks = categorySearchResults['my decks'];
     if (decks === undefined) {
       return;
     }
-    const showAuthor = category === 'public decks';
+    const deckCovers = decks.map((deck) => {
+      const deckId = deck.metaData.id;
+      return (
+        <DeckCover
+          key={deckId}
+          deck={deck}
+          onStudyClick={() => navigate(`${paths.study}/${deckId}`)}
+          onViewClick={() => navigate(`${paths.deck}/${deckId}`)}
+        />
+      );
+    });
+    return <div className="search-page-deck-covers">{deckCovers}</div>;
+  }
+
+  function getPublicDeckTiles() {
+    const decks = categorySearchResults['public decks'];
+    if (decks === undefined) {
+      return;
+    }
+
     const deckTiles = decks.map((deck) => {
-      const author = showAuthor ? deck.metaData.ownerId : undefined; // TODO: Ask Mason or Jon to add the author email and replace
       const id = deck.metaData.id.toString();
       return (
         <DeckTile
@@ -92,11 +117,11 @@ export const SearchPage = () => {
           title={deck.metaData.title}
           description={deck.metaData.desc}
           numCards={deck.cards.length}
-          onClick={() => navigateToResult(category, id)}
-          author={author}
+          onClick={() => navigateToResult('public decks', id)}
+          author={deck.metaData.ownerId} // TODO: Ask Mason or Jon to add the author email and replace
         />
       );
     });
-    return <div className="search-page-deck-tiles">{deckTiles}</div>;
+    return <div className="search-page-public-deck-tiles">{deckTiles}</div>;
   }
 };

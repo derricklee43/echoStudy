@@ -13,8 +13,12 @@
   @include wrapping-grid(250px, 32px, 20px);
 }
 
-.search-page-deck-tiles {
+.search-page-public-deck-tiles {
   @include wrapping-grid(350px, 32px, 20px);
+}
+
+.search-page-deck-covers {
+  @include deck-cover-wrapping-grid;
 }
 
 .search-page-no-results-message {
