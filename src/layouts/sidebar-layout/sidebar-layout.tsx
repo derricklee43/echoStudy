@@ -4,6 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { Header } from '@/components/header/header';
 import { Sidebar } from '@/components/sidebar/sidebar';
 import { throttle } from '@/helpers/func';
+import { useEscapePress } from '@/hooks/use-key-press';
 import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
 import { navToggledState } from '@/state/nav';
 import './sidebar-layout.scss';
@@ -11,6 +12,8 @@ import './sidebar-layout.scss';
 export const SidebarLayout = () => {
   const authJwt = useRecoilValue(authJwtState);
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
+
+  useEscapePress(() => setNavToggled(false), navToggled);
 
   const isSignedIn = isAuthJwt(authJwt);
   const signedInClass = isSignedIn ? 'signed-in' : '';
@@ -41,10 +44,17 @@ export const SidebarLayout = () => {
       />
       {isSignedIn && <Sidebar className="sidebar-layout-sidebar" />}
       <div className={`sidebar-layout-page-wrap ${signedInClass}`}>
-        <div className="sidebar-layout-content">
+        <div className="sidebar-layout-content" onClick={untoggleNavIfOpen}>
           <Outlet />
         </div>
       </div>
     </>
   );
+
+  function untoggleNavIfOpen() {
+    if (!navToggled) {
+      return;
+    }
+    setNavToggled(false);
+  }
 };

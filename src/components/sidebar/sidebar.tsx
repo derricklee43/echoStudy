@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { SIDEBAR_ROUTE_ITEMS } from '@/routing/sidebar-routes';
@@ -9,11 +9,11 @@ interface SidebarProps {
   className?: string;
 }
 
-export const Sidebar = ({ className = '' }: SidebarProps) => {
+const ForwardedSidebar = ({ className = '' }: SidebarProps, ref: ForwardedRef<HTMLDivElement>) => {
   const navToggled = useRecoilValue(navToggledState);
 
   return (
-    <div className={`c-sidebar ${navToggled ? 'nav-toggled' : ''} ${className}`}>
+    <div ref={ref} className={`c-sidebar ${navToggled ? 'nav-toggled' : ''} ${className}`}>
       <ul className="c-sidebar-items">
         {SIDEBAR_ROUTE_ITEMS.map((item) => (
           <NavLink
@@ -28,3 +28,5 @@ export const Sidebar = ({ className = '' }: SidebarProps) => {
     </div>
   );
 };
+
+export const Sidebar = forwardRef(ForwardedSidebar);

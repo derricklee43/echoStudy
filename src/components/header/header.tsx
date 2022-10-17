@@ -31,8 +31,6 @@ export const Header = ({
   showHamburgerToggle = false,
 }: HeaderProps) => {
   const authJwt = useRecoilValue(authJwtState);
-  const decks = useRecoilValue(userDecksSortedState);
-
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
 
   const accountClient = useAccountClient();
