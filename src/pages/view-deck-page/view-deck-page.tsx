@@ -22,6 +22,7 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
     <Fade className="view-deck-page">
       <div className="view-deck-header">
         <PageHeader label={deck.metaData.title} />
+        <p className="view-deck-deck-description">{deck.metaData.desc}</p>
         <div className="action-button-group">
           <Button onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)} size="medium">
             study
@@ -31,7 +32,6 @@ export const ViewDeckPage = ({ deck }: ViewDeckPageProps) => {
           </Button>
         </div>
       </div>
-      <p className="view-deck-deck-description">{deck.metaData.desc}</p>
       <div>{`${deck.cards.length} cards`}</div>
       <div>{`created ${getFormattedDate(deck.metaData.dateCreated)}`}</div>
       <hr className="view-deck-divider" />
