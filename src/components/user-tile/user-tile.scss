@@ -1,7 +1,7 @@
 @import '@/assets/styles';
 @import '@/assets/colors';
 
-.user-tile {
+.user-tile.user-tile-button {
   @include outlined-tile(250px, 175px);
   display: inline-flex;
   align-items: center;

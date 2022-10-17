@@ -13,7 +13,7 @@ export const UserTile = ({ user, onClick }: UserTileProps) => {
   const userName = user.username;
   const numDecks = user.publicDecks.length;
   return (
-    <Button className="user-tile" onClick={() => onClick?.()} variant="invisible">
+    <Button className="user-tile user-tile-button" onClick={() => onClick?.()} variant="invisible">
       <ProfilePicture username={user.username} showGlow={false} className="user-tile-profile-pic" />
       <div className="user-tile-username">{userName}</div>
       <div className="user-tile-num-decks">{numDecks} decks</div>
