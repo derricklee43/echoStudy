@@ -27,6 +27,7 @@ $height: 15px;
         background-color: #4c4c57;
       }
 
+      &.dark,
       &.gradient {
         background-color: #a6a6a6;
       }
@@ -37,6 +38,10 @@ $height: 15px;
       height: 8px;
       border-radius: 10px;
       background: $white;
+
+      &.dark {
+        background-color: #4c4c57;
+      }
 
       &.gradient {
         background: $blue-gradient;

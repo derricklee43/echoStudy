@@ -15,6 +15,7 @@ export const testEnglishDeck = (id: number): Deck => {
     frontLang: 'English',
     backLang: 'English',
     ownerId: 'test-id',
+    cardIds: [],
     ...mockDates,
   };
   return { metaData, cards: [] };
@@ -29,6 +30,7 @@ export const testJapaneseVerbsDeck = (id: number): Deck => {
     frontLang: 'English',
     backLang: 'English',
     ownerId: 'test-id',
+    cardIds: [],
     ...mockDates,
   };
   return { metaData, cards: [] };
@@ -43,6 +45,7 @@ export const testNPTEPartNumberDeck = (id: number, partNumber: number): Deck => 
     frontLang: 'English',
     backLang: 'English',
     ownerId: 'test-id',
+    cardIds: [],
     ...mockDates,
   };
   return { metaData, cards: [] };

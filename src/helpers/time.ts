@@ -29,14 +29,26 @@ export function asUtcDate(dateString: string): Date {
 }
 
 /**
- * @returns returns the date formatted as MM/DD/YYYY
+ * @options `withTimeString` appends: HH:MM AM/PM ZONE
+ * @returns the date formatted as: MM/DD/YYYY (plus any options)
  */
-export function getFormattedDate(date: Date) {
-  return date.toLocaleDateString('en-US', {
+export function getFormattedDate(date: Date, options?: { withTimeString?: boolean }) {
+  let dateString = date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
   });
+
+  if (options?.withTimeString) {
+    const timeString = date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    });
+    dateString = `${dateString} — ${timeString}`;
+  }
+
+  return dateString;
 }
 
 /**

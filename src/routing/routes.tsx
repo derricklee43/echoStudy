@@ -6,7 +6,7 @@ import { AuthorizedRouteLayout } from '@/layouts/authorized-route-layout/authori
 import { FullscreenLayout } from '@/layouts/full-screen-layout/full-screen-layout';
 import { SidebarLayout } from '@/layouts/sidebar-layout/sidebar-layout';
 import { Deck } from '@/models/deck';
-import { FlashcardDecksPage } from '@/pages/decks/flashcard-decks';
+import { FlashcardDecksPage } from '@/pages/decks-page/flashcard-decks';
 import { EditDeckPage } from '@/pages/edit-deck-page/edit-deck-page';
 import { LandingPage } from '@/pages/landing-page/landing-page';
 import { NotFoundPage } from '@/pages/not-found-page/not-found-page';

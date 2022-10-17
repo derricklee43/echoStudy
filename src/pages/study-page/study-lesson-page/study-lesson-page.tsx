@@ -7,25 +7,22 @@ import { AudioControlBar } from '@/components/audio-control-bar/audio-control-ba
 import { PageHeader } from '@/components/page-header/page-header';
 import { ProgressBar } from '@/components/progress-bar/progress-bar';
 import { StudyFlashcard } from '@/components/study-flashcard/study-flashcard';
-import { noop } from '@/helpers/func';
 import { useIsFirstRender } from '@/hooks/use-is-first-render';
 import { usePlayLesson } from '@/hooks/use-play-lesson';
 import { useStopWatch } from '@/hooks/use-stop-watch';
 import { Deck } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
 import { LessonCard, LessonCardOutcome } from '@/models/lesson-card';
+import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
 import './study-lesson-page.scss';
 
 interface StudyPageLessonProps {
   deck: Deck;
+  studyConfig: StudyConfiguration;
   onLessonComplete: (lessonCards: LessonCard[], lessonTime: number) => void;
 }
 
-export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps) => {
-  // TODO: we will want to make this configurable or just pull in all past due cards
-  // making this the min of (# of cards, 5) for demo purposes
-  const numCards = Math.min(deck.cards.length, 5);
-
+export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPageLessonProps) => {
   const isFirstRender = useIsFirstRender();
   const [isPaused, setIsPaused] = useState(true);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
@@ -41,9 +38,10 @@ export const StudyLessonPage = ({ deck, onLessonComplete }: StudyPageLessonProps
     replay,
   } = usePlayLesson({
     deck,
-    lessonType: 'studyNew',
-    numCards,
+    studyConfig,
   });
+
+  const numCards = Math.min(studyConfig.maxCards ?? 5, deck.cards.length); // coerce to <= deck length
   const percentComplete = (completedCards.length / numCards) * 100;
 
   useEffect(() => {

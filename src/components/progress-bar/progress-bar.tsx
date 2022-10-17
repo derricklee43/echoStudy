@@ -8,7 +8,7 @@ interface ProgressBarProps {
   onAnimationComplete?: () => void;
   percent: number;
   label?: string;
-  variant: 'gradient' | 'white';
+  variant: 'gradient' | 'white' | 'dark';
 }
 
 export const ProgressBar = ({

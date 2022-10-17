@@ -12,6 +12,7 @@ export interface PopupModalProps {
   headerLabel?: React.ReactNode;
   showTrigger: boolean;
   outsideClickFiresOnClose?: boolean;
+  escapeFiresOnClose?: boolean;
   onClose: () => void;
 }
 
@@ -20,6 +21,7 @@ export const PopupModal = ({
   headerLabel = '',
   showTrigger,
   outsideClickFiresOnClose = false,
+  escapeFiresOnClose = true,
   onClose,
 }: PopupModalProps) => {
   // handle clicking outside modal if `outsideClickFiresOnClose` is enabled
@@ -28,7 +30,7 @@ export const PopupModal = ({
   useOutsideClick(contentRef, () => onClose(), showTrigger && outsideClickFiresOnClose);
   useFocusTrap(contentRef, showTrigger); // trap accessibility controls (i.e. tabbing) in the content
   useFocusFirst(contentRef, showTrigger); // accessibility: auto-focus the first focusable element (if any)
-  useEscapePress(() => onClose(), showTrigger);
+  useEscapePress(() => onClose(), showTrigger && escapeFiresOnClose);
 
   // render onto <div id="portal"></div> instead of in parent hierarchy but still propagate events
   return ReactDOM.createPortal(
