@@ -21,7 +21,7 @@ export const PublicProfilePage = () => {
   }, [username]);
 
   if (publicUser === undefined) {
-    return <LoadingPage />;
+    return <LoadingPage label="loading user..." />;
   }
 
   const decks = publicUser.publicDecks;
