@@ -1,8 +1,10 @@
+import { asUtcDate } from '@/helpers/time';
 import { Card } from './card';
 import { DeckLanguage } from './language';
 
 export type Access = 'Public' | 'Private';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface DeckMetaData {
   id: number;
   title: string;
@@ -19,6 +21,36 @@ export interface DeckMetaData {
 export interface Deck {
   metaData: DeckMetaData;
   cards: Card[]; // not populated until individual cards fetched and put onto this object
+}
+
+export function deckToJson(deck: Deck) {
+  return {
+    title: deck.metaData.title,
+    description: deck.metaData.desc,
+    access: 'Public',
+    default_flang: deck.metaData.frontLang,
+    default_blang: deck.metaData.backLang,
+    userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0', // Todo: replace with id/token
+  };
+}
+
+export function JsonToDeck(obj: any): Deck {
+  return {
+    metaData: {
+      id: obj['id'],
+      title: obj['title'],
+      desc: obj['description'],
+      access: obj['access'],
+      frontLang: obj['default_flang'],
+      backLang: obj['default_blang'],
+      ownerId: obj['ownerId'],
+      dateCreated: asUtcDate(obj['date_created']),
+      dateUpdated: asUtcDate(obj['date_updated']),
+      dateTouched: asUtcDate(obj['date_touched']),
+      cardIds: obj['cards'],
+    },
+    cards: [],
+  };
 }
 
 export function createNewDeck(): Deck {

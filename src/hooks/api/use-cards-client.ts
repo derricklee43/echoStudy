@@ -1,8 +1,6 @@
 import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
-import { asUtcDate } from '@/helpers/time';
 import { isDefined, isNumber } from '@/helpers/validator';
-import { Card, createNewCard } from '@/models/card';
-import { LazyAudio } from '@/models/lazy-audio';
+import { Card, cardToJson, JsonToCard } from '@/models/card';
 import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
@@ -117,38 +115,6 @@ export function useCardsClient() {
     const cardsToDelete = cards.map((card) => card.id).filter(isDefined);
     return fetchWrapper.post(`/Cards/Delete`, cardsToDelete);
   }
-}
-
-function cardToJson(card: Card, deckId?: number) {
-  return {
-    frontText: card.front.text,
-    backText: card.back.text,
-    frontLang: card.front.language,
-    backLang: card.back.language,
-    cardId: card.id, // required when updating cards
-    deckId,
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function JsonToCard(obj: any): Card {
-  const card = createNewCard();
-  card.id = obj['id'];
-  card.score = obj['score'];
-  card.dateCreated = asUtcDate(obj['date_created']);
-  card.dateUpdated = asUtcDate(obj['date_updated']);
-  card.dateTouched = asUtcDate(obj['date_touched']);
-  card.front = {
-    language: obj['flang'],
-    text: obj['ftext'],
-    audio: new LazyAudio(ensureHttps(obj['faud'])),
-  };
-  card.back = {
-    language: obj['blang'],
-    text: obj['btext'],
-    audio: new LazyAudio(ensureHttps(obj['baud'])),
-  };
-  return card;
 }
 
 function assertIdIsNumber(num: number | undefined) {

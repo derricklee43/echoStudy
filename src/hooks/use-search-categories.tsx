@@ -71,6 +71,9 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
     if (category === 'my decks') {
       navigate(`${paths.deck}/${id}`);
     }
+    if (category === 'users') {
+      navigate(`${paths.users}/${id}`);
+    }
     // TODO: Add navigation to user and public deck pages
   }
 

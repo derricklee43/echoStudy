@@ -1,0 +1,25 @@
+@import '@/assets/styles';
+@import '@/assets/colors';
+
+.pg-profile-page {
+  padding-bottom: 64px;
+
+  .profile-page-header {
+    @media screen and (max-width: $small-screen) {
+      padding: 0px 12px; // to offset page margin shrinking
+    }
+  }
+
+  .decks-container {
+    @include deck-tile-wrapping-grid;
+    margin: 0px;
+    padding-top: 8px;
+  }
+
+  .no-decks-message {
+    @include flex-center;
+    font-size: 20px;
+    color: $grey;
+    text-align: center;
+  }
+}
