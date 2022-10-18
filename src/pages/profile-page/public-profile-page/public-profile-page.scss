@@ -6,16 +6,12 @@
 
   .decks-container {
     @include deck-tile-wrapping-grid;
-    margin: 0px;
     padding-top: 8px;
-
-    @media screen and (max-width: $medium-screen) {
-      margin: 0px;
-    }
   }
 
   .no-decks-message {
     @include flex-center;
+    margin-top: 32px;
     font-size: 20px;
     color: $grey;
     text-align: center;
