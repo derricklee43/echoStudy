@@ -20,6 +20,6 @@ export const SIDEBAR_ROUTE_ITEMS: SidebarRouteItemProps[] = [
   },
   {
     name: 'my profile',
-    route: `${paths.profile}`,
+    route: paths.profile,
   },
 ];

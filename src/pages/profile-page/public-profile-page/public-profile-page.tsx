@@ -43,7 +43,7 @@ export const PublicProfilePage = () => {
           key={deckId}
           title={deck.metaData.title}
           description={deck.metaData.desc}
-          numCards={deck.cards.length} // TODO: replace with cards with cardIds
+          numCards={deck.metaData.cardIds.length}
         />
       );
     });
