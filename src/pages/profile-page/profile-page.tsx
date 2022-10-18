@@ -5,7 +5,6 @@ import { LoadingPage } from '@/components/loading-page/loading-page';
 import { userInfoStateAsync } from '@/state/auth-jwt';
 import { PersonalProfilePage } from './personal-profile-page/personal-profile-page';
 import { PublicProfilePage } from './public-profile-page/public-profile-page';
-import './profile-page.scss';
 
 export const ProfilePage = () => {
   return (

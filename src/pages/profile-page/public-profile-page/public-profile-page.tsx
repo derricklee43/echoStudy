@@ -26,13 +26,9 @@ export const PublicProfilePage = () => {
 
   const decks = publicUser.publicDecks;
   return (
-    <div className="pg-profile-page">
+    <div className="public-profile-page">
       <UserDetails username={publicUser.username ?? ''} yearJoined={2022} />
-      <BubbleDivider
-        className="decks-divider"
-        variantType="divider"
-        label={`public decks (${decks.length})`}
-      />
+      <BubbleDivider variantType="divider" label={`public decks (${decks.length})`} />
       {decks.length > 0 ? getDeckTiles(decks) : getNoDeckMessage()}
     </div>
   );

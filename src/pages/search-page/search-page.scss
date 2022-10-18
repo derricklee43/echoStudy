@@ -15,10 +15,6 @@
 
 .search-page-public-deck-tiles {
   @include deck-tile-wrapping-grid;
-
-  @media screen and (max-width: $medium-screen) {
-    margin: 0px;
-  }
 }
 
 .search-page-deck-covers {
