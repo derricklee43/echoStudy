@@ -116,7 +116,7 @@ export const SearchPage = () => {
           key={id}
           title={deck.metaData.title}
           description={deck.metaData.desc}
-          numCards={deck.cards.length}
+          numCards={deck.metaData.cardIds.length}
           onClick={() => navigateToResult('public decks', id)}
           author={deck.metaData.ownerId} // TODO: Ask Mason or Jon to add the author email and replace
         />
