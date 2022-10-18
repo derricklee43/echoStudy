@@ -14,9 +14,9 @@ export type SortRules = typeof AllSortRules;
 export type SortRule = SortRules[number];
 
 // mutable: raw user decks
-export const userDecksState = atom<Deck[]>({
+export const userDecksState = atom<Deck[] | undefined>({
   key: 'userDecksState',
-  default: [],
+  default: undefined,
 });
 
 // mutable: sort order
@@ -26,11 +26,15 @@ export const userDecksSortRuleState = atom<SortRule>({
 });
 
 // viewonly: user decks sorted by sort order (via `userDecksSortRule`)
-export const userDecksSortedState = selector<Deck[]>({
+export const userDecksSortedState = selector<Deck[] | undefined>({
   key: 'userDecksSortedState',
   get: ({ get }) => {
     const sortRule = get(userDecksSortRuleState); // readonly
     const getDecks = get(userDecksState); // readonly
+    if (getDecks === undefined) {
+      return undefined;
+    }
+
     const decks = [...getDecks];
 
     switch (sortRule) {

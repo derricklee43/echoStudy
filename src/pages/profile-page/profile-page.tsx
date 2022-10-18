@@ -8,7 +8,6 @@ import { PageHeader } from '@/components/page-header/page-header';
 import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { Deck } from '@/models/deck';
-import { StudyConfigPopup } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { paths } from '@/routing/paths';
 import { userInfoStateAsync } from '@/state/auth-jwt';
 import { userDecksSortedState, userDecksState } from '@/state/user-decks';
@@ -40,39 +39,37 @@ const AsyncProfilePage = () => {
   }, []);
 
   return (
-    <>
-      <div className="pg-profile-page">
-        <div className="profile-page-header">
-          <PageHeader label="my profile" />
-        </div>
-        <div className="user-details">
-          <div className="profile-picture-container">
-            <img className="profile-picture" src={pfpUrl} loading="lazy" />
-          </div>
-          <span className="username">{`@${userData?.username}`}</span>
-          <span className="full-name">{userData?.email.toLowerCase()}</span>
-          <span className="date-joined">member since 2022</span>
-        </div>
-        <BubbleDivider
-          className="decks-divider"
-          variantType="drop-down-reveal"
-          label={`private decks (${privateDecks.length})`}
-        >
-          {privateDecks.length > 0 && (
-            <div className="decks-container">{getDeckCovers(privateDecks)}</div>
-          )}
-        </BubbleDivider>
-        <BubbleDivider
-          className="decks-divider"
-          variantType="drop-down-reveal"
-          label={`public decks (${publicDecks.length})`}
-        >
-          {publicDecks.length > 0 && (
-            <div className="decks-container">{getDeckCovers(publicDecks)}</div>
-          )}
-        </BubbleDivider>
+    <div className="pg-profile-page">
+      <div className="profile-page-header">
+        <PageHeader label="my profile" />
       </div>
-    </>
+      <div className="user-details">
+        <div className="profile-picture-container">
+          <img className="profile-picture" src={pfpUrl} loading="lazy" />
+        </div>
+        <span className="username">{`@${userData?.username}`}</span>
+        <span className="full-name">{userData?.email.toLowerCase()}</span>
+        <span className="date-joined">member since 2022</span>
+      </div>
+      <BubbleDivider
+        className="decks-divider"
+        variantType="drop-down-reveal"
+        label={`private decks (${privateDecks.length})`}
+      >
+        {privateDecks.length > 0 && (
+          <div className="decks-container">{getDeckCovers(privateDecks)}</div>
+        )}
+      </BubbleDivider>
+      <BubbleDivider
+        className="decks-divider"
+        variantType="drop-down-reveal"
+        label={`public decks (${publicDecks.length})`}
+      >
+        {publicDecks.length > 0 && (
+          <div className="decks-container">{getDeckCovers(publicDecks)}</div>
+        )}
+      </BubbleDivider>
+    </div>
   );
 
   function getDeckCovers(decks: Deck[]) {

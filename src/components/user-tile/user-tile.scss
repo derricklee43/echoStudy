@@ -1,0 +1,35 @@
+@import '@/assets/styles';
+@import '@/assets/colors';
+
+.user-tile.user-tile-button {
+  @include outlined-tile(250px, 175px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &:hover,
+  &:focus {
+    .user-tile-username {
+      color: $white;
+    }
+    .user-tile-num-decks {
+      color: $light-blue;
+    }
+  }
+
+  .user-tile-profile-pic {
+    margin-bottom: 20px;
+  }
+
+  .user-tile-username {
+    @include standard-transition;
+    margin-bottom: 10px;
+    color: $light-blue;
+    font-size: 20px;
+  }
+
+  .user-tile-num-decks {
+    color: $grey;
+  }
+}

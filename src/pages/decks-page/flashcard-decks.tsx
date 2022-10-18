@@ -67,7 +67,8 @@ export const FlashcardDecksPage = () => {
   );
 
   function getDeckCovers() {
-    return sortedDecks.map((deck) => (
+    const decks = sortedDecks ?? [];
+    return decks.map((deck) => (
       <DeckCover
         key={deck.metaData.id}
         deck={deck}

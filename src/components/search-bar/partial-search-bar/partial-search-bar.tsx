@@ -16,6 +16,7 @@ export interface SearchBarProps {
   disabled?: boolean;
   searchResults?: DropDownOption<string, ReactNode>[];
   debounceMs?: number;
+  className?: string;
   areResultsLoading?: boolean;
   onEnterPressed?: (value: string) => void;
   onDebouncedChange?: (value: string) => void;
@@ -30,6 +31,7 @@ export interface PartialSearchBarProps extends SearchBarProps {
 }
 
 export const PartialSearchBar = ({
+  className = '',
   leftChild,
   searchValue,
   shouldShowResults,
@@ -56,7 +58,7 @@ export const PartialSearchBar = ({
   useEscapePress(() => onShouldShowResultsChange(false), shouldShowSearchResults());
 
   return (
-    <div className="c-search-bar-wrapper" ref={wrapperDivRef}>
+    <div className={`c-search-bar-wrapper ${className}`} ref={wrapperDivRef}>
       <div className="c-search-bar-content">
         <div className="left-child"> {leftChild}</div>
         <input
