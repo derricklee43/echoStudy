@@ -14,10 +14,11 @@ export interface DeckMetaData {
   dateCreated: Date;
   dateUpdated: Date;
   dateTouched: Date;
+  cardIds: number[];
 }
 export interface Deck {
   metaData: DeckMetaData;
-  cards: Card[];
+  cards: Card[]; // not populated until individual cards fetched and put onto this object
 }
 
 export function createNewDeck(): Deck {
@@ -32,6 +33,7 @@ export function createNewDeck(): Deck {
     dateCreated: new Date(),
     dateUpdated: new Date(),
     dateTouched: new Date(),
+    cardIds: [],
   };
   return { cards: [], metaData };
 }

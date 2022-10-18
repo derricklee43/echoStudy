@@ -73,7 +73,6 @@ export const SignInPage = () => {
     // simple client side verifications
     {
       const newFormError: SignInFormError = {};
-      console.log(email.length, password.length);
       if (email.length === 0) {
         newFormError.email ??= 'Email should not be empty.';
       }

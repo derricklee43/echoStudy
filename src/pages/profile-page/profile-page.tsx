@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
@@ -8,6 +8,7 @@ import { PageHeader } from '@/components/page-header/page-header';
 import { ProfilePicture } from '@/components/profile-picture/profile-picture';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { Deck } from '@/models/deck';
+import { StudyConfigPopup } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { paths } from '@/routing/paths';
 import { userInfoStateAsync } from '@/state/auth-jwt';
 import { userDecksSortedState, userDecksState } from '@/state/user-decks';
@@ -47,24 +48,6 @@ const AsyncProfilePage = () => {
         <span className="full-name">{userData?.email.toLowerCase()}</span>
         <span className="date-joined">member since 2022</span>
       </div>
-      <BubbleDivider
-        className="decks-divider"
-        variantType="drop-down-reveal"
-        label={`private decks (${privateDecks.length})`}
-      >
-        {privateDecks.length > 0 && (
-          <div className="decks-container">{getDeckCovers(privateDecks)}</div>
-        )}
-      </BubbleDivider>
-      <BubbleDivider
-        className="decks-divider"
-        variantType="drop-down-reveal"
-        label={`public decks (${publicDecks.length})`}
-      >
-        {publicDecks.length > 0 && (
-          <div className="decks-container">{getDeckCovers(publicDecks)}</div>
-        )}
-      </BubbleDivider>
     </div>
   );
 

@@ -136,6 +136,7 @@ function JsonToDeck(obj: any): Deck {
       dateCreated: asUtcDate(obj['date_created']),
       dateUpdated: asUtcDate(obj['date_updated']),
       dateTouched: asUtcDate(obj['date_touched']),
+      cardIds: obj['cards'],
     },
     cards: [],
   };

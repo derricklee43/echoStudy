@@ -14,6 +14,7 @@ import { usePrompt } from '@/hooks/use-prompt';
 import { MAX_SCORE } from '@/hooks/use-spaced-repetition';
 import { Deck } from '@/models/deck';
 import { LessonCard } from '@/models/lesson-card';
+import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { paths } from '@/routing/paths';
 import { StudyResultCards } from './study-result-cards/study-result-cards';
 import './study-results-page.scss';
@@ -21,6 +22,7 @@ import './study-results-page.scss';
 interface StudyResultsPageProps {
   deck: Deck;
   lessonCards: LessonCard[];
+  studyConfig: StudyConfiguration;
   onLessonCardsChange: (lessonCards: LessonCard[]) => void;
   lessonTime: number;
 }
@@ -28,6 +30,7 @@ interface StudyResultsPageProps {
 export const StudyResultsPage = ({
   deck,
   lessonCards,
+  studyConfig,
   lessonTime,
   onLessonCardsChange,
 }: StudyResultsPageProps) => {
@@ -68,7 +71,10 @@ export const StudyResultsPage = ({
   function getNavButtons() {
     return (
       <div className="study-results-page-nav-buttons">
-        <Button size="medium" onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)}>
+        <Button
+          size="medium"
+          onClick={() => navigate(`${paths.study}/${deck.metaData.id}`, { state: studyConfig })}
+        >
           study again
         </Button>
         <Button size="medium" disabled={isUpdating} onClick={handleFinishClick}>
