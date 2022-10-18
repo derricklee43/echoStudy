@@ -5,8 +5,10 @@
   padding-bottom: 64px;
 
   .profile-page-header {
+    padding-bottom: 12px;
+
     @media screen and (max-width: $small-screen) {
-      padding: 0px 12px; // to offset page margin shrinking
+      padding: 4px 12px 20px 12px; // offset to account for content padding shrinking
     }
   }
 

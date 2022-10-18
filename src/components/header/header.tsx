@@ -5,7 +5,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { Button } from '@/components/button/button';
-import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useSearchCategories } from '@/hooks/use-search-categories';
@@ -29,7 +28,6 @@ export const Header = ({
   showHamburgerToggle = false,
 }: HeaderProps) => {
   const authJwt = useRecoilValue(authJwtState);
-
   const [navToggled, setNavToggled] = useRecoilState(navToggledState);
 
   const accountClient = useAccountClient();
