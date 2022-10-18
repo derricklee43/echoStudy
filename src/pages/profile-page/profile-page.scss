@@ -19,27 +19,6 @@
     padding-bottom: 16px;
     isolation: isolate;
 
-    .profile-picture-container {
-      position: relative;
-      width: auto;
-      height: auto;
-
-      .profile-picture {
-        border-radius: 50%;
-      }
-
-      &::after {
-        @include infinite-pulse(3s);
-        content: '';
-        position: absolute;
-        inset: 2px;
-        border-radius: 50%;
-        background: $blue-gradient;
-        filter: blur(1em);
-        z-index: -1;
-      }
-    }
-
     span {
       font-size: 18px;
 
@@ -63,13 +42,7 @@
     padding: 32px 0px;
 
     .decks-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
-      justify-items: center;
-      grid-auto-rows: max-content;
-      column-gap: 16px;
-      row-gap: 16px;
-
+      @include deck-cover-wrapping-grid;
       padding-top: 8px;
 
       // we may want to limit the height since we don't have pagination

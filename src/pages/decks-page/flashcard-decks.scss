@@ -35,22 +35,7 @@
 
   .deck-tile-container {
     @include webkit-scrollbar;
-    display: grid;
-    // 325px deck cover width + 10px deck cover margin
-    grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
-    justify-items: center;
-    grid-auto-rows: max-content;
-    column-gap: 32px;
-    row-gap: 32px;
-    margin: 32px 0px;
-    width: 100%;
-    height: 100%;
-
-    @media screen and (max-width: $medium-screen) {
-      margin: 20px 0px;
-      column-gap: unset;
-      row-gap: 24px;
-    }
+    @include deck-cover-wrapping-grid;
 
     // ideally should have no more than 9-12 decks/pg to avoid overflow
     overflow-x: hidden;

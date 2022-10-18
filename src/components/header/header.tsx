@@ -5,15 +5,12 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
 import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-menu-icon';
 import { Button } from '@/components/button/button';
-import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useSearchCategories } from '@/hooks/use-search-categories';
-import { useSearchResultFilter } from '@/hooks/use-search-result-filter';
 import { paths } from '@/routing/paths';
 import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
 import { navToggledState } from '@/state/nav';
-import { userDecksSortedState } from '@/state/user-decks';
 import { WelcomeUser } from './welcome-user/welcome-user';
 import './header.scss';
 
@@ -38,10 +35,9 @@ export const Header = ({
 
   const {
     searchValue,
-    searchResults,
+    searchResultDropdownOptions,
     searchCategory,
     searchCategories,
-    isLoading,
     setSearchValue,
     setSearchCategory,
     navigateToResult,
@@ -73,12 +69,12 @@ export const Header = ({
                 searchValue={searchValue}
                 selectedCategory={searchCategory}
                 searchCategories={searchCategories}
-                searchResults={searchResults}
+                searchResults={searchResultDropdownOptions}
                 placeholder={placeholder}
-                areResultsLoading={isLoading}
+                areResultsLoading={searchResultDropdownOptions === undefined}
                 onSearchValueChange={setSearchValue}
                 onCategorySelect={setSearchCategory}
-                onSearchResultSelect={navigateToResult}
+                onSearchResultSelect={({ id }) => navigateToResult(searchCategory.id, id)}
               />
             </div>
           )}

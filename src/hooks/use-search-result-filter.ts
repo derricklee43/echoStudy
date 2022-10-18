@@ -1,16 +1,19 @@
 import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 
 export const useSearchResultFilter = (isCaseSensitive: boolean) => {
-  return { filterSearchResults };
+  return { filterDropdownOptions, stringArrayIncludesValue };
 
-  function filterSearchResults<T>(searchOptions: DropDownOption<T, string>[], searchValue: string) {
-    return searchOptions.filter(({ value }) => resultContainsValue(value, searchValue));
+  function filterDropdownOptions<T>(
+    searchValue: string,
+    searchOptions?: DropDownOption<T, string>[]
+  ) {
+    return searchOptions?.filter(({ value }) => stringArrayIncludesValue([value], searchValue));
   }
 
-  function resultContainsValue(result: string, searchValue: string) {
-    result = normalizeString(result);
+  function stringArrayIncludesValue(result: string[], searchValue: string) {
+    result = result.map(normalizeString);
     searchValue = normalizeString(searchValue);
-    return result.includes(searchValue);
+    return result.some((resultField) => resultField.includes(searchValue));
   }
 
   function normalizeString(str: string) {
