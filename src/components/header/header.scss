@@ -33,7 +33,6 @@ $search-bar-offset: ($content-padding - $header-gap);
     gap: $header-gap;
 
     .c-header-nav {
-      @include hover-pointer;
       display: flex;
       align-items: center;
       padding-left: 16px;
@@ -41,6 +40,7 @@ $search-bar-offset: ($content-padding - $header-gap);
       flex: 1;
 
       .animated-icon {
+        @include hover-pointer;
         display: flex;
         align-items: center;
       }

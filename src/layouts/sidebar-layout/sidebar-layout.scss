@@ -73,7 +73,7 @@ $content-height: calc(100vh - #{$header-height + $content-padding});
     }
 
     @media screen and (max-width: $small-screen) {
-      padding: 12px 8px;
+      padding: 12px ($content-padding / 4);
     }
   }
 }

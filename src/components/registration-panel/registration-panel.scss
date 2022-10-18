@@ -81,7 +81,7 @@
     }
 
     .registration-button-group {
-      display: flex;
+      @include flex-center;
       margin-top: 40px;
 
       .registration-button {
