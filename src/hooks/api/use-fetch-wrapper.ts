@@ -37,7 +37,10 @@ export function useFetchWrapper(prependApiUrl?: string) {
   // abort any ongoing fetches on destroy/unmount
   const abortController = new AbortController();
   useEffect(() => {
-    return () => abortController.abort();
+    return () => {
+      // always let an outgoing refresh finish before aborting
+      refreshPromiseLock?.then(() => abortController.abort());
+    };
   }, []);
 
   return {
