@@ -39,7 +39,7 @@ export const PopupModal = ({
         <div className="c-popup-modal-content" ref={contentRef}>
           <div className="c-popup-modal-header">
             <span>{headerLabel}</span>
-            <CancelIcon variant="dark" onClick={onClose} />
+            <CancelIcon className="c-popup-modal-cancel-icon" variant="dark" onClick={onClose} />
           </div>
           {children}
         </div>
