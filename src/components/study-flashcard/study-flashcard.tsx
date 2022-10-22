@@ -39,7 +39,7 @@ export const StudyFlashcard = ({
           className="study-card"
           isFlipped={activeSide !== 'front'}
           front={getCardFace(frontContent, frontLabel)}
-          frontClassName={'dark'}
+          frontClassName={'study-card-front dark'}
           back={getCardFace(backContent, backLabel)}
           onClick={noop}
         />

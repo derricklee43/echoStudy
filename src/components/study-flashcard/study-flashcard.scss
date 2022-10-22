@@ -6,22 +6,31 @@
   margin: 10px;
   font-size: 40px;
 
+  .study-card-front div.c-front-inner {
+    height: 100%;
+    width: 100%;
+  }
+
   .c-study-flashcard-content {
-    @include flex-center;
+    @include webkit-scrollbar;
+    display: grid;
+    place-items: center;
+    overflow-y: auto;
+
     width: 100%;
     height: 100%;
     border-radius: 15px;
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
-  }
 
-  .c-study-flashcard-side-label {
-    position: absolute;
-    display: inline-block;
-    font-size: 20px;
-    top: 10px;
-    left: 10px;
+    .c-study-flashcard-side-label {
+      position: absolute;
+      display: inline-block;
+      font-size: 20px;
+      top: 10px;
+      left: 10px;
+    }
   }
 
   .dark {
