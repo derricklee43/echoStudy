@@ -39,7 +39,12 @@ export function useFetchWrapper(prependApiUrl?: string) {
   useEffect(() => {
     return () => {
       // always let an outgoing refresh finish before aborting
-      refreshPromiseLock?.then(() => abortController.abort());
+      if (refreshPromiseLock) {
+        refreshPromiseLock.then(() => abortController.abort());
+        refreshPromiseLock = undefined;
+      } else {
+        abortController.abort();
+      }
     };
   }, []);
 
