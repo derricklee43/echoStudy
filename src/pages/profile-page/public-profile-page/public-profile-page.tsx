@@ -28,7 +28,7 @@ export const PublicProfilePage = () => {
   return (
     <div className="public-profile-page">
       {/* // TODO: replace with actual year joined */}
-      <UserDetails username={publicUser.username} yearJoined={2022} />
+      <UserDetails username={publicUser.username} dateJoined={new Date()} />
       <BubbleDivider variantType="divider" label={`public decks (${decks.length})`} />
       {decks.length > 0 ? getDeckTiles(decks) : getNoDeckMessage()}
     </div>

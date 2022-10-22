@@ -41,7 +41,11 @@ const AsyncPersonalProfilePage = () => {
       <div className="profile-page-header">
         <PageHeader label="my profile" />
       </div>
-      <UserDetails username={userData?.username ?? ''} email={userData?.email} yearJoined={2022} />
+      <UserDetails
+        username={userData?.username ?? ''}
+        email={userData?.email}
+        dateJoined={new Date()}
+      />
       <BubbleDivider
         className="decks-divider"
         variantType="drop-down-reveal"

@@ -62,9 +62,9 @@ export function useDecksClient() {
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
-  // GET: /Decks/Public
+  // GET: Public/Decks/
   async function getPublicDecks(): Promise<Deck[]> {
-    const decksData = (await fetchWrapper.get('/Decks/Public')) ?? [];
+    const decksData = (await fetchWrapper.get('/Public/Decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 

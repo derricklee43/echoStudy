@@ -30,7 +30,6 @@ export function deckToJson(deck: Deck) {
     access: 'Public',
     default_flang: deck.metaData.frontLang,
     default_blang: deck.metaData.backLang,
-    userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0', // Todo: replace with id/token
   };
 }
 

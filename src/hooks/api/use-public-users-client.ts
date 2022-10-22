@@ -10,25 +10,17 @@ import { useFetchWrapper } from './use-fetch-wrapper';
 export function usePublicUsersClient() {
   const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
 
-  return { getPublicUsers, getPublicUsernames, getPublicUser };
+  return { getPublicUsers, getPublicUser };
 
-  // GET: /Users/Names
-  async function getPublicUsernames() {
-    const usernames: string[] = await fetchWrapper.get('/users/names');
-    return usernames;
-  }
-
-  // GET: /Users/Username
+  // GET: Public/Users/
   async function getPublicUsers() {
-    const usernames = await getPublicUsernames();
-    const allUsersRequests = usernames.map((username) => fetchWrapper.get(`/users/${username}`));
-    const allUserResponses = await Promise.all(allUsersRequests);
-    const publicUsers = allUserResponses.map(JsonToPublicUser);
+    const response = await fetchWrapper.get('/Public/users');
+    const publicUsers = response.map(JsonToPublicUser);
     return publicUsers;
   }
 
   async function getPublicUser(username: string) {
-    const response = await fetchWrapper.get(`/users/${username}`);
+    const response = await fetchWrapper.get(`/Public/users/${username}`);
     const publicUser = JsonToPublicUser(response);
     return publicUser;
   }
