@@ -29,7 +29,9 @@ export const FlipTile = ({
     <div className={`c-flip-tile ${className}`} onClick={onClick}>
       <div className={`c-card ${isFlipped ? 'is-flipped' : ''}`}>
         <div className="c-front">
-          <div className={`tile-content ${frontClassName}`}>{front}</div>
+          <div className={`tile-content ${frontClassName}`}>
+            <div className="c-front-inner">{front}</div>
+          </div>
         </div>
         <div className="c-back">
           <div className={`tile-content ${backClassName}`}>{back}</div>
