@@ -13,6 +13,7 @@ $flashcard-index-container-width: 45px;
     grid-template-columns: auto min-content;
     grid-template-rows: min-content auto;
     column-gap: 16px;
+    overflow-wrap: anywhere;
 
     .action-button-group {
       display: flex;

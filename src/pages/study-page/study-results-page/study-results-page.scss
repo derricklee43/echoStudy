@@ -13,6 +13,7 @@
 
   .study-results-page-header {
     @include flex-center;
+    gap: 64px;
     margin: 20px;
     width: 100%;
 
@@ -20,12 +21,20 @@
       @include flex-center;
       flex-basis: 0;
       flex-grow: 1;
+      flex-shrink: 0;
+
+      @media screen and (max-width: $giant-screen) {
+        flex-wrap: wrap;
+      }
     }
 
     h1 {
       text-align: center;
-      min-width: fit-content;
-      margin: 20px;
+      flex: 3;
+
+      @media screen and (max-width: $giant-screen) {
+        flex: 8;
+      }
     }
 
     .study-results-page-nav-buttons {
@@ -44,10 +53,15 @@
           }
         }
       }
+
+      @media screen and (min-width: $giant-screen) {
+        align-self: flex-start;
+      }
     }
 
     @media screen and (max-width: $large-screen) {
       flex-direction: column;
+      gap: 8px;
 
       .study-results-page-nav-buttons {
         justify-content: center;
