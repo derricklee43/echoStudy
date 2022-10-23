@@ -5,8 +5,7 @@
   margin: 10px;
 
   .cover-front {
-    display: grid;
-    place-items: center;
+    @include grid-center;
     padding: 16px;
 
     background-color: $deck-cover-blue;

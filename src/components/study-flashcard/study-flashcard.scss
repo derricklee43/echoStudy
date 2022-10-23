@@ -12,11 +12,7 @@
   }
 
   .c-study-flashcard-content {
-    @include webkit-scrollbar;
-    display: grid;
-    place-items: center;
-    overflow-y: auto;
-
+    @include grid-center;
     width: 100%;
     height: 100%;
     border-radius: 15px;
@@ -30,6 +26,14 @@
       font-size: 20px;
       top: 10px;
       left: 10px;
+    }
+
+    .c-study-flashcard-text {
+      @include webkit-scrollbar;
+      @include grid-center;
+      overflow-y: auto;
+      width: 100%;
+      height: 100%;
     }
   }
 

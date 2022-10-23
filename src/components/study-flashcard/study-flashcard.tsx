@@ -51,7 +51,7 @@ export const StudyFlashcard = ({
     return (
       <div className={`c-study-flashcard-content  ${variant} ${cardFaceClass}`}>
         <label className="c-study-flashcard-side-label">{label}</label>
-        {content}
+        <div className="c-study-flashcard-text">{content}</div>
       </div>
     );
   }

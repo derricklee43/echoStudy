@@ -56,6 +56,14 @@ $z-popup-modal: 1024;
   align-items: center;
 }
 
+// can be useful for safely centering items that would otherwise overflow a container
+// if it would overflow, the top-edge is inline with the top of the parent container
+// for an example, see: https://codepen.io/jiejasonliu/pen/wvXwdRb
+@mixin grid-center {
+  display: grid;
+  place-items: center;
+}
+
 @mixin viewport-vertical-center {
   margin-top: 50vh; // could be padding-top: 100vh, but we'll see
   transform: translate(0, -50%);

@@ -48,6 +48,10 @@ $y-axis: 25%; // where to place popup on y-axis
     font-size: 20px;
 
     @media screen and (min-width: $large-screen) {
+      max-width: 30vw;
+    }
+
+    @media screen and (min-width: $giant-screen) {
       max-width: 25vw;
     }
   }
