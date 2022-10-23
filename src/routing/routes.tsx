@@ -10,6 +10,7 @@ import { FlashcardDecksPage } from '@/pages/decks-page/flashcard-decks';
 import { EditDeckPage } from '@/pages/edit-deck-page/edit-deck-page';
 import { LandingPage } from '@/pages/landing-page/landing-page';
 import { NotFoundPage } from '@/pages/not-found-page/not-found-page';
+import { PersonalProfilePage } from '@/pages/profile-page/personal-profile-page/personal-profile-page';
 import { ProfilePage } from '@/pages/profile-page/profile-page';
 import { SearchPage } from '@/pages/search-page/search-page';
 import { SignInPage } from '@/pages/sign-in-page/sign-in-page';
@@ -30,7 +31,8 @@ export const PageRoutes = () => {
           <Route path={`${paths.editDeck}/:deckId`} element={getEditDeckPage(false)} />
           <Route path={paths.createDeck} element={getEditDeckPage(true)} />
           <Route path={`${paths.study}/:deckId`} element={getStudyPage()} />
-          <Route path={paths.profile} element={<ProfilePage />} />
+          <Route path={`${paths.users}/:username`} element={<ProfilePage />} />
+          <Route path={`${paths.profile}`} element={<PersonalProfilePage />} />
           <Route path={paths.search} element={<SearchPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

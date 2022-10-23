@@ -9,4 +9,5 @@ export const enum paths {
   signIn = '/sign-in',
   signUp = '/sign-up',
   profile = '/profile',
+  users = '/users',
 }

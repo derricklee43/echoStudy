@@ -14,7 +14,7 @@
 }
 
 .search-page-public-deck-tiles {
-  @include wrapping-grid(350px, 32px, 20px);
+  @include deck-tile-wrapping-grid;
 }
 
 .search-page-deck-covers {

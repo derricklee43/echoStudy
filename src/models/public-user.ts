@@ -1,8 +1,15 @@
-import { Deck } from './deck';
+import { Deck, JsonToDeck } from './deck';
 
-// highly WIP, refers to EchoUser
-// iterate on this as backend is created [MS Identity]
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export interface PublicUser {
   username: string;
   publicDecks: Deck[];
+}
+
+export function JsonToPublicUser(obj: any): PublicUser {
+  return {
+    username: obj.username,
+    publicDecks: obj.decks.map(JsonToDeck),
+  };
 }

@@ -12,32 +12,6 @@
     }
   }
 
-  .user-details {
-    @include flex-center;
-    flex-direction: column;
-    gap: 16px;
-    padding-bottom: 16px;
-    isolation: isolate;
-
-    span {
-      font-size: 18px;
-
-      &.username {
-        color: $light-blue;
-      }
-
-      &.full-name {
-        color: $white;
-        font-size: 26px;
-        padding: 8px 0px;
-      }
-
-      &.date-joined {
-        color: $white;
-      }
-    }
-  }
-
   .decks-divider {
     padding: 32px 0px;
 

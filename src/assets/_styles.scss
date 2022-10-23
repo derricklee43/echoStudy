@@ -116,6 +116,10 @@ $z-popup-modal: 1024;
   @include wrapping-grid(335px, 32px, 20px);
 }
 
+@mixin deck-tile-wrapping-grid {
+  @include wrapping-grid(350px, 32px, 20px);
+}
+
 @mixin outlined-tile($width, $height) {
   @include standard-transition;
   @include hover-pointer;

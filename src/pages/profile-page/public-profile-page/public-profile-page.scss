@@ -1,0 +1,19 @@
+@import '@/assets/styles';
+@import '@/assets/colors';
+
+.public-profile-page {
+  padding-bottom: 64px;
+
+  .decks-container {
+    @include deck-tile-wrapping-grid;
+    padding-top: 8px;
+  }
+
+  .no-decks-message {
+    @include flex-center;
+    margin-top: 32px;
+    font-size: 20px;
+    color: $grey;
+    text-align: center;
+  }
+}

@@ -1,14 +1,12 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
-import { asUtcDate } from '@/helpers/time';
-import { Deck } from '@/models/deck';
+import { Deck, deckToJson, JsonToDeck } from '@/models/deck';
 import { NewDecksResponse } from './interfaces/deck-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /**
- * Client targetting endpoints for /Decks
+ * Client targeting endpoints for /Decks
  */
 export function useDecksClient() {
   const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
@@ -40,7 +38,7 @@ export function useDecksClient() {
   // GET: /Decks/{id}
   async function getDeckById(id: string): Promise<Deck> {
     const deckData = await fetchWrapper.get(`/Decks/${id}`);
-    return JsonToDeck(deckData); // todo maybe put JsonToDeck into class (and add error checking and rename)
+    return JsonToDeck(deckData);
   }
 
   // GET: /Decks/UserEmail={userEmail}
@@ -64,9 +62,9 @@ export function useDecksClient() {
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
-  // GET: /Decks/Public
+  // GET: Public/Decks/
   async function getPublicDecks(): Promise<Deck[]> {
-    const decksData = (await fetchWrapper.get('/Decks/Public')) ?? [];
+    const decksData = (await fetchWrapper.get('/Public/Decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
@@ -110,34 +108,4 @@ export function useDecksClient() {
   async function deleteDecksByEmail(userEmail: string): Promise<void> {
     throw new Error('Not implemented');
   }
-}
-
-function deckToJson(deck: Deck) {
-  return {
-    title: deck.metaData.title,
-    description: deck.metaData.desc,
-    access: 'Public',
-    default_flang: deck.metaData.frontLang,
-    default_blang: deck.metaData.backLang,
-    userId: 'ad4c76a0-8e0a-4518-b055-5d1dc3ebc4f0', // Todo: replace with id/token
-  };
-}
-
-function JsonToDeck(obj: any): Deck {
-  return {
-    metaData: {
-      id: obj['id'],
-      title: obj['title'],
-      desc: obj['description'],
-      access: obj['access'],
-      frontLang: obj['default_flang'],
-      backLang: obj['default_blang'],
-      ownerId: obj['ownerId'],
-      dateCreated: asUtcDate(obj['date_created']),
-      dateUpdated: asUtcDate(obj['date_updated']),
-      dateTouched: asUtcDate(obj['date_touched']),
-      cardIds: obj['cards'],
-    },
-    cards: [],
-  };
 }

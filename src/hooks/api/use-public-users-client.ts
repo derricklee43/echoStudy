@@ -1,5 +1,5 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
-import { PublicUser } from '@/models/public-user';
+import { JsonToPublicUser } from '@/models/public-user';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -10,28 +10,18 @@ import { useFetchWrapper } from './use-fetch-wrapper';
 export function usePublicUsersClient() {
   const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
 
-  return { getPublicUsers };
+  return { getPublicUsers, getPublicUser };
 
-  // GET: /Users/Names
-  async function getPublicUsernames() {
-    const usernames: string[] = await fetchWrapper.get('/users/names');
-    return usernames;
-  }
-
-  // GET: /Users/Username
+  // GET: Public/Users/
   async function getPublicUsers() {
-    const usernames = await getPublicUsernames();
-    const allUsersRequests = usernames.map((username) => fetchWrapper.get(`/users/${username}`));
-    const allUserResponses = await Promise.all(allUsersRequests);
-    const publicUsers = allUserResponses.map(jsonToPublicUser);
+    const response = await fetchWrapper.get('/Public/users');
+    const publicUsers = response.map(JsonToPublicUser);
     return publicUsers;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function jsonToPublicUser(obj: any): PublicUser {
-    return {
-      username: obj.username,
-      publicDecks: obj.decks,
-    };
+  async function getPublicUser(username: string) {
+    const response = await fetchWrapper.get(`/Public/users/${username}`);
+    const publicUser = JsonToPublicUser(response);
+    return publicUser;
   }
 }
