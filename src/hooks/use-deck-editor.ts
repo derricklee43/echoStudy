@@ -68,14 +68,18 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       const updatedCards = Object.values(state.updatedCards).filter(filterBlankCards);
       const deletedCards = Object.values(state.deletedCards);
 
-      const promises = [
-        decksClient.updateDeckById(state.currentDeck),
+      // alone to prevent race condition on backend since updating cards mutates a deck as well
+      // this resolves the issue where updating both metadata and cards can cause the metadata to not save
+      await decksClient.updateDeckById(state.currentDeck);
+
+      const cardPromises = [
         ...[addedCards.length > 0 ? cardsClient.addCards(addedCards, deckId) : []],
         ...[updatedCards.length > 0 ? cardsClient.updateCards(updatedCards) : []],
         ...[deletedCards.length > 0 ? cardsClient.deleteCards(deletedCards) : []],
         // Todo: we need to send the reordered cards too
       ];
-      await Promise.all(promises);
+      await Promise.all(cardPromises);
+
       dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
     } catch (e) {
       console.error(e);
