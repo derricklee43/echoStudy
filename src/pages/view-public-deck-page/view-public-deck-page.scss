@@ -1,0 +1,90 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+$flashcard-index-container-width: 45px;
+
+.view-deck-page {
+  width: 100%;
+  color: $white;
+
+  .view-deck-header {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: auto min-content;
+    grid-template-rows: min-content auto;
+    column-gap: 8px;
+
+    .action-button-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    // <= screen size
+    @media screen and (max-width: $sm-md-screen) {
+      .action-button-group {
+        flex-direction: column;
+        grid-row: 1 / 3;
+        grid-column: 2 / 3;
+      }
+    }
+
+    // > screen size
+    @media screen and (min-width: calc($sm-md-screen + 1px)) {
+      align-items: center;
+
+      .view-deck-deck-description {
+        grid-column: 1 / -1;
+      }
+
+      .action-button-group {
+        flex-direction: row;
+        grid-row: 1 / 2;
+        grid-column: 2 / 3;
+      }
+    }
+  }
+
+  .view-deck-divider {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid $light-blue;
+    margin: 50px 0px;
+  }
+
+  .empty-card-set-placeholder {
+    text-align: center;
+  }
+
+  .view-deck-flashcard-container {
+    @include flex-center;
+
+    .view-deck-flashcard {
+      margin-right: $flashcard-index-container-width;
+    }
+
+    .view-deck-flashcard-index {
+      display: flex;
+      color: $light-blue;
+      font-size: 20px;
+      width: $flashcard-index-container-width;
+    }
+
+    @media screen and (max-width: $medium-screen) {
+      $flashcard-index-container-width: 25px;
+
+      .view-deck-flashcard {
+        margin-right: $flashcard-index-container-width;
+      }
+
+      .view-deck-flashcard-index {
+        width: $flashcard-index-container-width;
+      }
+    }
+  }
+}
+
+.copy-deck-loading {
+  @include flex-center;
+  gap: 8px;
+}

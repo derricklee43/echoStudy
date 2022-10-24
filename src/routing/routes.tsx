@@ -1,6 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { loadDeck, ResourceLoader } from '@/components/resource-loader/resource-loader';
+import {
+  loadDeck,
+  loadPubicDeck,
+  ResourceLoader,
+} from '@/components/resource-loader/resource-loader';
 import { AlreadyAuthorizedLayout } from '@/layouts/already-authorized-layout/already-authorized-layout';
 import { AuthorizedRouteLayout } from '@/layouts/authorized-route-layout/authorized-route-layout';
 import { FullscreenLayout } from '@/layouts/full-screen-layout/full-screen-layout';
@@ -17,6 +21,7 @@ import { SignInPage } from '@/pages/sign-in-page/sign-in-page';
 import { SignUpPage } from '@/pages/sign-up-page/sign-up-page';
 import { StudyPage } from '@/pages/study-page/study-page';
 import { ViewDeckPage } from '@/pages/view-deck-page/view-deck-page';
+import { ViewPublicDeckPage } from '@/pages/view-public-deck-page/view-public-deck-page';
 import { paths } from './paths';
 
 // sidebar navigation is in `./sidebar/sidebar-routes.tsx`
@@ -28,6 +33,7 @@ export const PageRoutes = () => {
         <Route element={<AuthorizedRouteLayout />}>
           <Route path={paths.decks} element={<FlashcardDecksPage />} />
           <Route path={`${paths.deck}/:deckId`} element={getViewDeckPage()} />
+          <Route path={`${paths.publicDeck}/:deckId`} element={getPublicDeckPage()} />
           <Route path={`${paths.editDeck}/:deckId`} element={getEditDeckPage(false)} />
           <Route path={paths.createDeck} element={getEditDeckPage(true)} />
           <Route path={`${paths.study}/:deckId`} element={getStudyPage()} />
@@ -67,6 +73,17 @@ function getEditDeckPage(allowUndefinedDeckId: boolean) {
       routeParameter="deckId"
       resourceFetcher={(deckId: string | undefined) => loadDeck(deckId, allowUndefinedDeckId)}
       resourceConsumer={editDeckPageClosure}
+    />
+  );
+}
+
+function getPublicDeckPage() {
+  const viewDeckPageClosure = (deck: Deck) => <ViewPublicDeckPage deck={deck} />;
+  return (
+    <ResourceLoader
+      routeParameter="deckId"
+      resourceFetcher={loadPubicDeck}
+      resourceConsumer={viewDeckPageClosure}
     />
   );
 }

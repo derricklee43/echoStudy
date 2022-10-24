@@ -69,12 +69,15 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
 
   function navigateToResult(category: SearchCategory, id: string) {
     if (category === 'my decks') {
-      navigate(`${paths.deck}/${id}`);
+      return navigate(`${paths.deck}/${id}`);
     }
     if (category === 'users') {
-      navigate(`${paths.users}/${id}`);
+      return navigate(`${paths.users}/${id}`);
     }
-    // TODO: Add navigation to user and public deck pages
+
+    if (category === 'public decks') {
+      return navigate(`${paths.publicDeck}/${id}`);
+    }
   }
 
   async function fetchResources(category: SearchCategory) {

@@ -1,7 +1,7 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { Deck, deckToJson, JsonToDeck } from '@/models/deck';
 import { NewDecksResponse } from './interfaces/deck-data';
-import { useFetchWrapper } from './use-fetch-wrapper';
+import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -19,6 +19,7 @@ export function useDecksClient() {
     getDecksByCategoryId,
     getAllDecks,
     getPublicDecks,
+    copyPublicDeck,
 
     // adds & updates
     addDeck,
@@ -66,6 +67,15 @@ export function useDecksClient() {
   async function getPublicDecks(): Promise<Deck[]> {
     const decksData = (await fetchWrapper.get('/Public/Decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
+  }
+
+  // POST: Public/Copy/Deck={deckId}
+  async function copyPublicDeck(deckId: number): Promise<number> {
+    const response = await fetchWrapper.post(`/Public/Copy/Deck=${deckId}`);
+    if (!('id' in response)) {
+      throw Error('no deck id was found in response');
+    }
+    return response.id;
   }
 
   //////////////////////

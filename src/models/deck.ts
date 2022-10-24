@@ -13,6 +13,7 @@ export interface DeckMetaData {
   frontLang: DeckLanguage;
   backLang: DeckLanguage;
   ownerId: string;
+  ownerUsername: string;
   dateCreated: Date;
   dateUpdated: Date;
   dateTouched: Date;
@@ -27,7 +28,7 @@ export function deckToJson(deck: Deck) {
   return {
     title: deck.metaData.title,
     description: deck.metaData.desc,
-    access: 'Public',
+    access: deck.metaData.access,
     default_flang: deck.metaData.frontLang,
     default_blang: deck.metaData.backLang,
   };
@@ -43,6 +44,7 @@ export function JsonToDeck(obj: any): Deck {
       frontLang: obj['default_flang'],
       backLang: obj['default_blang'],
       ownerId: obj['ownerId'],
+      ownerUsername: obj['ownerUserName'],
       dateCreated: asUtcDate(obj['date_created']),
       dateUpdated: asUtcDate(obj['date_updated']),
       dateTouched: asUtcDate(obj['date_touched']),
@@ -61,6 +63,7 @@ export function createNewDeck(): Deck {
     frontLang: 'English',
     backLang: 'English',
     ownerId: 'unknown-user',
+    ownerUsername: 'unknown-username',
     dateCreated: new Date(),
     dateUpdated: new Date(),
     dateTouched: new Date(),
