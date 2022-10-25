@@ -1,0 +1,33 @@
+@use '@/pages/view-deck-pages/shared-view-deck-page' as view-deck-page;
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.view-public-deck-page {
+  width: 100%;
+
+  .view-public-deck-header {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: auto min-content;
+    grid-template-rows: min-content auto;
+    column-gap: 8px;
+    align-items: center;
+
+    .copy-deck-loading {
+      @include flex-center;
+      gap: 8px;
+    }
+  }
+
+  .view-public-deck-description {
+    @include view-deck-page.deck-description;
+  }
+
+  .view-public-deck-author-tag {
+    margin-bottom: 25px;
+  }
+
+  .view-public-deck-divider {
+    @include view-deck-page.deck-divider;
+  }
+}

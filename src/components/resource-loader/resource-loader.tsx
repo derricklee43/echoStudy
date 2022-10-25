@@ -61,8 +61,8 @@ export function loadDeck(deckId: string | undefined, allowUndefinedDeckId = fals
 
 export function loadPubicDeck(deckId?: string) {
   // hooks outside of functional components must be consumed immediately by the component
-  const { getPublicDecks } = useDecksClient();
-  const { getCardsByDeckId } = useCardsClient(); // TODO: A big error happens when this useCardsClient hook is removed
+  const { getPublicDeckById } = useDecksClient();
+  const { getPublicCardsById } = useCardsClient(); // TODO: A big error happens when this useCardsClient hook is removed
   // React really doesn't like the order of the hooks changing. We might need to get rid of this component entirely
 
   // TODO: Add cards to the object when the API endpoint is created
@@ -74,14 +74,11 @@ export function loadPubicDeck(deckId?: string) {
       throw Error('deckId cannot be undefined');
     }
 
-    const id = parseInt(deckId);
-    const publicDecks = await getPublicDecks();
-    const publicDeck = publicDecks.find((deck) => deck.metaData.id === id);
-
-    if (publicDeck === undefined) {
-      throw Error('public deck could not be found');
-    }
-
-    return publicDeck;
+    const [deck, cards] = await Promise.all([
+      getPublicDeckById(deckId),
+      getPublicCardsById(deckId),
+    ]);
+    deck.cards = cards;
+    return deck;
   };
 }

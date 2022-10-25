@@ -1,7 +1,7 @@
 export const enum paths {
   home = '/',
   decks = '/decks',
-  publicDeck = '/public-deck',
+  publicDecks = '/public-decks',
   deck = '/deck',
   editDeck = '/edit-deck',
   createDeck = '/create-deck',

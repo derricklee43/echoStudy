@@ -42,6 +42,7 @@ const AsyncPersonalProfilePage = () => {
         <PageHeader label="my profile" />
       </div>
       <UserDetails
+        profilePicUrl={userData?.username ?? ''}
         username={userData?.username ?? ''}
         email={userData?.email}
         dateJoined={new Date()}

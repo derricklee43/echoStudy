@@ -14,6 +14,7 @@ export interface DeckMetaData {
   backLang: DeckLanguage;
   ownerId: string;
   ownerUsername: string;
+  ownerProfilePicUrl: string;
   dateCreated: Date;
   dateUpdated: Date;
   dateTouched: Date;
@@ -45,6 +46,7 @@ export function JsonToDeck(obj: any): Deck {
       backLang: obj['default_blang'],
       ownerId: obj['ownerId'],
       ownerUsername: obj['ownerUserName'],
+      ownerProfilePicUrl: obj['owner_profile_pic'],
       dateCreated: asUtcDate(obj['date_created']),
       dateUpdated: asUtcDate(obj['date_updated']),
       dateTouched: asUtcDate(obj['date_touched']),
@@ -64,6 +66,7 @@ export function createNewDeck(): Deck {
     backLang: 'English',
     ownerId: 'unknown-user',
     ownerUsername: 'unknown-username',
+    ownerProfilePicUrl: 'unknown-profile-pic-url',
     dateCreated: new Date(),
     dateUpdated: new Date(),
     dateTouched: new Date(),

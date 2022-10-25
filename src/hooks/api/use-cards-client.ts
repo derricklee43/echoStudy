@@ -20,6 +20,8 @@ export function useCardsClient() {
     getCardsByDeckId,
     getAllCards,
 
+    getPublicCardsById,
+
     // adds & updates
     addCard,
     addCards,
@@ -62,6 +64,11 @@ export function useCardsClient() {
     throw new Error('Not implemented');
   }
 
+  // GET: Public/Cards​?deckId={deckId}
+  async function getPublicCardsById(deckId: number | string): Promise<Card[]> {
+    const cardsData = await fetchWrapper.get(`/Public/Cards?deckId=${deckId}`);
+    return cardsData.map(JsonToCard);
+  }
   //////////////////////
   /// adds & updates ///
   //////////////////////

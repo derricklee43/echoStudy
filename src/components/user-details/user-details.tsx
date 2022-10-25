@@ -5,14 +5,15 @@ import './user-details.scss';
 
 interface UserDetailsProps {
   username: string;
+  profilePicUrl: string;
   email?: string;
   dateJoined: Date;
 }
 
-export const UserDetails = ({ username, email, dateJoined }: UserDetailsProps) => {
+export const UserDetails = ({ username, email, dateJoined, profilePicUrl }: UserDetailsProps) => {
   return (
     <div className="user-details">
-      <ProfilePicture username={username} showGlow={false} />
+      <ProfilePicture profilePicUrl={profilePicUrl} showGlow={false} />
       <span className="username">{`@${username}`}</span>
       {email !== undefined && <span className="full-name">{email.toLowerCase()}</span>}
       <span className="date-joined">member since {getFormattedDate(dateJoined)}</span>

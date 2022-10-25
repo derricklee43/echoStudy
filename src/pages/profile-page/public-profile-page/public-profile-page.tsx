@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { DeckTile } from '@/components/deck-tile/deck-tile';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { UserDetails } from '@/components/user-details/user-details';
-import { noop } from '@/helpers/func';
 import { usePublicUsersClient } from '@/hooks/api/use-public-users-client';
 import { Deck } from '@/models/deck';
 import { PublicUser } from '@/models/public-user';
+import { paths } from '@/routing/paths';
 import './public-profile-page.scss';
 
 export const PublicProfilePage = () => {
   const [publicUser, setPublicUser] = useState<PublicUser>();
   const { username } = useParams();
   const { getPublicUser } = usePublicUsersClient();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPublicUser(undefined);
@@ -27,8 +28,11 @@ export const PublicProfilePage = () => {
   const decks = publicUser.publicDecks;
   return (
     <div className="public-profile-page">
-      {/* // TODO: replace with actual year joined */}
-      <UserDetails username={publicUser.username} dateJoined={new Date()} />
+      <UserDetails
+        username={publicUser.username}
+        dateJoined={publicUser.dateCreated}
+        profilePicUrl={publicUser.profilePicUrl}
+      />
       <BubbleDivider variantType="divider" label={`public decks (${decks.length})`} />
       {decks.length > 0 ? getDeckTiles(decks) : getNoDeckMessage()}
     </div>
@@ -39,7 +43,7 @@ export const PublicProfilePage = () => {
       const deckId = deck.metaData.id;
       return (
         <DeckTile
-          onClick={noop} // TODO: navigate to public deck page
+          onClick={() => navigate(`${paths.publicDecks}/${deck.metaData.id}`)}
           key={deckId}
           title={deck.metaData.title}
           description={deck.metaData.desc}

@@ -76,7 +76,7 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
     }
 
     if (category === 'public decks') {
-      return navigate(`${paths.publicDeck}/${id}`);
+      return navigate(`${paths.publicDecks}/${id}`);
     }
   }
 
