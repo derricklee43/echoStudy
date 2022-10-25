@@ -68,11 +68,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       const updatedCards = Object.values(state.updatedCards).filter(filterBlankCards);
       const deletedCards = Object.values(state.deletedCards);
 
-      // alone to prevent race condition on backend since updating cards mutates a deck as well
-      // this resolves the issue where updating both metadata and cards can cause the metadata to not save
-      await decksClient.updateDeckById(state.currentDeck);
-
       const cardPromises = [
+        decksClient.updateDeckById(state.currentDeck),
         ...[addedCards.length > 0 ? cardsClient.addCards(addedCards, deckId) : []],
         ...[updatedCards.length > 0 ? cardsClient.updateCards(updatedCards) : []],
         ...[deletedCards.length > 0 ? cardsClient.deleteCards(deletedCards) : []],
