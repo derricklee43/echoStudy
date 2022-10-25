@@ -6,6 +6,7 @@ import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
 import { UserDetails } from '@/components/user-details/user-details';
+import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { Deck } from '@/models/deck';
 import { paths } from '@/routing/paths';
@@ -28,6 +29,8 @@ const AsyncPersonalProfilePage = () => {
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
+  const { getProfilePictureUrl } = useAccountClient();
+  const profilePicUrl = getProfilePictureUrl(userData?.email ?? '');
 
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
 
@@ -42,7 +45,7 @@ const AsyncPersonalProfilePage = () => {
         <PageHeader label="my profile" />
       </div>
       <UserDetails
-        profilePicUrl={userData?.username ?? ''}
+        profilePicUrl={profilePicUrl}
         username={userData?.username ?? ''}
         email={userData?.email}
         dateJoined={new Date()}

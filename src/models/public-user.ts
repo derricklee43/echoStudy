@@ -14,7 +14,7 @@ export function JsonToPublicUser(obj: any): PublicUser {
   return {
     username: obj['username'],
     profilePicUrl: obj['profilePicture'],
-    publicDecks: obj.decks.map(JsonToDeck),
+    publicDecks: obj['decks'].map(JsonToDeck),
     dateCreated: asUtcDate(obj['dateCreated']),
   };
 }

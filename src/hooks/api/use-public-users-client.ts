@@ -16,7 +16,6 @@ export function usePublicUsersClient() {
   async function getPublicUsers() {
     const response = await fetchWrapper.get('/Public/users');
     const publicUsers = response.map(JsonToPublicUser);
-    console.log(response);
     return publicUsers;
   }
 

@@ -65,8 +65,6 @@ export function loadPubicDeck(deckId?: string) {
   const { getPublicCardsById } = useCardsClient(); // TODO: A big error happens when this useCardsClient hook is removed
   // React really doesn't like the order of the hooks changing. We might need to get rid of this component entirely
 
-  // TODO: Add cards to the object when the API endpoint is created
-
   // create a closure around the hooks
   // we can invoke this whenever we actually want to load the resource
   return async () => {
