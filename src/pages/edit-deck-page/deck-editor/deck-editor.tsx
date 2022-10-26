@@ -45,7 +45,8 @@ export const DeckEditor = ({
   const [isPromptEnabled, setIsPromptEnabled] = useState(true);
   const [activeCardKey, setActiveCardKey] = useState('');
 
-  const isSaveButtonDisabled = isSaving || !deck.metaData.title || !deck.metaData.desc;
+  const hasMetadataFilled = deck.metaData.title && deck.metaData.desc;
+  const isSaveButtonDisabled = isSaving || !hasUnsavedChanges || !hasMetadataFilled;
 
   usePrompt('Changes you made may not be saved.', isPromptEnabled && hasUnsavedChanges); // prevent navigation if there are unsaved changes
 

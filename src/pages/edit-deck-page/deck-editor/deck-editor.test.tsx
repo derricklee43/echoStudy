@@ -138,12 +138,17 @@ describe('DeckEditor', () => {
         onGoBackClick={noop}
       />
     );
-    userEvent.click(screen.getByText('create'));
 
+    // add a new card to trigger changes (which activates create button)
+    userEvent.click(screen.getByText('new card'));
+    expect(screen.queryByPlaceholderText('add term')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('add definition')).toBeInTheDocument();
+
+    userEvent.click(screen.getByText('create'));
     expect(mockOnCreateDeckClick).toBeCalled();
   });
 
-  it('should call disable create button when title is empty', () => {
+  it('should disable create button when title is empty', () => {
     const mockOnCreateDeckClick = jest.fn();
     renderWithTestRoots(
       <DeckEditor
@@ -154,8 +159,13 @@ describe('DeckEditor', () => {
         onGoBackClick={noop}
       />
     );
-    userEvent.click(screen.getByText('create'));
 
+    // even adding a new card will not enable button without a title and description
+    userEvent.click(screen.getByText('new card'));
+    expect(screen.queryByPlaceholderText('add term')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('add definition')).toBeInTheDocument();
+
+    userEvent.click(screen.getByText('create'));
     expect(mockOnCreateDeckClick).not.toBeCalled();
   });
 

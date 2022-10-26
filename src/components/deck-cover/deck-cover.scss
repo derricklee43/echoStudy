@@ -5,10 +5,16 @@
   margin: 10px;
 
   .cover-front {
-    @include flex-center;
+    @include grid-center;
+    padding: 16px;
+
     background-color: $deck-cover-blue;
     color: $white;
     font-size: 30px;
+
+    div.c-front-inner {
+      @include multiline-ellipsis-overflow(4);
+    }
   }
 
   .cover-back {
@@ -18,10 +24,14 @@
     padding: 15px;
 
     label {
+      @include multiline-ellipsis-overflow(2);
       font-size: 20px;
     }
 
     p {
+      @include webkit-scrollbar;
+      width: 100%;
+      word-break: break-all;
       overflow-y: auto; // only show vertical scroll when needed
       font-size: 12px;
       flex: 1;

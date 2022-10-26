@@ -40,9 +40,24 @@ $y-axis: 25%; // where to place popup on y-axis
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
+
     color: $blue;
     font-family: 'Comfortaa';
     font-weight: bold;
     font-size: 20px;
+
+    @media screen and (min-width: $large-screen) {
+      max-width: 30vw;
+    }
+
+    @media screen and (min-width: $giant-screen) {
+      max-width: 25vw;
+    }
+  }
+
+  .c-popup-modal-cancel-icon {
+    flex-shrink: 0;
+    align-self: flex-start;
   }
 }
