@@ -1,0 +1,38 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+$flashcard-index-container-width: 45px;
+
+.c-numbered-flashcard-container {
+  @include flex-center;
+
+  .c-numbered-flashcard {
+    margin-right: $flashcard-index-container-width;
+  }
+
+  .c-numbered-flashcard-index {
+    display: flex;
+    color: $light-blue;
+    font-size: 20px;
+    width: $flashcard-index-container-width;
+  }
+
+  @media screen and (max-width: $medium-screen) {
+    $flashcard-index-container-width: 25px;
+
+    .c-numbered-flashcard {
+      margin-right: $flashcard-index-container-width;
+    }
+
+    .c-numbered-flashcard-index {
+      width: $flashcard-index-container-width;
+    }
+  }
+}
+
+.c-numbered-flashcard-empty-set-label {
+  margin-top: 60px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}

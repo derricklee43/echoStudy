@@ -58,3 +58,25 @@ export function loadDeck(deckId: string | undefined, allowUndefinedDeckId = fals
     return deck;
   };
 }
+
+export function loadPublicDeck(deckId?: string) {
+  // hooks outside of functional components must be consumed immediately by the component
+  const { getPublicDeckById } = useDecksClient();
+  const { getPublicCardsById } = useCardsClient(); // TODO: A big error happens when this useCardsClient hook is removed
+  // React really doesn't like the order of the hooks changing. We might need to get rid of this component entirely
+
+  // create a closure around the hooks
+  // we can invoke this whenever we actually want to load the resource
+  return async () => {
+    if (deckId === undefined) {
+      throw Error('deckId cannot be undefined');
+    }
+
+    const [deck, cards] = await Promise.all([
+      getPublicDeckById(deckId),
+      getPublicCardsById(deckId),
+    ]);
+    deck.cards = cards;
+    return deck;
+  };
+}

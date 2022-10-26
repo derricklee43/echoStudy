@@ -19,7 +19,7 @@ import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /**
- * Client targetting endpoints for user related actions
+ * Client targeting endpoints for user related actions
  */
 export function useAccountClient() {
   const [authJwt, setAuthJwt] = useRecoilState(authJwtState);

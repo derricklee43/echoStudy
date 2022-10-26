@@ -111,6 +111,7 @@ export const SearchPage = () => {
 
     const deckTiles = decks.map((deck) => {
       const id = deck.metaData.id.toString();
+      const author = `@${deck.metaData.ownerUsername}`;
       return (
         <DeckTile
           key={id}
@@ -118,7 +119,7 @@ export const SearchPage = () => {
           description={deck.metaData.desc}
           numCards={deck.metaData.cardIds.length}
           onClick={() => navigateToResult('public decks', id)}
-          author={deck.metaData.ownerId} // TODO: Ask Mason or Jon to add the author email and replace
+          author={author}
         />
       );
     });

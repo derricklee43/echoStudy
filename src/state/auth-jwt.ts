@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
+import { asUtcDate } from '@/helpers/time';
 import { objectSchemaSimple } from '@/helpers/validator';
 
 ///////////////
@@ -24,6 +25,7 @@ export interface UserInfo {
   username: string;
   email: string;
   phoneNumber?: string;
+  dateCreated: Date;
 }
 
 export const userInfoStateAsync = selector<UserInfo | undefined>({
@@ -47,7 +49,11 @@ export const userInfoStateAsync = selector<UserInfo | undefined>({
       });
       const userInfo = await response.json();
 
-      return { ...userInfo, phoneNumber: userInfo.phoneNumber ?? undefined };
+      return {
+        ...userInfo,
+        phoneNumber: userInfo.phoneNumber ?? undefined,
+        dateCreated: asUtcDate(userInfo.dateCreated),
+      };
     } catch (error) {
       console.error('An error occurred while resolving userInfoState selector:', error);
       return undefined;

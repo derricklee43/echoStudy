@@ -3,19 +3,16 @@ import { useAccountClient } from '@/hooks/api/use-account-client';
 import './profile-picture.scss';
 
 export interface UserTileProps {
-  username?: string;
+  profilePicUrl: string;
   showGlow: boolean;
   className?: string;
 }
 
-export const ProfilePicture = ({ username = '', className = '', showGlow }: UserTileProps) => {
-  const { getProfilePictureUrl } = useAccountClient();
-  const pfpUrl = getProfilePictureUrl(username);
-
+export const ProfilePicture = ({ className = '', showGlow, profilePicUrl }: UserTileProps) => {
   const glowClass = showGlow ? 'prof-pic-glow' : '';
   return (
     <div className={`profile-picture-container ${glowClass} ${className}`}>
-      <img className="profile-picture" src={pfpUrl} loading="lazy" />
+      <img className="profile-picture" src={profilePicUrl} loading="lazy" />
     </div>
   );
 };

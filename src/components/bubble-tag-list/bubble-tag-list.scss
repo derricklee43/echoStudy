@@ -1,0 +1,27 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.c-bubble-tags {
+  color: $white;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 20px;
+
+  .c-bubble-tag {
+    padding: 5px 10px;
+    border-radius: 15px;
+  }
+
+  .c-bubble-tag-purple {
+    background-color: #4b1ba3;
+  }
+
+  .c-bubble-tag-green {
+    background-color: #1ba31e;
+  }
+
+  .c-bubble-tag-blue {
+    background-color: $electric-blue;
+  }
+}
