@@ -59,7 +59,7 @@ export function loadDeck(deckId: string | undefined, allowUndefinedDeckId = fals
   };
 }
 
-export function loadPubicDeck(deckId?: string) {
+export function loadPublicDeck(deckId?: string) {
   // hooks outside of functional components must be consumed immediately by the component
   const { getPublicDeckById } = useDecksClient();
   const { getPublicCardsById } = useCardsClient(); // TODO: A big error happens when this useCardsClient hook is removed

@@ -39,16 +39,21 @@ const AsyncPersonalProfilePage = () => {
     fetchDecksAndRefresh();
   }, []);
 
+  if (userData === undefined) {
+    return <LoadingPage />;
+  }
+
   return (
     <div className="pg-profile-page">
       <div className="profile-page-header">
         <PageHeader label="my profile" />
       </div>
+
       <UserDetails
         profilePicUrl={profilePicUrl}
-        username={userData?.username ?? ''}
-        email={userData?.email}
-        dateJoined={new Date()}
+        username={userData.username}
+        email={userData.email}
+        dateJoined={userData.dateCreated}
       />
       <BubbleDivider
         className="decks-divider"

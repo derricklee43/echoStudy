@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
   loadDeck,
-  loadPubicDeck,
+  loadPublicDeck,
   ResourceLoader,
 } from '@/components/resource-loader/resource-loader';
 import { AlreadyAuthorizedLayout } from '@/layouts/already-authorized-layout/already-authorized-layout';
@@ -82,7 +82,7 @@ function getPublicDeckPage() {
   return (
     <ResourceLoader
       routeParameter="deckId"
-      resourceFetcher={loadPubicDeck}
+      resourceFetcher={loadPublicDeck}
       resourceConsumer={viewDeckPageClosure}
     />
   );
