@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
 import { Button } from '@/components/button/button';
 import { FlipTile } from '@/components/flip-tile/flip-tile';
 import { ProgressBar } from '@/components/progress-bar/progress-bar';
@@ -49,21 +50,19 @@ export const DeckCover = ({
   }
 
   function getCoverBack() {
-    // TODO: We might have some reworking to do.
-    // I guessing we do not want to grab all the cards for every deck just
-    // calculate the percentStudied
-    // Maybe we should add a property to the deck
-    const percentStudied = 57;
+    const studiedPercent = Math.round(deck.metaData.studiedPercent);
+    const progressBarPercent = studiedPercent === 0 ? 0 : Math.max(studiedPercent, 15); // looks ugly at <15
     return (
       <>
         <label>{deck.metaData.title}</label>
+        <div className="deck-cover-card-count">{`${deck.metaData.cardIds.length} cards`}</div>
         <p>{deck.metaData.desc}</p>
         <div className="button-strip">
           <ProgressBar
             variant="gradient"
             className="deck-cover-progress-bar"
-            percent={Math.max(percentStudied, 15)} // looks ugly at <15
-            label={`${percentStudied}% studied`}
+            percent={progressBarPercent}
+            label={`${studiedPercent}% studied`}
           />
           <Button bubbleOnClickEvent={false} onClick={onViewClick}>
             view

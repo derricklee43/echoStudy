@@ -5,6 +5,7 @@ import { BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
 import { Button } from '@/components/button/button';
 import { NumberedFlashcardSet } from '@/components/numbered-flashcard-set/numbered-flashcard-set';
 import { PageHeader } from '@/components/page-header/page-header';
+import { ProgressBar } from '@/components/progress-bar/progress-bar';
 import { Deck } from '@/models/deck';
 import { getDeckTags } from '@/pages/view-deck-pages/shared-view-deck-page';
 import { paths } from '@/routing/paths';
@@ -17,6 +18,8 @@ interface ViewPersonalDeckPageProps {
 export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
   const navigate = useNavigate();
   const tags = [deck.metaData.access.toLocaleLowerCase(), ...getDeckTags(deck)];
+  const percentStudied = Math.round(deck.metaData.studiedPercent);
+  const progressBarPercent = percentStudied === 0 ? 0 : Math.max(5, percentStudied);
 
   return (
     <Fade className="view-personal-deck-page">
@@ -36,7 +39,12 @@ export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
           </Button>
         </div>
       </div>
+      <div className="view-personal-deck-progress-bar">
+        {percentStudied}% studied
+        <ProgressBar variant="gradient" percent={progressBarPercent} />
+      </div>
       <BubbleTagList tags={tags} variant="purple" />
+
       <hr className="view-personal-deck-divider" />
       <NumberedFlashcardSet
         cards={deck.cards}

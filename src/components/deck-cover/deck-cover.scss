@@ -4,6 +4,13 @@
 .deck-cover {
   margin: 10px;
 
+  .deck-cover-bubble-tags {
+    font-size: 12px;
+    position: relative;
+    top: 1;
+    align-self: start;
+  }
+
   .cover-front {
     @include grid-center;
     padding: 16px;
@@ -28,6 +35,10 @@
       font-size: 20px;
     }
 
+    .deck-cover-card-count {
+      font-size: 12px;
+      // color: $grey;
+    }
     p {
       @include webkit-scrollbar;
       width: 100%;

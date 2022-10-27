@@ -19,6 +19,8 @@ export interface DeckMetaData {
   dateUpdated: Date;
   dateTouched: Date;
   cardIds: number[];
+  studiedPercent: number;
+  masteredPercent: number;
 }
 export interface Deck {
   metaData: DeckMetaData;
@@ -50,6 +52,8 @@ export function JsonToDeck(obj: any): Deck {
       dateCreated: asUtcDate(obj['date_created']),
       dateUpdated: asUtcDate(obj['date_updated']),
       dateTouched: asUtcDate(obj['date_touched']),
+      studiedPercent: obj['studiedPercent'],
+      masteredPercent: obj['masteredPercent'],
       cardIds: obj['cards'],
     },
     cards: [],
@@ -67,6 +71,8 @@ export function createNewDeck(): Deck {
     ownerId: 'unknown-user',
     ownerUsername: 'unknown-username',
     ownerProfilePicUrl: 'unknown-profile-pic-url',
+    studiedPercent: 0,
+    masteredPercent: 0,
     dateCreated: new Date(),
     dateUpdated: new Date(),
     dateTouched: new Date(),
