@@ -28,10 +28,40 @@ describe('DeckEditor', () => {
     expect(screen.queryByText('edit deck')).toBeInTheDocument();
     expect(screen.queryByText('save')).toBeInTheDocument();
     expect(screen.queryByText('new card')).toBeInTheDocument();
+    expect(screen.queryByText('back to deck')).toBeInTheDocument();
     expect(screen.queryByText('discard changes')).not.toBeInTheDocument();
     expect(
       screen.queryByText('you currently have no cards. click "+ new card" to get started')
     ).toBeInTheDocument();
+  });
+
+  it('should show "go back to decks" when is new deck', () => {
+    renderWithTestRoots(
+      <DeckEditor
+        initialDeck={createNewDeck()}
+        isNewDeck={true}
+        onCreateDeckClick={noop}
+        onDeleteDeckClick={noop}
+        onGoBackClick={noop}
+      />
+    );
+    expect(screen.queryByText('back to decks')).toBeInTheDocument();
+  });
+
+  it('should call onGoBackClick when go back is clicked', () => {
+    const mockOnGoBackClick = jest.fn();
+    renderWithTestRoots(
+      <DeckEditor
+        initialDeck={createNewDeck()}
+        isNewDeck={false}
+        onCreateDeckClick={noop}
+        onDeleteDeckClick={noop}
+        onGoBackClick={mockOnGoBackClick}
+      />
+    );
+    userEvent.click(screen.getByText('back to deck'));
+
+    expect(mockOnGoBackClick).toBeCalled();
   });
 
   it('should add a new card on click', () => {
