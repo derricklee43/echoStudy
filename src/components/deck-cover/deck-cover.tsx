@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
 import { Button } from '@/components/button/button';
 import { FlipTile } from '@/components/flip-tile/flip-tile';
 import { ProgressBar } from '@/components/progress-bar/progress-bar';
