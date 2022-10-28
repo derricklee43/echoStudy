@@ -18,7 +18,7 @@ interface ViewPersonalDeckPageProps {
 export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
   const navigate = useNavigate();
   const tags = [deck.metaData.access.toLocaleLowerCase(), ...getDeckTags(deck)];
-  const percentStudied = Math.round(deck.metaData.studiedPercent);
+  const percentStudied = deck.metaData.studiedPercent;
   const progressBarPercent = percentStudied === 0 ? 0 : Math.max(5, percentStudied);
 
   return (

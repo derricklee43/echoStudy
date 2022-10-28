@@ -49,7 +49,7 @@ export const DeckCover = ({
   }
 
   function getCoverBack() {
-    const studiedPercent = Math.round(deck.metaData.studiedPercent);
+    const studiedPercent = deck.metaData.studiedPercent;
     const progressBarPercent = studiedPercent === 0 ? 0 : Math.max(studiedPercent, 15); // looks ugly at <15
     return (
       <>
