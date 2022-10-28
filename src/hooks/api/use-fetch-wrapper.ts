@@ -161,7 +161,7 @@ export function useFetchWrapper(prependApiUrl?: string) {
 
           try {
             refreshPromiseLock = deferred.promise;
-            const jwtData = await _retryFetch('/Refresh', 'POST', payload, 0);
+            const jwtData = await _retryFetch('/refresh', 'POST', payload, 0);
             const newAuthJwt = jsonToAuthJwt(jwtData);
 
             simpleLocalStorage.upsert(LocalStorageKeys.authJwt, newAuthJwt);

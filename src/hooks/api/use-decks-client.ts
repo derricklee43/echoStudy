@@ -41,7 +41,7 @@ export function useDecksClient() {
 
   // GET: /Decks/{id}
   async function getDeckById(id: string): Promise<Deck> {
-    const deckData = await fetchWrapper.get(`/Decks/${id}`);
+    const deckData = await fetchWrapper.get(`/decks/${id}`);
     return JsonToDeck(deckData);
   }
 
@@ -62,25 +62,25 @@ export function useDecksClient() {
 
   // GET: /Decks
   async function getAllDecks(): Promise<Deck[]> {
-    const decksData = (await fetchWrapper.get('/Decks')) ?? [];
+    const decksData = (await fetchWrapper.get('/decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   // GET: Public/Decks/
   async function getPublicDecks(): Promise<Deck[]> {
-    const decksData = (await fetchWrapper.get('/Public/Decks')) ?? [];
+    const decksData = (await fetchWrapper.get('/public/decks')) ?? [];
     return decksData.map(JsonToDeck); // todo maybe put JsonToDeck into class (and add error checking and rename)
   }
 
   // GET: Public/Decks/deckId
   async function getPublicDeckById(deckId: number | string): Promise<Deck> {
-    const deckData = await fetchWrapper.get(`/Public/Decks/${deckId}`);
+    const deckData = await fetchWrapper.get(`/public/decks/${deckId}`);
     return JsonToDeck(deckData);
   }
 
   // POST: Public/Copy/Deck={deckId}
   async function copyPublicDeck(deckId: number): Promise<number> {
-    const response = await fetchWrapper.post(`/Public/Copy/Deck=${deckId}`);
+    const response = await fetchWrapper.post(`/public/copy/deck=${deckId}`);
     if (!('id' in response)) {
       throw Error('no deck id was found in response');
     }
@@ -93,13 +93,13 @@ export function useDecksClient() {
 
   // POST: /Decks
   async function addDeck(deck: Deck): Promise<NewDecksResponse> {
-    const response = await fetchWrapper.post('/Decks', [deckToJson(deck)]);
+    const response = await fetchWrapper.post('/decks', [deckToJson(deck)]);
     return response;
   }
 
   // POST: /Decks/{id}
   async function updateDeckById(deck: Deck): Promise<number> {
-    const { id } = await fetchWrapper.post(`/Decks/${deck.metaData.id}`, deckToJson(deck));
+    const { id } = await fetchWrapper.post(`/decks/${deck.metaData.id}`, deckToJson(deck));
     return id;
   }
 
@@ -115,7 +115,7 @@ export function useDecksClient() {
 
   // Post: /Decks/Delete/{id}
   async function deleteDeckById(id: number): Promise<void> {
-    return fetchWrapper.post(`/Decks/Delete/${id}`);
+    return fetchWrapper.post(`/decks/delete/${id}`);
   }
 
   // DELETE: /Decks/DeleteUserDecks={userId}
