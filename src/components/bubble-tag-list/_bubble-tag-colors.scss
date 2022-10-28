@@ -1,0 +1,16 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+$bubble-colors: (
+  'green': #1ba31e,
+  'purple': #4b1ba3,
+  'blue': $electric-blue,
+  'pink': #a31b88,
+  'red': #a31b1b,
+);
+
+:export {
+  @each $key, $value in $bubble-colors {
+    #{unquote($key)}: $value;
+  }
+}

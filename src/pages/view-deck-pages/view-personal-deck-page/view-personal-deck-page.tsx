@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fade } from '@/animations/fade';
-import { BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
+import bubbleColors from '@/components/bubble-tag-list/_bubble-tag-colors.scss';
+import { BubbleTag, BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
 import { Button } from '@/components/button/button';
 import { NumberedFlashcardSet } from '@/components/numbered-flashcard-set/numbered-flashcard-set';
 import { PageHeader } from '@/components/page-header/page-header';
 import { Deck } from '@/models/deck';
-import { getDeckTags } from '@/pages/view-deck-pages/shared-view-deck-page';
+import { getDeckBubbleTags } from '@/pages/view-deck-pages/shared-view-deck-page';
 import { paths } from '@/routing/paths';
 import './view-personal-deck-page.scss';
 
@@ -16,14 +17,14 @@ interface ViewPersonalDeckPageProps {
 
 export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
   const navigate = useNavigate();
-  const tags = [deck.metaData.access.toLocaleLowerCase(), ...getDeckTags(deck)];
+  const tags = getDeckBubbleTags(deck);
 
   return (
     <Fade className="view-personal-deck-page">
       <div className="view-personal-deck-header">
         <PageHeader label={deck.metaData.title} />
         <div>
-          <BubbleTagList tags={['my deck']} variant="blue" />
+          <BubbleTagList bubbleTags={getDeckAccessTags()} variant="blue" />
           <p className="view-personal-deck-description">{deck.metaData.desc}</p>
         </div>
 
@@ -36,7 +37,7 @@ export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
           </Button>
         </div>
       </div>
-      <BubbleTagList tags={tags} variant="purple" />
+      <BubbleTagList bubbleTags={tags} variant="purple" />
       <hr className="view-personal-deck-divider" />
       <NumberedFlashcardSet
         cards={deck.cards}
@@ -44,4 +45,13 @@ export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
       />
     </Fade>
   );
+
+  function getDeckAccessTags(): BubbleTag[] {
+    const access = deck.metaData.access === 'Public' ? 'shared' : 'private';
+    const accessBubbleColor = access == 'shared' ? bubbleColors.green : bubbleColors.pink;
+    return [
+      { value: 'my deck' },
+      { value: access.toLocaleLowerCase(), style: { backgroundColor: accessBubbleColor } },
+    ];
+  }
 };
