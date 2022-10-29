@@ -56,7 +56,7 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
 
   return (
     <div className="study-lesson-page">
-      <PageHeader label={deck.metaData.title} />
+      <PageHeader className="study-lesson-page-header" label={deck.metaData.title} />
       <div className="study-lesson-page-content">
         <div className="study-flashcard-container">
           <div className="pulsing-microphone-container">

@@ -61,6 +61,7 @@ export const StudyPage = ({ deck }: StudyPageProps) => {
       <AnimatePresence exitBeforeEnter>
         <motion.div
           key={key}
+          className="study-page-view-container"
           initial={{ x: 15, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -15, opacity: 0 }}
