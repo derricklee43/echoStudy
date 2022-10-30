@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReactComponent as KebabMenuSvg } from '@/assets/svg/kebab-menu.svg';
-import './kabab-menu-icon.scss';
+import './kebab-menu-icon.scss';
 
-interface KebabMenuIconProps {
+export interface KebabMenuIconProps {
   className?: string;
   variant?: 'blue' | 'white' | 'green' | 'red' | 'light-blue';
 }

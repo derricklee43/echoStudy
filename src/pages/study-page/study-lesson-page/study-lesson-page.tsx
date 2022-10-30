@@ -78,14 +78,15 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
             className="study-page-progress-bar"
             onAnimationComplete={handleProgressBarAnimationCompletion}
           />
+
+          <AudioControlBar
+            isPaused={isPaused}
+            onNextClick={handleNextClick}
+            onPlayClick={handlePlayClick}
+            onPauseClick={handlePauseClick}
+            onPreviousClick={handleReplayClick}
+          />
         </div>
-        <AudioControlBar
-          isPaused={isPaused}
-          onNextClick={handleNextClick}
-          onPlayClick={handlePlayClick}
-          onPauseClick={handlePauseClick}
-          onPreviousClick={handleReplayClick}
-        />
       </div>
     </div>
   );

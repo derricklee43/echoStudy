@@ -4,18 +4,19 @@ import { clamp } from '@/helpers/func';
 import './volume-control.scss';
 
 interface VolumeControlProps {
+  className?: string;
   volume: number;
   setVolume: (volume: number) => void;
 }
 
-export const VolumeControl = ({ volume, setVolume }: VolumeControlProps) => {
+export const VolumeControl = ({ className = '', volume, setVolume }: VolumeControlProps) => {
   // This is a hack to get the input range to have different colors before and after the thumb
   const getBackgroundSize = () => {
     return { backgroundSize: `${volume}% 100%` };
   };
 
   return (
-    <div className="c-volume-control">
+    <div className={`c-volume-control ${className}`}>
       <div className="c-volume-control-speaker-icon">
         <SpeakerIcon variant="white" />
       </div>

@@ -1,0 +1,9 @@
+// after all, an ellipsis menu is a rotated kebab menu :3
+@use '@/assets/icons/kebab-menu-icon/kebab-menu-icon.scss' as kebab-menu;
+
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.ellipsis-icon {
+  @include kebab-menu.icon-path-colors;
+}

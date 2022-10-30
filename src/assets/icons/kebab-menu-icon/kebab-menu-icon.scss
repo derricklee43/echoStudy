@@ -1,7 +1,7 @@
 @import '@/assets/colors';
 @import '@/assets/styles';
 
-.kebab-icon {
+@mixin icon-path-colors {
   &.white path {
     fill: $white;
   }
@@ -17,4 +17,8 @@
   &.light-blue path {
     fill: $light-blue;
   }
+}
+
+.kebab-icon {
+  @include icon-path-colors;
 }
