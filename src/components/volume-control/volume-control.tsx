@@ -15,16 +15,18 @@ export const VolumeControl = ({ className = '', volume, setVolume }: VolumeContr
     return { backgroundSize: `${volume}% 100%` };
   };
 
+  const mutedClass = volume == 0 ? 'muted' : '';
+
   return (
     <div className={`c-volume-control ${className}`}>
-      <div className="c-volume-control-speaker-icon">
+      <div className={`c-volume-control-speaker-icon ${mutedClass}`}>
         <SpeakerIcon variant="white" />
       </div>
       <div>
         <input
           className="c-volume-control-input"
           type="range"
-          min="1"
+          min="0"
           max="100"
           value={clamp(volume, 0, 100)}
           style={getBackgroundSize()}

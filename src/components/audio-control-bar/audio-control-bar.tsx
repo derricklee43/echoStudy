@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { EllipsisMenuIcon } from '@/assets/icons/ellipsis-menu-icon/ellipsis-menu-icon';
 import { NextIcon } from '@/assets/icons/next-icon/next-icon';
 import { PauseIcon } from '@/assets/icons/pause-icon/pause-icon';
@@ -23,6 +23,8 @@ export const AudioControlBar = ({
   onPauseClick,
   onPreviousClick,
 }: AudioControlBarProps) => {
+  const [volume, setVolume] = useState(Math.round(Howler.volume() * 100));
+
   return (
     <div className="c-audio-control-bar">
       <EllipsisMenuIcon className="player-settings" variant="light-blue" />
@@ -52,13 +54,12 @@ export const AudioControlBar = ({
           <NextIcon />
         </Button>
       </div>
-      <VolumeControl
-        className="player-volume"
-        volume={0}
-        setVolume={function (volume: number): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
+      <VolumeControl className="player-volume" volume={volume} setVolume={handleVolumeChange} />
     </div>
   );
+
+  function handleVolumeChange(newVolume: number) {
+    setVolume(newVolume); // [0, 100]
+    Howler.volume(newVolume / 100); // [0.0, 1.0]
+  }
 };
