@@ -6,6 +6,7 @@ interface RangeSliderProps {
   className?: string;
   minValue?: number;
   maxValue?: number;
+  disabled?: boolean;
   value: number;
   setValue: (newValue: number) => void;
 }
@@ -14,6 +15,7 @@ export const RangeSlider = ({
   className = '',
   minValue = 0,
   maxValue = 100,
+  disabled = false,
   value,
   setValue,
 }: RangeSliderProps) => {
@@ -28,6 +30,7 @@ export const RangeSlider = ({
       <input
         className="c-range-slider-input"
         type="range"
+        disabled={disabled}
         min={minValue}
         max={maxValue}
         value={clamp(value, minValue, maxValue)}

@@ -2,4 +2,39 @@
 @import '@/assets/styles';
 
 .player-options-popup-content {
+  padding: 16px 4px;
+  min-width: 400px;
+
+  .player-options-label {
+    padding: 4px 0px;
+  }
+
+  .player-options-divider {
+    margin: 24px 0px;
+  }
+
+  .pause-length-container {
+    display: grid;
+    grid-template-columns: auto 32px;
+    column-gap: 16px;
+    text-align: right;
+  }
+
+  .advance-only-attempt-container {
+    display: grid;
+    grid-template-columns: auto 24px;
+    column-gap: 16px;
+
+    padding-top: 8px;
+
+    input {
+      @include hover-pointer;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .bold {
+    font-weight: bold;
+  }
 }

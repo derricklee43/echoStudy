@@ -5,8 +5,10 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { AuthJwt, authJwtState } from './auth-jwt';
 
 export const enum LocalStorageKeys {
-  authJwt = 'auth-jwt',
-  volumeLevelPercent = 'volume-level-percent',
+  authJwt = 'auth-jwt', // string
+  volumeLevelPercent = 'volume-level-percent', // number [0-100]
+  attemptPauseLength = 'attempt-pause-length', // number (in seconds)
+  advanceOnlyOnAttempt = 'advance-only-on-attempt', // boolean
 }
 
 export function initRecoilState(snapshot: MutableSnapshot) {

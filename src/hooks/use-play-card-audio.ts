@@ -1,13 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import correctSound from '@/assets/sounds/correct.wav';
 import incorrectSound from '@/assets/sounds/incorrect.wav';
+import { stringToBoolean } from '@/helpers/string';
+import { isDefined, toNumberOrElse } from '@/helpers/validator';
+import { CapturedSpeech } from '@/models/captured-speech';
 import { LazyAudio } from '@/models/lazy-audio';
 import { LessonCard } from '@/models/lesson-card';
+import { LocalStorageKeys } from '@/state/init';
+import { useLocalStorage } from './use-local-storage';
 import { useMountedRef } from './use-mounted-ref';
 import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
 
 export function usePlayCardAudio() {
+  const ls = useLocalStorage();
+
   // timer used to create wait periods between audios
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
   const { captureSpeech, stopCapturingSpeech, abortSpeechCapture, isCapturingSpeech } =
@@ -63,12 +70,28 @@ export function usePlayCardAudio() {
 
   async function playAudio(lessonCard: LessonCard): Promise<LessonCard> {
     clearAudio();
+
     const frontAudio = lessonCard.front.audio;
     const backAudio = lessonCard.back.audio;
 
     if (frontAudio === undefined || backAudio === undefined) {
       throw new Error('card audio could not be found');
     }
+
+    // grab player options before playing front
+    const advanceOnlyOnAttempt = stringToBoolean(
+      ls.getString(LocalStorageKeys.advanceOnlyOnAttempt)
+    );
+    const attemptPauseLength = toNumberOrElse(ls.getString(LocalStorageKeys.attemptPauseLength), 0);
+
+    const maxPauseLength = await (async () => {
+      if (attemptPauseLength > 0) {
+        return attemptPauseLength * 1000;
+      } else {
+        const backDuration = await backAudio.durationAsync();
+        return getPauseLength(backDuration);
+      }
+    })();
 
     // play front audio
     setActiveCard(lessonCard.key);
@@ -78,18 +101,42 @@ export function usePlayCardAudio() {
     await playCardAudio(frontAudio);
 
     // Start capturing speech
-    const capturedSpeechPromise = captureSpeech(lessonCard.back.language);
+    let remainingPauseLength = maxPauseLength;
+    let retryCapture = true;
+    let capturedSpeech: CapturedSpeech = { transcript: '', confidence: 0 };
 
-    // wait before flip
-    const backDuration = await backAudio.durationAsync();
-    await wait(getPauseLength(backDuration));
+    // workaround for speech recognition erroring if no response in ~10 seconds
+    while (retryCapture) {
+      try {
+        // Currently if the user pauses while the recording is going, we will only get the results back before the pause.
+        // I think this is reasonable for now, but we might want to come up with a better system in the future.
+
+        // TODO: skipping doesnt work because cancelling wait should never yield...
+        // ideas: maybe wait in increments and check after each?
+        capturedSpeech =
+          (await Promise.race([
+            captureSpeech(lessonCard.back.language),
+            wait(remainingPauseLength),
+          ])) ?? capturedSpeech;
+        retryCapture = false;
+      } catch (error) {
+        if (error !== 'no-speech') {
+          retryCapture = false;
+        } else {
+          remainingPauseLength -= 10 * 1000;
+        }
+      }
+    }
 
     // Stop capturing speech if not already ended
-    stopCapturingSpeech();
+    if (!advanceOnlyOnAttempt) {
+      stopCapturingSpeech();
+    }
 
-    // Currently if the user pauses while the recording is going, we will only get the results back before the pause.
-    // I think this is reasonable for now, but we might want to come up with a better system in the future.
-    const capturedSpeech = await capturedSpeechPromise;
+    if (isCapturingSpeech) {
+      return Promise.reject('Another card was played, skipping current recording');
+    }
+
     const expectedText = lessonCard.back.text.trim().toLocaleLowerCase();
     const actualText = capturedSpeech.transcript.trim().toLocaleLowerCase();
     const wasCorrect = expectedText === actualText;
@@ -143,8 +190,8 @@ export function usePlayCardAudio() {
 
   function wait(time: number) {
     activeAudioRef.current = undefined;
-    return new Promise<void>((resolve) => {
-      setTimer(() => resolve(), time);
+    return new Promise<undefined>((resolve) => {
+      setTimer(() => resolve(undefined), time);
     });
   }
 }
