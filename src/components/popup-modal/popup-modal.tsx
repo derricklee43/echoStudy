@@ -38,7 +38,7 @@ export const PopupModal = ({
       <div className={`c-popup-modal-overlay ${showTrigger ? 'visible' : 'hidden'}`}>
         <div className="c-popup-modal-content" ref={contentRef}>
           <div className="c-popup-modal-header">
-            <span>{headerLabel}</span>
+            <span className="c-popup-modal-header-label">{headerLabel}</span>
             <CancelIcon className="c-popup-modal-cancel-icon" variant="dark" onClick={onClose} />
           </div>
           {children}
