@@ -1,0 +1,31 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.c-range-slider {
+  .c-range-slider-input {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 7px;
+    background: #4c4c57;
+    border-radius: 5px;
+    background-image: linear-gradient($light-blue, $light-blue);
+    background-repeat: no-repeat;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border-radius: 10px;
+      height: 20px;
+      width: 8px;
+      border: 1px solid $deck-cover-blue;
+      background: $grey;
+      cursor: pointer;
+    }
+
+    &::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+      box-shadow: none;
+      border: none;
+      background: transparent;
+    }
+  }
+}
