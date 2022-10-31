@@ -6,6 +6,8 @@ import { PlayIcon } from '@/assets/icons/play-icon/play-icon';
 import { PreviousIcon } from '@/assets/icons/previous-icon/previous-icon';
 import { Button } from '@/components/button/button';
 import { VolumeControl } from '@/components/volume-control/volume-control';
+import { useLocalStorage } from '@/hooks/use-local-storage';
+import { LocalStorageKeys } from '@/state/init';
 import './audio-control-bar.scss';
 
 interface AudioControlBarProps {
@@ -23,11 +25,12 @@ export const AudioControlBar = ({
   onPauseClick,
   onPreviousClick,
 }: AudioControlBarProps) => {
+  const storage = useLocalStorage();
   const [volume, setVolume] = useState(Math.round(Howler.volume() * 100));
 
   return (
     <div className="c-audio-control-bar">
-      <EllipsisMenuIcon className="player-settings" variant="light-blue" />
+      <EllipsisMenuIcon className="player-settings-icon" variant="light-blue" />
       <div className="player-controls">
         <Button
           className="c-audio-control-button"
@@ -60,6 +63,8 @@ export const AudioControlBar = ({
 
   function handleVolumeChange(newVolume: number) {
     setVolume(newVolume); // [0, 100]
+    storage.upsert(LocalStorageKeys.volumeLevelPercent, `${newVolume}`);
+
     Howler.volume(newVolume / 100); // [0.0, 1.0]
   }
 };

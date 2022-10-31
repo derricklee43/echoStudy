@@ -20,7 +20,7 @@ export const VolumeControl = ({ className = '', volume, setVolume }: VolumeContr
   return (
     <div className={`c-volume-control ${className}`}>
       <div className={`c-volume-control-speaker-icon ${mutedClass}`}>
-        <SpeakerIcon variant="white" />
+        <SpeakerIcon variant="light-blue" />
       </div>
       <div>
         <input
