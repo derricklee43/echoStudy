@@ -50,7 +50,9 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
             <div className="player-options-label bold">{getPauseLengthText()}</div>
           </div>
           <div className="advance-only-attempt-container">
-            <div className="player-options-label">...or advance only on attempt</div>
+            <div className="player-options-label">
+              ...or advance only on attempt <span className="bold">(experimental)</span>
+            </div>
             <input
               type="checkbox"
               checked={advanceOnlyOnAttempt}
