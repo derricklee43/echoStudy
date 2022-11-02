@@ -10,7 +10,7 @@ import { NumberedFlashcardSet } from '@/components/numbered-flashcard-set/number
 import { PageHeader } from '@/components/page-header/page-header';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { Deck } from '@/models/deck';
-import { getDeckTags } from '@/pages/view-deck-pages/shared-view-deck-page';
+import { getDeckBubbleTags } from '@/pages/view-deck-pages/shared-view-deck-page';
 import { paths } from '@/routing/paths';
 import './view-public-deck-page.scss';
 
@@ -22,7 +22,7 @@ export const ViewPublicDeckPage = ({ deck }: ViewPublicDeckPageProps) => {
   const [isCopying, setIsCopying] = useState(false);
   const { copyPublicDeck } = useDecksClient();
   const navigate = useNavigate();
-  const tags = getDeckTags(deck);
+  const deckTags = getDeckBubbleTags(deck);
 
   return (
     <Fade className="view-public-deck-page">
@@ -43,7 +43,7 @@ export const ViewPublicDeckPage = ({ deck }: ViewPublicDeckPageProps) => {
           </Button>
         </div>
       </div>
-      <BubbleTagList tags={['public deck']} variant="green" />
+      <BubbleTagList bubbleTags={[{ value: 'public deck' }]} variant="green" />
       <p className="view-public-deck-description">{deck.metaData.desc}</p>
       <AuthorTag
         className="view-public-deck-author-tag"
@@ -51,7 +51,7 @@ export const ViewPublicDeckPage = ({ deck }: ViewPublicDeckPageProps) => {
         profilePicUrl={deck.metaData.ownerProfilePicUrl}
         onClick={() => navigate(`${paths.users}/${deck.metaData.ownerUsername}`)}
       />
-      <BubbleTagList tags={tags} variant="purple" />
+      <BubbleTagList bubbleTags={deckTags} variant="purple" />
       <hr className="view-public-deck-divider" />
       <NumberedFlashcardSet cards={deck.cards} emptySetLabel="this deck currently has no cards" />
     </Fade>

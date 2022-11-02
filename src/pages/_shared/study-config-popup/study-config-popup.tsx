@@ -44,7 +44,8 @@ export const StudyConfigPopup = ({
 }: StudyConfigPopupProps) => {
   const numCards = deck.metaData.cardIds.length;
   const _initialMaxCards = Math.min(studyConfig?.maxCards ?? 5, numCards);
-  const percentStudied = 57; // TODO study percent
+  const studiedPercent = deck.metaData.studiedPercent;
+  const progressPercent = studiedPercent === 0 ? 0 : Math.max(5, studiedPercent);
 
   const [studyType, setStudyType] = useState<StudyType>(studyConfig?.studyType ?? 'new-cards');
   const [orderOption, setOrderOption] = useState<SortRule>(studyConfig?.order ?? 'last created');
@@ -77,12 +78,8 @@ export const StudyConfigPopup = ({
             </span>
           </div>
           <div className="progress-bar-container">
-            <ProgressBar
-              variant="dark"
-              className="scp-progress-bar"
-              percent={Math.max(percentStudied, 15)} // looks ugly at <15
-            />
-            <span className="progress-label">{`${percentStudied}% studied`}</span>
+            <ProgressBar variant="dark" className="scp-progress-bar" percent={progressPercent} />
+            <span className="progress-label">{`${studiedPercent}% studied`}</span>
           </div>
         </div>
 

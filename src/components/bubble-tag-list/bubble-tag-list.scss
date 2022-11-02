@@ -1,3 +1,5 @@
+@use 'sass:map';
+@import '@/components/bubble-tag-list/bubble-tag-colors';
 @import '@/assets/colors';
 @import '@/assets/styles';
 
@@ -14,14 +16,14 @@
   }
 
   .c-bubble-tag-purple {
-    background-color: #4b1ba3;
+    background-color: map.get($bubble-colors, 'purple');
   }
 
   .c-bubble-tag-green {
-    background-color: #1ba31e;
+    background-color: map.get($bubble-colors, 'green');
   }
 
   .c-bubble-tag-blue {
-    background-color: $electric-blue;
+    background-color: map.get($bubble-colors, 'blue');
   }
 }
