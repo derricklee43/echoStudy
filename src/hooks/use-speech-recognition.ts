@@ -9,7 +9,7 @@ import { useTimer } from './use-timer';
 
 export function useCaptureSpeech() {
   const ls = useLocalStorage();
-  const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
+  const { setTimer } = useTimer(); // could use setTimeout since we never resume a capture session if paused
 
   const resumePromiseRef = useRef<ReturnType<typeof deferredPromise>>();
   const speechRecognitionRef = useRef(getSpeechRecognitionObj());
@@ -20,8 +20,8 @@ export function useCaptureSpeech() {
     stopCapturingSpeech,
     abortSpeechCapture,
     resumeSpeechResult,
-    isCapturingSpeech,
     hasBrowserSupport,
+    isCapturingSpeech,
   };
 
   /**
@@ -46,7 +46,6 @@ export function useCaptureSpeech() {
     while (retryCapture) {
       try {
         if (advanceOnlyOnAttempt) {
-          console.log('capture try');
           capturedSpeech = await _captureSpeechImpl(language);
           if (['result', 'no-result'].includes(capturedSpeech.from)) {
             retryCapture = false;
@@ -65,7 +64,6 @@ export function useCaptureSpeech() {
         if (error === 'no-speech') {
           const timeNow = Date.now();
           const timeDelta = timeNow - lastNoSpeechError;
-          console.log(timeDelta);
           remainingPauseLength = Math.max(remainingPauseLength - timeDelta, 0);
           lastNoSpeechError = timeNow;
         }

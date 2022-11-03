@@ -29,6 +29,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
   const _maxCards = studyConfig.maxCards ?? 5;
   const numCards = Math.min(_maxCards, deck.cards.length);
 
+  // these hooks capture no state, only helpers (i.e. singleton)
   const ls = useMemo(() => useLocalStorage(), []);
   const spacedRepetition = useMemo(() => useSpacedRepetition(), []);
 
@@ -49,19 +50,11 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     stopCapturingSpeech,
     abortSpeechCapture,
     resumeSpeechResult,
-    isCapturingSpeech,
     hasBrowserSupport,
+    isCapturingSpeech,
   } = useCaptureSpeech();
 
-  const {
-    pauseAudio,
-    resumeAudio,
-    playAudio,
-    clearAudio,
-    // activeCardSide,
-    // activeCardKey,
-    // isCapturingSpeech,
-  } = usePlayCardAudio();
+  const { pauseAudio, resumeAudio, playAudio, clearAudio } = usePlayCardAudio();
 
   return {
     currentCard,
@@ -81,7 +74,9 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     const lifecycle = currentLifecycleRef.current;
     if (['front', 'back'].includes(lifecycle)) {
       pauseAudio();
-    } else if (lifecycle === 'capture-speech') {
+    }
+    // stops capture immediately and discards results
+    else if (lifecycle === 'capture-speech') {
       abortSpeechCapture();
     }
   }
@@ -97,7 +92,9 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
         return;
       }
       playCard(currentCard, upcomingCards, completedCards);
-    } else if (lifecycle === 'capture-speech') {
+    }
+    // resuming will progress the lesson as if you got the card wrong
+    else if (lifecycle === 'capture-speech') {
       resumeSpeechResult();
     }
   }
@@ -105,6 +102,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
   // forward button
   function skipCard() {
     clearAudio();
+    _tryFlipToFront();
 
     const lifecycle = currentLifecycleRef.current;
     if (lifecycle === 'capture-speech') {
@@ -121,6 +119,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
   function replayCard() {
     // TODO: will want a stopwatch to both replay current card and play previous card
     clearAudio();
+    _tryFlipToFront();
 
     const lifecycle = currentLifecycleRef.current;
     if (lifecycle === 'capture-speech') {
@@ -138,6 +137,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     }
   }
 
+  // TODO: for future lesson types we would update the upcoming cards
   // to be pedantic, play a single lesson card (which includes front and back of card)
   async function playCard(
     currentCard: LessonCard,
@@ -147,8 +147,6 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     if (completedCards.length === numCards) {
       return;
     }
-
-    // TODO: for future lesson types we would update the upcoming cards
 
     if (!currentCard.front.audio || !currentCard.back.audio) {
       throw new Error('card audio could not be found');
@@ -257,6 +255,13 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     })();
 
     return maxPauseLength;
+  }
+
+  // this is 99.99% not needed, but just in case some edge case occurs...
+  function _tryFlipToFront() {
+    if (activeCardKey && activeCardSide === 'back') {
+      setActiveCardSide('front');
+    }
   }
 
   // TODO: Add Filtering based in settings
