@@ -70,5 +70,7 @@ $y-axis: 25%; // where to place popup on y-axis
   .c-popup-modal-cancel-icon {
     flex-shrink: 0;
     align-self: flex-start;
+
+    transform: translateX(25%);
   }
 }

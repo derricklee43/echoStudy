@@ -20,7 +20,7 @@ export function useCaptureSpeech() {
     stopCapturingSpeech,
     abortSpeechCapture,
     resumeSpeechResult,
-    hasBrowserSupport,
+    hasSpeechRecognitionObj,
     isCapturingSpeech,
   };
 
@@ -163,7 +163,7 @@ export function useCaptureSpeech() {
   }
 }
 
-function hasBrowserSupport(): boolean {
+function hasSpeechRecognitionObj(): boolean {
   if (typeof window === 'undefined') {
     return false;
   }

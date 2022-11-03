@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import correctSound from '@/assets/sounds/correct.wav';
 import incorrectSound from '@/assets/sounds/incorrect.wav';
 import { compare, shuffle } from '@/helpers/sort';
+import { stringToBoolean } from '@/helpers/string';
 import { toNumberOrElse } from '@/helpers/validator';
 import { Card } from '@/models/card';
 import { Deck } from '@/models/deck';
@@ -13,7 +14,7 @@ import {
   LessonCardOutcome,
 } from '@/models/lesson-card';
 import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
-import { LocalStorageKeys } from '@/state/init';
+import { LocalStorageKeys as LSKeys } from '@/state/init';
 import { SortRule } from '@/state/user-decks';
 import { useLocalStorage } from './use-local-storage';
 import { usePlayCardAudio } from './use-play-card-audio';
@@ -50,7 +51,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     stopCapturingSpeech,
     abortSpeechCapture,
     resumeSpeechResult,
-    hasBrowserSupport,
+    hasSpeechRecognitionObj,
     isCapturingSpeech,
   } = useCaptureSpeech();
 
@@ -152,32 +153,41 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       throw new Error('card audio could not be found');
     }
 
+    // setup basic state for this play
+    const updatedCard = { ...currentCard };
+    const speechRecognitionEnabled = _shouldEnableSpeechRecognition();
+
     // active card key must be changed
     setActiveCard(currentCard.key);
 
     // play front
     currentLifecycleRef.current = 'front';
     setActiveCardSide('front');
-    await playAudio(currentCard.front.audio, 1, { firstPlayPause: 500 });
+    await playAudio(currentCard.front.audio, 1, {
+      firstPlayPause: 500,
+      lastPause: speechRecognitionEnabled ? 0 : 2000, // maybe this can be configurable
+    });
 
-    // capture spoken text using speech recognition
-    currentLifecycleRef.current = 'capture-speech';
-    const spokenText = await captureSpeech(
-      currentCard.back.language,
-      await _getSpeechMaxPauseLength(currentCard.back)
-    );
+    if (speechRecognitionEnabled) {
+      // capture spoken text using speech recognition
+      currentLifecycleRef.current = 'capture-speech';
+      const spokenText = await captureSpeech(
+        currentCard.back.language,
+        await _getSpeechMaxPauseLength(currentCard.back)
+      );
 
-    // grade spoken text with back text and play the outcome chime
-    currentLifecycleRef.current = 'grading';
-    const expectedText = currentCard.back.text.trim().toLocaleLowerCase();
-    const wasCorrect = spokenText.includes(expectedText);
-    const outcomeAudio = new LazyAudio(wasCorrect ? correctSound : incorrectSound);
-    await playAudio(outcomeAudio);
-    console.log(currentCard.back.text, spokenText, `(was correct: ${wasCorrect}`);
+      // grade spoken text with back text and play the outcome chime
 
-    // create updated card instance since outcome changed
-    const outcome: LessonCardOutcome = wasCorrect ? 'correct' : 'incorrect';
-    const updatedCard = { ...currentCard, outcome };
+      currentLifecycleRef.current = 'grading';
+      const expectedText = currentCard.back.text.trim().toLocaleLowerCase();
+      const wasCorrect = spokenText.includes(expectedText);
+      const outcomeAudio = new LazyAudio(wasCorrect ? correctSound : incorrectSound);
+      await playAudio(outcomeAudio);
+
+      // update 'updatedCard' outcome since it has been graded
+      updatedCard.outcome = wasCorrect ? 'correct' : 'incorrect';
+      console.log(currentCard.back.text, spokenText, `(was correct: ${wasCorrect})`);
+    }
 
     // play back
     currentLifecycleRef.current = 'back';
@@ -236,7 +246,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
   }
 
   async function _getSpeechMaxPauseLength(backContent: LessonCardContent) {
-    const attemptPauseLength = toNumberOrElse(ls.getString(LocalStorageKeys.attemptPauseLength), 0);
+    const attemptPauseLength = toNumberOrElse(ls.getString(LSKeys.attemptPauseLength), 0);
 
     const maxPauseLength = await (async () => {
       if (attemptPauseLength > 0) {
@@ -255,6 +265,13 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     })();
 
     return maxPauseLength;
+  }
+
+  function _shouldEnableSpeechRecognition() {
+    return (
+      hasSpeechRecognitionObj() &&
+      stringToBoolean(ls.getString(LSKeys.enableSpeechRecognition), true)
+    );
   }
 
   // this is 99.99% not needed, but just in case some edge case occurs...

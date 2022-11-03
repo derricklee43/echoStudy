@@ -6,6 +6,7 @@ import { AuthJwt, authJwtState } from './auth-jwt';
 
 export const enum LocalStorageKeys {
   authJwt = 'auth-jwt', // string
+  enableSpeechRecognition = 'enable-speech-recognition', // boolean
   volumeLevelPercent = 'volume-level-percent', // number [0-100]
   attemptPauseLength = 'attempt-pause-length', // number (in seconds)
   advanceOnlyOnAttempt = 'advance-only-on-attempt', // boolean
