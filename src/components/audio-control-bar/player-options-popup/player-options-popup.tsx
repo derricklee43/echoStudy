@@ -74,28 +74,4 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
     }
     return pauseLength == 0 ? 'auto' : `${pauseLength}s`;
   }
-
-  function getFadeContainer(children: JSX.Element) {
-    const fadeVariants = {
-      visible: {
-        height: 'fit-content',
-        opacity: 0.8,
-        transitionEnd: { opacity: 1.0, overflow: 'visible' },
-      },
-      hidden: { height: 0, opacity: 0, overflow: 'hidden' },
-    };
-
-    return (
-      <motion.div
-        key={'children'}
-        variants={fadeVariants}
-        initial={'hidden'}
-        exit={'hidden'}
-        animate={'visible'}
-        transition={{ duration: 0.2 }}
-      >
-        {children}
-      </motion.div>
-    );
-  }
 };
