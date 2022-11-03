@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { FadeReveal } from '@/animations/fade-reveal';
 import { PopupModal } from '@/components/popup-modal/popup-modal';
 import { RangeSlider } from '@/components/range-slider/range-slider';

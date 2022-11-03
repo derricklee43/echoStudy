@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, ReactNode, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, ReactNode, useMemo, useRef } from 'react';
 import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
 import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
 import { Button } from '@/components/button/button';

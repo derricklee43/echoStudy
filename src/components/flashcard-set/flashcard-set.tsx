@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Reorder, useDragControls } from 'framer-motion';
+import { PanInfo, Reorder, useDragControls } from 'framer-motion';
 import { TrashIcon } from '@/assets/icons/trash-icon/trash-icon';
 import { Button } from '@/components/button/button';
 import { Flashcard } from '@/components/flashcard/flashcard';
@@ -77,12 +77,14 @@ export const FlashcardSet = ({
     });
   }
 
-  function onDragStart(e: any, info: any, key: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function onDragStart(e: any, info: PanInfo, key: string) {
     if (e.target.classList.contains(DRAG_HANDLE)) {
       setDraggingKey(key);
     } else {
       // pass along the event
       // componentControls is marked as private, workaround
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (dragControls as any).componentControls.forEach((entry: any) => entry.stop(e, info));
     }
   }

@@ -20,7 +20,7 @@
   &.align-right {
     display: flex;
     align-items: baseline;
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap;
   }
 }

@@ -7,6 +7,7 @@ import { LocalStorageKeys } from '@/state/init';
 import { useLocalStorage } from './use-local-storage';
 import { useTimer } from './use-timer';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function useCaptureSpeech() {
   const ls = useLocalStorage();
   const { setTimer } = useTimer(); // could use setTimeout since we never resume a capture session if paused
