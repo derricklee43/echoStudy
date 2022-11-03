@@ -28,6 +28,10 @@
       font-size: 20px;
     }
 
+    .deck-cover-card-count {
+      font-size: 12px;
+    }
+
     // description
     p {
       @include webkit-scrollbar;
