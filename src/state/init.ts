@@ -6,10 +6,11 @@ import { AuthJwt, authJwtState } from './auth-jwt';
 
 export const enum LocalStorageKeys {
   authJwt = 'auth-jwt', // string
-  enableSpeechRecognition = 'enable-speech-recognition', // boolean
   volumeLevelPercent = 'volume-level-percent', // number [0-100]
+  enableSpeechRecognition = 'enable-speech-recognition', // boolean
   attemptPauseLength = 'attempt-pause-length', // number (in seconds)
   advanceOnlyOnAttempt = 'advance-only-on-attempt', // boolean
+  enableSoundEffects = 'enable-sound-effects', // boolean
 }
 
 export function initRecoilState(snapshot: MutableSnapshot) {

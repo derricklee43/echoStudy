@@ -5,8 +5,8 @@
   padding: 16px 0px;
   width: max(25vw, 400px);
 
-  @media screen and (max-width: $large-screen) {
-    min-width: max(42vw, 300px);
+  @media screen and (max-width: $md-lg-screen) {
+    min-width: max(50vw, 300px);
     width: 100%;
   }
 
@@ -18,8 +18,7 @@
     margin: 16px 0px;
   }
 
-  .enable-speech-recognition-container,
-  .advance-only-attempt-container {
+  .toggle-container {
     display: grid;
     align-items: center;
     grid-template-columns: auto 28px;

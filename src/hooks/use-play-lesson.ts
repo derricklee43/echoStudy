@@ -7,12 +7,7 @@ import { toNumberOrElse } from '@/helpers/validator';
 import { Card } from '@/models/card';
 import { Deck } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
-import {
-  createNewLessonCard,
-  LessonCard,
-  LessonCardContent,
-  LessonCardOutcome,
-} from '@/models/lesson-card';
+import { createNewLessonCard, LessonCard, LessonCardContent } from '@/models/lesson-card';
 import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { LocalStorageKeys as LSKeys } from '@/state/init';
 import { SortRule } from '@/state/user-decks';
@@ -153,10 +148,6 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       throw new Error('card audio could not be found');
     }
 
-    // setup basic state for this play
-    const updatedCard = { ...currentCard };
-    const speechRecognitionEnabled = _shouldEnableSpeechRecognition();
-
     // active card key must be changed
     setActiveCard(currentCard.key);
 
@@ -165,10 +156,11 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     setActiveCardSide('front');
     await playAudio(currentCard.front.audio, 1, {
       firstPlayPause: 500,
-      lastPause: speechRecognitionEnabled ? 0 : 2000, // maybe this can be configurable
+      lastPause: _shouldEnableSpeechRecognition() ? 0 : 2000, // maybe this can be configurable
     });
 
-    if (speechRecognitionEnabled) {
+    const updatedCard = { ...currentCard };
+    if (_shouldEnableSpeechRecognition()) {
       // capture spoken text using speech recognition
       currentLifecycleRef.current = 'capture-speech';
       const spokenText = await captureSpeech(
@@ -177,12 +169,14 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       );
 
       // grade spoken text with back text and play the outcome chime
-
       currentLifecycleRef.current = 'grading';
       const expectedText = currentCard.back.text.trim().toLocaleLowerCase();
       const wasCorrect = spokenText.includes(expectedText);
-      const outcomeAudio = new LazyAudio(wasCorrect ? correctSound : incorrectSound);
-      await playAudio(outcomeAudio);
+
+      if (_shouldPlaySoundEffects()) {
+        const outcomeAudio = new LazyAudio(wasCorrect ? correctSound : incorrectSound);
+        await playAudio(outcomeAudio);
+      }
 
       // update 'updatedCard' outcome since it has been graded
       updatedCard.outcome = wasCorrect ? 'correct' : 'incorrect';
@@ -272,6 +266,10 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       hasSpeechRecognitionObj() &&
       stringToBoolean(ls.getString(LSKeys.enableSpeechRecognition), true)
     );
+  }
+
+  function _shouldPlaySoundEffects() {
+    return stringToBoolean(ls.getString(LSKeys.enableSoundEffects), true);
   }
 
   // this is 99.99% not needed, but just in case some edge case occurs...

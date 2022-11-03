@@ -19,20 +19,23 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
 
   // defaults from local storage or fallback
   const defEnableSpeech = stringToBoolean(ls.getString(LSKeys.enableSpeechRecognition), true);
-  const defPauseLength = toNumberOrElse(ls.getString(LSKeys.attemptPauseLength), 5);
+  const defPauseLength = toNumberOrElse(ls.getString(LSKeys.attemptPauseLength), 8);
   const defAdvanceOnlyOnAttempt = stringToBoolean(ls.getString(LSKeys.advanceOnlyOnAttempt), false);
+  const defEnableSoundEffects = stringToBoolean(ls.getString(LSKeys.enableSoundEffects), true);
 
   // player option states
   const [enableSpeechRecognition, setEnableSpeechRecognition] = useState(defEnableSpeech);
   const [pauseLength, setPauseLength] = useState(defPauseLength);
   const [advanceOnlyOnAttempt, setAdvanceOnlyOnAttempt] = useState(defAdvanceOnlyOnAttempt);
+  const [enableSoundEffects, setEnableSoundEffects] = useState(defEnableSoundEffects);
 
   // naively update everything if anything changes; could optimize if needed
   useEffect(() => {
     ls.upsert(LSKeys.enableSpeechRecognition, enableSpeechRecognition.toString());
     ls.upsert(LSKeys.attemptPauseLength, pauseLength.toString());
     ls.upsert(LSKeys.advanceOnlyOnAttempt, advanceOnlyOnAttempt.toString());
-  }, [enableSpeechRecognition, pauseLength, advanceOnlyOnAttempt]);
+    ls.upsert(LSKeys.enableSoundEffects, enableSoundEffects.toString());
+  }, [enableSpeechRecognition, pauseLength, advanceOnlyOnAttempt, enableSoundEffects]);
 
   return (
     <PopupModal
@@ -44,13 +47,13 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
     >
       <div className="player-options-popup-content">
         <section>
-          <div className="enable-speech-recognition-container">
-            <div className="player-options-label">Enable Speech Recognition</div>
+          <div className="toggle-container">
+            <div className="player-options-label">Speech Recognition</div>
             <input
               type="checkbox"
               checked={enableSpeechRecognition}
               onChange={(event) => setEnableSpeechRecognition(event.target.checked)}
-            ></input>
+            />
           </div>
 
           <AnimatePresence exitBeforeEnter>
@@ -66,7 +69,7 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
                   />
                   <div className="player-options-label bold">{getPauseLengthText()}</div>
                 </div>
-                <div className="advance-only-attempt-container">
+                <div className="toggle-container">
                   <div className="player-options-label">
                     ...or advance only on attempt <span className="bold">(experimental)</span>
                   </div>
@@ -74,7 +77,7 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
                     type="checkbox"
                     checked={advanceOnlyOnAttempt}
                     onChange={(event) => setAdvanceOnlyOnAttempt(event.target.checked)}
-                  ></input>
+                  />
                 </div>
               </FadeReveal>
             )}
@@ -83,7 +86,16 @@ export const PlayerOptionsPopup = ({ showPopup, onClose }: PlayerOptionsPopupPro
 
         <hr className="player-options-divider" />
 
-        <section>idk yet</section>
+        <section>
+          <div className="toggle-container">
+            <div className="player-options-label">Sound Effects</div>
+            <input
+              type="checkbox"
+              checked={enableSoundEffects}
+              onChange={(event) => setEnableSoundEffects(event.target.checked)}
+            />
+          </div>
+        </section>
       </div>
     </PopupModal>
   );
