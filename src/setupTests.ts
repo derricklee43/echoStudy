@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
@@ -16,6 +18,10 @@ global.console = {
   warn: jest.fn(),
   error: jest.fn(),
 };
+
+// attach global Howler to test environment
+import { Howler } from 'howler';
+(global as any).HowlerGlobal = Howler;
 
 /*
  * Custom matchers; update `jest.d.ts` to provide typings for these matchers.

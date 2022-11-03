@@ -1,12 +1,18 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderWithTestRoots } from '@/app.test';
 import { noop } from '@/helpers/func';
 import { AudioControlBar } from './audio-control-bar';
 
 describe('StudyFlashcard', () => {
+  beforeEach(() => {
+    // setup portal element for modal to render on
+    document.body.innerHTML = `<div id="portal"></div>`;
+  });
+
   it('should render with the expected elements', () => {
-    render(
+    renderWithTestRoots(
       <AudioControlBar
         onNextClick={noop}
         onPauseClick={noop}
@@ -22,7 +28,7 @@ describe('StudyFlashcard', () => {
   });
 
   it('should swap the play button for the pause button when not pause', () => {
-    render(
+    renderWithTestRoots(
       <AudioControlBar
         onNextClick={noop}
         onPauseClick={noop}
@@ -42,7 +48,7 @@ describe('StudyFlashcard', () => {
     const mockOnPreviousClick = jest.fn<void, []>();
     const mockOnPlayClick = jest.fn<void, []>();
     const mockOnPauseClick = jest.fn<void, []>();
-    const { rerender } = render(
+    const { rerender } = renderWithTestRoots(
       <AudioControlBar
         onNextClick={mockOnNextClick}
         onPauseClick={mockOnPauseClick}
