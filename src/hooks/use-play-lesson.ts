@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { compare, shuffle } from '@/helpers/sort';
 import { Card } from '@/models/card';
 import { Deck } from '@/models/deck';
@@ -24,6 +24,8 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
   const [upcomingCards, setUpcomingCards] = useState(restCards);
   const [completedCards, setCompletedCards] = useState<LessonCard[]>([]);
   const [isPaused, setIsPaused] = useState(true);
+
+  const currentLifecycleRef = useRef<'front' | 'speech' | 'back'>('front');
 
   const {
     pauseAudio,
@@ -94,8 +96,18 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     // TODO: for future lesson types we would update the upcoming cards
     const updatedCard = await playAudio(currentCard);
     setCurrentCard(updatedCard);
-    const next = nextCard(updatedCard, upcomingCards, completedCards);
 
+    // play front
+    currentLifecycleRef.current = 'front';
+
+    // speech recognition
+    currentLifecycleRef.current = 'speech';
+
+    // play back
+    currentLifecycleRef.current = 'back';
+
+    // play next card
+    const next = nextCard(updatedCard, upcomingCards, completedCards);
     next && playCard(next.currentCard, next.upcomingCards, next.completedCards);
   }
 

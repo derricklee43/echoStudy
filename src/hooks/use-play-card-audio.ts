@@ -106,69 +106,14 @@ export function usePlayCardAudio() {
     await wait(500);
     await playCardAudio(frontAudio);
 
-    // setup to start capturing speech
-    let remainingPauseLength = maxPauseLength;
-    let lastNoSpeechError = Date.now();
-    let retryCapture = true;
-    let capturedSpeech: CapturedSpeech = { from: 'timeout', transcript: '', confidence: 0 };
-
-    // workaround for speech recognition erroring if no response in ~10 seconds
-    // this allows for these invariants:
-    //  - resolves after a valid speech (even if pause length hasn't elapsed)
-    //  - waits for `attemptPauseLength` seconds or infinite if advance only attempt is set
-    while (retryCapture) {
-      try {
-        if (advanceOnlyOnAttempt) {
-          console.log('capture try');
-          capturedSpeech = await captureSpeech(lessonCard.back.language);
-          if (['result', 'no-result'].includes(capturedSpeech.from)) {
-            retryCapture = false;
-          }
-        } else {
-          const raceResult = await Promise.race([
-            captureSpeech(lessonCard.back.language),
-            wait(remainingPauseLength),
-          ]);
-          capturedSpeech = raceResult ?? capturedSpeech;
-          retryCapture = false;
-        }
-      } catch (error) {
-        // catch any errors from captureSpeech(...)
-        // chome throws no-speech if nothing picked up for ~8+ seconds
-        if (error === 'no-speech') {
-          const timeNow = Date.now();
-          const timeDelta = timeNow - lastNoSpeechError;
-          console.log(timeDelta);
-          remainingPauseLength = Math.max(remainingPauseLength - timeDelta, 0);
-          lastNoSpeechError = timeNow;
-        }
-        // don't retry on any other error -- something bad happened
-        else {
-          console.error(error);
-          retryCapture = false;
-        }
-      }
-    }
-
-    console.log(capturedSpeech);
-    console.log(remainingPauseLength);
-
-    // ensures speech capture has ended
-    stopCapturingSpeech();
-
-    // don't continue if speech recognition ended prematurely
-    // this can result from skipping; can be resolved on resume however
-    if (capturedSpeech.from === 'no-result') {
-      resumeAudioPromiseRef.current = deferredPromise();
-      (await resumeAudioPromiseRef.current.promise) as Promise<never>;
-    }
+    // get speech result
+    const spokenText = await captureSpeech(lessonCard.back.language, maxPauseLength);
 
     // calculate outcome from spoken text and actual text
     const expectedText = lessonCard.back.text.trim().toLocaleLowerCase();
-    const actualText = capturedSpeech.transcript.trim().toLocaleLowerCase();
-    const wasCorrect = expectedText === actualText;
+    const wasCorrect = spokenText.includes(expectedText);
     const outcome = wasCorrect ? 'correct' : 'incorrect';
-    console.log(lessonCard.back.text, capturedSpeech.transcript, 'was correct: ' + wasCorrect);
+    console.log(lessonCard.back.text, spokenText, `(was correct: ${wasCorrect}`);
 
     // play outcome chime
     const sound = wasCorrect ? correctSound : incorrectSound;
