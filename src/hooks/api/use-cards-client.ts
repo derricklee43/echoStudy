@@ -1,4 +1,4 @@
-import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
+import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { isDefined, isNumber } from '@/helpers/validator';
 import { Card, cardToJson, JsonToCard } from '@/models/card';
 import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';

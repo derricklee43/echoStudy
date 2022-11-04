@@ -36,6 +36,15 @@ $y-axis: 25%; // where to place popup on y-axis
   padding: 16px 24px;
   border-radius: 16px;
 
+  // offsets for sidebar
+  @media screen and (min-width: $large-screen) and (max-width: $giant-screen) {
+    left: calc($x-axis + ($sidebar-width / 1.15) / 2);
+  }
+
+  @media screen and (min-width: $giant-screen) {
+    left: calc($x-axis + $sidebar-width / 2);
+  }
+
   .c-popup-modal-header {
     display: flex;
     justify-content: space-between;
@@ -47,17 +56,21 @@ $y-axis: 25%; // where to place popup on y-axis
     font-weight: bold;
     font-size: 20px;
 
-    @media screen and (min-width: $large-screen) {
-      max-width: 30vw;
-    }
+    .c-popup-modal-header-label {
+      @media screen and (min-width: $large-screen) {
+        max-width: 30vw;
+      }
 
-    @media screen and (min-width: $giant-screen) {
-      max-width: 25vw;
+      @media screen and (min-width: $giant-screen) {
+        max-width: 25vw;
+      }
     }
   }
 
   .c-popup-modal-cancel-icon {
     flex-shrink: 0;
     align-self: flex-start;
+
+    transform: translateX(25%);
   }
 }

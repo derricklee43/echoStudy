@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import { FadeReveal } from '@/animations/fade-reveal';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
 import { Button } from '@/components/button/button';
 import './bubble-divider.scss';
@@ -28,7 +29,7 @@ export const BubbleDivider = ({
 
   return (
     <div className={`c-bubble-divider-container ${className}`}>
-      {shouldParchmentScroll && <AnimatePresence>{isOpen && getChildren()}</AnimatePresence>}
+      {shouldParchmentScroll && <AnimatePresence>{getChildren()}</AnimatePresence>}
       <div className={`c-bubble-divider ${variantColor}`}>
         <hr />
         <Button
@@ -40,29 +41,12 @@ export const BubbleDivider = ({
         </Button>
         <hr />
       </div>
-      {!shouldParchmentScroll && <AnimatePresence>{isOpen && getChildren()}</AnimatePresence>}
+      {!shouldParchmentScroll && <AnimatePresence>{getChildren()}</AnimatePresence>}
     </div>
   );
 
   function getChildren() {
-    const variants = {
-      visible: { height: 'fit-content', transitionEnd: { overflow: 'visible' } },
-      hidden: { height: 0, overflow: 'hidden' },
-    };
-
-    return (
-      <motion.div
-        className="c-bubble-divider-children"
-        key={'children'}
-        variants={variants}
-        initial={'hidden'}
-        exit={'hidden'}
-        animate={'visible'}
-        transition={{ duration: 0.2 }}
-      >
-        {children}
-      </motion.div>
-    );
+    return isOpen && <FadeReveal className="c-bubble-divider-children">{children}</FadeReveal>;
   }
 
   function handleBubbleClick() {

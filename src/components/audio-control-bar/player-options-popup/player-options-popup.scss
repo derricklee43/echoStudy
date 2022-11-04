@@ -1,0 +1,50 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.player-options-popup-content {
+  padding: 16px 0px;
+  width: max(25vw, 400px);
+
+  @media screen and (max-width: $md-lg-screen) {
+    min-width: max(50vw, 300px);
+    width: 100%;
+  }
+
+  .player-options-label {
+    padding: 4px 0px;
+  }
+
+  .player-options-divider {
+    margin: 16px 0px;
+  }
+
+  .toggle-container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 28px;
+    column-gap: 16px;
+
+    input {
+      @include hover-pointer;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .enable-speech-recognition-reveal {
+    border-left: 1px solid $light-blue;
+    box-sizing: border-box;
+    padding-left: 12px;
+  }
+
+  .pause-length-container {
+    display: grid;
+    grid-template-columns: auto 32px;
+    column-gap: 16px;
+    text-align: right;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+}

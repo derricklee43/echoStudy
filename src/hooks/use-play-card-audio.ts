@@ -1,31 +1,22 @@
-import { useEffect, useRef, useState } from 'react';
-import correctSound from '@/assets/sounds/correct.wav';
-import incorrectSound from '@/assets/sounds/incorrect.wav';
+import { useEffect, useRef } from 'react';
 import { LazyAudio } from '@/models/lazy-audio';
-import { LessonCard } from '@/models/lesson-card';
 import { useMountedRef } from './use-mounted-ref';
-import { useCaptureSpeech } from './use-speech-recognition';
 import { useTimer } from './use-timer';
 
 export function usePlayCardAudio() {
   // timer used to create wait periods between audios
   const { setTimer, clearTimer, pauseTimer, resumeTimer } = useTimer();
-  const { captureSpeech, stopCapturingSpeech, abortSpeechCapture, isCapturingSpeech } =
-    useCaptureSpeech();
 
+  // whenever this is undefined, we are in a wait period
   const activeAudioRef = useRef<LazyAudio>();
-  const [activeCardKey, setActiveCard] = useState<string>('');
-  const [activeCardSide, setActiveCardSide] = useState<'front' | 'back'>('front');
 
+  // lifecycle hook to ensure audio is stopped
   const mountedRef = useMountedRef();
   useEffect(() => {
     return () => clearAudio();
   }, []);
 
   return {
-    activeCardKey,
-    activeCardSide,
-    isCapturingSpeech,
     clearAudio,
     playAudio,
     pauseAudio,
@@ -33,7 +24,6 @@ export function usePlayCardAudio() {
   };
 
   function pauseAudio() {
-    stopCapturingSpeech();
     if (!activeAudioRef.current) {
       pauseTimer();
       return;
@@ -50,80 +40,50 @@ export function usePlayCardAudio() {
   }
 
   function clearAudio() {
-    abortSpeechCapture();
     if (!activeAudioRef.current) {
       clearTimer();
-      if (activeCardKey && activeCardSide === 'back') {
-        setActiveCardSide('front');
-      }
       return;
     }
     activeAudioRef.current.stop();
   }
 
-  async function playAudio(lessonCard: LessonCard): Promise<LessonCard> {
-    clearAudio();
-    const frontAudio = lessonCard.front.audio;
-    const backAudio = lessonCard.back.audio;
+  /**
+   * @param audio the audio file to play
+   * @param playCount how many times to play this audio
+   * @param playOptions options to set for playing the audio
+   *   @param firstPlayPause (0) how to wait in ms before playing for this audio for the first time
+   *   @param lastPause (0) how to wait in m after the last play (when times = 1) before resolving
+   */
+  async function playAudio(
+    audio: LazyAudio,
+    playCount = 1,
+    playOptions?: { firstPlayPause?: number; lastPause?: number }
+  ): Promise<void> {
+    activeAudioRef.current?.stop();
 
-    if (frontAudio === undefined || backAudio === undefined) {
-      throw new Error('card audio could not be found');
+    if (playCount === 0) {
+      return;
     }
 
-    // play front audio
-    setActiveCard(lessonCard.key);
-    setActiveCardSide('front');
+    // only on the first play, wait this duration
+    if (playOptions?.firstPlayPause) {
+      await wait(playOptions?.firstPlayPause);
+      playOptions = { ...playOptions, firstPlayPause: 0 };
+    }
 
-    await wait(500);
-    await playCardAudio(frontAudio);
-
-    // Start capturing speech
-    const capturedSpeechPromise = captureSpeech(lessonCard.back.language);
-
-    // wait before flip
-    const backDuration = await backAudio.durationAsync();
-    await wait(getPauseLength(backDuration));
-
-    // Stop capturing speech if not already ended
-    stopCapturingSpeech();
-
-    // Currently if the user pauses while the recording is going, we will only get the results back before the pause.
-    // I think this is reasonable for now, but we might want to come up with a better system in the future.
-    const capturedSpeech = await capturedSpeechPromise;
-    const expectedText = lessonCard.back.text.trim().toLocaleLowerCase();
-    const actualText = capturedSpeech.transcript.trim().toLocaleLowerCase();
-    const wasCorrect = expectedText === actualText;
-
-    const outcome = wasCorrect ? 'correct' : 'incorrect';
-    console.log(lessonCard.back.text, capturedSpeech.transcript, 'was correct: ' + wasCorrect);
-
-    const sound = wasCorrect ? correctSound : incorrectSound;
-    const outcomeAudio = new LazyAudio(sound);
-    await playCardAudio(outcomeAudio);
-
-    // play back audio
-    setActiveCardSide('back');
-
-    // TODO: most likely we will want to disable speech recognition if the repeat count is greater than 1
-    await repeatAudio(backAudio, lessonCard.repeatDefinitionCount);
-
-    return { ...lessonCard, outcome };
-  }
-
-  async function repeatAudio(audio: LazyAudio, times: number): Promise<void> {
-    if (times === 0) return;
-
-    await playCardAudio(audio);
+    if (playCount === 1) {
+      await playCardAudio(audio);
+      return wait(playOptions?.lastPause ?? 0); // unexpectedly, having a small wait makes the app more 'smooth'
+    }
 
     const duration = await audio.durationAsync();
     await wait(getPauseLength(duration));
-
-    return repeatAudio(audio, times - 1);
+    return playAudio(audio, playCount - 1, playOptions);
   }
 
   function getPauseLength(audioDuration: number) {
     const durationInSeconds = audioDuration * 1000;
-    return durationInSeconds * 3;
+    return Math.min(durationInSeconds * 3, 3000); // never longer than 3 seconds
   }
 
   function playCardAudio(audio: LazyAudio) {
@@ -143,8 +103,8 @@ export function usePlayCardAudio() {
 
   function wait(time: number) {
     activeAudioRef.current = undefined;
-    return new Promise<void>((resolve) => {
-      setTimer(() => resolve(), time);
+    return new Promise<undefined>((resolve) => {
+      setTimer(() => resolve(undefined), time);
     });
   }
 }

@@ -46,3 +46,16 @@ export function isBlankString(subject: unknown): subject is '' {
 export function isNumber(subject: unknown): subject is number {
   return typeof subject === 'number';
 }
+
+export function toNumberOrElse(subject: string | undefined, fallback: number): number {
+  if (!subject) {
+    return fallback;
+  }
+
+  const parsedInt = parseInt(subject);
+  if (!isNaN(parsedInt) && isNumber(parsedInt)) {
+    return parsedInt;
+  } else {
+    return fallback;
+  }
+}

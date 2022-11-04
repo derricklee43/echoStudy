@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+import { FadeReveal } from '@/animations/fade-reveal';
 import { Button } from '@/components/button/button';
 import { DropDown } from '@/components/drop-down/drop-down';
 import { PopupModal } from '@/components/popup-modal/popup-modal';
@@ -92,8 +93,8 @@ export const StudyConfigPopup = ({
         />
 
         <AnimatePresence exitBeforeEnter>
-          {studyType !== 'review' &&
-            getFadeContainer(
+          {studyType !== 'review' && (
+            <FadeReveal>
               <DropDown
                 className="scp-order-dropdown"
                 variant="light"
@@ -102,7 +103,8 @@ export const StudyConfigPopup = ({
                 buttonLabel={orderOption}
                 onOptionSelect={(option) => setOrderOption(option.id)}
               />
-            )}
+            </FadeReveal>
+          )}
         </AnimatePresence>
 
         <div className="scp-max-cards">
@@ -117,8 +119,11 @@ export const StudyConfigPopup = ({
             <span>max card(s)</span>
           </div>
           <AnimatePresence exitBeforeEnter>
-            {maxCardsError &&
-              getFadeContainer(<div className="max-cards-error">{maxCardsError}</div>)}
+            {maxCardsError && (
+              <FadeReveal>
+                <div className="max-cards-error">{maxCardsError}</div>
+              </FadeReveal>
+            )}
           </AnimatePresence>
         </div>
 
@@ -186,29 +191,5 @@ export const StudyConfigPopup = ({
 
     const newMaxCardsValue = isNaN(parsedMaxCards) ? '' : parsedMaxCards;
     setMaxCardsValue(newMaxCardsValue);
-  }
-
-  function getFadeContainer(children: JSX.Element) {
-    const fadeVariants = {
-      visible: {
-        height: 'fit-content',
-        opacity: 0.8,
-        transitionEnd: { opacity: 1.0, overflow: 'visible' },
-      },
-      hidden: { height: 0, opacity: 0, overflow: 'hidden' },
-    };
-
-    return (
-      <motion.div
-        key={'children'}
-        variants={fadeVariants}
-        initial={'hidden'}
-        exit={'hidden'}
-        animate={'visible'}
-        transition={{ duration: 0.2 }}
-      >
-        {children}
-      </motion.div>
-    );
   }
 };
