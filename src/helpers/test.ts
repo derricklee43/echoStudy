@@ -11,3 +11,8 @@ export async function withFakeTimers(testCallback: () => Promise<void> | void) {
     jest.useRealTimers();
   }
 }
+
+// type narrow a jest assertion
+export function assertIsTruthy<T>(subject: T | null | undefined): asserts subject is T {
+  expect(subject).toBeTruthy();
+}
