@@ -96,7 +96,7 @@ export const StudyResultsPage = ({
 
   function getLessonStats() {
     const numCardsStudied = lessonCards.length;
-    const totalDeckProgress = '57%'; // TODO: need to decide how we will calculate deck progress and where it will be calculated
+    const totalDeckProgress = getTotalDeckProgress();
     const totalTimeSpent = getFormattedMilliseconds(lessonTime);
 
     return (
@@ -124,6 +124,30 @@ export const StudyResultsPage = ({
         </div>
       </>
     );
+  }
+
+  function getTotalDeckProgress() {
+    const lessonCardsById = new Map(lessonCards.map((card) => [card.id, card]));
+    const newPoints = deck.cards
+      .map((card) => {
+        const lessonCard = lessonCardsById.get(card.id);
+        if (lessonCard?.outcome === 'correct') {
+          card.score += 1;
+        } else if (lessonCard?.outcome === 'incorrect') {
+          card.score = 0;
+        }
+        return card;
+      })
+      .filter((card) => card.score > 0).length;
+
+    const totalPossiblePoints = deck.cards.length;
+    const progress = (newPoints / totalPossiblePoints) * 100;
+
+    if (progress === 0) {
+      return '0%';
+    }
+
+    return progress < 1 ? '~1%' : `${Math.round(progress)}%`;
   }
 
   async function handleFinishClick() {

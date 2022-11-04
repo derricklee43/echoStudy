@@ -2,8 +2,62 @@
 @import '@/assets/styles';
 
 .c-audio-control-bar {
-  @include flex-center;
-  width: 500px;
+  @include grid-center;
+  grid-template-columns: 25% 50% 25%;
+  width: 100%;
+
+  border-radius: $standard-radius * 3;
+  background-color: $blue;
+
+  @media screen and (max-width: $small-screen) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .player-controls {
+    @include flex-center;
+    flex: 3 1 0;
+    padding-top: 4px;
+
+    @media screen and (max-width: $small-screen) {
+      grid-row: 1;
+      grid-column: 1 / -1;
+      gap: 8px;
+    }
+  }
+
+  .player-settings-icon {
+    @include hover-pointer;
+    flex: 1 1 0;
+    justify-self: flex-start;
+    padding-left: 16px;
+
+    @media screen and (max-width: $small-screen) {
+      grid-row: 2;
+      grid-column: 1;
+      justify-self: flex-start;
+      padding: {
+        left: 16px;
+        right: unset;
+      }
+    }
+  }
+
+  .player-volume {
+    flex: 1 1 0;
+    justify-self: flex-end;
+    padding-right: 16px;
+
+    @media screen and (max-width: $small-screen) {
+      grid-row: 2;
+      grid-column: 2;
+
+      .c-volume-control-slider {
+        width: 112px;
+      }
+    }
+  }
 }
 
 .c-audio-control-button {

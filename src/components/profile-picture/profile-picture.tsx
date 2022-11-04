@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAccountClient } from '@/hooks/api/use-account-client';
 import './profile-picture.scss';
 
 export interface UserTileProps {

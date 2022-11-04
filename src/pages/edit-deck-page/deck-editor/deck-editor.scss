@@ -13,7 +13,7 @@
 
       @media screen and (max-width: $tiny-screen) {
         flex-direction: column;
-        align-items: end;
+        align-items: flex-end;
         gap: 8px;
       }
 

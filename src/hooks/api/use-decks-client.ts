@@ -1,7 +1,7 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { Deck, deckToJson, JsonToDeck } from '@/models/deck';
 import { NewDecksResponse } from './interfaces/deck-data';
-import { isFetchError, useFetchWrapper } from './use-fetch-wrapper';
+import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 

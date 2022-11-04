@@ -4,14 +4,20 @@ import { Button } from '@/components/button/button';
 import './page-header.scss';
 
 interface PageHeaderProps {
+  className?: string;
   label: string;
   goBackLabel?: string;
   onGoBackClick?: (event: React.MouseEvent) => void;
 }
 
-export const PageHeader = ({ label, goBackLabel, onGoBackClick }: PageHeaderProps) => {
+export const PageHeader = ({
+  className = '',
+  label,
+  goBackLabel,
+  onGoBackClick,
+}: PageHeaderProps) => {
   return (
-    <div className="c-page-header">
+    <div className={`c-page-header ${className}`}>
       {goBackLabel && (
         <Button
           variant="invisible"

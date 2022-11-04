@@ -43,6 +43,13 @@
     }
   }
 
+  .view-personal-deck-progress-bar {
+    max-width: 400px;
+    color: white;
+    font-size: 20px;
+    margin: 20px 0px;
+  }
+
   .view-personal-deck-divider {
     @include view-deck-page.deck-divider;
   }

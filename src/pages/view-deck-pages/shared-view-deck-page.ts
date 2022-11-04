@@ -1,5 +1,3 @@
-import bubbleColors from '@/components/bubble-tag-list/_bubble-tag-colors.scss';
-import { BubbleTag } from '@/components/bubble-tag-list/bubble-tag-list';
 import { getFormattedDate } from '@/helpers/time';
 import { Deck } from '@/models/deck';
 

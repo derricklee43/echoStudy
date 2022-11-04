@@ -7,13 +7,16 @@ import { AudioControlBar } from '@/components/audio-control-bar/audio-control-ba
 import { PageHeader } from '@/components/page-header/page-header';
 import { ProgressBar } from '@/components/progress-bar/progress-bar';
 import { StudyFlashcard } from '@/components/study-flashcard/study-flashcard';
+import { stringToBoolean } from '@/helpers/string';
 import { useIsFirstRender } from '@/hooks/use-is-first-render';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { usePlayLesson } from '@/hooks/use-play-lesson';
 import { useStopWatch } from '@/hooks/use-stop-watch';
 import { Deck } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
 import { LessonCard, LessonCardOutcome } from '@/models/lesson-card';
 import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
+import { LocalStorageKeys as LSKeys } from '@/state/init';
 import './study-lesson-page.scss';
 
 interface StudyPageLessonProps {
@@ -24,6 +27,8 @@ interface StudyPageLessonProps {
 
 export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPageLessonProps) => {
   const isFirstRender = useIsFirstRender();
+  const ls = useLocalStorage();
+
   const [isPaused, setIsPaused] = useState(true);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
   const [hasLessonStarted, setHasLessonStarted] = useState(false);
@@ -44,19 +49,24 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
   const numCards = Math.min(studyConfig.maxCards ?? 5, deck.cards.length); // coerce to <= deck length
   const percentComplete = (completedCards.length / numCards) * 100;
 
+  // play card flip side whenever it changes
   useEffect(() => {
     if (isFirstRender) {
       return;
     }
-    const nextCardAudio = new LazyAudio(nextCardSound);
-    nextCardAudio.play();
+
+    const shouldPlaySoundEffects = stringToBoolean(ls.getString(LSKeys.enableSoundEffects), true);
+    if (shouldPlaySoundEffects) {
+      const nextCardAudio = new LazyAudio(nextCardSound);
+      nextCardAudio.play();
+    }
   }, [currentCard.key, hasLessonStarted]);
 
   const showCover = !hasLessonStarted;
 
   return (
     <div className="study-lesson-page">
-      <PageHeader label={deck.metaData.title} />
+      <PageHeader className="study-lesson-page-header" label={deck.metaData.title} />
       <div className="study-lesson-page-content">
         <div className="study-flashcard-container">
           <div className="pulsing-microphone-container">
@@ -78,14 +88,15 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
             className="study-page-progress-bar"
             onAnimationComplete={handleProgressBarAnimationCompletion}
           />
+
+          <AudioControlBar
+            isPaused={isPaused}
+            onNextClick={handleNextClick}
+            onPlayClick={handlePlayClick}
+            onPauseClick={handlePauseClick}
+            onPreviousClick={handleReplayClick}
+          />
         </div>
-        <AudioControlBar
-          isPaused={isPaused}
-          onNextClick={handleNextClick}
-          onPlayClick={handlePlayClick}
-          onPauseClick={handlePauseClick}
-          onPreviousClick={handleReplayClick}
-        />
       </div>
     </div>
   );

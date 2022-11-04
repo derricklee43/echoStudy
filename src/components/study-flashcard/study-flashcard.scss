@@ -1,10 +1,17 @@
 @import '@/assets/styles';
 
 .study-card {
+  aspect-ratio: 325 / 200;
   width: 450px;
-  height: 275px;
+  height: auto;
+
   margin: 10px;
   font-size: 40px;
+
+  @media screen and (max-width: $small-screen) {
+    width: 325px;
+    font-size: 32px;
+  }
 
   .study-card-front div.c-front-inner {
     height: 100%;

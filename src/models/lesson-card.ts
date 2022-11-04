@@ -14,7 +14,7 @@ export interface LessonCard extends Card {
   repeatDefinitionCount: number;
 }
 
-interface LessonCardContent extends CardContent {
+export interface LessonCardContent extends CardContent {
   language: DeckLanguage;
 }
 

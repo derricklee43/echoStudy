@@ -1,12 +1,17 @@
 import React from 'react';
 import { ReactComponent as KebabMenuSvg } from '@/assets/svg/kebab-menu.svg';
-import './kabab-menu-icon.scss';
+import './kebab-menu-icon.scss';
 
-interface KebabMenuIconProps {
+export interface KebabMenuIconProps {
   className?: string;
   variant?: 'blue' | 'white' | 'green' | 'red' | 'light-blue';
+  onClick?: () => void;
 }
 
-export const KebabMenuIcon = ({ className = '', variant = 'blue' }: KebabMenuIconProps) => {
-  return <KebabMenuSvg className={`kebab-icon ${variant} ${className}`} />;
+export const KebabMenuIcon = ({
+  className = '',
+  variant = 'blue',
+  onClick,
+}: KebabMenuIconProps) => {
+  return <KebabMenuSvg className={`kebab-icon ${variant} ${className}`} onClick={onClick} />;
 };

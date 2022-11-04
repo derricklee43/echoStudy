@@ -70,6 +70,7 @@ export const isAuthJwt = objectSchemaSimple<AuthJwt>({
   refreshToken: 'string',
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function jsonToAuthJwt(json: any): AuthJwt {
   return {
     accessToken: json['token'],

@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/button/button';
 import { ProfilePicture } from '@/components/profile-picture/profile-picture';
 import { PublicUser } from '@/models/public-user';
