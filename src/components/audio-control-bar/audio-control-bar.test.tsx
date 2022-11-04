@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithTestRoots } from '@/app.test';
 import { noop } from '@/helpers/func';
