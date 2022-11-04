@@ -86,7 +86,9 @@ export const RecordAudioPopup = ({
   }
 
   function handleSaveClick() {
-    onSave(audioUrl, mediaBlob);
+    if (audioUrl !== cardContent?.customAudio) {
+      onSave(audioUrl, mediaBlob);
+    }
     setAudioUrl(undefined);
   }
 };

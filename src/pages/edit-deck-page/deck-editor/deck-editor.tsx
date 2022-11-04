@@ -7,7 +7,6 @@ import { PlusIcon } from '@/assets/icons/plus-icon/plus-icon';
 import { Button } from '@/components/button/button';
 import { FlashcardSet } from '@/components/flashcard-set/flashcard-set';
 import { PageHeader } from '@/components/page-header/page-header';
-import { useCardsClient } from '@/hooks/api/use-cards-client';
 import { useDeckEditor } from '@/hooks/use-deck-editor';
 import { usePrompt } from '@/hooks/use-prompt';
 import { Card, CardSide, createNewCard } from '@/models/card';
@@ -20,13 +19,6 @@ interface RecordAudioCardSide {
   card: Card;
   side: CardSide;
 }
-interface UnsavedCardAudioBlobs {
-  front?: Blob;
-  back?: Blob;
-}
-
-type UnsavedCardAudioBlobsRecord = Record<string, UnsavedCardAudioBlobs>;
-
 interface DeckEditorProps {
   initialDeck: Deck;
   isNewDeck: boolean;
@@ -61,7 +53,6 @@ export const DeckEditor = ({
   const [isPromptEnabled, setIsPromptEnabled] = useState(true);
   const [activeCardKey, setActiveCardKey] = useState('');
   const [recordAudioCardSide, setRecordAudioCardSide] = useState<RecordAudioCardSide>();
-  const { updateCard: uc, getCardsByDeckId, addCustomCardAudio: acca } = useCardsClient();
 
   const hasMetadataFilled = deck.metaData.title && deck.metaData.desc;
   const isSaveButtonDisabled = isSaving || !hasUnsavedChanges || !hasMetadataFilled;
@@ -194,6 +185,7 @@ export const DeckEditor = ({
     }
     const { card, side } = recordAudioCardSide;
     setRecordAudioCardSide(undefined);
+
     if (audioUrl === undefined) {
       deleteCustomAudio(card, side);
       return;

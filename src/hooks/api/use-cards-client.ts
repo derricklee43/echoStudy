@@ -1,6 +1,6 @@
 import { ECHOSTUDY_API_URL, ensureHttps } from '@/helpers/api';
 import { isDefined, isNumber } from '@/helpers/validator';
-import { Card, cardToJson, JsonToCard } from '@/models/card';
+import { Card, cardToJson, DraftCard, draftCardToJson, JsonToCard } from '@/models/card';
 import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
@@ -75,19 +75,19 @@ export function useCardsClient() {
   //////////////////////
 
   // POST: /Cards
-  async function addCard(card: Card, deckId: number): Promise<NewCardsResponse> {
+  async function addCard(card: DraftCard | Card, deckId: number): Promise<NewCardsResponse> {
     return addCards([card], deckId);
   }
 
   // POST: /Cards
-  async function addCards(cards: Card[], deckId: number): Promise<NewCardsResponse> {
-    const cardsToAdd = cards.map((card) => cardToJson(card, deckId));
-    const response = await fetchWrapper.post('/Cards', cardsToAdd);
+  async function addCards(cards: DraftCard[] | Card[], deckId: number): Promise<NewCardsResponse> {
+    const cardsToAdd = cards.map((card) => draftCardToJson(card, deckId));
+    const response = await fetchWrapper.post('/cards', cardsToAdd);
     return response;
   }
 
   // POST: /Cards/Update
-  async function addCustomCardAudio(card: Card, blob: Blob): Promise<NewCardsResponse> {
+  async function addCustomCardAudio(card: Card | Card, blob: Blob): Promise<NewCardsResponse> {
     assertIdIsNumber(card.id);
     const cardJson = cardToJson(card);
     (cardJson as any).frontAudio = Array.from(new Uint8Array(await blob.arrayBuffer()));
@@ -96,16 +96,15 @@ export function useCardsClient() {
   }
 
   // POST: /Cards/Update
-  async function updateCard(card: Card): Promise<NewCardsResponse> {
+  async function updateCard(card: DraftCard | Card): Promise<NewCardsResponse> {
     return updateCards([card]);
   }
 
   // POST: /Cards/Update
-  async function updateCards(cards: Card[]): Promise<NewCardsResponse> {
+  async function updateCards(cards: DraftCard[] | Card[]): Promise<NewCardsResponse> {
     cards.forEach((card) => assertIdIsNumber(card.id));
-
-    const cardsToUpdate = cards.map((card) => cardToJson(card));
-    const response = await fetchWrapper.post(`/Cards/Update`, cardsToUpdate);
+    const cardsToUpdate = await Promise.all(cards.map((card) => draftCardToJson(card)));
+    const response = await fetchWrapper.post(`/cards/update`, cardsToUpdate);
     return response;
   }
 

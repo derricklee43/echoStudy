@@ -1,13 +1,14 @@
 import { useReducer, useState } from 'react';
-import { Card, CardSide, filterBlankCards } from '@/models/card';
+import { getIntersection } from '@/helpers/array';
+import { Card, CardSide, DraftCard, filterBlankCards } from '@/models/card';
 import { Deck, DeckMetaData } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
 
 type CardMap = { [id: string]: Card };
-type AddedCustomAudioRecord = Record<string, Partial<Record<CardSide, Blob>>>;
-type DeletedCustomAudioRecord = Record<string, CardSide[]>;
+type AddedCustomAudios = Record<string, Partial<Record<CardSide, Blob>>>;
+type DeletedCustomAudios = Record<string, CardSide[]>;
 interface DeckEditorReturn {
   deck: Deck;
   hasUnsavedChanges: boolean;
@@ -31,8 +32,8 @@ interface DeckReducerState {
   addedCards: CardMap;
   deletedCards: CardMap;
   updatedCards: CardMap;
-  addedCustomAudioBlobs: AddedCustomAudioRecord;
-  deletedCustomAudioBlobs: DeletedCustomAudioRecord;
+  addedCustomAudios: AddedCustomAudios;
+  deletedCustomAudios: DeletedCustomAudios;
 }
 
 type DeckReducerDispatch =
@@ -65,8 +66,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     addedCards: {},
     updatedCards: {},
     deletedCards: {},
-    addedCustomAudioBlobs: {},
-    deletedCustomAudioBlobs: {},
+    addedCustomAudios: {},
+    deletedCustomAudios: {},
   });
 
   const decksClient = useDecksClient();
@@ -80,10 +81,18 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       const updatedCards = Object.values(state.updatedCards).filter(filterBlankCards);
       const deletedCards = Object.values(state.deletedCards);
 
+      const addedDraftCards = addedCards.map((c) =>
+        addCustomAudioToCard(c, state.addedCustomAudios, state.deletedCustomAudios)
+      );
+
+      const updatedDraftCards = updatedCards.map((c) =>
+        addCustomAudioToCard(c, state.addedCustomAudios, state.deletedCustomAudios)
+      );
+
       const cardPromises = [
         decksClient.updateDeckById(state.currentDeck),
-        ...[addedCards.length > 0 ? cardsClient.addCards(addedCards, deckId) : []],
-        ...[updatedCards.length > 0 ? cardsClient.updateCards(updatedCards) : []],
+        ...[addedCards.length > 0 ? cardsClient.addCards(addedDraftCards, deckId) : []],
+        ...[updatedCards.length > 0 ? cardsClient.updateCards(updatedDraftCards) : []],
         ...[deletedCards.length > 0 ? cardsClient.deleteCards(deletedCards) : []],
         // Todo: we need to send the reordered cards too
       ];
@@ -184,8 +193,8 @@ function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch)
     addedCards,
     deletedCards,
     updatedCards,
-    addedCustomAudioBlobs,
-    deletedCustomAudioBlobs,
+    addedCustomAudios,
+    deletedCustomAudios,
   } = state;
 
   switch (action.type) {
@@ -240,35 +249,53 @@ function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch)
         addedCards: {},
         deletedCards: {},
         updatedCards: {},
-        addedCustomAudioBlobs: {},
-        deletedCustomAudioBlobs: {},
+        addedCustomAudios: {},
+        deletedCustomAudios: {},
         hasUnsavedChanges: false,
       };
 
     case DECK_REDUCER_TYPE.ADD_CUSTOM_AUDIO:
-      const cardBlobs = {
-        ...addedCustomAudioBlobs[action.card.key],
-        [action.cardSide]: action.customAudio,
-      };
       return {
         ...state,
-        addedCustomAudioBlobs: { ...addedCustomAudioBlobs, [action.card.key]: cardBlobs },
+        deletedCustomAudios: removeCardSideFromDeletedCustomAudios(action.card, action.cardSide),
+        addedCustomAudios: addAudioToAddedCustomAudios(
+          action.card,
+          action.cardSide,
+          action.customAudio
+        ),
       };
 
     case DECK_REDUCER_TYPE.DELETE_CUSTOM_AUDIO:
-      const deletedCardBlobs = Array.from(
-        new Set([...(deletedCustomAudioBlobs[action.card.key] ?? []), action.cardSide])
-      );
       return {
         ...state,
-        deletedCustomAudioBlobs: {
-          ...deletedCustomAudioBlobs,
-          [action.card.key]: deletedCardBlobs,
-        },
+        deletedCustomAudios: addCardSideToDeletedCustomAudios(action.card, action.cardSide),
+        addedCustomAudios: removeAudioFromAddedCustomAudios(action.card, action.cardSide),
       };
 
     default:
       throw new Error('unrecognized dispatch action type');
+  }
+
+  function addAudioToAddedCustomAudios(card: Card, side: CardSide, customAudio: Blob) {
+    const customCardAudios = { ...addedCustomAudios[card.key], [side]: customAudio };
+    return { ...addedCustomAudios, [card.key]: customCardAudios };
+  }
+
+  function removeAudioFromAddedCustomAudios(card: Card, side: CardSide) {
+    const customCardAudios = { ...addedCustomAudios[card.key] };
+    delete customCardAudios[side];
+    return { ...addedCustomAudios, [card.key]: customCardAudios };
+  }
+
+  function addCardSideToDeletedCustomAudios(card: Card, side: CardSide) {
+    const deletedCardSides = [...(deletedCustomAudios[card.key] ?? []), side];
+    const uniqueDeletedCardSides = Array.from(new Set(deletedCardSides));
+    return { ...deletedCustomAudios, [card.key]: uniqueDeletedCardSides };
+  }
+
+  function removeCardSideFromDeletedCustomAudios(card: Card, side: CardSide) {
+    const deletedCardSides = [...(deletedCustomAudios[card.key] ?? [])].filter((s) => s === side);
+    return { ...deletedCustomAudios, [card.key]: deletedCardSides };
   }
 }
 
@@ -298,4 +325,24 @@ function updateCardInDeck(card: Card, deck: Deck) {
 
 function addCardToDeck(card: Card, deck: Deck) {
   return { ...deck, cards: [...deck.cards, card] };
+}
+
+function addCustomAudioToCard(
+  card: Card,
+  addedCustomAudios: AddedCustomAudios,
+  deletedCustomAudios: DeletedCustomAudios
+): DraftCard {
+  const addedCardAudios = addedCustomAudios[card.key];
+  const deletedCardAudios = deletedCustomAudios[card.key];
+
+  const intersection = getIntersection(Object.keys(addedCardAudios), deletedCardAudios);
+  if (intersection.length > 0) {
+    throw Error('card side found in both addedCustomAudio and deletedCustomAudio records');
+  }
+
+  return {
+    ...card,
+    frontCustomAudio: deletedCardAudios.includes('front') ? new Blob() : addedCardAudios.front,
+    backCustomAudio: deletedCardAudios.includes('back') ? new Blob() : addedCardAudios.back,
+  };
 }
