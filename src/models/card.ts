@@ -42,23 +42,17 @@ export function filterBlankCards(card: Card) {
   return !isBlankString(card.front.text) && !isBlankString(card.back.text);
 }
 
-export async function draftCardToJson(draftCard: DraftCard, deckId?: number) {
+// TODO: this got messed up; fix it!
+export async function cardToJson(draftCard: DraftCard, deckId?: number) {
   return {
-    ...cardToJson(draftCard, deckId),
+    frontText: draftCard.front.text,
+    backText: draftCard.back.text,
+    frontLang: draftCard.front.language,
+    backLang: draftCard.back.language,
+    cardId: draftCard.id, // required when updating cards
+    deckId: deckId,
     frontAudio: await customAudioToArray(draftCard.frontCustomAudio),
     backAudio: await customAudioToArray(draftCard.backCustomAudio),
-  };
-}
-
-// TODO: this got messed up; fix it!
-export function cardToJson(card: Card, deckId?: number) {
-  return {
-    frontText: card.front.text,
-    backText: card.back.text,
-    frontLang: card.front.language,
-    backLang: card.back.language,
-    cardId: card.id, // required when updating cards
-    deckId: deckId,
   };
 }
 

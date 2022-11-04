@@ -6,32 +6,66 @@ import { Button } from '@/components/button/button';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PopupModal } from '@/components/popup-modal/popup-modal';
 import { useAudioRecorder } from '@/hooks/use-audio-recorder';
-import { CardContent } from '@/models/card-content';
+import { Card, CardSide } from '@/models/card';
 import './record-audio-popup.scss';
 
+export interface RecordAudioCardSide {
+  card: Card;
+  side: CardSide;
+}
 interface RecordAudioPopupProps {
   showPopup: boolean;
-  cardContent?: CardContent;
+  recordAudioCardSide: RecordAudioCardSide | undefined;
   onClose: () => void;
-  onSave: (audioUrl: string | undefined, mediaBlob: Blob | undefined) => void;
+  onSave: (audioBlob: Blob | undefined, card: Card, side: CardSide) => void;
 }
 
 export const RecordAudioPopup = ({
   showPopup,
-  cardContent,
+  recordAudioCardSide,
   onClose,
   onSave,
 }: RecordAudioPopupProps) => {
-  const { mediaBlob, audioUrl, isRecording, setAudioUrl, startRecording, stopRecording } =
-    useAudioRecorder();
+  const {
+    mediaBlob,
+    mediaBlobUrl,
+    status,
+    setMediaBlobUrl,
+    clearBlobUrl,
+    startRecording,
+    stopRecording,
+  } = useAudioRecorder({});
 
   useEffect(() => {
-    setAudioUrl(cardContent?.customAudio?.src);
-  }, [cardContent?.customAudio?.src, setAudioUrl]);
+    if (recordAudioCardSide !== undefined) {
+      const { card, side } = recordAudioCardSide;
+      setMediaBlobUrl(card[side].customAudio?.src);
+    }
+  }, [recordAudioCardSide, setMediaBlobUrl]);
 
-  if (cardContent === undefined) {
+  if (recordAudioCardSide === undefined) {
     return <LoadingPage />;
   }
+
+  const { card, side } = recordAudioCardSide;
+  const cardContent = card[side];
+
+  const clearMedia = () => {
+    setMediaBlobUrl(undefined);
+    clearBlobUrl();
+  };
+
+  const handleCloseClick = () => {
+    clearMedia();
+    onClose();
+  };
+
+  const handleSaveClick = () => {
+    if (mediaBlobUrl !== cardContent?.customAudio?.src) {
+      onSave(mediaBlob, card, side);
+    }
+    clearMedia();
+  };
 
   return (
     <PopupModal
@@ -42,7 +76,7 @@ export const RecordAudioPopup = ({
       <div className="record-audio-popup">
         <BubbleTagList bubbleTags={[{ value: cardContent.language.toLocaleLowerCase() }]} />
         <div className="record-audio-card-face">{cardContent.text}</div>
-        {audioUrl === undefined ? getAudioRecorder() : getAudioPlayer()}
+        {mediaBlobUrl === undefined ? getAudioRecorder() : getAudioPlayer()}
         <div className="record-audio-save-button-container">
           <Button variant={'dark'} onClick={handleSaveClick} className="record-audio-save-button">
             save
@@ -55,8 +89,8 @@ export const RecordAudioPopup = ({
   function getAudioPlayer() {
     return (
       <div className="record-audio-audio-player">
-        <audio src={audioUrl} controls />
-        <Button onClick={() => setAudioUrl(undefined)} variant="invisible">
+        <audio src={mediaBlobUrl} controls />
+        <Button onClick={clearMedia} variant="invisible">
           <TrashIcon variant="dark" />
         </Button>
       </div>
@@ -64,6 +98,7 @@ export const RecordAudioPopup = ({
   }
 
   function getAudioRecorder() {
+    const isRecording = status === 'recording';
     return (
       <div className="record-audio-microphone-container">
         {isRecording ? 'recording. click to stop...' : 'click to start recording...'}
@@ -78,17 +113,5 @@ export const RecordAudioPopup = ({
         </button>
       </div>
     );
-  }
-
-  function handleCloseClick() {
-    onClose();
-    setAudioUrl(undefined);
-  }
-
-  function handleSaveClick() {
-    if (audioUrl !== cardContent?.customAudio) {
-      onSave(audioUrl, mediaBlob);
-    }
-    setAudioUrl(undefined);
   }
 };

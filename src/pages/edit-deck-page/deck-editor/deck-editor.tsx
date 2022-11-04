@@ -11,14 +11,12 @@ import { useDeckEditor } from '@/hooks/use-deck-editor';
 import { usePrompt } from '@/hooks/use-prompt';
 import { Card, CardSide, createNewCard } from '@/models/card';
 import { Deck } from '@/models/deck';
-import { RecordAudioPopup } from '@/pages/record-audio-popup/record-audio-popup';
+import {
+  RecordAudioCardSide,
+  RecordAudioPopup,
+} from '@/pages/record-audio-popup/record-audio-popup';
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
 import './deck-editor.scss';
-
-interface RecordAudioCardSide {
-  card: Card;
-  side: CardSide;
-}
 interface DeckEditorProps {
   initialDeck: Deck;
   isNewDeck: boolean;
@@ -96,7 +94,7 @@ export const DeckEditor = ({
         <label>new card</label>
       </Button>
       <RecordAudioPopup
-        cardContent={getCardContent()}
+        recordAudioCardSide={recordAudioCardSide}
         showPopup={recordAudioCardSide !== undefined}
         onClose={() => setRecordAudioCardSide(undefined)}
         onSave={handleRecordAudioSave}
@@ -179,28 +177,12 @@ export const DeckEditor = ({
     setRecordAudioCardSide({ card, side });
   }
 
-  async function handleRecordAudioSave(audioUrl: string | undefined, audioBlob: Blob | undefined) {
-    if (recordAudioCardSide === undefined) {
-      return;
-    }
-    const { card, side } = recordAudioCardSide;
-    setRecordAudioCardSide(undefined);
-
-    if (audioUrl === undefined) {
-      deleteCustomAudio(card, side);
-      return;
-    }
+  function handleRecordAudioSave(audioBlob: Blob | undefined, card: Card, side: CardSide) {
     if (audioBlob === undefined) {
-      throw new Error('audioBlob cannot be undefined');
+      deleteCustomAudio(card, side);
+    } else {
+      addCustomAudio(card, side, audioBlob);
     }
-    addCustomAudio(card, side, audioBlob);
-  }
-
-  function getCardContent() {
-    if (recordAudioCardSide === undefined) {
-      return undefined;
-    }
-    const { card, side } = recordAudioCardSide;
-    return card[side];
+    setRecordAudioCardSide(undefined);
   }
 };

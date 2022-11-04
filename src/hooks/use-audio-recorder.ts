@@ -1,24 +1,12 @@
+// code taken from https://github.com/0x006F/react-media-recorder with modifications
+
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import {
   IMediaRecorder,
   MediaRecorder as ExtendableMediaRecorder,
 } from 'extendable-media-recorder';
 
-export const useAudioRecorder = () => {
-  const [audioUrl, setAudioUrl] = useState<string>();
-  const { status, startRecording, stopRecording, mediaBlobUrl, mediaBlob } = useReactMediaRecorder(
-    {}
-  );
-  const isRecording = status === 'recording';
-
-  useEffect(() => {
-    setAudioUrl(mediaBlobUrl);
-  }, [mediaBlobUrl, setAudioUrl]);
-
-  return { audioUrl, isRecording, mediaBlob, setAudioUrl, startRecording, stopRecording };
-};
-
-export type ReactMediaRecorderRenderProps = {
+export type UseAudioRecorderRenderProps = {
   error: string;
   muteAudio: () => void;
   unMuteAudio: () => void;
@@ -26,6 +14,7 @@ export type ReactMediaRecorderRenderProps = {
   pauseRecording: () => void;
   resumeRecording: () => void;
   stopRecording: () => void;
+  setMediaBlobUrl: (url: string | undefined) => void;
   mediaBlobUrl: undefined | string;
   mediaBlob: Blob | undefined;
   status: StatusMessages;
@@ -35,7 +24,7 @@ export type ReactMediaRecorderRenderProps = {
   clearBlobUrl: () => void;
 };
 
-export type ReactMediaRecorderHookProps = {
+export type UseAudioRecorderHookProps = {
   audio?: boolean | MediaTrackConstraints;
   video?: boolean | MediaTrackConstraints;
   screen?: boolean;
@@ -47,8 +36,8 @@ export type ReactMediaRecorderHookProps = {
   stopStreamsOnStop?: boolean;
   askPermissionOnMount?: boolean;
 };
-export type ReactMediaRecorderProps = ReactMediaRecorderHookProps & {
-  render: (props: ReactMediaRecorderRenderProps) => ReactElement;
+export type ReactMediaRecorderProps = UseAudioRecorderHookProps & {
+  render: (props: UseAudioRecorderRenderProps) => ReactElement;
 };
 
 export type StatusMessages =
@@ -78,7 +67,7 @@ export enum RecorderErrors {
   NO_RECORDER = 'recorder_error',
 }
 
-export function useReactMediaRecorder({
+export function useAudioRecorder({
   audio = true,
   video = false,
   onStop = () => null,
@@ -89,7 +78,7 @@ export function useReactMediaRecorder({
   customMediaStream = null,
   stopStreamsOnStop = true,
   askPermissionOnMount = false,
-}: ReactMediaRecorderHookProps): ReactMediaRecorderRenderProps {
+}: UseAudioRecorderHookProps): UseAudioRecorderRenderProps {
   const mediaRecorder = useRef<IMediaRecorder | null>(null);
   const mediaChunks = useRef<Blob[]>([]);
   const mediaStream = useRef<MediaStream | null>(null);
@@ -285,6 +274,7 @@ export function useReactMediaRecorder({
     pauseRecording,
     resumeRecording,
     stopRecording,
+    setMediaBlobUrl,
     mediaBlobUrl,
     mediaBlob,
     status,
@@ -306,4 +296,4 @@ export function useReactMediaRecorder({
 }
 
 export const ReactMediaRecorder = (props: ReactMediaRecorderProps) =>
-  props.render(useReactMediaRecorder(props));
+  props.render(useAudioRecorder(props));
