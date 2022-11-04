@@ -35,6 +35,11 @@ $y-axis: 25%; // where to place popup on y-axis
   background: $white;
   padding: 16px 24px;
   border-radius: 16px;
+  box-sizing: border-box;
+
+  @media screen and (max-width: $small-screen) {
+    width: 90%;
+  }
 
   .c-popup-modal-header {
     display: flex;

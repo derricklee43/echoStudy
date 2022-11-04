@@ -14,6 +14,7 @@ interface FlashcardSetProps {
   onDeleteCardClick: (card: Card) => void;
   onCardReorder: (cards: Card[]) => void;
   onCardChange: (card: Card) => void;
+  onRecordAudioClick: (card: Card, side: 'front' | 'back') => void;
 }
 
 const DRAG_HANDLE = 'DRAG_HANDLE';
@@ -25,6 +26,7 @@ export const FlashcardSet = ({
   onCardReorder,
   onDeleteCardClick,
   onCardChange,
+  onRecordAudioClick,
 }: FlashcardSetProps) => {
   const [activeCardKey, setActiveCardKey] = useState(initialActiveCardKey);
   const [draggingKey, setDraggingKey] = useState('');
@@ -68,6 +70,7 @@ export const FlashcardSet = ({
             variant={variant}
             onFocus={() => setActiveCardKey(card.key)}
             onCardChange={onCardChange}
+            onRecordAudioClick={(isFront) => onRecordAudioClick(card, isFront)}
           />
           <Button onClick={() => onDeleteCardClick(card)} variant="invisible" ariaLabel="trash">
             <TrashIcon variant={variant} />

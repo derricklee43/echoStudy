@@ -3,7 +3,7 @@ import { ReactComponent as Trash } from '@/assets/svg/trash.svg';
 import './trash-icon.scss';
 
 interface TrashIconProps {
-  variant?: 'active' | 'inactive';
+  variant?: 'active' | 'inactive' | 'dark';
   className?: string;
 }
 

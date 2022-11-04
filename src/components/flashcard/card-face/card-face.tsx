@@ -15,6 +15,7 @@ interface CardFaceProps {
   onChange: (cardContent: CardContent) => void;
   onFocus: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
   onSwapContentClick: () => void;
+  onRecordAudioClick: () => void;
 }
 
 export const CardFace = ({
@@ -27,6 +28,7 @@ export const CardFace = ({
   onChange,
   onFocus,
   onSwapContentClick,
+  onRecordAudioClick,
 }: CardFaceProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -34,11 +36,12 @@ export const CardFace = ({
     <div className={`card-face ${className} ${variant}`} onClick={handleCardFaceClick}>
       {variant === 'active' && (
         <CardMenu
-          language={cardContent.language}
+          cardContent={cardContent}
           changeLanguageLabel={changeLanguageLabel}
           swapContentLabel={swapContentLabel}
-          onLanguageChange={handleLanguageChange}
+          onCardContentChange={onChange}
           onSwapContentClick={onSwapContentClick}
+          onRecordAudioClick={onRecordAudioClick}
         />
       )}
       <TextareaAutoSize
@@ -58,9 +61,5 @@ export const CardFace = ({
 
   function handleCardTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
     onChange({ ...cardContent, text: event.currentTarget.value });
-  }
-
-  function handleLanguageChange(language: CardLanguage) {
-    onChange({ ...cardContent, language });
   }
 };

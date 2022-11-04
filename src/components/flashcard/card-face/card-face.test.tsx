@@ -17,6 +17,7 @@ describe('CardFace', () => {
         onChange={noop}
         onFocus={noop}
         onSwapContentClick={noop}
+        onRecordAudioClick={noop}
       />
     );
     expect(screen.queryByRole('button', { name: 'speaker' })).not.toBeInTheDocument();
@@ -34,6 +35,7 @@ describe('CardFace', () => {
         onChange={noop}
         onFocus={noop}
         onSwapContentClick={noop}
+        onRecordAudioClick={noop}
       />
     );
     expect(screen.queryByRole('button', { name: 'speaker' })).not.toBeInTheDocument();
@@ -52,6 +54,7 @@ describe('CardFace', () => {
         onChange={noop}
         onFocus={noop}
         onSwapContentClick={noop}
+        onRecordAudioClick={noop}
       />
     );
     expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).toBeInTheDocument();
@@ -70,6 +73,7 @@ describe('CardFace', () => {
         swapContentLabel=""
         onChange={noop}
         onSwapContentClick={noop}
+        onRecordAudioClick={noop}
       />
     );
     userEvent.click(screen.getByPlaceholderText(TEST_PLACEHOLDER));
@@ -89,6 +93,7 @@ describe('CardFace', () => {
         swapContentLabel=""
         onFocus={noop}
         onSwapContentClick={noop}
+        onRecordAudioClick={noop}
       />
     );
     userEvent.type(screen.getByPlaceholderText(TEST_PLACEHOLDER), 't');
@@ -109,6 +114,7 @@ describe('CardFace', () => {
         placeholder=""
         onFocus={noop}
         onSwapContentClick={noop}
+        onRecordAudioClick={noop}
       />
     );
 

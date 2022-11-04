@@ -1,11 +1,13 @@
 import { useReducer, useState } from 'react';
-import { Card, filterBlankCards } from '@/models/card';
+import { Card, CardSide, filterBlankCards } from '@/models/card';
 import { Deck, DeckMetaData } from '@/models/deck';
+import { LazyAudio } from '@/models/lazy-audio';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
 
 type CardMap = { [id: string]: Card };
-
+type AddedCustomAudioRecord = Record<string, Partial<Record<CardSide, Blob>>>;
+type DeletedCustomAudioRecord = Record<string, CardSide[]>;
 interface DeckEditorReturn {
   deck: Deck;
   hasUnsavedChanges: boolean;
@@ -13,7 +15,9 @@ interface DeckEditorReturn {
   save: () => void;
   discardChanges: () => void;
   addCard: (card: Card) => void;
+  addCustomAudio: (card: Card, cardSide: CardSide, customAudio: Blob) => void;
   deleteCard: (card: Card) => void;
+  deleteCustomAudio: (card: Card, cardSide: CardSide) => void;
   updateCard: (card: Card) => void;
   updateMetaData: (metaData: DeckMetaData) => void;
   reorderCards: (cards: Card[]) => void;
@@ -27,15 +31,19 @@ interface DeckReducerState {
   addedCards: CardMap;
   deletedCards: CardMap;
   updatedCards: CardMap;
+  addedCustomAudioBlobs: AddedCustomAudioRecord;
+  deletedCustomAudioBlobs: DeletedCustomAudioRecord;
 }
 
-interface DeckReducerDispatch {
-  type: DECK_REDUCER_TYPE;
-  card?: Card;
-  metaData?: DeckMetaData;
-  cards?: Card[];
-  newDeck?: Deck;
-}
+type DeckReducerDispatch =
+  | { type: DECK_REDUCER_TYPE.UPDATE_META_DATA; metaData: DeckMetaData }
+  | { type: DECK_REDUCER_TYPE.ADD_CARD; card: Card }
+  | { type: DECK_REDUCER_TYPE.DELETE_CARD; card: Card }
+  | { type: DECK_REDUCER_TYPE.UPDATE_CARD; card: Card }
+  | { type: DECK_REDUCER_TYPE.REORDER_CARDS; cards: Card[] }
+  | { type: DECK_REDUCER_TYPE.SET_DECK; deck: Deck }
+  | { type: DECK_REDUCER_TYPE.ADD_CUSTOM_AUDIO; card: Card; cardSide: CardSide; customAudio: Blob }
+  | { type: DECK_REDUCER_TYPE.DELETE_CUSTOM_AUDIO; card: Card; cardSide: CardSide };
 
 const enum DECK_REDUCER_TYPE {
   UPDATE_META_DATA = 'UPDATE_META_DATA',
@@ -44,6 +52,8 @@ const enum DECK_REDUCER_TYPE {
   UPDATE_CARD = 'UPDATE_CARD',
   REORDER_CARDS = 'REORDER_CARDS',
   SET_DECK = 'SET_DECK',
+  ADD_CUSTOM_AUDIO = 'ADD_CUSTOM_AUDIO',
+  DELETE_CUSTOM_AUDIO = 'DELETE_CUSTOM_AUDIO',
 }
 
 export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
@@ -55,6 +65,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     addedCards: {},
     updatedCards: {},
     deletedCards: {},
+    addedCustomAudioBlobs: {},
+    deletedCustomAudioBlobs: {},
   });
 
   const decksClient = useDecksClient();
@@ -77,7 +89,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       ];
       await Promise.all(cardPromises);
 
-      dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
+      dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, deck: state.currentDeck });
     } catch (e) {
       console.error(e);
     }
@@ -122,8 +134,25 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.REORDER_CARDS, cards });
   }
 
-  function setDeck(newDeck: Deck) {
-    dispatchIfSafe({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck });
+  function addCustomAudio(card: Card, cardSide: CardSide, customAudio: Blob) {
+    const updatedCardContent = {
+      ...card[cardSide],
+      customAudio: new LazyAudio(URL.createObjectURL(customAudio)),
+    };
+    const updatedCard: Card = { ...card, [cardSide]: updatedCardContent };
+    updateCard(updatedCard);
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.ADD_CUSTOM_AUDIO, card, cardSide, customAudio });
+  }
+
+  function deleteCustomAudio(card: Card, cardSide: CardSide) {
+    const updatedCard = { ...card };
+    delete updatedCard[cardSide].customAudio;
+    updateCard(updatedCard);
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.DELETE_CUSTOM_AUDIO, card, cardSide });
+  }
+
+  function setDeck(deck: Deck) {
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.SET_DECK, deck });
   }
 
   function dispatchIfSafe(dispatchArgs: DeckReducerDispatch) {
@@ -136,6 +165,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     deck: state.currentDeck,
     hasUnsavedChanges: state.hasUnsavedChanges,
     isSaving,
+    addCustomAudio,
+    deleteCustomAudio,
     addCard,
     deleteCard,
     updateCard,
@@ -148,64 +179,92 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
 };
 
 function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch): DeckReducerState {
-  const { currentDeck, addedCards, deletedCards, updatedCards } = state;
-  const { type, newDeck, card, cards, metaData } = action;
+  const {
+    currentDeck,
+    addedCards,
+    deletedCards,
+    updatedCards,
+    addedCustomAudioBlobs,
+    deletedCustomAudioBlobs,
+  } = state;
 
-  switch (type) {
+  switch (action.type) {
     case DECK_REDUCER_TYPE.ADD_CARD:
-      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: addCardToDeck(card, currentDeck),
-        addedCards: addCardToMap(card, addedCards),
+        currentDeck: addCardToDeck(action.card, currentDeck),
+        addedCards: addCardToMap(action.card, addedCards),
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.DELETE_CARD:
-      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: removeCardFromDeck(card, currentDeck),
-        addedCards: removeCardFromMap(card, addedCards),
-        updatedCards: removeCardFromMap(card, updatedCards),
-        deletedCards: addCardToMap(card, deletedCards),
+        currentDeck: removeCardFromDeck(action.card, currentDeck),
+        addedCards: removeCardFromMap(action.card, addedCards),
+        updatedCards: removeCardFromMap(action.card, updatedCards),
+        deletedCards: addCardToMap(action.card, deletedCards),
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.UPDATE_META_DATA:
-      if (metaData === undefined) throw new Error('action.metaData must not be undefined');
-      return { ...state, currentDeck: { ...currentDeck, metaData }, hasUnsavedChanges: true };
-
-    case DECK_REDUCER_TYPE.UPDATE_CARD:
-      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: updateCardInDeck(card, currentDeck),
-        addedCards: !card.id ? addCardToMap(card, addedCards) : addedCards,
-        updatedCards: card.id ? addCardToMap(card, updatedCards) : updatedCards,
+        currentDeck: { ...currentDeck, metaData: action.metaData },
+        hasUnsavedChanges: true,
+      };
+
+    case DECK_REDUCER_TYPE.UPDATE_CARD:
+      return {
+        ...state,
+        currentDeck: updateCardInDeck(action.card, currentDeck),
+        addedCards: !action.card.id ? addCardToMap(action.card, addedCards) : addedCards,
+        updatedCards: action.card.id ? addCardToMap(action.card, updatedCards) : updatedCards,
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.REORDER_CARDS:
-      if (cards === undefined) throw new Error('action.cards must not be undefined');
       // Todo: find reordered card
       // Todo: update reordered card
       // Todo: add card to updatedCards map
       return {
         ...state,
-        currentDeck: { ...currentDeck, cards: cards },
+        currentDeck: { ...currentDeck, cards: action.cards },
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.SET_DECK:
-      if (newDeck === undefined) throw new Error('action.deck must not be undefined');
       return {
-        savedDeck: newDeck,
-        currentDeck: newDeck,
+        savedDeck: action.deck,
+        currentDeck: action.deck,
         addedCards: {},
         deletedCards: {},
         updatedCards: {},
+        addedCustomAudioBlobs: {},
+        deletedCustomAudioBlobs: {},
         hasUnsavedChanges: false,
+      };
+
+    case DECK_REDUCER_TYPE.ADD_CUSTOM_AUDIO:
+      const cardBlobs = {
+        ...addedCustomAudioBlobs[action.card.key],
+        [action.cardSide]: action.customAudio,
+      };
+      return {
+        ...state,
+        addedCustomAudioBlobs: { ...addedCustomAudioBlobs, [action.card.key]: cardBlobs },
+      };
+
+    case DECK_REDUCER_TYPE.DELETE_CUSTOM_AUDIO:
+      const deletedCardBlobs = Array.from(
+        new Set([...(deletedCustomAudioBlobs[action.card.key] ?? []), action.cardSide])
+      );
+      return {
+        ...state,
+        deletedCustomAudioBlobs: {
+          ...deletedCustomAudioBlobs,
+          [action.card.key]: deletedCardBlobs,
+        },
       };
 
     default:

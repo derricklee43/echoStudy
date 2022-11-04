@@ -25,6 +25,7 @@ export function useCardsClient() {
     // adds & updates
     addCard,
     addCards,
+    addCustomCardAudio,
     updateCard,
     updateCards,
     updateCardScores,
@@ -86,8 +87,16 @@ export function useCardsClient() {
   }
 
   // POST: /Cards/Update
-  async function updateCard(card: Card): Promise<NewCardsResponse> {
+  async function addCustomCardAudio(card: Card, blob: Blob): Promise<NewCardsResponse> {
     assertIdIsNumber(card.id);
+    const cardJson = cardToJson(card);
+    (cardJson as any).frontAudio = Array.from(new Uint8Array(await blob.arrayBuffer()));
+    const response = await fetchWrapper.post(`/cards/update`, [cardJson]);
+    return response;
+  }
+
+  // POST: /Cards/Update
+  async function updateCard(card: Card): Promise<NewCardsResponse> {
     return updateCards([card]);
   }
 

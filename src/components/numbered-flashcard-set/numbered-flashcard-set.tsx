@@ -29,8 +29,8 @@ export const NumberedFlashcardSet = ({
         variant="light-blue"
         frontText={card.front.text}
         backText={card.back.text}
-        onFrontSpeakerClick={() => playLazyAudio(card.front.audio)}
-        onBackSpeakerClick={() => playLazyAudio(card.back.audio)}
+        onFrontSpeakerClick={() => playLazyAudio(card.front.customAudio ?? card.front.audio)}
+        onBackSpeakerClick={() => playLazyAudio(card.back.customAudio ?? card.back.audio)}
       />
     </div>
   ));

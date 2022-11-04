@@ -7,12 +7,25 @@ import { PlusIcon } from '@/assets/icons/plus-icon/plus-icon';
 import { Button } from '@/components/button/button';
 import { FlashcardSet } from '@/components/flashcard-set/flashcard-set';
 import { PageHeader } from '@/components/page-header/page-header';
+import { useCardsClient } from '@/hooks/api/use-cards-client';
 import { useDeckEditor } from '@/hooks/use-deck-editor';
 import { usePrompt } from '@/hooks/use-prompt';
-import { Card, createNewCard } from '@/models/card';
+import { Card, CardSide, createNewCard } from '@/models/card';
 import { Deck } from '@/models/deck';
+import { RecordAudioPopup } from '@/pages/record-audio-popup/record-audio-popup';
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
 import './deck-editor.scss';
+
+interface RecordAudioCardSide {
+  card: Card;
+  side: CardSide;
+}
+interface UnsavedCardAudioBlobs {
+  front?: Blob;
+  back?: Blob;
+}
+
+type UnsavedCardAudioBlobsRecord = Record<string, UnsavedCardAudioBlobs>;
 
 interface DeckEditorProps {
   initialDeck: Deck;
@@ -41,9 +54,14 @@ export const DeckEditor = ({
     discardChanges,
     reorderCards,
     setDeck,
+    addCustomAudio,
+    deleteCustomAudio,
   } = useDeckEditor(initialDeck); // get real deck and update tests
+
   const [isPromptEnabled, setIsPromptEnabled] = useState(true);
   const [activeCardKey, setActiveCardKey] = useState('');
+  const [recordAudioCardSide, setRecordAudioCardSide] = useState<RecordAudioCardSide>();
+  const { updateCard: uc, getCardsByDeckId, addCustomCardAudio: acca } = useCardsClient();
 
   const hasMetadataFilled = deck.metaData.title && deck.metaData.desc;
   const isSaveButtonDisabled = isSaving || !hasUnsavedChanges || !hasMetadataFilled;
@@ -86,6 +104,12 @@ export const DeckEditor = ({
         <PlusIcon />
         <label>new card</label>
       </Button>
+      <RecordAudioPopup
+        cardContent={getCardContent()}
+        showPopup={recordAudioCardSide !== undefined}
+        onClose={() => setRecordAudioCardSide(undefined)}
+        onSave={handleRecordAudioSave}
+      />
     </div>
   );
 
@@ -136,6 +160,7 @@ export const DeckEditor = ({
         onCardReorder={reorderCards}
         onCardChange={updateCard}
         onDeleteCardClick={deleteCard}
+        onRecordAudioClick={handleRecordAudioClick}
       />
     );
   }
@@ -157,5 +182,33 @@ export const DeckEditor = ({
     } else {
       save(); // Todo: await and handle errors
     }
+  }
+
+  function handleRecordAudioClick(card: Card, side: CardSide) {
+    setRecordAudioCardSide({ card, side });
+  }
+
+  async function handleRecordAudioSave(audioUrl: string | undefined, audioBlob: Blob | undefined) {
+    if (recordAudioCardSide === undefined) {
+      return;
+    }
+    const { card, side } = recordAudioCardSide;
+    setRecordAudioCardSide(undefined);
+    if (audioUrl === undefined) {
+      deleteCustomAudio(card, side);
+      return;
+    }
+    if (audioBlob === undefined) {
+      throw new Error('audioBlob cannot be undefined');
+    }
+    addCustomAudio(card, side, audioBlob);
+  }
+
+  function getCardContent() {
+    if (recordAudioCardSide === undefined) {
+      return undefined;
+    }
+    const { card, side } = recordAudioCardSide;
+    return card[side];
   }
 };
