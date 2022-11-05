@@ -10,9 +10,13 @@
     white-space: nowrap;
   }
 
-  .card-menu-swap-option {
+  .card-menu-option {
     display: flex;
     align-items: center;
+
+    &.disabled-card-menu-option {
+      color: $grey;
+    }
   }
 
   .card-menu-record-audio-icon {

@@ -26,9 +26,7 @@ export const Flashcard = ({
     <div ref={cardRef} className={`flashcard ${variant}`}>
       <CardFace
         variant={variant}
-        placeholder="add term"
-        changeLanguageLabel="term language"
-        swapContentLabel="swap with definition"
+        cardSide={'front'}
         cardContent={card.front}
         onFocus={onFocus}
         onChange={handleFrontFaceChange}
@@ -37,9 +35,7 @@ export const Flashcard = ({
       />
       <CardFace
         variant={variant}
-        placeholder="add definition"
-        changeLanguageLabel="definition language"
-        swapContentLabel="swap with term"
+        cardSide={'back'}
         className="back"
         cardContent={card.back}
         onFocus={onFocus}

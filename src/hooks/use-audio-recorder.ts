@@ -5,6 +5,11 @@ import {
   IMediaRecorder,
   MediaRecorder as ExtendableMediaRecorder,
 } from 'extendable-media-recorder';
+import { isObject, isString } from '@/helpers/validator';
+
+type RecorderError = {
+  name: keyof typeof RecorderErrors;
+};
 
 export type UseAudioRecorderRenderProps = {
   error: string;
@@ -117,8 +122,10 @@ export function useAudioRecorder({
         mediaStream.current = stream;
       }
       setStatus('idle');
-    } catch (error: any) {
-      setError(error.name);
+    } catch (error) {
+      if (isRecorderError(error)) {
+        setError(error.name);
+      }
       setStatus('idle');
     }
   }, [audio, video, screen]);
@@ -137,7 +144,7 @@ export function useAudioRecorder({
     const checkConstraints = (mediaType: MediaTrackConstraints) => {
       const supportedMediaConstraints = navigator.mediaDevices.getSupportedConstraints();
       const unSupportedConstraints = Object.keys(mediaType).filter(
-        (constraint) => !(supportedMediaConstraints as { [key: string]: any })[constraint]
+        (constraint) => !(supportedMediaConstraints as { [key: string]: unknown })[constraint]
       );
 
       if (unSupportedConstraints.length > 0) {
@@ -293,6 +300,13 @@ export function useAudioRecorder({
       setStatus('idle');
     },
   };
+}
+
+function isRecorderError(error: unknown): error is RecorderError {
+  if (!isObject(error) || !('name' in error) || !isString(error.name)) {
+    return false;
+  }
+  return Object.keys(RecorderErrors).some((re) => re === error.name);
 }
 
 export const ReactMediaRecorder = (props: ReactMediaRecorderProps) =>

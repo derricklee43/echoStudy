@@ -4,8 +4,9 @@ import { SwapIcon } from '@/assets/icons/swap-icon/swap-icon';
 import { DropDownOption } from '@/components/drop-down-options/drop-down-options';
 import { KebabMenu } from '@/components/kebab-menu/kebab-menu';
 import { LanguageDropDown } from '@/components/language-drop-down/drop-down-options/language-drop-down';
+import { CardSide } from '@/models/card';
 import { CardContent } from '@/models/card-content';
-import { AllCardLanguages, CardLanguage } from '@/models/language';
+import { AllCardLanguages } from '@/models/language';
 import './card-menu.scss';
 
 const langDropdownId = 'lang';
@@ -16,9 +17,8 @@ const dropDownOptionIDs = [langDropdownId, swapOptionId, recordAudioOptionId] as
 type CardMenuDropdownID = typeof dropDownOptionIDs[number];
 
 interface CardMenuProps {
+  cardSide: CardSide;
   cardContent: CardContent;
-  changeLanguageLabel: string;
-  swapContentLabel: string;
   onCardContentChange: (cardContent: CardContent) => void;
   onSwapContentClick: () => void;
   onRecordAudioClick: () => void;
@@ -26,18 +26,21 @@ interface CardMenuProps {
 
 export const CardMenu = ({
   cardContent,
-  changeLanguageLabel,
-  swapContentLabel,
+  cardSide,
   onCardContentChange,
   onSwapContentClick,
   onRecordAudioClick,
 }: CardMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const cardSideLabel = cardSide === 'front' ? 'term' : 'definition';
+  const changeLanguageLabel = `${cardSideLabel} language`;
+  const swapContentLabel = `${cardSideLabel} with definition`;
+
   const options: DropDownOption<CardMenuDropdownID, ReactNode>[] = [
     { id: langDropdownId, focusable: false, value: getLanguageDropdownOption() },
     { id: swapOptionId, focusable: true, value: getSwapOption() },
-    { id: recordAudioOptionId, focusable: true, value: getRecordAudioOption() },
+    { id: recordAudioOptionId, focusable: !!cardContent.text, value: getRecordAudioOption() },
   ];
 
   return (
@@ -58,6 +61,7 @@ export const CardMenu = ({
     }
     if (option.id === recordAudioOptionId) {
       onRecordAudioClick();
+      setIsOpen(false);
     }
   }
 
@@ -76,7 +80,7 @@ export const CardMenu = ({
 
   function getSwapOption() {
     return (
-      <div className="card-menu-swap-option">
+      <div className="card-menu-option">
         <SwapIcon variant="dark" className="card-menu-swap-icon card-menu-icon" />
         {swapContentLabel}
       </div>
@@ -84,9 +88,15 @@ export const CardMenu = ({
   }
 
   function getRecordAudioOption() {
+    const isDisabled = !cardContent.text;
+    const containerClass = isDisabled ? 'disabled-card-menu-option' : '';
+    const microphoneVariant = isDisabled ? 'grey' : 'dark';
     return (
-      <div className="card-menu-swap-option">
-        <MicrophoneIcon className="card-menu-record-audio-icon card-menu-icon" />
+      <div className={`card-menu-option ${containerClass}`}>
+        <MicrophoneIcon
+          className="card-menu-record-audio-icon card-menu-icon"
+          variant={microphoneVariant}
+        />
         record audio
       </div>
     );

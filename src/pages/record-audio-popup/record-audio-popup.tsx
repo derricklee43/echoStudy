@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MicrophoneIcon } from '@/assets/icons/microphone-icon/microphone-icon';
 import { TrashIcon } from '@/assets/icons/trash-icon/trash-icon';
+import bubbleColors from '@/components/bubble-tag-list/_bubble-tag-colors.scss';
 import { BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
 import { Button } from '@/components/button/button';
 import { LoadingPage } from '@/components/loading-page/loading-page';
@@ -44,13 +45,14 @@ export const RecordAudioPopup = ({
   }, [recordAudioCardSide, setMediaBlobUrl]);
 
   if (recordAudioCardSide === undefined) {
-    return <LoadingPage />;
+    return <></>;
   }
 
   const { card, side } = recordAudioCardSide;
   const cardContent = card[side];
 
   const clearMedia = () => {
+    stopRecording();
     setMediaBlobUrl(undefined);
     clearBlobUrl();
   };
@@ -61,12 +63,15 @@ export const RecordAudioPopup = ({
   };
 
   const handleSaveClick = () => {
-    if (mediaBlobUrl !== cardContent?.customAudio?.src) {
+    if (mediaBlobUrl === cardContent?.customAudio?.src) {
+      onClose();
+    } else {
       onSave(mediaBlob, card, side);
     }
     clearMedia();
   };
 
+  const cardSideLabel = side === 'front' ? 'term' : 'definition';
   return (
     <PopupModal
       headerLabel="record custom card audio"
@@ -74,11 +79,24 @@ export const RecordAudioPopup = ({
       onClose={handleCloseClick}
     >
       <div className="record-audio-popup">
-        <BubbleTagList bubbleTags={[{ value: cardContent.language.toLocaleLowerCase() }]} />
-        <div className="record-audio-card-face">{cardContent.text}</div>
+        <BubbleTagList
+          bubbleTags={[
+            {
+              value: cardSideLabel,
+              style: { backgroundColor: side === 'front' ? bubbleColors.pink : bubbleColors.green },
+            },
+            { value: cardContent.language.toLocaleLowerCase() },
+          ]}
+        />
+        <div className={`record-audio-card-face`}>{cardContent.text}</div>
         {mediaBlobUrl === undefined ? getAudioRecorder() : getAudioPlayer()}
         <div className="record-audio-save-button-container">
-          <Button variant={'dark'} onClick={handleSaveClick} className="record-audio-save-button">
+          <Button
+            variant={'dark'}
+            onClick={handleSaveClick}
+            className="record-audio-save-button"
+            disabled={isRecording()}
+          >
             save
           </Button>
         </div>
@@ -98,20 +116,24 @@ export const RecordAudioPopup = ({
   }
 
   function getAudioRecorder() {
-    const isRecording = status === 'recording';
+    const recording = isRecording();
     return (
       <div className="record-audio-microphone-container">
-        {isRecording ? 'recording. click to stop...' : 'click to start recording...'}
+        {recording ? 'recording. click to stop...' : 'click to start recording...'}
         <button
-          className={`record-audio-microphone-icon-button ${isRecording ? 'is-recording' : ''}`}
-          onClick={isRecording ? stopRecording : startRecording}
+          className={`record-audio-microphone-icon-button ${recording ? 'is-recording' : ''}`}
+          onClick={recording ? stopRecording : startRecording}
         >
           <MicrophoneIcon
             className="record-audio-microphone-icon"
-            variant={isRecording ? 'white' : 'dark'}
+            variant={recording ? 'white' : 'dark'}
           />
         </button>
       </div>
     );
+  }
+
+  function isRecording() {
+    return status === 'recording';
   }
 };

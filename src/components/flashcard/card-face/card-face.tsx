@@ -1,15 +1,13 @@
 import React, { useRef } from 'react';
 import TextareaAutoSize from 'react-textarea-autosize';
+import { CardSide } from '@/models/card';
 import { CardContent } from '@/models/card-content';
-import { CardLanguage } from '@/models/language';
 import { CardMenu } from './card-menu/card-menu';
 import './card-face.scss';
 
 interface CardFaceProps {
+  cardSide: CardSide;
   cardContent: CardContent;
-  placeholder: string;
-  changeLanguageLabel: string;
-  swapContentLabel: string;
   variant: 'active' | 'inactive';
   className?: string;
   onChange: (cardContent: CardContent) => void;
@@ -20,9 +18,7 @@ interface CardFaceProps {
 
 export const CardFace = ({
   cardContent,
-  placeholder,
-  changeLanguageLabel,
-  swapContentLabel,
+  cardSide,
   variant,
   className = '',
   onChange,
@@ -31,14 +27,14 @@ export const CardFace = ({
   onRecordAudioClick,
 }: CardFaceProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
+  const cardSideLabel = cardSide === 'front' ? 'term' : 'definition';
+  const placeholder = `add ${cardSideLabel}`;
   return (
     <div className={`card-face ${className} ${variant}`} onClick={handleCardFaceClick}>
       {variant === 'active' && (
         <CardMenu
           cardContent={cardContent}
-          changeLanguageLabel={changeLanguageLabel}
-          swapContentLabel={swapContentLabel}
+          cardSide={cardSide}
           onCardContentChange={onChange}
           onSwapContentClick={onSwapContentClick}
           onRecordAudioClick={onRecordAudioClick}
