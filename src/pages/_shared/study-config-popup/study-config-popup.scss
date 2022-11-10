@@ -67,6 +67,7 @@
 
       .max-cards-textbox {
         width: 56px;
+        text-align: center;
 
         input {
           font-size: 18px;
@@ -87,7 +88,7 @@
     .max-cards-error {
       font-size: 13px;
       color: $light-red;
-      padding-top: 0.33rem;
+      padding-top: 0.5rem;
     }
   }
 

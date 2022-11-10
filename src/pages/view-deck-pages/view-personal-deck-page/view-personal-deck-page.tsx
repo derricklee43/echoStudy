@@ -18,6 +18,8 @@ interface ViewPersonalDeckPageProps {
 
 export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
   const navigate = useNavigate();
+
+  const numCards = deck.metaData.cardIds.length;
   const percentStudied = deck.metaData.studiedPercent;
   const progressBarPercent = percentStudied === 0 ? 0 : Math.max(5, percentStudied);
   const tags = getDeckBubbleTags(deck);
@@ -32,7 +34,11 @@ export const ViewPersonalDeckPage = ({ deck }: ViewPersonalDeckPageProps) => {
         </div>
 
         <div className="action-button-group">
-          <Button onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)} size="medium">
+          <Button
+            onClick={() => navigate(`${paths.study}/${deck.metaData.id}`)}
+            disabled={numCards == 0}
+            size="medium"
+          >
             study
           </Button>
           <Button onClick={() => navigate(`${paths.editDeck}/${deck.metaData.id}`)} size="medium">

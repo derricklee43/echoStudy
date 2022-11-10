@@ -49,6 +49,7 @@ export const DeckCover = ({
   }
 
   function getCoverBack() {
+    const numCards = deck.metaData.cardIds.length;
     const studiedPercent = deck.metaData.studiedPercent;
     const progressBarPercent = studiedPercent === 0 ? 0 : Math.max(studiedPercent, 15); // looks ugly at <15
     return (
@@ -66,7 +67,7 @@ export const DeckCover = ({
           <Button bubbleOnClickEvent={false} onClick={onViewClick}>
             view
           </Button>
-          <Button bubbleOnClickEvent={false} onClick={onStudyClick}>
+          <Button bubbleOnClickEvent={false} disabled={numCards == 0} onClick={onStudyClick}>
             study
           </Button>
         </div>
