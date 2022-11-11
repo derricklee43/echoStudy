@@ -33,9 +33,11 @@ export const CardMenu = ({
 }: CardMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const cardSideLabel = cardSide === 'front' ? 'term' : 'definition';
-  const changeLanguageLabel = `${cardSideLabel} language`;
-  const swapContentLabel = `${cardSideLabel} with definition`;
+  const termDef = ['term', 'definition'];
+  const [sideLabel, oppositeSideLabel] = cardSide === 'front' ? termDef : termDef.reverse();
+
+  const changeLanguageLabel = `${sideLabel} language`;
+  const swapContentLabel = `swap with ${oppositeSideLabel}`;
 
   const options: DropDownOption<CardMenuDropdownID, ReactNode>[] = [
     { id: langDropdownId, focusable: false, value: getLanguageDropdownOption() },

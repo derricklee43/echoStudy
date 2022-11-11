@@ -11,16 +11,16 @@ svg.speaker-icon.white path {
 
 svg.speaker-icon.red path {
   &:first-child {
-    fill: $red;
+    fill: $muted-red;
     stroke: none;
   }
-  stroke: $red;
+  stroke: $muted-red;
 }
 
 svg.speaker-icon.green path {
   &:first-child {
-    fill: $green;
+    fill: $muted-green;
     stroke: none;
   }
-  stroke: $green;
+  stroke: $muted-green;
 }

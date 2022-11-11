@@ -137,8 +137,8 @@ $z-popup-modal: 1024;
   }
 }
 
-@mixin animation-mixin($color) {
-  @keyframes pulse#{$color} {
+@mixin animation-mixin($color, $name) {
+  @keyframes #{$name} {
     0% {
       box-shadow: 0 0 0 0 rgba($color, 0.7);
     }
@@ -151,10 +151,18 @@ $z-popup-modal: 1024;
   }
 }
 
-@mixin infinite-pulse($time: 1s, $color: $white) {
-  @include animation-mixin($color);
+@mixin infinite-pulse($animationName, $time: 1s, $color: $white) {
+  @include animation-mixin($color, $animationName);
   box-shadow: 0 0 0 $color;
-  animation: pulse#{$color} $time infinite;
+  animation: $animationName $time infinite;
+}
+
+@mixin red-infinite-pulse($time: 1s) {
+  @include infinite-pulse(redPulse, 1s, $red);
+}
+
+@mixin white-infinite-pulse($time: 1s) {
+  @include infinite-pulse(whitePulse, 1s, $white);
 }
 
 @mixin light-hr {

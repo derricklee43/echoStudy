@@ -5,9 +5,6 @@ $red: #d42323;
 
 .record-audio-popup {
   .record-audio-card-face {
-    // TODO: Warning Icon when text changes after recording
-    // TODO: Card overflow handling
-    // TODO: Maybe make same as other card formats
     @include flex-center;
     padding: 25px;
     min-height: 150px;
@@ -42,10 +39,9 @@ $red: #d42323;
       height: 45px;
 
       &.is-recording {
-        // TODO: fix infinite-pulse breaks when using $red
-        @include infinite-pulse(1s, red);
-        background-color: red;
-        border-color: red;
+        @include red-infinite-pulse;
+        background-color: $red;
+        border-color: $red;
       }
 
       .record-audio-microphone-icon {
