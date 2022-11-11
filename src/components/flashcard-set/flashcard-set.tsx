@@ -4,7 +4,7 @@ import { TrashIcon } from '@/assets/icons/trash-icon/trash-icon';
 import { Button } from '@/components/button/button';
 import { Flashcard } from '@/components/flashcard/flashcard';
 import { ReorderButtonStrip } from '@/components/flashcard/reorder-button-strip/reorder-button-strip';
-import { Card } from '@/models/card';
+import { Card, CardSide } from '@/models/card';
 import './flashcard-set.scss';
 
 interface FlashcardSetProps {
@@ -14,7 +14,7 @@ interface FlashcardSetProps {
   onDeleteCardClick: (card: Card) => void;
   onCardReorder: (cards: Card[]) => void;
   onCardChange: (card: Card) => void;
-  onRecordAudioClick: (card: Card, side: 'front' | 'back') => void;
+  onRecordAudioClick: (card: Card, side: CardSide) => void;
 }
 
 const DRAG_HANDLE = 'DRAG_HANDLE';

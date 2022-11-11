@@ -25,7 +25,7 @@ global.console = {
  */
 Object.defineProperty(global, 'MediaRecorder', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: jest.fn().mockImplementation(() => ({
     start: jest.fn(),
     ondataavailable: jest.fn(),
     onerror: jest.fn(),

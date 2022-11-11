@@ -77,7 +77,7 @@ export const RecordAudioPopup = ({
       showTrigger={showPopup}
       onClose={handleCloseClick}
     >
-      <div className="record-audio-popup">
+      <div className="ra-popup">
         <BubbleTagList
           bubbleTags={[
             {
@@ -87,13 +87,13 @@ export const RecordAudioPopup = ({
             { value: cardContent.language.toLocaleLowerCase() },
           ]}
         />
-        <div className={`record-audio-card-face`}>{cardContent.text}</div>
+        <div className={`ra-card-face`}>{cardContent.text}</div>
         {mediaBlobUrl === undefined ? getAudioRecorder() : getAudioPlayer()}
-        <div className="record-audio-save-button-container">
+        <div className="ra-save-button-container">
           <Button
             variant={'dark'}
             onClick={handleSaveClick}
-            className="record-audio-save-button"
+            className="ra-save-button"
             disabled={isRecording()}
           >
             save
@@ -105,7 +105,7 @@ export const RecordAudioPopup = ({
 
   function getAudioPlayer() {
     return (
-      <div className="record-audio-audio-player">
+      <div className="ra-audio-player">
         <audio src={mediaBlobUrl} controls />
         <Button onClick={clearMedia} variant="invisible">
           <TrashIcon variant="dark" />
@@ -117,16 +117,13 @@ export const RecordAudioPopup = ({
   function getAudioRecorder() {
     const recording = isRecording();
     return (
-      <div className="record-audio-microphone-container">
+      <div className="ra-microphone-container">
         {recording ? 'recording. click to stop...' : 'click to start recording...'}
         <button
-          className={`record-audio-microphone-icon-button ${recording ? 'is-recording' : ''}`}
+          className={`ra-microphone-icon-button ${recording ? 'is-recording' : ''}`}
           onClick={recording ? stopRecording : startRecording}
         >
-          <MicrophoneIcon
-            className="record-audio-microphone-icon"
-            variant={recording ? 'white' : 'dark'}
-          />
+          <MicrophoneIcon className="ra-microphone-icon" variant={recording ? 'white' : 'dark'} />
         </button>
       </div>
     );

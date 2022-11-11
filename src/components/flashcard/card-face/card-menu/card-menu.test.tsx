@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { noop } from '@/helpers/func';
-import { CardMenu } from './card-menu';
 import { CardContent, createNewCardContent } from '@/models/card-content';
+import { CardMenu } from './card-menu';
 
 describe('CardMenu', () => {
   const FRONT_CHANGE_LANGUAGE_LABEL = 'term language';

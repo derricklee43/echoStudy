@@ -1,10 +1,8 @@
 @import '@/assets/colors';
 @import '@/assets/styles';
 
-$red: #d42323;
-
-.record-audio-popup {
-  .record-audio-card-face {
+.ra-popup {
+  .ra-card-face {
     @include flex-center;
     padding: 25px;
     min-height: 150px;
@@ -24,12 +22,12 @@ $red: #d42323;
     }
   }
 
-  .record-audio-microphone-container {
+  .ra-microphone-container {
     @include flex-center;
     flex-direction: column;
     color: $grey;
 
-    .record-audio-microphone-icon-button {
+    .ra-microphone-icon-button {
       @include hover-pointer;
       margin: 10px;
       border-radius: 50%;
@@ -44,23 +42,23 @@ $red: #d42323;
         border-color: $red;
       }
 
-      .record-audio-microphone-icon {
+      .ra-microphone-icon {
         width: 25px;
         height: 25px;
       }
     }
   }
 
-  .record-audio-audio-player {
+  .ra-audio-player {
     @include flex-center;
     gap: 10px;
     margin-bottom: 10px;
   }
 
-  .record-audio-save-button-container {
+  .ra-save-button-container {
     display: flex;
     justify-content: flex-end;
-    .record-audio-save-button {
+    .ra-save-button {
       padding: 8px 20px;
     }
   }

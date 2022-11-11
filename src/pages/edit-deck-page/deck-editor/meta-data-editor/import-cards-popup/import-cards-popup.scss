@@ -17,15 +17,13 @@
 
   .import-cards-button-group {
     @include flex-center;
-    margin: 8px 20px;
   }
 
   .import-cards-input-container {
     margin-top: 12px;
-    padding: 0px 25px;
 
-    .browse-files-button-container {
-      @include flex-center;
+    @media screen and (min-width: $small-screen) {
+      padding: 0px 25px;
     }
   }
 }

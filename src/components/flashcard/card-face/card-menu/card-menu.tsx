@@ -39,10 +39,15 @@ export const CardMenu = ({
   const changeLanguageLabel = `${sideLabel} language`;
   const swapContentLabel = `swap with ${oppositeSideLabel}`;
 
+  const isRecordAudioDisabled = !cardContent.text;
   const options: DropDownOption<CardMenuDropdownID, ReactNode>[] = [
     { id: langDropdownId, focusable: false, value: getLanguageDropdownOption() },
     { id: swapOptionId, focusable: true, value: getSwapOption() },
-    { id: recordAudioOptionId, focusable: !!cardContent.text, value: getRecordAudioOption() },
+    {
+      id: recordAudioOptionId,
+      focusable: !isRecordAudioDisabled,
+      value: getRecordAudioOption(isRecordAudioDisabled),
+    },
   ];
 
   return (
@@ -89,8 +94,7 @@ export const CardMenu = ({
     );
   }
 
-  function getRecordAudioOption() {
-    const isDisabled = !cardContent.text;
+  function getRecordAudioOption(isDisabled: boolean) {
     const containerClass = isDisabled ? 'disabled-card-menu-option' : '';
     const microphoneVariant = isDisabled ? 'grey' : 'dark';
     return (

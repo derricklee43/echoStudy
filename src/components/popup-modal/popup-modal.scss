@@ -37,6 +37,10 @@ $y-axis: 25%; // where to place popup on y-axis
   border-radius: 16px;
   box-sizing: border-box;
 
+  @media screen and (min-width: $small-screen) {
+    min-width: 450px;
+  }
+
   @media screen and (max-width: $small-screen) {
     width: 90%;
   }

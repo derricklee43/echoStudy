@@ -90,7 +90,7 @@ describe('PartialSearchBar', () => {
 
   it('should autocomplete search and hide dropdown when result clicked', () => {
     const mockOnSearchValueChange = jest.fn();
-    const { container } = render(
+    render(
       <PartialSearchBar
         leftChild=""
         shouldShowResults={true}
