@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   TEST_OPTIONS_SINGLE,
@@ -74,7 +68,6 @@ describe('PartialSearchBar', () => {
     );
 
     // clear and check if empty
-    const input = getSearchBarInput(container);
     const clearButton = getClearButton(container);
     fireEvent.click(clearButton);
     expect(mockOnSearchValueChange).toHaveBeenCalledWith('');
@@ -107,7 +100,6 @@ describe('PartialSearchBar', () => {
         onSearchValueChange={mockOnSearchValueChange}
       />
     );
-    const input = getSearchBarInput(container);
 
     // search 'test' and click the 'test0' option
     const optionTest0 = screen.getByText('test0');

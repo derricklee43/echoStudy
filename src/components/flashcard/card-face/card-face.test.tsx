@@ -6,6 +6,10 @@ import { createNewCardContent } from '@/models/card-content';
 import { CardFace } from './card-face';
 
 describe('CardFace', () => {
+  const FRONT_PLACEHOLDER = 'add term';
+  const FRONT_SWAP_CONTENT_LABEL = 'swap with definition';
+  const FRONT_CHANGE_LANGUAGE_LABEL = 'term language';
+
   it('should hide kebab menu when inactive', () => {
     render(
       <CardFace
@@ -39,7 +43,6 @@ describe('CardFace', () => {
   });
 
   it('should render placeholder when text is empty ', () => {
-    const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
     render(
       <CardFace
         cardContent={createNewCardContent()}
@@ -51,12 +54,11 @@ describe('CardFace', () => {
         onRecordAudioClick={noop}
       />
     );
-    expect(screen.queryByPlaceholderText(TEST_PLACEHOLDER)).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText(FRONT_PLACEHOLDER)).toBeInTheDocument();
   });
 
   it('should call onFocus on focus', () => {
     const mockOnFocus = jest.fn();
-    const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
     render(
       <CardFace
         cardContent={createNewCardContent()}
@@ -68,13 +70,12 @@ describe('CardFace', () => {
         onRecordAudioClick={noop}
       />
     );
-    userEvent.click(screen.getByPlaceholderText(TEST_PLACEHOLDER));
+    userEvent.click(screen.getByPlaceholderText(FRONT_PLACEHOLDER));
     expect(mockOnFocus).toBeCalled();
   });
 
   it('should call onChange on text change', () => {
     const mockOnChange = jest.fn();
-    const TEST_PLACEHOLDER = 'TEST_PLACEHOLDER';
     render(
       <CardFace
         cardContent={createNewCardContent()}
@@ -86,13 +87,11 @@ describe('CardFace', () => {
         onRecordAudioClick={noop}
       />
     );
-    userEvent.type(screen.getByPlaceholderText(TEST_PLACEHOLDER), 't');
+    userEvent.type(screen.getByPlaceholderText(FRONT_PLACEHOLDER), 't');
     expect(mockOnChange).toBeCalledWith({ ...createNewCardContent(), text: 't' });
   });
 
   it('should open the card-face menu on click', () => {
-    const TEST_SWAP_CONTENT_LABEL = 'TEST_SWAP_CONTENT_LABEL';
-    const TEST_CHANGE_LANGUAGE_LABEL = 'TEST_CHANGE_LANGUAGE_LABEL';
     const cardContent = createNewCardContent();
     render(
       <CardFace
@@ -107,8 +106,8 @@ describe('CardFace', () => {
     );
 
     userEvent.click(screen.getByRole('button', { name: 'kebab-menu' }));
-    expect(screen.queryByText(TEST_CHANGE_LANGUAGE_LABEL)).toBeInTheDocument();
-    expect(screen.queryByText(TEST_SWAP_CONTENT_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(FRONT_CHANGE_LANGUAGE_LABEL)).toBeInTheDocument();
+    expect(screen.queryByText(FRONT_SWAP_CONTENT_LABEL)).toBeInTheDocument();
     expect(screen.queryByText(cardContent.language)).toBeInTheDocument();
   });
 });

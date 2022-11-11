@@ -4,7 +4,6 @@ import { TrashIcon } from '@/assets/icons/trash-icon/trash-icon';
 import bubbleColors from '@/components/bubble-tag-list/_bubble-tag-colors.scss';
 import { BubbleTagList } from '@/components/bubble-tag-list/bubble-tag-list';
 import { Button } from '@/components/button/button';
-import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PopupModal } from '@/components/popup-modal/popup-modal';
 import { useAudioRecorder } from '@/hooks/use-audio-recorder';
 import { Card, CardSide } from '@/models/card';
