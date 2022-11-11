@@ -34,12 +34,12 @@ export const DropDownOptions = <I extends string, V extends ReactNode>({
   options,
   onOptionSelect,
 }: DropDownOptionsProps<I, V>) => {
-  const optionsClass = 'c-drop-down-options' + (ellipsisOverflow ? ' ellipsis-overflow' : '');
+  const ellipsisClass = ellipsisOverflow ? ' ellipsis-overflow' : '';
   return (
     <AnimatePresence>
       {show && options !== undefined && (
-        <Fade fadeIn={false} className={`${optionsClass} ${className}`}>
-          {options.map(getOption)}
+        <Fade fadeIn={false} className={`c-drop-down-options ${ellipsisClass} ${className}`}>
+          <div className="c-options-grid">{options.map(getOption)}</div>
         </Fade>
       )}
     </AnimatePresence>
@@ -51,7 +51,7 @@ export const DropDownOptions = <I extends string, V extends ReactNode>({
       return (
         <Button
           key={option.id}
-          className={className}
+          className={`c-drop-down-option ${ellipsisClass}`}
           variant="invisible"
           onClick={() => onOptionSelect(option)}
         >
