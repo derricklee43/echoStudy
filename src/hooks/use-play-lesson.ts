@@ -147,8 +147,6 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       throw new Error('card audio could not be found');
     }
 
-    console.log('currently playing', currentCard);
-
     // active card key must be changed
     setActiveCard(currentCard.key);
 
@@ -192,7 +190,6 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
 
     // queue and play next card (if one exists)
     const next = nextCard(updatedCard, upcomingCards, completedCards);
-    console.log('card updated, now', updatedCard);
     next && playCard(next.currentCard, next.upcomingCards, next.completedCards);
   }
 
