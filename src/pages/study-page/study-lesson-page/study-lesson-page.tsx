@@ -127,12 +127,12 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
       <StudyFlashcard
         id={currentCard.key}
         variant="light"
-        cardFaceClass={cardFaceClass}
+        activeSide={activeCardSide}
+        frontLabel="term"
+        backLabel="definition"
         frontContent={currentCard.front.text}
         backContent={currentCard.back.text}
-        backLabel="definition"
-        frontLabel="term"
-        activeSide={activeCardSide}
+        backClassName={cardFaceClass} /* only back of card should show outcome class */
       />
     );
   }

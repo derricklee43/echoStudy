@@ -122,11 +122,10 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       stopCapturingSpeech();
     }
 
-    // TODO: although we change it back to unseen, can we have a record (map) of if it was previously correct?
-    // undo the last result
+    // previous card may already have a result, and that's fine bc it'll be overridden if user gets it incorrect/correct again
+    // if it becomes problematic (styling), we can override back to unseen and keep a record of prior answers for the card id
     const next = previousCard(currentCard, upcomingCards, completedCards);
-    const updatedCard: LessonCard = { ...next.currentCard, outcome: 'unseen' };
-    setCurrentCard(updatedCard);
+    setCurrentCard(next.currentCard);
 
     if (!isPaused) {
       playCard(next.currentCard, next.upcomingCards, next.completedCards);
@@ -225,6 +224,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     if (completedCards.length === 0) {
       return { currentCard, upcomingCards, completedCards };
     }
+
     const newUpcomingCards = [currentCard, ...upcomingCards];
     const newCurrentCard = completedCards[0];
     const newCompletedCards = completedCards.slice(1);

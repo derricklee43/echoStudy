@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { FadeReveal } from '@/animations/fade-reveal';
@@ -54,6 +54,12 @@ export const StudyConfigPopup = ({
   const [maxCardsError, setMaxCardsError] = useState<string>();
 
   const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    if (numCards == 0) {
+      setMaxCardsError('Cannot study a deck with no cards.');
+    }
+  }, [numCards]);
 
   return (
     <PopupModal
@@ -145,6 +151,11 @@ export const StudyConfigPopup = ({
       return;
     }
 
+    if (numCards == 0) {
+      setMaxCardsError('Cannot study a deck with no cards.');
+      return;
+    }
+
     const deckId = deck.metaData.id;
     const params: Partial<Record<keyof StudyConfiguration, string>> = {
       studyType: studyType,
@@ -159,6 +170,11 @@ export const StudyConfigPopup = ({
   }
 
   function handlePopupClose() {
+    if (numCards == 0) {
+      navigate(`${paths.deck}/${deck.metaData.id}`);
+      return;
+    }
+
     onClose({
       studyType: studyType,
       order: orderOption,
