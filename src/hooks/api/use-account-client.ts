@@ -56,7 +56,7 @@ export function useAccountClient() {
 
     try {
       const payload = registerUserInfoToJson(userInfo);
-      const response = await fetchWrapper.post('/Register', payload, numRetries);
+      const response = await fetchWrapper.post('/register', payload, numRetries);
       if (isRegisterSuccess(response)) {
         return { statusCode: 200, response };
       } else {
@@ -94,7 +94,7 @@ export function useAccountClient() {
         username: email,
         password: password,
       };
-      const jwtData = await fetchWrapper.post('/Authenticate', payload, numRetries);
+      const jwtData = await fetchWrapper.post('/authenticate', payload, numRetries);
       const authJwt = jsonToAuthJwt(jwtData);
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, authJwt);
       setAuthJwt(authJwt);
@@ -116,7 +116,7 @@ export function useAccountClient() {
     try {
       const numRetries = 0; // don't retry a refresh
       const payload = authJwtToJson(authJwt);
-      const jwtData = await fetchWrapper.post('/Refresh', payload, numRetries);
+      const jwtData = await fetchWrapper.post('/refresh', payload, numRetries);
       const newAuthJwt = jsonToAuthJwt(jwtData);
 
       simpleLocalStorage.upsert(LocalStorageKeys.authJwt, newAuthJwt);

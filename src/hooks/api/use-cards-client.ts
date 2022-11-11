@@ -55,7 +55,7 @@ export function useCardsClient() {
 
   // GET: /Cards​?deckId={deckId}
   async function getCardsByDeckId(deckId: string): Promise<Card[]> {
-    const cardsData = await fetchWrapper.get(`/Cards?deckId=${deckId}`);
+    const cardsData = await fetchWrapper.get(`/cards?deckId=${deckId}`);
     return cardsData.map(JsonToCard);
   }
 
@@ -66,7 +66,7 @@ export function useCardsClient() {
 
   // GET: Public/Cards​?deckId={deckId}
   async function getPublicCardsById(deckId: number | string): Promise<Card[]> {
-    const cardsData = await fetchWrapper.get(`/Public/Cards?deckId=${deckId}`);
+    const cardsData = await fetchWrapper.get(`/public/cards?deckId=${deckId}`);
     return cardsData.map(JsonToCard);
   }
   //////////////////////
@@ -79,8 +79,8 @@ export function useCardsClient() {
   }
 
   // POST: /Cards
-  async function addCards(cards: DraftCard[] | Card[], deckId: number): Promise<NewCardsResponse> {
-    const cardsToAdd = await Promise.all(cards.map((card) => cardToJson(card, deckId)));
+  async function addCards(cards: DraftCard[], deckId: number): Promise<NewCardsResponse> {
+    const cardsToAdd = cards.map((card) => cardToJson(card, deckId));
     const response = await fetchWrapper.post('/cards', cardsToAdd);
     return response;
   }
@@ -100,7 +100,7 @@ export function useCardsClient() {
 
   // POST: /Cards/Study
   async function updateCardScores(cardScores: UpdateCardScoreRequest[]): Promise<void> {
-    return fetchWrapper.post('/Cards/Study', cardScores);
+    return fetchWrapper.post('/cards/study', cardScores);
   }
 
   /////////////////
@@ -118,7 +118,7 @@ export function useCardsClient() {
     cards.forEach((card) => assertIdIsNumber(card.id));
 
     const cardsToDelete = cards.map((card) => card.id).filter(isDefined);
-    return fetchWrapper.post(`/Cards/Delete`, cardsToDelete);
+    return fetchWrapper.post(`/cards/delete`, cardsToDelete);
   }
 }
 

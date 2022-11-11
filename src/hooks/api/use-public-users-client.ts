@@ -14,13 +14,13 @@ export function usePublicUsersClient() {
 
   // GET: Public/Users/
   async function getPublicUsers() {
-    const response = await fetchWrapper.get('/Public/users');
+    const response = await fetchWrapper.get('/public/users');
     const publicUsers = response.map(JsonToPublicUser);
     return publicUsers;
   }
 
   async function getPublicUser(username: string) {
-    const response = await fetchWrapper.get(`/Public/users/${username}`);
+    const response = await fetchWrapper.get(`/public/users/${username}`);
     const publicUser = JsonToPublicUser(response);
     return publicUser;
   }
