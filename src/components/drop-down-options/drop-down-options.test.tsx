@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { noop } from '@/helpers/func';
 import { withFakeTimers } from '@/helpers/test';
-import { DropDownOption, DropDownOptions } from './drop-down-options';
+import { DropDownOptions } from './drop-down-options';
 import {
   TEST_OPTIONS_SINGLE,
   TEST_OPTIONS_SINGLE_VALUES,

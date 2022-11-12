@@ -22,7 +22,9 @@
 
   .export-cards-output-container {
     margin-top: 12px;
-    padding: 0px 25px;
+    @media screen and (min-width: $small-screen) {
+      padding: 0px 25px;
+    }
 
     .export-cards-divider-button {
       font-size: 12px;

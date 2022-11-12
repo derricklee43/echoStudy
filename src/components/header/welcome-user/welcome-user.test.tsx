@@ -1,12 +1,11 @@
 import React from 'react';
-import { prettyDOM, screen } from '@testing-library/react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { screen } from '@testing-library/react';
+import { act } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { MutableSnapshot } from 'recoil';
 import { renderWithTestRoots } from '@/app.test';
-import { authJwtState, UserInfo, userInfoStateAsync } from '@/state/auth-jwt';
-import { userDecksState } from '@/state/user-decks';
+import { authJwtState, UserInfo } from '@/state/auth-jwt';
 import { WelcomeUser } from './welcome-user';
 
 // provide fetchMock global and disable mocking initially

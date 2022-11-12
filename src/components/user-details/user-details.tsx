@@ -13,7 +13,7 @@ interface UserDetailsProps {
 export const UserDetails = ({ username, email, dateJoined, profilePicUrl }: UserDetailsProps) => {
   return (
     <div className="user-details">
-      <ProfilePicture profilePicUrl={profilePicUrl} showGlow={false} />
+      <ProfilePicture profilePicUrl={profilePicUrl} showGlow={true} />
       <span className="username">{`@${username}`}</span>
       {email !== undefined && <span className="full-name">{email.toLowerCase()}</span>}
       <span className="date-joined">member since {getFormattedDate(dateJoined)}</span>

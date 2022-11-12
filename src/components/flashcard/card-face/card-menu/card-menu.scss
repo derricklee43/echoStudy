@@ -10,12 +10,21 @@
     white-space: nowrap;
   }
 
-  .card-menu-swap-option {
+  .card-menu-option {
     display: flex;
     align-items: center;
 
-    .card-menu-swap-icon {
-      margin-right: 10px;
+    &.disabled-card-menu-option {
+      color: $grey;
     }
+  }
+
+  .card-menu-record-audio-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .card-menu-icon {
+    margin-right: 10px;
   }
 }

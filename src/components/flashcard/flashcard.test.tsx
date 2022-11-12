@@ -9,7 +9,15 @@ import { Flashcard } from './flashcard';
 describe('Flashcard', () => {
   it('should render correctly when inactive', () => {
     const testCard = getTestFoxCard();
-    render(<Flashcard variant="inactive" card={testCard} onCardChange={noop} onFocus={noop} />);
+    render(
+      <Flashcard
+        variant="inactive"
+        card={testCard}
+        onCardChange={noop}
+        onFocus={noop}
+        onRecordAudioClick={noop}
+      />
+    );
     expect(screen.queryByDisplayValue(testCard.front.text)).toBeInTheDocument();
     expect(screen.queryByDisplayValue(testCard.back.text)).toBeInTheDocument();
     expect(screen.queryAllByRole('button', { name: 'speaker' }).length).toEqual(0);
@@ -18,7 +26,15 @@ describe('Flashcard', () => {
 
   it('should render correctly when active', () => {
     const testCard = getTestFoxCard();
-    render(<Flashcard variant="active" card={testCard} onCardChange={noop} onFocus={noop} />);
+    render(
+      <Flashcard
+        variant="active"
+        card={testCard}
+        onCardChange={noop}
+        onFocus={noop}
+        onRecordAudioClick={noop}
+      />
+    );
     expect(screen.queryByDisplayValue(testCard.front.text)).toBeInTheDocument();
     expect(screen.queryByDisplayValue(testCard.back.text)).toBeInTheDocument();
     expect(screen.queryAllByRole('button', { name: 'speaker' }).length).toEqual(0);
@@ -27,7 +43,13 @@ describe('Flashcard', () => {
 
   it('should show placeholder when card is empty', () => {
     render(
-      <Flashcard variant="active" card={createNewCard()} onCardChange={noop} onFocus={noop} />
+      <Flashcard
+        variant="active"
+        card={createNewCard()}
+        onCardChange={noop}
+        onFocus={noop}
+        onRecordAudioClick={noop}
+      />
     );
     expect(screen.queryByPlaceholderText('add term')).toBeInTheDocument();
     expect(screen.queryByPlaceholderText('add definition')).toBeInTheDocument();
@@ -42,7 +64,13 @@ describe('Flashcard', () => {
     card.back.text = definitionText;
 
     render(
-      <Flashcard variant="active" card={card} onCardChange={mockOnCardChange} onFocus={noop} />
+      <Flashcard
+        variant="active"
+        card={card}
+        onCardChange={mockOnCardChange}
+        onFocus={noop}
+        onRecordAudioClick={noop}
+      />
     );
 
     userEvent.click(screen.getAllByRole('button', { name: 'kebab-menu' })[1]);
@@ -64,7 +92,13 @@ describe('Flashcard', () => {
     card.back.text = definitionText;
 
     render(
-      <Flashcard variant="active" card={card} onCardChange={mockOnCardChange} onFocus={noop} />
+      <Flashcard
+        variant="active"
+        card={card}
+        onCardChange={mockOnCardChange}
+        onFocus={noop}
+        onRecordAudioClick={noop}
+      />
     );
 
     userEvent.click(screen.getAllByRole('button', { name: 'kebab-menu' })[0]);

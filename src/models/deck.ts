@@ -1,5 +1,5 @@
 import { asUtcDate } from '@/helpers/time';
-import { Card } from './card';
+import { Card, DraftCard } from './card';
 import { DeckLanguage } from './language';
 
 export type Access = 'Public' | 'Private';
@@ -25,6 +25,10 @@ export interface DeckMetaData {
 export interface Deck {
   metaData: DeckMetaData;
   cards: Card[]; // not populated until individual cards fetched and put onto this object
+}
+
+export interface DraftDeck extends Deck {
+  cards: DraftCard[];
 }
 
 export function deckToJson(deck: Deck) {

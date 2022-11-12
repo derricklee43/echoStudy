@@ -153,7 +153,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     // play front
     currentLifecycleRef.current = 'front';
     setActiveCardSide('front');
-    await playAudio(currentCard.front.audio, 1, {
+    await playAudio(currentCard.front.customAudio ?? currentCard.front.audio, 1, {
       firstPlayPause: 500,
       lastPause: _shouldEnableSpeechRecognition() ? 0 : 2000, // maybe this can be configurable
     });
@@ -186,7 +186,10 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
     currentLifecycleRef.current = 'back';
     setActiveCardSide('back'); // flip to back
     setCurrentCard(updatedCard); // inform card outcome changed after flip (can be before, but looks better)
-    await playAudio(currentCard.back.audio, 1, { firstPlayPause: 100, lastPause: 1000 });
+    await playAudio(currentCard.back.customAudio ?? currentCard.back.audio, 1, {
+      firstPlayPause: 100,
+      lastPause: 1000,
+    });
 
     // queue and play next card (if one exists)
     const next = nextCard(updatedCard, upcomingCards, completedCards);

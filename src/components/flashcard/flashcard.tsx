@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Card } from '@/models/card';
+import { Card, CardSide } from '@/models/card';
 import { CardContent } from '@/models/card-content';
 import { CardFace } from './card-face/card-face';
 import './flashcard.scss';
@@ -9,9 +9,16 @@ interface FlashcardProps {
   variant: 'active' | 'inactive';
   onCardChange: (card: Card) => void;
   onFocus: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
+  onRecordAudioClick: (side: CardSide) => void;
 }
 
-export const Flashcard = ({ variant, card, onCardChange, onFocus }: FlashcardProps) => {
+export const Flashcard = ({
+  variant,
+  card,
+  onCardChange,
+  onFocus,
+  onRecordAudioClick,
+}: FlashcardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   useEffect(() => scrollIntoViewIfActive(), [variant]);
 
@@ -19,24 +26,22 @@ export const Flashcard = ({ variant, card, onCardChange, onFocus }: FlashcardPro
     <div ref={cardRef} className={`flashcard ${variant}`}>
       <CardFace
         variant={variant}
-        placeholder="add term"
-        changeLanguageLabel="term language"
-        swapContentLabel="swap with definition"
+        cardSide={'front'}
         cardContent={card.front}
         onFocus={onFocus}
         onChange={handleFrontFaceChange}
         onSwapContentClick={handleSwapContentClick}
+        onRecordAudioClick={() => onRecordAudioClick('front')}
       />
       <CardFace
         variant={variant}
-        placeholder="add definition"
-        changeLanguageLabel="definition language"
-        swapContentLabel="swap with term"
+        cardSide={'back'}
         className="back"
         cardContent={card.back}
         onFocus={onFocus}
         onChange={handleBackFaceChange}
         onSwapContentClick={handleSwapContentClick}
+        onRecordAudioClick={() => onRecordAudioClick('back')}
       />
     </div>
   );

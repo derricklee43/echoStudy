@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { CancelIcon } from '@/assets/icons/cancel-icon/cancel-icon';
+import { Button } from '@/components/button/button';
 import { useFocusFirst } from '@/hooks/use-focus-first';
 import { useFocusTrap } from '@/hooks/use-focus-trap';
 import { useEscapePress } from '@/hooks/use-key-press';
@@ -41,7 +42,9 @@ export const PopupModal = ({
         <div className="c-popup-modal-content" ref={contentRef}>
           <div className="c-popup-modal-header">
             <span className="c-popup-modal-header-label">{headerLabel}</span>
-            <CancelIcon className="c-popup-modal-cancel-icon" variant="dark" onClick={onClose} />
+            <Button variant="invisible" onClick={onClose}>
+              <CancelIcon className="c-popup-modal-cancel-icon" variant="dark" />
+            </Button>
           </div>
           {children}
         </div>
