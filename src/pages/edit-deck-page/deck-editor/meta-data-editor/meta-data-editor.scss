@@ -58,6 +58,12 @@
       .deck-meta-access-level-label {
         margin-bottom: 8px;
       }
+
+      .swap-all-button {
+        @include flex-center;
+        gap: 10px;
+        padding: 10px;
+      }
     }
   }
 }

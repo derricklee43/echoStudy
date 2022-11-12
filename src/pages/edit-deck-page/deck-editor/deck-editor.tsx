@@ -80,6 +80,7 @@ export const DeckEditor = ({
         onDeckMetaDataChange={updateMetaData}
         onDeleteClick={onDeleteDeckClick}
         onImportedCardsAdd={handleImportedCards}
+        onSwapAllClick={handleSwapAllClick}
       />
       {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
       <Button onClick={handleAddClick} size="medium" className="add-card-button">
@@ -157,5 +158,12 @@ export const DeckEditor = ({
     } else {
       save(); // Todo: await and handle errors
     }
+  }
+
+  function handleSwapAllClick() {
+    deck.cards.forEach((card) => {
+      const newCard = { ...card, front: card.back, back: card.front };
+      updateCard(newCard);
+    });
   }
 };

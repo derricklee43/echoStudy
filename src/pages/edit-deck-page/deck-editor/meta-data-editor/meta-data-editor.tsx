@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SwapIcon } from '@/assets/icons/swap-icon/swap-icon';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { Button } from '@/components/button/button';
 import { LanguageDropDown } from '@/components/language-drop-down/drop-down-options/language-drop-down';
@@ -20,6 +21,7 @@ interface MetaDataEditorProps {
   onDeckMetaDataChange: (metaData: DeckMetaData) => void;
   onDeleteClick: (event: React.MouseEvent) => void;
   onImportedCardsAdd: (cards: Card[]) => void;
+  onSwapAllClick: () => void;
 }
 
 export const MetaDataEditor = ({
@@ -27,6 +29,7 @@ export const MetaDataEditor = ({
   onDeckMetaDataChange,
   onDeleteClick,
   onImportedCardsAdd,
+  onSwapAllClick,
 }: MetaDataEditorProps) => {
   const [showImportModal, setShowImportModal] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -77,6 +80,18 @@ export const MetaDataEditor = ({
         className="advanced-settings-divider"
       >
         <div className="advanced-settings">
+          <div>
+            <div className="deck-meta-access-level-label">who can see your deck?</div>
+            <RadioButtonGroup
+              variant="dark"
+              onButtonSelect={(access) => handleDeckUpdate('access', access)}
+              selectedButtonId={deckMetaData.access}
+              radioButtonOptions={getAccessOptions()}
+            />
+          </div>
+          <Button onClick={onSwapAllClick} className="swap-all-button">
+            <SwapIcon variant="light" /> swap all terms and definitions
+          </Button>
           <LanguageDropDown
             languages={AllDeckLanguages}
             label="default term language"
@@ -91,15 +106,6 @@ export const MetaDataEditor = ({
             onLanguageSelect={(lang) => handleDeckUpdate('backLang', lang)}
             variant="dark"
           />
-          <div>
-            <div className="deck-meta-access-level-label">who can see your deck?</div>
-            <RadioButtonGroup
-              variant="dark"
-              onButtonSelect={(access) => handleDeckUpdate('access', access)}
-              selectedButtonId={deckMetaData.access}
-              radioButtonOptions={getAccessOptions()}
-            />
-          </div>
           <Button onClick={onDeleteClick} size="medium">
             delete deck
           </Button>
