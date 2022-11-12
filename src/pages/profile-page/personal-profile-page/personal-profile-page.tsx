@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
-import { CalendarGraph } from '@/components/calendar-graph/calendar-graph';
+import { CalendarGraph, DailyData } from '@/components/calendar-graph/calendar-graph';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
@@ -24,9 +24,9 @@ export const PersonalProfilePage = () => {
 };
 
 const AsyncPersonalProfilePage = () => {
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const navigate = useNavigate();
   const decksClient = useDecksClient();
-
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
@@ -56,7 +56,15 @@ const AsyncPersonalProfilePage = () => {
         email={userData.email}
         dateJoined={userData.dateCreated}
       />
-      <CalendarGraph />
+
+      <CalendarGraph
+        title="daily activity"
+        className="pg-calendar-graph"
+        calendarData={generateData(100, currentYear)}
+        year={currentYear}
+        onYearChange={setCurrentYear}
+      />
+
       <BubbleDivider
         className="decks-divider"
         variantType="drop-down-reveal"
@@ -109,3 +117,15 @@ const AsyncPersonalProfilePage = () => {
     setUserDecks(fetchedDecks);
   }
 };
+
+function generateData(numDay: number, year: number) {
+  const data: DailyData[] = [];
+  for (let i = 0; i < numDay; i++) {
+    const month = Math.floor(Math.random() * 12);
+    const day = Math.floor(Math.random() * 31);
+    const score = Math.floor(Math.random() * 7);
+    data.push([new Date(year, month, day), score]);
+  }
+
+  return data;
+}

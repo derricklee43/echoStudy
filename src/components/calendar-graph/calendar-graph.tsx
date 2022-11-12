@@ -1,44 +1,89 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
 import { Button } from '@/components/button/button';
 import './calendar-graph.scss';
 
+export type DailyData = [Date, number];
+
 interface CalendarGraphProps {
   className?: string;
+  calendarData: DailyData[];
+  lowThreshold?: number;
+  mediumThreshold?: number;
+  highThreshold?: number;
+  title: string;
+  year: number;
+  onYearChange: (year: number) => void;
 }
 
-const MAX_YEAR = new Date().getFullYear();
-export const CalendarGraph = ({ className = '' }: CalendarGraphProps) => {
-  const [currentYear, setCurrentYear] = useState(MAX_YEAR);
+export const CalendarGraph = ({
+  className = '',
+  calendarData,
+  lowThreshold = 1,
+  mediumThreshold = 3,
+  highThreshold = 5,
+  title,
+  year,
+  onYearChange,
+}: CalendarGraphProps) => {
+  const MAX_YEAR = new Date().getFullYear();
+
+  if (year > MAX_YEAR) {
+    throw Error(`year cannot exceed current year: ${MAX_YEAR}`);
+  }
+
+  const cellStyling = {
+    base: 'cg-base-cell',
+    low: 'cg-base-cell cg-low-cell',
+    medium: 'cg-base-cell cg-med-cell',
+    high: 'cg-base-cell cg-high-cell',
+    hidden: 'cg-base-cell cg-hidden-cell',
+  };
+
+  const currentYearCalendarData = getCurrentYearCalendarData();
   const monthLabels = getMonthLabels();
   const dayLabels = getWeekDayLabels();
   const annualCells = getAnnualCells();
   const yearInput = getYearInput();
+  const graphLegend = getGraphLegend();
+
   return (
-    <div className="calendar-graph">
-      <h3 className="cg-title">Daily Activity</h3>
+    <div className={`calendar-graph ${className}`}>
+      <h3 className="cg-title">{title}</h3>
       {monthLabels}
       <div className="calendar-block">
         {dayLabels}
         <div className="cg-cells">{annualCells}</div>
       </div>
-      {yearInput}
+      <div className="cg-footer">
+        <div className="cg-foot-left-placeholder" />
+        {yearInput}
+        {graphLegend}
+      </div>
     </div>
   );
 
-  function getYearInput() {
-    const isMaxYear = currentYear === MAX_YEAR;
+  function getGraphLegend() {
     return (
-      <div className="cg-year-control">
-        <Button onClick={() => setCurrentYear(currentYear - 1)} variant="invisible">
+      <div className="cg-legend">
+        less <div className={`cg-legend-cell ${cellStyling.base}`} />
+        <div className={`cg-legend-cell ${cellStyling.low}`} />
+        <div className={`cg-legend-cell ${cellStyling.medium}`} />
+        <div className={`cg-legend-cell ${cellStyling.high}`} />
+        more
+      </div>
+    );
+  }
+
+  function getYearInput() {
+    const isMaxYear = year === MAX_YEAR;
+    return (
+      <div className="cg-year-input">
+        <Button onClick={() => onYearChange(year - 1)} variant="invisible">
           <ArrowIcon variant="light" className="cg-left-arrow" />
         </Button>
-        {currentYear}
-        <Button
-          onClick={() => setCurrentYear(currentYear + 1)}
-          variant="invisible"
-          disabled={isMaxYear}
-        >
+        {year}
+        <Button onClick={() => onYearChange(year + 1)} variant="invisible" disabled={isMaxYear}>
           <ArrowIcon variant={isMaxYear ? 'grey' : 'light'} className="cg-right-arrow" />
         </Button>
       </div>
@@ -72,18 +117,16 @@ export const CalendarGraph = ({ className = '' }: CalendarGraphProps) => {
 
   function getWeekDayLabels() {
     const days = ['sun', 'weds', 'sat'];
-
     const dayLabels = days.map((day) => (
       <div key={day} className="day-label">
         {day}
       </div>
     ));
-
     return <div className="day-labels">{dayLabels}</div>;
   }
 
   function getAnnualCells() {
-    const weeks = Array(52).fill('');
+    const weeks = Array(53).fill('');
     return weeks.map((_, w) => (
       <div key={w} className="cg-week">
         {getWeekCells(w)}
@@ -97,13 +140,44 @@ export const CalendarGraph = ({ className = '' }: CalendarGraphProps) => {
   }
 
   function getCellClassName(w: number, d: number) {
-    const firstLastDay = new Date(currentYear, 0, 1).getDay();
+    const leapYearOffset = year % 4 === 0 ? 1 : 0;
+    const firstLastDay = new Date(year, 0, 1).getDay();
+    const score = currentYearCalendarData[getCellDayNumber(w, d)];
 
-    const className = 'cg-day';
-    if ((w === 0 && d < firstLastDay) || (w === 51 && d > firstLastDay)) {
-      return className + ' hidden-day';
+    if ((w === 0 && d < firstLastDay) || (w === 52 && d > firstLastDay + leapYearOffset)) {
+      return cellStyling.hidden;
     }
 
-    return className;
+    if (score >= highThreshold) {
+      return cellStyling.high;
+    } else if (score >= mediumThreshold) {
+      return cellStyling.medium;
+    } else if (score >= lowThreshold) {
+      return cellStyling.low;
+    }
+    return cellStyling.base;
+  }
+
+  function getCurrentYearCalendarData() {
+    const currentYearCalendarData: Record<number, number> = {};
+    const filteredCalendarData = calendarData.filter(([date, _]) => date.getFullYear() === year);
+
+    filteredCalendarData.forEach(([date, score]) => {
+      const dayNumber = dateToDayNumber(date);
+      currentYearCalendarData[dayNumber] = score;
+    });
+
+    return currentYearCalendarData;
+  }
+
+  function getCellDayNumber(w: number, d: number) {
+    const dayOffset = new Date(year, 0, 1).getDay();
+    return w * 7 + d - dayOffset;
+  }
+
+  function dateToDayNumber(date: Date) {
+    const jan1Utc = Date.UTC(date.getFullYear(), 0, 0);
+    const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+    return (utcDate - jan1Utc) / 24 / 60 / 60 / 1000 - 1;
   }
 };
