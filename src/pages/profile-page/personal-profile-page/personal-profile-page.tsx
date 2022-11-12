@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
+import { CalendarGraph } from '@/components/calendar-graph/calendar-graph';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
@@ -55,6 +56,7 @@ const AsyncPersonalProfilePage = () => {
         email={userData.email}
         dateJoined={userData.dateCreated}
       />
+      <CalendarGraph />
       <BubbleDivider
         className="decks-divider"
         variantType="drop-down-reveal"

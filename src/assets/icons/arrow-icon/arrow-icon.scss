@@ -15,6 +15,10 @@ svg.arrow-icon {
     fill: $white;
   }
 
+  &.grey {
+    fill: $dark-grey;
+  }
+
   &.up {
     transform: rotate(180deg);
   }

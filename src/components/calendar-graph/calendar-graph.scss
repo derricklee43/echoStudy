@@ -1,0 +1,109 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+$month-label-hight: 20px;
+$vertical-margin: 10px;
+.calendar-graph {
+  border-radius: $standard-radius;
+  border: 1px solid $light-blue;
+  padding: 20px;
+
+  @media screen and (max-width: $small-screen) {
+    padding: 5px;
+  }
+
+  .cg-title {
+    margin: 0px;
+    margin-bottom: $vertical-margin;
+    color: $white;
+    text-align: center;
+  }
+
+  .month-labels {
+    display: flex;
+    justify-content: space-evenly;
+    flex-grow: 1;
+
+    @media screen and (max-width: $small-screen) {
+      display: none;
+      visibility: hidden;
+    }
+
+    .month-pair {
+      flex-grow: 1;
+      display: inline-flex;
+      flex-wrap: wrap;
+      height: $month-label-hight;
+      overflow: hidden;
+
+      & > div {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .cg-label {
+    width: 60px;
+    height: $month-label-hight;
+    color: $white;
+    text-align: center;
+  }
+
+  .calendar-block {
+    display: flex;
+
+    .day-labels {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-right: 3px;
+
+      @media screen and (max-width: $small-screen) {
+        display: none;
+        visibility: hidden;
+      }
+
+      .day-label {
+        color: $white;
+        text-align: end;
+      }
+    }
+
+    .cg-cells {
+      flex-grow: 1;
+      display: inline-flex;
+      justify-content: space-evenly;
+
+      .cg-week {
+        flex-grow: 1;
+        display: inline-flex;
+        flex-direction: column;
+
+        .cg-day {
+          background-color: $dark-grey;
+          flex-grow: 1;
+          margin: 1px;
+          aspect-ratio: 1 / 1;
+
+          &.hidden-day {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
+  .cg-year-control {
+    margin-top: $vertical-margin;
+    color: $white;
+    display: flex;
+    justify-content: center;
+
+    .cg-left-arrow {
+      transform: rotate(90deg);
+    }
+    .cg-right-arrow {
+      transform: rotate(-90deg);
+    }
+  }
+}

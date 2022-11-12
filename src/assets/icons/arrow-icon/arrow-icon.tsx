@@ -3,7 +3,7 @@ import { ReactComponent as DownArrow } from '@/assets/svg/down-arrow.svg';
 import './arrow-icon.scss';
 
 interface ArrowProps {
-  variant?: 'dark' | 'light';
+  variant?: 'dark' | 'light' | 'grey';
   orientation?: 'up' | 'down';
   className?: string;
 }
