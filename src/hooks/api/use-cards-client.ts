@@ -79,8 +79,8 @@ export function useCardsClient() {
   }
 
   // POST: /Cards
-  async function addCards(cards: DraftCard[], deckId: number): Promise<NewCardsResponse> {
-    const cardsToAdd = cards.map((card) => cardToJson(card, deckId));
+  async function addCards(cards: DraftCard[] | Card[], deckId: number): Promise<NewCardsResponse> {
+    const cardsToAdd = Promise.all(cards.map((card) => cardToJson(card, deckId)));
     const response = await fetchWrapper.post('/cards', cardsToAdd);
     return response;
   }
