@@ -9,7 +9,7 @@ import { FlashcardSet } from '@/components/flashcard-set/flashcard-set';
 import { PageHeader } from '@/components/page-header/page-header';
 import { useDeckEditor } from '@/hooks/use-deck-editor';
 import { usePrompt } from '@/hooks/use-prompt';
-import { Card, CardSide, createNewCard, DraftCard } from '@/models/card';
+import { Card, CardSide, createNewCard, DraftCard, swapCardSides } from '@/models/card';
 import { DraftDeck } from '@/models/deck';
 import {
   RecordAudioCardSide,
@@ -175,16 +175,8 @@ export const DeckEditor = ({
   }
 
   function handleSwapAllClick() {
-    deck.cards.forEach((card: DraftCard) => {
-      const newCard: DraftCard = {
-        ...card,
-        front: card.back,
-        back: card.front,
-        frontCustomAudio: card.backCustomAudio,
-        backCustomAudio: card.frontCustomAudio,
-      };
-      updateCard(newCard);
-    });
+    const swappedCards = deck.cards.map(swapCardSides);
+    swappedCards.forEach(updateCard);
   }
 
   function handleRecordAudioClick(card: Card, side: CardSide) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Card, CardSide } from '@/models/card';
+import { Card, CardSide, swapCardSides } from '@/models/card';
 import { CardContent } from '@/models/card-content';
 import { CardFace } from './card-face/card-face';
 import './flashcard.scss';
@@ -60,10 +60,7 @@ export const Flashcard = ({
   }
 
   function handleSwapContentClick() {
-    const newCardFront = { ...card.back };
-    const newCardBack = { ...card.front };
-    const newCard = { ...card, front: newCardFront, back: newCardBack };
-    onCardChange(newCard);
+    onCardChange(swapCardSides(card));
   }
 
   function scrollIntoViewIfActive() {
