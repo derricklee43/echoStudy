@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { noop } from '@/helpers/func';
+import { useIsInViewport } from '@/hooks/use-is-in-viewport';
 import { testEnglishDeck } from '@/models/mock/deck.mock';
 import './deck-showcase.scss';
 
-// TODO: somehow only render this if "visible"
-export const DeckShowcase = () => {
+interface DeckShowcaseProps {
+  showWhenVisibleRef: RefObject<HTMLElement>;
+}
+
+export const DeckShowcase = ({ showWhenVisibleRef }: DeckShowcaseProps) => {
+  const { inViewport } = useIsInViewport(showWhenVisibleRef, true);
+
+  if (inViewport === false) {
+    return null;
+  }
+
   return (
     <div className="showcase-deck-preview">
       <div className="column left">

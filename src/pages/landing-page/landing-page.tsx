@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fade } from '@/animations/fade';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
@@ -24,6 +24,7 @@ const enum pages {
 
 export const LandingPage = () => {
   const navigate = useNavigate();
+  const deckShowcaseAnchorRef = useRef(null); // show DeckShowcase only when this ref is visible
 
   return (
     <>
@@ -69,7 +70,7 @@ export const LandingPage = () => {
               </div>
               <div className="showcase-description text-right-align">
                 <span className="text-sm-md">using state of the art</span>
-                <span className="text-md-lg">speech synthesis,</span>
+                <span className="text-md-lg">speech synthesis</span>
                 <span className="text-alternate">study as you please</span>
               </div>
             </div>
@@ -81,11 +82,12 @@ export const LandingPage = () => {
           pages.sharedDecks,
           <>
             <div className="showcase-page dotted">
+              <div id="deck-showcase-anchor" ref={deckShowcaseAnchorRef} />
               <div className="showcase-description place-left">
                 <span className="text-sm-md">collaborate to reach your goals with</span>
                 <span className="text-md-lg">shared decks</span>
               </div>
-              <DeckShowcase />
+              <DeckShowcase showWhenVisibleRef={deckShowcaseAnchorRef} />
               <div id="shared-decks-image" className="showcase-image">
                 <img className="wave-image" src={retroImage} loading="lazy" />
               </div>

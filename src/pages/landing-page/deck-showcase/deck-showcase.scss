@@ -32,8 +32,21 @@
   .deck-showcase-cover {
     color: $black;
 
-    .c-front {
-      @include glow-box-shadow($spread-radius: -4px);
+    // @keyframe | duration | delay | easing-function
+    animation: showcase-item 350ms 0ms forwards;
+    transform: scale(0.9);
+    opacity: 0;
+
+    // different animation delay for all cover cards
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}n) {
+        animation-delay: calc(#{$i * 250}ms);
+      }
+    }
+
+    .c-front,
+    .c-back {
+      @include card-box-shadow($alpha: 0.2);
       border-radius: 16px;
     }
   }

@@ -70,8 +70,8 @@ $z-popup-modal: 1024;
   transform: translate(0, -50%);
 }
 
-@mixin card-box-shadow {
-  box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
+@mixin card-box-shadow($alpha) {
+  box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, $alpha);
 }
 
 @mixin glow-box-shadow($spread-radius) {
@@ -93,7 +93,7 @@ $z-popup-modal: 1024;
 }
 
 @mixin floating-card {
-  @include card-box-shadow;
+  @include card-box-shadow($alpha: 0.1);
   position: absolute;
   z-index: 1;
   background-color: $white;
