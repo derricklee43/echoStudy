@@ -7,7 +7,8 @@ import { Deck } from '@/models/deck';
 import './deck-cover.scss';
 
 interface DeckCoverProps {
-  flippable?: boolean;
+  flippable?: boolean; // default: true
+  startFlipped?: boolean; // default: false
   deck: Deck;
   onClick?: (event: React.MouseEvent) => void;
   onStudyClick: () => void;
@@ -16,13 +17,14 @@ interface DeckCoverProps {
 
 export const DeckCover = ({
   flippable = true,
+  startFlipped = false,
   deck,
   onClick,
   onStudyClick,
   onViewClick,
 }: DeckCoverProps) => {
   // false => show front; true => show back
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(startFlipped);
 
   const springTransition = {
     type: 'spring',
