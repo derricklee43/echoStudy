@@ -11,6 +11,7 @@ import { Header } from '@/components/header/header';
 import { noop } from '@/helpers/func';
 import { testEnglishDeck } from '@/models/mock/deck.mock';
 import { paths } from '@/routing/paths';
+import { DeckShowcase } from './deck-showcase/deck-showcase';
 import './landing-page.scss';
 
 const headerClassName = 'header-anchor';
@@ -84,20 +85,9 @@ export const LandingPage = () => {
                 <span className="text-sm-md">collaborate to reach your goals with</span>
                 <span className="text-md-lg">shared decks</span>
               </div>
-              <div className="showcase-deck-preview">
-                <div className="column left">
-                  {[...Array(5)].map((_val, index) => {
-                    return getDeckCover(index, index % 2 == 0);
-                  })}
-                </div>
-                <div className="column right">
-                  {[...Array(5)].map((_val, index) => {
-                    return getDeckCover(index + 10, index % 2 == 1);
-                  })}
-                </div>
-                <div className="showcase-image">
-                  <img className="wave-image" src={retroImage} loading="lazy" />
-                </div>
+              <DeckShowcase />
+              <div id="shared-decks-image" className="showcase-image">
+                <img className="wave-image" src={retroImage} loading="lazy" />
               </div>
             </div>
             {getScrollAnchor(fromId(pages.spacedRepetition), 'down')}
@@ -122,18 +112,6 @@ export const LandingPage = () => {
       </Fade>
     </>
   );
-
-  function getDeckCover(index: number, startFlipped: boolean) {
-    console.log(startFlipped);
-    return (
-      <DeckCover
-        deck={testEnglishDeck(index)}
-        startFlipped={startFlipped}
-        onStudyClick={noop}
-        onViewClick={noop}
-      />
-    );
-  }
 
   function withFullViewport(id: string, children: JSX.Element) {
     return (

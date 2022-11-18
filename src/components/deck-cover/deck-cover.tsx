@@ -7,6 +7,7 @@ import { Deck } from '@/models/deck';
 import './deck-cover.scss';
 
 interface DeckCoverProps {
+  className?: string;
   flippable?: boolean; // default: true
   startFlipped?: boolean; // default: false
   deck: Deck;
@@ -16,6 +17,7 @@ interface DeckCoverProps {
 }
 
 export const DeckCover = ({
+  className = '',
   flippable = true,
   startFlipped = false,
   deck,
@@ -33,7 +35,12 @@ export const DeckCover = ({
   };
 
   return (
-    <motion.div key={deck.metaData.id} layout transition={springTransition} className="deck-cover">
+    <motion.div
+      key={deck.metaData.id}
+      layout
+      transition={springTransition}
+      className={`deck-cover ${className}`}
+    >
       <FlipTile
         isFlipped={flippable && flipped}
         frontClassName="cover-front"

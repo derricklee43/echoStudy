@@ -1,8 +1,6 @@
 @import '@/assets/styles';
 @import '@/assets/colors';
 
-$DECK-PREVIEW-ROTATE-ANGLE: 25deg;
-// $DOTTED-COLOR: hsl(231, 18%, 27%);
 $DOTTED-COLOR: hsl(221, 18%, 22%);
 $ODD-BG-COLOR: hsl(231, 18%, 25%);
 $EVEN-BG-COLOR: $blue;
@@ -114,7 +112,7 @@ $EVEN-BG-COLOR: $blue;
       block-size: 200vw; // or height
       background-image: radial-gradient(circle at 16px 16px, $DOTTED-COLOR 4px, transparent 0);
       background-size: 16px 16px;
-      transform: rotate($DECK-PREVIEW-ROTATE-ANGLE);
+      transform: rotate(20deg);
       z-index: -1;
     }
   }
@@ -199,54 +197,6 @@ $EVEN-BG-COLOR: $blue;
       }
     }
 
-    .showcase-deck-preview {
-      display: flex;
-      gap: 16px;
-
-      position: absolute;
-      top: -75px;
-      right: 0px;
-      transform: rotate($DECK-PREVIEW-ROTATE-ANGLE);
-      overflow: hidden;
-
-      // remove constraints on small viewports
-      @media screen and (max-width: $large-screen) {
-        position: initial;
-        transform: none;
-        overflow: visible;
-      }
-
-      // showcase columns should be hidden on small viewports
-      .column {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-
-        @media screen and (max-width: $large-screen) {
-          display: none;
-        }
-      }
-
-      // showcase image should be shown on small viewports
-      .showcase-image {
-        display: none;
-
-        @media screen and (max-width: $large-screen) {
-          display: block;
-        }
-      }
-
-      // TODO: move to component-showcase and add className to deck-cover
-      .deck-cover {
-        color: $black;
-
-        .c-front {
-          @include glow-box-shadow($spread-radius: -6px);
-          border-radius: 16px;
-        }
-      }
-    }
-
     .showcase-image {
       /* 
        * TODO: actually style this to how one of our showcase images would look 
@@ -261,6 +211,14 @@ $EVEN-BG-COLOR: $blue;
         @media screen and (max-width: $medium-screen) {
           width: min(75vw, $sm-md-screen);
         }
+      }
+    }
+
+    #shared-decks-image {
+      display: none;
+
+      @media screen and (max-width: $large-screen) {
+        display: block;
       }
     }
   }
