@@ -2,7 +2,16 @@ import React, { RefObject } from 'react';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { noop } from '@/helpers/func';
 import { useIsInViewport } from '@/hooks/use-is-in-viewport';
-import { testEnglishDeck } from '@/models/mock/deck.mock';
+import { Deck } from '@/models/deck';
+import {
+  testChemPolyatomicIonsDeck,
+  testEnglishDeck,
+  testExamStudyDeck,
+  testGermanFairytalesDeck,
+  testJapaneseVerbsDeck,
+  testNPTEPartNumberDeck,
+  testStage20LatinDeck,
+} from '@/models/mock/deck.mock';
 import './deck-showcase.scss';
 
 interface DeckShowcaseProps {
@@ -19,26 +28,25 @@ export const DeckShowcase = ({ showWhenVisibleRef }: DeckShowcaseProps) => {
   return (
     <div className="showcase-deck-preview">
       <div className="column left">
-        {[...Array(4)].map((_val, index) => {
-          return getDeckCover(index, index % 2 == 0);
-        })}
+        {getDeckCover(testStage20LatinDeck(nextId++), false)}
+        {getDeckCover(testNPTEPartNumberDeck(nextId++, 1), false)}
+        {getDeckCover(testExamStudyDeck(nextId++), true)}
+        {getDeckCover(testEnglishDeck(nextId++), false)}
       </div>
       <div className="column right">
-        {[...Array(4)].map((_val, index) => {
-          return getDeckCover(index + 4, index % 2 == 1);
-        })}
+        {getDeckCover(testGermanFairytalesDeck(nextId++), false)}
+        {getDeckCover(testJapaneseVerbsDeck(nextId++), true)}
+        {getDeckCover(testChemPolyatomicIonsDeck(nextId++), false)}
+        {getDeckCover(testStage20LatinDeck(nextId++), false)}
       </div>
     </div>
   );
 
-  function getDeckCover(index: number, startFlipped: boolean) {
-    console.log(startFlipped);
+  function getDeckCover(deck: Deck, startFlipped: boolean) {
     return (
       <DeckCover
         className="deck-showcase-cover"
-        deck={testEnglishDeck(
-          index
-        )} /* TODO: create a bunch of test decks for this page, maybe get rid of this method */
+        deck={deck}
         startFlipped={startFlipped}
         onStudyClick={noop}
         onViewClick={noop}
@@ -46,3 +54,6 @@ export const DeckShowcase = ({ showWhenVisibleRef }: DeckShowcaseProps) => {
     );
   }
 };
+
+// unique id for generating deck covers
+let nextId = 0;
