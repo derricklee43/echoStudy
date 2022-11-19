@@ -1,29 +1,38 @@
 import React from 'react';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import { LoadingIcon } from '@/assets/icons/loading-icon/loading-icon';
 import { Button } from '@/components/button/button';
 import './calendar-graph.scss';
 
-export type DailyData = [Date, number];
+export interface DailyScore {
+  date: Date;
+  score: number;
+}
 
 interface CalendarGraphProps {
   className?: string;
-  calendarData: DailyData[];
+  title: string;
+  year: number;
+  dailyScores?: DailyScore[];
   lowThreshold?: number;
   mediumThreshold?: number;
   highThreshold?: number;
-  title: string;
-  year: number;
   onYearChange: (year: number) => void;
 }
 
+/**
+ *
+ * @param CalendarGraphProps if the key `dailyScores` is `undefined`, the component wil be disabled and a loading spinner will appear.
+ * `lowThreshold`, `mediumThreshold`, and `highThreshold` set the color coding thresholds respectively; the behavior is undefined if they are not strictly increasing
+ */
 export const CalendarGraph = ({
   className = '',
-  calendarData,
+  title,
+  year,
+  dailyScores,
   lowThreshold = 1,
   mediumThreshold = 3,
   highThreshold = 5,
-  title,
-  year,
   onYearChange,
 }: CalendarGraphProps) => {
   const MAX_YEAR = new Date().getFullYear();
@@ -47,8 +56,14 @@ export const CalendarGraph = ({
   const yearInput = getYearInput();
   const graphLegend = getGraphLegend();
 
+  // TODO: fix naming of loading panel
   return (
     <div className={`calendar-graph ${className}`}>
+      {dailyScores === undefined && (
+        <div className="loading">
+          <LoadingIcon size="large" />
+        </div>
+      )}
       <h3 className="cg-title">{title}</h3>
       {monthLabels}
       <div className="calendar-block">
@@ -160,9 +175,11 @@ export const CalendarGraph = ({
 
   function getCurrentYearCalendarData() {
     const currentYearCalendarData: Record<number, number> = {};
-    const filteredCalendarData = calendarData.filter(([date, _]) => date.getFullYear() === year);
+    const filteredCalendarData = (dailyScores ?? []).filter(
+      ({ date }) => date.getFullYear() === year
+    );
 
-    filteredCalendarData.forEach(([date, score]) => {
+    filteredCalendarData.forEach(({ date, score }) => {
       const dayNumber = dateToDayNumber(date);
       currentYearCalendarData[dayNumber] = score;
     });

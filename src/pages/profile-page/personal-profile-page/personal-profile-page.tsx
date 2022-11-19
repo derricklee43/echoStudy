@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
-import { CalendarGraph, DailyData } from '@/components/calendar-graph/calendar-graph';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
+import { StudyActivityCalendar } from '@/components/study-activity-calendar/study-activity-calendar';
 import { UserDetails } from '@/components/user-details/user-details';
 import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
@@ -24,16 +24,15 @@ export const PersonalProfilePage = () => {
 };
 
 const AsyncPersonalProfilePage = () => {
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const navigate = useNavigate();
-  const decksClient = useDecksClient();
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
+  const navigate = useNavigate();
+  const decksClient = useDecksClient();
   const { getProfilePictureUrl } = useAccountClient();
-  const profilePicUrl = getProfilePictureUrl(userData?.email ?? '');
-
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
+
+  const profilePicUrl = getProfilePictureUrl(userData?.email ?? '');
 
   // fetch flashcard decks on load
   useEffect(() => {
@@ -57,13 +56,7 @@ const AsyncPersonalProfilePage = () => {
         dateJoined={userData.dateCreated}
       />
 
-      <CalendarGraph
-        title="daily activity"
-        className="pg-calendar-graph"
-        calendarData={generateData(100, currentYear)}
-        year={currentYear}
-        onYearChange={setCurrentYear}
-      />
+      <StudyActivityCalendar />
 
       <BubbleDivider
         className="decks-divider"
@@ -117,15 +110,3 @@ const AsyncPersonalProfilePage = () => {
     setUserDecks(fetchedDecks);
   }
 };
-
-function generateData(numDay: number, year: number) {
-  const data: DailyData[] = [];
-  for (let i = 0; i < numDay; i++) {
-    const month = Math.floor(Math.random() * 12);
-    const day = Math.floor(Math.random() * 31);
-    const score = Math.floor(Math.random() * 7);
-    data.push([new Date(year, month, day), score]);
-  }
-
-  return data;
-}
