@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import correctSound from '@/assets/sounds/correct.wav';
+import correctSound from '@/assets/sounds/correct.mp3';
 import incorrectSound from '@/assets/sounds/incorrect.wav';
 import { compare, shuffle } from '@/helpers/sort';
 import { stringToBoolean } from '@/helpers/string';

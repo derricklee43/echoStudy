@@ -52,6 +52,7 @@ export function swapCardSides(card: DraftCard) {
   };
 }
 
+// TODO: this got messed up; fix it!
 export async function cardToJson(draftCard: DraftCard, deckId?: number) {
   return {
     frontText: draftCard.front.text,
