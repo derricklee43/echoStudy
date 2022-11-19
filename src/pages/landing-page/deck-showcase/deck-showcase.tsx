@@ -31,18 +31,18 @@ export const DeckShowcase = ({ showWhenVisibleRef }: DeckShowcaseProps) => {
   return (
     <div className="showcase-deck-preview">
       <div className="column left">
-        {getDeckCover(testStage20LatinDeck(nextId++))}
-        {getDeckCover(testChemPolyatomicIonsDeck(nextId++), true)}
-        {getDeckCover(testBiologyMedSchoolDeck(nextId++))}
-        {getDeckCover(testEnglishDeck(nextId++), true)}
-        {getDeckCover(testMusicTheoryDeck(nextId++))}
+        {getDeckCover(testStage20LatinDeck())}
+        {getDeckCover(testChemPolyatomicIonsDeck(), true)}
+        {getDeckCover(testBiologyMedSchoolDeck())}
+        {getDeckCover(testEnglishDeck(), true)}
+        {getDeckCover(testMusicTheoryDeck())}
       </div>
       <div className="column right">
-        {getDeckCover(testGermanFairytalesDeck(nextId++))}
-        {getDeckCover(testJapaneseVerbsDeck(nextId))}
-        {getDeckCover(testCalcMidtermDeck(nextId++), true)}
-        {getDeckCover(testNPTEPartNumberDeck(nextId++, 1))}
-        {getDeckCover(testEasySpanishVocabDeck(nextId++))}
+        {getDeckCover(testGermanFairytalesDeck())}
+        {getDeckCover(testJapaneseVerbsDeck())}
+        {getDeckCover(testCalcMidtermDeck(), true)}
+        {getDeckCover(testNPTEPartNumberDeck(1))}
+        {getDeckCover(testEasySpanishVocabDeck())}
       </div>
     </div>
   );
@@ -59,6 +59,3 @@ export const DeckShowcase = ({ showWhenVisibleRef }: DeckShowcaseProps) => {
     );
   }
 };
-
-// unique id for generating deck covers
-let nextId = 0;

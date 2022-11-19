@@ -7,7 +7,7 @@ import { getTestFoxCard } from '@/models/mock/card.mock';
 import { testEnglishDeck } from '@/models/mock/deck.mock';
 import { DeckCover } from './deck-cover';
 
-const TEST_DECK = testEnglishDeck(0);
+const TEST_DECK = testEnglishDeck();
 
 describe('DeckCover', () => {
   it('should render correctly with default props', () => {

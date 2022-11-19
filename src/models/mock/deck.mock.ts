@@ -1,10 +1,13 @@
 import { createNewDeck, Deck, DeckMetaData } from '@/models/deck';
 
-export const testEnglishDeck = (id: number): Deck => {
+// increment for unique id when generating deck metadata
+let nextId = 0;
+
+export const testEnglishDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'English 101',
     desc: 'The course concentrates primarily on expository, effective composing, revising, and editing strategies.',
     cardIds: [...Array(188)], // # of cards are set in the metadata and not the actual Deck.cards field
@@ -13,11 +16,11 @@ export const testEnglishDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testJapaneseVerbsDeck = (id: number): Deck => {
+export const testJapaneseVerbsDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'Japanese Verbs',
     desc: 'The course concentrates primarily on Japanese verbs.',
     cardIds: [...Array(90)],
@@ -26,11 +29,11 @@ export const testJapaneseVerbsDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testNPTEPartNumberDeck = (id: number, partNumber: number): Deck => {
+export const testNPTEPartNumberDeck = (partNumber: number): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: `NPTE Part ${partNumber}`,
     desc: 'Taking the National Physical Therapy Examination (NPTE) is an important step toward receiving your physical therapist (PT) or physical therapist assistant (PTA) license.',
     cardIds: [...Array(20)],
@@ -39,11 +42,11 @@ export const testNPTEPartNumberDeck = (id: number, partNumber: number): Deck => 
   return { metaData, cards: [] };
 };
 
-export const testCalcMidtermDeck = (id: number): Deck => {
+export const testCalcMidtermDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'MATH 1210 (Calculus I) Midterm',
     desc: 'Key-terms, limits, deriatives, integrals, and good-to-know rules.',
     studiedPercent: 56,
@@ -52,11 +55,11 @@ export const testCalcMidtermDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testStage20LatinDeck = (id: number): Deck => {
+export const testStage20LatinDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'Stage 20 Latin',
     desc: 'lūna, lūnae, f; ars, artis, f',
     studiedPercent: 8,
@@ -65,11 +68,11 @@ export const testStage20LatinDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testChemPolyatomicIonsDeck = (id: number): Deck => {
+export const testChemPolyatomicIonsDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'Chemistry Polyatomic Ions',
     desc: 'Common polyatomic ions such as ammonium, acetate, nitrite, permanganate, etc. along with their respective ion charges.',
     studiedPercent: 29,
@@ -78,11 +81,11 @@ export const testChemPolyatomicIonsDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testGermanFairytalesDeck = (id: number): Deck => {
+export const testGermanFairytalesDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'German Fairytales',
     desc: 'Geschichte berühmter Märchen wie "Rotkäppchen", "Geschichte der Großmutter" und mehr zusammen mit einer Analyse von Menschen seit dem Psychoanalytiker Bettelheim.',
     studiedPercent: 15,
@@ -91,11 +94,11 @@ export const testGermanFairytalesDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testEasySpanishVocabDeck = (id: number): Deck => {
+export const testEasySpanishVocabDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'Easy Spanish Vocabulary',
     desc: 'A couple simple terms primarily with food and vegetables.',
     studiedPercent: 30,
@@ -104,11 +107,11 @@ export const testEasySpanishVocabDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testBiologyMedSchoolDeck = (id: number): Deck => {
+export const testBiologyMedSchoolDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'Biology for Medical School',
     desc: 'Topics related to DNA synthesis, polymerase chain reactions, replication, mutagens, and more.',
     studiedPercent: 30,
@@ -117,11 +120,11 @@ export const testBiologyMedSchoolDeck = (id: number): Deck => {
   return { metaData, cards: [] };
 };
 
-export const testMusicTheoryDeck = (id: number) => {
+export const testMusicTheoryDeck = () => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
-    id: id,
+    id: nextId++,
     title: 'Music Theory Basics',
     desc: 'This basic music theory set looks at fundamental concepts musicians use to understand, analyze, perform, communicate, and create music.',
     studiedPercent: 15,
