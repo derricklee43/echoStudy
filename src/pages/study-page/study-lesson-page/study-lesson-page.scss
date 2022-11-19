@@ -22,7 +22,7 @@
 
       .pulsing-microphone {
         @include flex-center;
-        @include infinite-pulse;
+        @include white-infinite-pulse;
         width: 16px;
         height: 16px;
         border-radius: 50%;
@@ -32,11 +32,11 @@
     }
 
     .correct-card-face {
-      background-color: $green;
+      background-color: $muted-green;
     }
 
     .incorrect-card-face {
-      background-color: $red;
+      background-color: $muted-red;
     }
 
     .study-page-progress-bar {

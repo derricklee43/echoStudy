@@ -55,15 +55,15 @@ $card-height: 175px;
 
   &.green {
     .rof-card-face {
-      border-color: $green;
-      color: $green;
+      border-color: $muted-green;
+      color: $muted-green;
     }
   }
 
   &.red {
     .rof-card-face {
-      border-color: $red;
-      color: $red;
+      border-color: $muted-red;
+      color: $muted-red;
     }
   }
 }

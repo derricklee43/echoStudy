@@ -19,6 +19,37 @@ global.console = {
   error: jest.fn(),
 };
 
+/**
+ * Mock MediaRecorder
+ * https://github.com/facebook/jest/issues/10789
+ */
+Object.defineProperty(global, 'MediaRecorder', {
+  writable: true,
+  value: jest.fn().mockImplementation(() => ({
+    start: jest.fn(),
+    ondataavailable: jest.fn(),
+    onerror: jest.fn(),
+    state: '',
+    stop: jest.fn(),
+    pause: jest.fn(),
+    resume: jest.fn(),
+  })),
+});
+
+Object.defineProperty(MediaRecorder, 'isTypeSupported', {
+  writable: true,
+  value: () => true,
+});
+
+/*
+ * Mock window methods
+ */
+window.URL.createObjectURL = jest.fn();
+window.URL.revokeObjectURL = jest.fn();
+window.Worker = jest.fn().mockReturnValue({
+  addEventListener: jest.fn(),
+});
+
 // attach global Howler to test environment
 import { Howler } from 'howler';
 (global as any).HowlerGlobal = Howler;

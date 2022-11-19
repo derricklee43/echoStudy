@@ -4,7 +4,7 @@ import { noop } from '@/helpers/func';
 import './microphone-icon.scss';
 
 interface MicrophoneIconProps {
-  variant?: 'dark' | 'light';
+  variant?: 'dark' | 'white' | 'grey';
   className?: string;
   onClick?: (event: React.MouseEvent) => void;
 }

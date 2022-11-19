@@ -7,6 +7,8 @@ import { LazyAudio } from './lazy-audio';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+export type CardSide = 'front' | 'back';
+
 export interface Card {
   id?: number;
   position?: number;
@@ -17,6 +19,11 @@ export interface Card {
   dateCreated: Date;
   dateUpdated: Date;
   dateTouched: Date;
+}
+
+export interface DraftCard extends Card {
+  frontCustomAudio?: Blob;
+  backCustomAudio?: Blob;
 }
 
 export function createNewCard(): Card {
@@ -35,14 +42,17 @@ export function filterBlankCards(card: Card) {
   return !isBlankString(card.front.text) && !isBlankString(card.back.text);
 }
 
-export function cardToJson(card: Card, deckId?: number) {
+// TODO: this got messed up; fix it!
+export async function cardToJson(draftCard: DraftCard, deckId?: number) {
   return {
-    frontText: card.front.text,
-    backText: card.back.text,
-    frontLang: card.front.language,
-    backLang: card.back.language,
-    cardId: card.id, // required when updating cards
-    deckId,
+    frontText: draftCard.front.text,
+    backText: draftCard.back.text,
+    frontLang: draftCard.front.language,
+    backLang: draftCard.back.language,
+    cardId: draftCard.id, // required when updating cards
+    deckId: deckId,
+    frontAudio: await customAudioToArray(draftCard.frontCustomAudio),
+    backAudio: await customAudioToArray(draftCard.backCustomAudio),
   };
 }
 
@@ -56,12 +66,32 @@ export function JsonToCard(obj: any): Card {
   card.front = {
     language: obj['flang'],
     text: obj['ftext'],
-    audio: new LazyAudio(ensureHttps(obj['faud'])),
+    audio: getLazyAudio(obj['faud']),
+    customAudio: getLazyAudio(obj['faudCustom'], true),
   };
   card.back = {
     language: obj['blang'],
     text: obj['btext'],
-    audio: new LazyAudio(ensureHttps(obj['baud'])),
+    audio: getLazyAudio(obj['baud']),
+    customAudio: getLazyAudio(obj['baudCustom'], true),
   };
   return card;
+}
+
+async function customAudioToArray(customAudioBlob: Blob | undefined) {
+  if (customAudioBlob === undefined) {
+    return undefined;
+  }
+  const audioArrayBuffer = await customAudioBlob.arrayBuffer();
+  return Array.from(new Uint8Array(audioArrayBuffer));
+}
+
+function getLazyAudio(url: string | undefined, allowUndefined = false) {
+  if (url) {
+    return new LazyAudio(ensureHttps(url));
+  }
+  if (allowUndefined) {
+    return undefined;
+  }
+  throw Error('audio URL cannot be undefined');
 }

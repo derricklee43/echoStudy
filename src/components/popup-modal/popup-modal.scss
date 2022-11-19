@@ -35,6 +35,15 @@ $y-axis: 25%; // where to place popup on y-axis
   background: $white;
   padding: 16px 24px;
   border-radius: 16px;
+  box-sizing: border-box;
+
+  @media screen and (min-width: $small-screen) {
+    min-width: 450px;
+  }
+
+  @media screen and (max-width: $small-screen) {
+    width: 90%;
+  }
 
   // offsets for sidebar
   @media screen and (min-width: $large-screen) and (max-width: $giant-screen) {
