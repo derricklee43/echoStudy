@@ -6,8 +6,8 @@
   gap: 16px;
 
   position: absolute;
-  top: -100px;
-  right: -75px;
+  top: -75px;
+  right: -125px;
   transform: rotate(20deg);
   overflow: hidden;
 
@@ -27,27 +27,38 @@
     @media screen and (max-width: $large-screen) {
       display: none;
     }
-  }
 
-  .deck-showcase-cover {
-    color: $black;
+    .deck-showcase-cover {
+      // @keyframe | duration | delay | easing-function
+      animation: showcase-item 350ms 0ms forwards;
+      transform: scale(0.9);
+      opacity: 0;
 
-    // @keyframe | duration | delay | easing-function
-    animation: showcase-item 350ms 0ms forwards;
-    transform: scale(0.9);
-    opacity: 0;
+      color: $black;
+      user-select: none;
 
-    // different animation delay for all cover cards
-    @for $i from 1 through 8 {
-      &:nth-child(#{$i}n) {
-        animation-delay: calc(#{$i * 250}ms);
+      .c-front,
+      .c-back {
+        @include card-box-shadow($alpha: 0.2);
+        border-radius: 16px;
       }
     }
 
-    .c-front,
-    .c-back {
-      @include card-box-shadow($alpha: 0.2);
-      border-radius: 16px;
+    // different animation delay for all cover cards
+    &.left {
+      @for $i from 1 through 5 {
+        .deck-showcase-cover:nth-child(#{$i}n) {
+          animation-delay: calc(#{$i * 250}ms + 250ms);
+        }
+      }
+    }
+
+    &.right {
+      @for $i from 1 through 5 {
+        .deck-showcase-cover:nth-child(#{$i}n) {
+          animation-delay: calc(#{$i * 250}ms);
+        }
+      }
     }
   }
 }

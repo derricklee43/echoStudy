@@ -39,7 +39,7 @@ export const testNPTEPartNumberDeck = (id: number, partNumber: number): Deck => 
   return { metaData, cards: [] };
 };
 
-export const testExamStudyDeck = (id: number): Deck => {
+export const testCalcMidtermDeck = (id: number): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
     ...newDeck.metaData,
@@ -87,6 +87,45 @@ export const testGermanFairytalesDeck = (id: number): Deck => {
     desc: 'Geschichte berühmter Märchen wie "Rotkäppchen", "Geschichte der Großmutter" und mehr zusammen mit einer Analyse von Menschen seit dem Psychoanalytiker Bettelheim.',
     studiedPercent: 15,
     cardIds: [...Array(135)],
+  };
+  return { metaData, cards: [] };
+};
+
+export const testEasySpanishVocabDeck = (id: number): Deck => {
+  const newDeck = createNewDeck();
+  const metaData: DeckMetaData = {
+    ...newDeck.metaData,
+    id: id,
+    title: 'Easy Spanish Vocabulary',
+    desc: 'A couple simple terms primarily with food and vegetables.',
+    studiedPercent: 30,
+    cardIds: [...Array(10)],
+  };
+  return { metaData, cards: [] };
+};
+
+export const testBiologyMedSchoolDeck = (id: number): Deck => {
+  const newDeck = createNewDeck();
+  const metaData: DeckMetaData = {
+    ...newDeck.metaData,
+    id: id,
+    title: 'Biology for Medical School',
+    desc: 'Topics related to DNA synthesis, polymerase chain reactions, replication, mutagens, and more.',
+    studiedPercent: 30,
+    cardIds: [...Array(10)],
+  };
+  return { metaData, cards: [] };
+};
+
+export const testMusicTheoryDeck = (id: number) => {
+  const newDeck = createNewDeck();
+  const metaData: DeckMetaData = {
+    ...newDeck.metaData,
+    id: id,
+    title: 'Music Theory Basics',
+    desc: 'This basic music theory set looks at fundamental concepts musicians use to understand, analyze, perform, communicate, and create music.',
+    studiedPercent: 15,
+    cardIds: [...Array(54)],
   };
   return { metaData, cards: [] };
 };

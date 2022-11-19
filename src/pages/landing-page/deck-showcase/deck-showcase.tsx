@@ -4,11 +4,14 @@ import { noop } from '@/helpers/func';
 import { useIsInViewport } from '@/hooks/use-is-in-viewport';
 import { Deck } from '@/models/deck';
 import {
+  testBiologyMedSchoolDeck,
+  testCalcMidtermDeck,
   testChemPolyatomicIonsDeck,
+  testEasySpanishVocabDeck,
   testEnglishDeck,
-  testExamStudyDeck,
   testGermanFairytalesDeck,
   testJapaneseVerbsDeck,
+  testMusicTheoryDeck,
   testNPTEPartNumberDeck,
   testStage20LatinDeck,
 } from '@/models/mock/deck.mock';
@@ -28,26 +31,28 @@ export const DeckShowcase = ({ showWhenVisibleRef }: DeckShowcaseProps) => {
   return (
     <div className="showcase-deck-preview">
       <div className="column left">
-        {getDeckCover(testStage20LatinDeck(nextId++), false)}
-        {getDeckCover(testNPTEPartNumberDeck(nextId++, 1), false)}
-        {getDeckCover(testExamStudyDeck(nextId++), true)}
-        {getDeckCover(testEnglishDeck(nextId++), false)}
+        {getDeckCover(testStage20LatinDeck(nextId++))}
+        {getDeckCover(testChemPolyatomicIonsDeck(nextId++), true)}
+        {getDeckCover(testBiologyMedSchoolDeck(nextId++))}
+        {getDeckCover(testEnglishDeck(nextId++), true)}
+        {getDeckCover(testMusicTheoryDeck(nextId++))}
       </div>
       <div className="column right">
-        {getDeckCover(testGermanFairytalesDeck(nextId++), false)}
-        {getDeckCover(testJapaneseVerbsDeck(nextId++), true)}
-        {getDeckCover(testChemPolyatomicIonsDeck(nextId++), false)}
-        {getDeckCover(testStage20LatinDeck(nextId++), false)}
+        {getDeckCover(testGermanFairytalesDeck(nextId++))}
+        {getDeckCover(testJapaneseVerbsDeck(nextId))}
+        {getDeckCover(testCalcMidtermDeck(nextId++), true)}
+        {getDeckCover(testNPTEPartNumberDeck(nextId++, 1))}
+        {getDeckCover(testEasySpanishVocabDeck(nextId++))}
       </div>
     </div>
   );
 
-  function getDeckCover(deck: Deck, startFlipped: boolean) {
+  function getDeckCover(deck: Deck, startFlipped?: boolean) {
     return (
       <DeckCover
         className="deck-showcase-cover"
         deck={deck}
-        startFlipped={startFlipped}
+        startFlipped={startFlipped ?? false}
         onStudyClick={noop}
         onViewClick={noop}
       />
