@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fade } from '@/animations/fade';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import collaborationImage from '@/assets/images/collaboration.jpg';
 import retroImage from '@/assets/images/retro-aesthetic.png';
 import waveImage from '@/assets/images/wave.png';
 import womanOnPhoneImage from '@/assets/images/woman-on-phone.png';
@@ -89,7 +90,7 @@ export const LandingPage = () => {
               </div>
               <DeckShowcase showWhenVisibleRef={deckShowcaseAnchorRef} />
               <div id="shared-decks-image" className="showcase-image">
-                <img className="wave-image" src={retroImage} loading="lazy" />
+                <img className="wave-image" src={collaborationImage} loading="lazy" />
               </div>
             </div>
             {getScrollAnchor(fromId(pages.spacedRepetition), 'down')}
