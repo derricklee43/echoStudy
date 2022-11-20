@@ -3,4 +3,5 @@
 
 :root {
   background-color: $black;
+  @include webkit-scrollbar;
 }
