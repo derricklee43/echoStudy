@@ -7,9 +7,13 @@ import './sidebar.scss';
 
 interface SidebarProps {
   className?: string;
+  onPathClicked?: (pathName: string) => void;
 }
 
-const ForwardedSidebar = ({ className = '' }: SidebarProps, ref: ForwardedRef<HTMLDivElement>) => {
+const ForwardedSidebar = (
+  { className = '', onPathClicked }: SidebarProps,
+  ref: ForwardedRef<HTMLDivElement>
+) => {
   const navToggled = useRecoilValue(navToggledState);
 
   return (
@@ -20,6 +24,7 @@ const ForwardedSidebar = ({ className = '' }: SidebarProps, ref: ForwardedRef<HT
             key={item.name}
             to={item.route}
             className={(state) => `c-sidebar-link ${state.isActive ? 'active' : ''}`}
+            onClick={() => onPathClicked?.(item.name)}
           >
             <li className="c-sidebar-item">{item.name}</li>
           </NavLink>

@@ -42,7 +42,9 @@ export const SidebarLayout = () => {
         showHamburgerToggle={isSignedIn}
         showSearchBar={isSignedIn}
       />
-      {isSignedIn && <Sidebar className="sidebar-layout-sidebar" />}
+      {isSignedIn && (
+        <Sidebar className="sidebar-layout-sidebar" onPathClicked={untoggleNavIfOpen} />
+      )}
       <div className={`sidebar-layout-page-wrap ${signedInClass}`}>
         <div className="sidebar-layout-content" onClick={untoggleNavIfOpen}>
           <Outlet />
