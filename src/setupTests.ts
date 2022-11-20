@@ -54,6 +54,13 @@ window.Worker = jest.fn().mockReturnValue({
 import { Howler } from 'howler';
 (global as any).HowlerGlobal = Howler;
 
+(global as any).IntersectionObserver = class IntersectionObserver {
+  disconnect = () => null;
+  observe = () => null;
+  takeRecords = () => null;
+  unobserve = () => null;
+};
+
 /*
  * Custom matchers; update `jest.d.ts` to provide typings for these matchers.
  *

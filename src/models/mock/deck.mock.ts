@@ -42,6 +42,19 @@ export const testNPTEPartNumberDeck = (partNumber: number): Deck => {
   return { metaData, cards: [] };
 };
 
+export const testEmptyDeck = (): Deck => {
+  const newDeck = createNewDeck();
+  const metaData: DeckMetaData = {
+    ...newDeck.metaData,
+    id: nextId++,
+    title: 'Empty Deck',
+    desc: 'The deck should never have cards. :)',
+    cardIds: [], // # of cards are set in the metadata and not the actual Deck.cards field
+    studiedPercent: 0,
+  };
+  return { metaData, cards: [] };
+};
+
 export const testCalcMidtermDeck = (): Deck => {
   const newDeck = createNewDeck();
   const metaData: DeckMetaData = {
