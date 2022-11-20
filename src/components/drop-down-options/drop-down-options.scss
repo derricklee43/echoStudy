@@ -15,8 +15,15 @@
     min-width: fit-content;
   }
 
-  .ellipsis-overflow {
+  &.ellipsis-overflow {
     @include ellipsis-overflow;
+  }
+
+  .c-options-grid {
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-rows: 1fr;
+    width: 100%;
   }
 
   .c-drop-down-option {
@@ -29,6 +36,10 @@
     padding: 5px;
     border-radius: 0;
     text-align: left;
+
+    &.ellipsis-overflow {
+      @include ellipsis-overflow;
+    }
 
     &:first-child {
       border-top-left-radius: $standard-radius;
