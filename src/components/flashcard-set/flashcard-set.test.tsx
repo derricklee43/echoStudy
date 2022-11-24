@@ -26,6 +26,7 @@ describe('FlashcardSet', () => {
         onCardReorder={noop}
         onDeleteCardClick={noop}
         cards={[TEST_FOX_CARD]}
+        onRecordAudioClick={noop}
       />
     );
     expect(screen.queryByDisplayValue(TEST_FOX_CARD.front.text)).toBeInTheDocument();
@@ -40,6 +41,7 @@ describe('FlashcardSet', () => {
         onCardReorder={noop}
         onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
+        onRecordAudioClick={noop}
       />
     );
     expect(screen.queryAllByDisplayValue(TEST_MONKEY_CARD.front.text).length).toBe(1);
@@ -55,6 +57,7 @@ describe('FlashcardSet', () => {
         onCardChange={noop}
         onCardReorder={noop}
         cards={FOX_MONKEY_MOUSE}
+        onRecordAudioClick={noop}
         onDeleteCardClick={mockOnDeleteCard}
       />
     );
@@ -73,6 +76,7 @@ describe('FlashcardSet', () => {
         onCardChange={noop}
         onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
+        onRecordAudioClick={noop}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
     );
@@ -90,6 +94,7 @@ describe('FlashcardSet', () => {
         initialActiveCardKey=""
         onCardChange={noop}
         onDeleteCardClick={noop}
+        onRecordAudioClick={noop}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
     );
@@ -107,6 +112,7 @@ describe('FlashcardSet', () => {
         onCardChange={noop}
         onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
+        onRecordAudioClick={noop}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
     );
@@ -124,6 +130,7 @@ describe('FlashcardSet', () => {
         onCardChange={noop}
         onDeleteCardClick={noop}
         cards={FOX_MONKEY_MOUSE}
+        onRecordAudioClick={noop}
         onCardReorder={(cards: Card[]) => mockOnCardReorder(cards.map((card) => card.front.text))}
       />
     );
@@ -141,6 +148,7 @@ describe('FlashcardSet', () => {
         onCardChange={noop}
         onCardReorder={noop}
         onDeleteCardClick={noop}
+        onRecordAudioClick={noop}
         cards={[testCard]}
       />
     );

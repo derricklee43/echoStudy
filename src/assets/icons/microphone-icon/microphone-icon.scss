@@ -1,2 +1,10 @@
 @import '@/assets/colors';
 @import '@/assets/styles';
+
+.white path {
+  fill: $white;
+}
+
+.grey path {
+  fill: $grey;
+}

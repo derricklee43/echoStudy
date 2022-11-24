@@ -1,11 +1,11 @@
 import { useReducer, useState } from 'react';
-import { Card, filterBlankCards } from '@/models/card';
+import { Card, CardSide, DraftCard, filterBlankCards } from '@/models/card';
 import { Deck, DeckMetaData } from '@/models/deck';
+import { LazyAudio } from '@/models/lazy-audio';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
 
-type CardMap = { [id: string]: Card };
-
+type CardMap = { [id: string]: DraftCard };
 interface DeckEditorReturn {
   deck: Deck;
   hasUnsavedChanges: boolean;
@@ -13,7 +13,9 @@ interface DeckEditorReturn {
   save: () => void;
   discardChanges: () => void;
   addCard: (card: Card) => void;
+  addCustomAudio: (card: Card, cardSide: CardSide, customAudio: Blob) => void;
   deleteCard: (card: Card) => void;
+  deleteCustomAudio: (card: Card, cardSide: CardSide) => void;
   updateCard: (card: Card) => void;
   updateMetaData: (metaData: DeckMetaData) => void;
   reorderCards: (cards: Card[]) => void;
@@ -29,13 +31,13 @@ interface DeckReducerState {
   updatedCards: CardMap;
 }
 
-interface DeckReducerDispatch {
-  type: DECK_REDUCER_TYPE;
-  card?: Card;
-  metaData?: DeckMetaData;
-  cards?: Card[];
-  newDeck?: Deck;
-}
+type DeckReducerDispatch =
+  | { type: DECK_REDUCER_TYPE.UPDATE_META_DATA; metaData: DeckMetaData }
+  | { type: DECK_REDUCER_TYPE.ADD_CARD; card: DraftCard }
+  | { type: DECK_REDUCER_TYPE.DELETE_CARD; card: DraftCard }
+  | { type: DECK_REDUCER_TYPE.UPDATE_CARD; card: DraftCard }
+  | { type: DECK_REDUCER_TYPE.REORDER_CARDS; cards: DraftCard[] }
+  | { type: DECK_REDUCER_TYPE.SET_DECK; deck: Deck };
 
 const enum DECK_REDUCER_TYPE {
   UPDATE_META_DATA = 'UPDATE_META_DATA',
@@ -77,7 +79,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
       ];
       await Promise.all(cardPromises);
 
-      dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck: state.currentDeck });
+      dispatch({ type: DECK_REDUCER_TYPE.SET_DECK, deck: state.currentDeck });
     } catch (e) {
       console.error(e);
     }
@@ -101,7 +103,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     });
   }
 
-  function addCard(card: Card) {
+  function addCard(card: DraftCard) {
     // TODO: ideally should be default (see above method)
     // set card default language to be the same as decks
     card.front.language = state.currentDeck.metaData.frontLang;
@@ -110,20 +112,37 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.ADD_CARD, card });
   }
 
-  function deleteCard(card: Card) {
+  function deleteCard(card: DraftCard) {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.DELETE_CARD, card });
   }
 
-  function updateCard(card: Card) {
+  function updateCard(card: DraftCard) {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.UPDATE_CARD, card });
   }
 
-  function reorderCards(cards: Card[]) {
+  function reorderCards(cards: DraftCard[]) {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.REORDER_CARDS, cards });
   }
 
-  function setDeck(newDeck: Deck) {
-    dispatchIfSafe({ type: DECK_REDUCER_TYPE.SET_DECK, newDeck });
+  function addCustomAudio(card: DraftCard, cardSide: CardSide, customAudioBlob: Blob) {
+    const updatedCardContent = { ...card[cardSide] };
+    updatedCardContent.customAudio = new LazyAudio(URL.createObjectURL(customAudioBlob));
+
+    const updatedCard: DraftCard = { ...card };
+    updatedCard[cardSide] = updatedCardContent;
+    updatedCard[`${cardSide}CustomAudio`] = customAudioBlob;
+    updateCard(updatedCard);
+  }
+
+  function deleteCustomAudio(card: DraftCard, cardSide: CardSide) {
+    const updatedCard = { ...card };
+    delete updatedCard[cardSide].customAudio;
+    updatedCard[`${cardSide}CustomAudio`] = new Blob();
+    updateCard(updatedCard);
+  }
+
+  function setDeck(deck: Deck) {
+    dispatchIfSafe({ type: DECK_REDUCER_TYPE.SET_DECK, deck });
   }
 
   function dispatchIfSafe(dispatchArgs: DeckReducerDispatch) {
@@ -136,6 +155,8 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     deck: state.currentDeck,
     hasUnsavedChanges: state.hasUnsavedChanges,
     isSaving,
+    addCustomAudio,
+    deleteCustomAudio,
     addCard,
     deleteCard,
     updateCard,
@@ -149,59 +170,56 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
 
 function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch): DeckReducerState {
   const { currentDeck, addedCards, deletedCards, updatedCards } = state;
-  const { type, newDeck, card, cards, metaData } = action;
 
-  switch (type) {
+  switch (action.type) {
     case DECK_REDUCER_TYPE.ADD_CARD:
-      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: addCardToDeck(card, currentDeck),
-        addedCards: addCardToMap(card, addedCards),
+        currentDeck: addCardToDeck(action.card, currentDeck),
+        addedCards: addCardToMap(action.card, addedCards),
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.DELETE_CARD:
-      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: removeCardFromDeck(card, currentDeck),
-        addedCards: removeCardFromMap(card, addedCards),
-        updatedCards: removeCardFromMap(card, updatedCards),
-        deletedCards: addCardToMap(card, deletedCards),
+        currentDeck: removeCardFromDeck(action.card, currentDeck),
+        addedCards: removeCardFromMap(action.card, addedCards),
+        updatedCards: removeCardFromMap(action.card, updatedCards),
+        deletedCards: addCardToMap(action.card, deletedCards),
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.UPDATE_META_DATA:
-      if (metaData === undefined) throw new Error('action.metaData must not be undefined');
-      return { ...state, currentDeck: { ...currentDeck, metaData }, hasUnsavedChanges: true };
-
-    case DECK_REDUCER_TYPE.UPDATE_CARD:
-      if (card === undefined) throw new Error('action.card must not be undefined');
       return {
         ...state,
-        currentDeck: updateCardInDeck(card, currentDeck),
-        addedCards: !card.id ? addCardToMap(card, addedCards) : addedCards,
-        updatedCards: card.id ? addCardToMap(card, updatedCards) : updatedCards,
+        currentDeck: { ...currentDeck, metaData: action.metaData },
+        hasUnsavedChanges: true,
+      };
+
+    case DECK_REDUCER_TYPE.UPDATE_CARD:
+      return {
+        ...state,
+        currentDeck: updateCardInDeck(action.card, currentDeck),
+        addedCards: !action.card.id ? addCardToMap(action.card, addedCards) : addedCards,
+        updatedCards: action.card.id ? addCardToMap(action.card, updatedCards) : updatedCards,
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.REORDER_CARDS:
-      if (cards === undefined) throw new Error('action.cards must not be undefined');
       // Todo: find reordered card
       // Todo: update reordered card
       // Todo: add card to updatedCards map
       return {
         ...state,
-        currentDeck: { ...currentDeck, cards: cards },
+        currentDeck: { ...currentDeck, cards: action.cards },
         hasUnsavedChanges: true,
       };
 
     case DECK_REDUCER_TYPE.SET_DECK:
-      if (newDeck === undefined) throw new Error('action.deck must not be undefined');
       return {
-        savedDeck: newDeck,
-        currentDeck: newDeck,
+        savedDeck: action.deck,
+        currentDeck: action.deck,
         addedCards: {},
         deletedCards: {},
         updatedCards: {},
@@ -213,30 +231,30 @@ function deckEditorReducer(state: DeckReducerState, action: DeckReducerDispatch)
   }
 }
 
-function addCardToMap(card: Card, map: CardMap) {
+function addCardToMap(card: DraftCard, map: CardMap) {
   return { ...map, [card.key]: card };
 }
 
-function removeCardFromMap(card: Card, map: CardMap) {
+function removeCardFromMap(card: DraftCard, map: CardMap) {
   const newMap = { ...map };
   delete newMap[card.key];
   return newMap;
 }
 
-function removeCardFromDeck(card: Card, deck: Deck) {
+function removeCardFromDeck(card: DraftCard, deck: Deck) {
   const cardIndex = deck.cards.findIndex((deckCard) => card.key === deckCard.key);
   const newCards = [...deck.cards];
   newCards.splice(cardIndex, 1);
   return { ...deck, cards: newCards };
 }
 
-function updateCardInDeck(card: Card, deck: Deck) {
+function updateCardInDeck(card: DraftCard, deck: Deck) {
   const cardIndex = deck.cards.findIndex((deckCard) => card.key === deckCard.key);
   const newCards = [...deck.cards];
   newCards[cardIndex] = card;
   return { ...deck, cards: newCards };
 }
 
-function addCardToDeck(card: Card, deck: Deck) {
+function addCardToDeck(card: DraftCard, deck: Deck) {
   return { ...deck, cards: [...deck.cards, card] };
 }

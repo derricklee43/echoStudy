@@ -16,4 +16,10 @@ svg.trash-icon {
       stroke: $flashcard-white;
     }
   }
+  &.dark {
+    fill: $blue;
+    path:last-child {
+      stroke: $blue;
+    }
+  }
 }

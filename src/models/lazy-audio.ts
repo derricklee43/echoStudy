@@ -4,9 +4,11 @@ import { Howl, HowlOptions } from 'howler';
  * Wrapper for a Howl object that supports lazy loading/playing.
  */
 export class LazyAudio extends Howl {
+  public src: string;
   constructor(audioUrl: string) {
     const lazyOptions: HowlOptions = { src: [audioUrl], preload: false };
     super(lazyOptions);
+    this.src = audioUrl;
   }
 
   public override play(spriteOrId?: string | number | undefined): number {

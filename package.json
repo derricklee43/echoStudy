@@ -11,6 +11,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "ajv": "^8.11.0",
+    "extendable-media-recorder": "^7.0.5",
     "framer-motion": "^6.2.8",
     "howler": "^2.2.3",
     "react": "^17.0.2",

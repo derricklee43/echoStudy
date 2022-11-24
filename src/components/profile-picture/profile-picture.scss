@@ -12,7 +12,7 @@
 
   &.prof-pic-glow {
     &::after {
-      @include infinite-pulse(3s);
+      @include white-infinite-pulse(3s);
       content: '';
       position: absolute;
       inset: 2px;

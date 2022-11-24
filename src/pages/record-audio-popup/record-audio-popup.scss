@@ -1,0 +1,65 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.ra-popup {
+  .ra-card-face {
+    @include flex-center;
+    padding: 25px;
+    min-height: 150px;
+    border: 1px solid #25283d;
+    border-radius: 20px;
+    color: #25283d;
+    font-size: 20px;
+    margin: 30px 0px;
+    overflow-wrap: anywhere;
+
+    @media screen and (min-width: $small-screen) {
+      width: 400px;
+    }
+
+    &.ra-placeholder {
+      color: $grey;
+    }
+  }
+
+  .ra-microphone-container {
+    @include flex-center;
+    flex-direction: column;
+    color: $grey;
+
+    .ra-microphone-icon-button {
+      @include hover-pointer;
+      margin: 10px;
+      border-radius: 50%;
+      border: 3px solid $blue;
+      background-color: $white;
+      width: 45px;
+      height: 45px;
+
+      &.is-recording {
+        @include red-infinite-pulse;
+        background-color: $red;
+        border-color: $red;
+      }
+
+      .ra-microphone-icon {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+
+  .ra-audio-player {
+    @include flex-center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .ra-save-button-container {
+    display: flex;
+    justify-content: flex-end;
+    .ra-save-button {
+      padding: 8px 20px;
+    }
+  }
+}

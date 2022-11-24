@@ -1,6 +1,6 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { isDefined, isNumber } from '@/helpers/validator';
-import { Card, cardToJson, JsonToCard } from '@/models/card';
+import { Card, cardToJson, DraftCard, JsonToCard } from '@/models/card';
 import { NewCardsResponse, UpdateCardScoreRequest } from './interfaces/card-data';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
@@ -74,28 +74,26 @@ export function useCardsClient() {
   //////////////////////
 
   // POST: /Cards
-  async function addCard(card: Card, deckId: number): Promise<NewCardsResponse> {
+  async function addCard(card: DraftCard | Card, deckId: number): Promise<NewCardsResponse> {
     return addCards([card], deckId);
   }
 
   // POST: /Cards
-  async function addCards(cards: Card[], deckId: number): Promise<NewCardsResponse> {
-    const cardsToAdd = cards.map((card) => cardToJson(card, deckId));
+  async function addCards(cards: DraftCard[] | Card[], deckId: number): Promise<NewCardsResponse> {
+    const cardsToAdd = Promise.all(cards.map((card) => cardToJson(card, deckId)));
     const response = await fetchWrapper.post('/cards', cardsToAdd);
     return response;
   }
 
   // POST: /Cards/Update
-  async function updateCard(card: Card): Promise<NewCardsResponse> {
-    assertIdIsNumber(card.id);
+  async function updateCard(card: DraftCard | Card): Promise<NewCardsResponse> {
     return updateCards([card]);
   }
 
   // POST: /Cards/Update
-  async function updateCards(cards: Card[]): Promise<NewCardsResponse> {
+  async function updateCards(cards: DraftCard[] | Card[]): Promise<NewCardsResponse> {
     cards.forEach((card) => assertIdIsNumber(card.id));
-
-    const cardsToUpdate = cards.map((card) => cardToJson(card));
+    const cardsToUpdate = await Promise.all(cards.map((card) => cardToJson(card)));
     const response = await fetchWrapper.post(`/cards/update`, cardsToUpdate);
     return response;
   }
