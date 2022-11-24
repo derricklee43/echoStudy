@@ -1,6 +1,5 @@
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { jsonToDailyStudyRecord } from '@/models/daily-study-record';
-import { JsonToPublicUser } from '@/models/public-user';
 import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -17,10 +16,11 @@ export function useStudyActivity() {
   async function getAnnualDailyStudyRecords(year: number) {
     const jan1 = getJanuaryFirstOfYear(year).toDateString();
     const dec31 = getDecemberThirtyFirstOfYear(year).toDateString();
-    const response: any[] = await fetchWrapper.get(
+    const response: unknown[] = await fetchWrapper.get(
       `/studyActivity?startDate=${jan1}&endDate=${dec31}`
     );
-    return response.map(jsonToDailyStudyRecord);
+    const dailyStudyRecords = response.map(jsonToDailyStudyRecord);
+    return dailyStudyRecords;
   }
 
   function getJanuaryFirstOfYear(year: number) {

@@ -10,8 +10,6 @@ interface StudyActivityCalendarProps {
   className?: string;
 }
 
-// TODO: be able to fetch study activity for all users
-
 export const StudyActivityCalendar = ({ className = '' }: StudyActivityCalendarProps) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [annualDailyScores, setAnnualDailyScores] = useState<AnnualDailyScores>({});
