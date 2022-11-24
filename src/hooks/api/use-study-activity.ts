@@ -4,9 +4,6 @@ import { useFetchWrapper } from './use-fetch-wrapper';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-/**
- * Client targeting endpoints public users
- */
 export function useStudyActivity() {
   const fetchWrapper = useFetchWrapper(ECHOSTUDY_API_URL);
 

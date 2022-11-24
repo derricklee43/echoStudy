@@ -56,11 +56,10 @@ export const CalendarGraph = ({
   const yearInput = getYearInput();
   const graphLegend = getGraphLegend();
 
-  // TODO: fix naming of loading panel
   return (
     <div className={`calendar-graph ${className}`}>
       {dailyScores === undefined && (
-        <div className="loading">
+        <div className="cg-loading-icon-container">
           <LoadingIcon size="large" />
         </div>
       )}

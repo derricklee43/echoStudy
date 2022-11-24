@@ -22,16 +22,14 @@ $vertical-margin: 10px;
     padding: 5px;
   }
 
-  .loading {
+  .cg-loading-icon-container {
     @include flex-center;
-    border-radius: $standard-radius;
     background-color: rgb(54 54 54 / 45%);
     position: absolute;
     width: 100%;
     height: 100%;
     cursor: default;
-    background-color: rgb(54 54 54 / 45%);
-    z-index: 2;
+    z-index: 1;
     top: 0px;
     left: 0px;
   }
