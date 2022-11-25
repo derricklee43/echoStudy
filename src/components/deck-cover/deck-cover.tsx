@@ -7,7 +7,9 @@ import { Deck } from '@/models/deck';
 import './deck-cover.scss';
 
 interface DeckCoverProps {
-  flippable?: boolean;
+  className?: string;
+  flippable?: boolean; // default: true
+  startFlipped?: boolean; // default: false
   deck: Deck;
   onClick?: (event: React.MouseEvent) => void;
   onStudyClick: () => void;
@@ -15,14 +17,16 @@ interface DeckCoverProps {
 }
 
 export const DeckCover = ({
+  className = '',
   flippable = true,
+  startFlipped = false,
   deck,
   onClick,
   onStudyClick,
   onViewClick,
 }: DeckCoverProps) => {
   // false => show front; true => show back
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(startFlipped);
 
   const springTransition = {
     type: 'spring',
@@ -31,7 +35,12 @@ export const DeckCover = ({
   };
 
   return (
-    <motion.div key={deck.metaData.id} layout transition={springTransition} className="deck-cover">
+    <motion.div
+      key={deck.metaData.id}
+      layout
+      transition={springTransition}
+      className={`deck-cover ${className}`}
+    >
       <FlipTile
         isFlipped={flippable && flipped}
         frontClassName="cover-front"

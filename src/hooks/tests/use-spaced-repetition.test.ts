@@ -6,7 +6,7 @@ import { testEnglishDeck } from '@/models/mock/deck.mock';
 
 describe('useSpacedRepetition', () => {
   const setup = () => {
-    const deck = testEnglishDeck(0);
+    const deck = testEnglishDeck();
     const { result } = renderHook(() => useSpacedRepetition());
     const spacedRepetition = result.current;
     return { deck, spacedRepetition };

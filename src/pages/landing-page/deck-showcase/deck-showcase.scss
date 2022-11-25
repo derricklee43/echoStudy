@@ -1,0 +1,77 @@
+@import '@/assets/styles';
+@import '@/assets/colors';
+
+.showcase-deck-preview {
+  display: flex;
+  gap: 16px;
+
+  position: absolute;
+  top: -75px;
+  right: -125px;
+  transform: rotate(20deg);
+  overflow: hidden;
+
+  // remove constraints on small viewports
+  @media screen and (max-width: $large-screen) {
+    position: initial;
+    transform: none;
+    overflow: visible;
+  }
+
+  // showcase columns should be hidden on small viewports
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media screen and (max-width: $large-screen) {
+      display: none;
+    }
+
+    .deck-showcase-cover {
+      // @keyframe | duration | delay | easing-function
+      animation: showcase-item 350ms 0ms forwards;
+      transform: scale(0.9);
+      opacity: 0;
+
+      color: $black;
+      user-select: none;
+
+      .c-front,
+      .c-back {
+        @include card-box-shadow($alpha: 0.2);
+        border-radius: 16px;
+      }
+    }
+
+    // different animation delay for all cover cards
+    &.left {
+      @for $i from 1 through 5 {
+        .deck-showcase-cover:nth-child(#{$i}n) {
+          animation-delay: calc(#{$i * 250}ms + 250ms);
+        }
+      }
+    }
+
+    &.right {
+      @for $i from 1 through 5 {
+        .deck-showcase-cover:nth-child(#{$i}n) {
+          animation-delay: calc(#{$i * 250}ms);
+        }
+      }
+    }
+  }
+}
+
+@keyframes showcase-item {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

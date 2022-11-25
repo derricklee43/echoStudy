@@ -4,22 +4,22 @@ import userEvent from '@testing-library/user-event';
 import { noop } from '@/helpers/func';
 import { Deck } from '@/models/deck';
 import { getTestFoxCard } from '@/models/mock/card.mock';
-import { testEnglishDeck } from '@/models/mock/deck.mock';
+import { testEmptyDeck, testEnglishDeck } from '@/models/mock/deck.mock';
 import { DeckCover } from './deck-cover';
-
-const TEST_DECK = testEnglishDeck(0);
 
 describe('DeckCover', () => {
   it('should render correctly with default props', () => {
-    render(<DeckCover deck={TEST_DECK} onStudyClick={noop} onViewClick={noop} />);
-    expect(screen.queryAllByText(TEST_DECK.metaData.title)[0]).toBeVisible();
+    const deck = testEnglishDeck();
+    render(<DeckCover deck={deck} onStudyClick={noop} onViewClick={noop} />);
+    expect(screen.queryAllByText(deck.metaData.title)[0]).toBeVisible();
   });
 
   it('should not fire `onClick` if set to not flippable', () => {
+    const deck = testEnglishDeck();
     const mockOnClick = jest.fn();
     render(
       <DeckCover
-        deck={TEST_DECK}
+        deck={deck}
         onClick={mockOnClick}
         flippable={false}
         onStudyClick={noop}
@@ -27,15 +27,16 @@ describe('DeckCover', () => {
       />
     );
 
-    userEvent.click(screen.queryAllByText(TEST_DECK.metaData.title)[0]);
+    userEvent.click(screen.queryAllByText(deck.metaData.title)[0]);
     expect(mockOnClick).toBeCalled();
   });
 
   it('should fire onStudyClick only when there are cards', () => {
+    const emptyDeck = testEmptyDeck();
     const mockOnStudyClick = jest.fn();
     const { rerender } = render(
       <DeckCover
-        deck={TEST_DECK}
+        deck={emptyDeck}
         onClick={noop}
         onViewClick={noop}
         onStudyClick={mockOnStudyClick}
@@ -49,7 +50,7 @@ describe('DeckCover', () => {
     // rerender using deck with cards
     const testCards = [...Array(5)].map(() => getTestFoxCard());
     const deckWithCards: Deck = {
-      metaData: { ...TEST_DECK.metaData, cardIds: [...Array(testCards.length)] },
+      metaData: { ...emptyDeck.metaData, cardIds: [...Array(testCards.length)] },
       cards: testCards,
     };
     rerender(
@@ -67,19 +68,20 @@ describe('DeckCover', () => {
   });
 
   it('should fire all default click listeners', () => {
+    const emptyDeck = testEmptyDeck();
     const mockOnClick = jest.fn();
     const mockOnViewClick = jest.fn();
     const mockOnStudyClick = jest.fn();
     render(
       <DeckCover
-        deck={TEST_DECK}
+        deck={emptyDeck}
         onClick={mockOnClick}
         onViewClick={mockOnViewClick}
         onStudyClick={mockOnStudyClick}
       />
     );
 
-    userEvent.click(screen.queryAllByText(TEST_DECK.metaData.title)[0]);
+    userEvent.click(screen.queryAllByText(emptyDeck.metaData.title)[0]);
     expect(mockOnClick).toBeCalledTimes(1);
 
     userEvent.click(screen.getByText('view'));

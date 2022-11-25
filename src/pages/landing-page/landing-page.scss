@@ -1,10 +1,15 @@
 @import '@/assets/styles';
 @import '@/assets/colors';
 
+$DOTTED-COLOR: hsl(221, 18%, 22%);
+$ODD-BG-COLOR: hsl(231, 18%, 25%);
+$EVEN-BG-COLOR: $blue;
+
 .landing-page {
   width: 100%;
   color: white;
-  background-color: $deck-cover-blue;
+
+  background-color: $ODD-BG-COLOR;
 
   .full-viewport {
     position: relative;
@@ -12,11 +17,14 @@
     justify-content: center;
     min-height: $sm-md-screen;
     height: 100vh;
-    padding: 0px 24px;
     border-bottom: 4px solid $blue;
 
     &:first-child {
       height: calc(100vh - $header-height);
+    }
+
+    &:nth-child(even) {
+      background-color: $EVEN-BG-COLOR;
     }
   }
 
@@ -55,6 +63,7 @@
   .text-alternate {
     color: $light-blue;
     font-weight: bold;
+    font-size: 28px;
   }
 
   .text-sm {
@@ -82,15 +91,30 @@
   }
 
   .text-md-dynamic {
-    font-size: 2.35vw;
+    font-size: 2.5vw;
   }
 
   .text-md-lg-dynamic {
-    font-size: min(3.5vw, 48px);
+    font-size: min(5vmin, 48px);
   }
 
   .text-lg-dynamic {
-    font-size: min(12vw, 96px);
+    font-size: min(15vmin, 96px);
+  }
+
+  .dotted {
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inline-size: 200vw; // or width
+      block-size: 200vw; // or height
+      background-image: radial-gradient($DOTTED-COLOR 2px, transparent 0);
+      background-size: 16px 16px;
+      transform: rotate(20deg);
+      z-index: -1;
+    }
   }
 
   /**
@@ -137,35 +161,72 @@
   }
 
   .showcase-page {
-    @include flex-center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 100%;
-    gap: 5%;
+    gap: 5vmin;
+    padding: 0px 96px;
+
+    position: relative;
+    overflow: hidden;
+
+    @media screen and (max-width: $giant-screen) {
+      padding: 0px 64px;
+    }
 
     @media screen and (max-width: $medium-screen) {
+      @include flex-center;
       flex-direction: column;
+      padding: 0px 32px;
     }
 
     .showcase-description {
+      width: 30vw;
+
+      &.place-left {
+        margin-right: auto;
+      }
+
       span {
-        display: block;
+        display: inline-block;
+      }
+
+      @media screen and (max-width: $medium-screen) {
+        width: 80vw;
+        margin: {
+          left: auto;
+          right: auto;
+        }
       }
     }
 
     .showcase-image {
-      /* 
-       * TODO: actually style this to how one of our showcase images would look 
-       *       currently just reusing the dummy echoStudy landing image
-      */
       > img {
+        @include glow-box-shadow($spread-radius: -3px);
         width: min(55vw, 800px);
-        border: 8px solid $light-blue;
-        border-radius: 16px;
-        padding: 16px;
+        border-radius: 24px;
         user-select: none;
 
         @media screen and (max-width: $medium-screen) {
           width: min(75vw, $sm-md-screen);
         }
+      }
+    }
+
+    #deck-showcase-anchor {
+      position: absolute;
+
+      // so that the anchor takes the [25% - 75%] range of the page (quarter from both sides on y-axis)
+      top: 25%;
+      height: 50%;
+    }
+
+    #shared-decks-image {
+      display: none;
+
+      @media screen and (max-width: $large-screen) {
+        display: block;
       }
     }
   }

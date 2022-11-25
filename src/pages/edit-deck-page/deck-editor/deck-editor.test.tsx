@@ -200,7 +200,7 @@ describe('DeckEditor', () => {
   });
 
   it('should be reset when initialDeck is changed', () => {
-    const firstDeck = testEnglishDeck(0);
+    const firstDeck = testEnglishDeck();
     const { rerender } = renderWithTestRoots(
       <DeckEditor
         initialDeck={firstDeck}

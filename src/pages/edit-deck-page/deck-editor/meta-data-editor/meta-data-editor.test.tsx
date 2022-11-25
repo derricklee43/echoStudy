@@ -12,7 +12,7 @@ describe('MetaDataEditor', () => {
   });
 
   it('should render correctly with default props', () => {
-    const deck = testEnglishDeck(1);
+    const deck = testEnglishDeck();
     render(
       <MetaDataEditor
         deck={deck}
@@ -29,7 +29,7 @@ describe('MetaDataEditor', () => {
   });
 
   it('should hide advanced settings until dropdown is clicked', () => {
-    const deck = testEnglishDeck(1);
+    const deck = testEnglishDeck();
     render(
       <MetaDataEditor
         deck={deck}
@@ -49,7 +49,7 @@ describe('MetaDataEditor', () => {
   });
 
   it('should call onDeckChange when meta data is changed', () => {
-    const deck = testEnglishDeck(1);
+    const deck = testEnglishDeck();
     const mockOnDeckChange = jest.fn();
     render(
       <MetaDataEditor
@@ -64,7 +64,7 @@ describe('MetaDataEditor', () => {
   });
 
   it('should call onDeleteClick when delete button is clicked', () => {
-    const deck = testEnglishDeck(1);
+    const deck = testEnglishDeck();
     const mockOnDeleteClick = jest.fn();
     render(
       <MetaDataEditor

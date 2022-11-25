@@ -16,7 +16,7 @@ describe('Header', () => {
   });
 
   it('should route to view deck when dropdown option clicked', async () => {
-    const testDeck = testEnglishDeck(0);
+    const testDeck = testEnglishDeck();
     const initRecoilState = (snapshot: MutableSnapshot) => {
       snapshot.set(userDecksState, [testDeck]);
     };

@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fade } from '@/animations/fade';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
+import collaborationImage from '@/assets/images/collaboration.jpg';
+import retroImage from '@/assets/images/retro-aesthetic.png';
 import waveImage from '@/assets/images/wave.png';
+import womanOnPhoneImage from '@/assets/images/woman-on-phone.png';
 import { Button } from '@/components/button/button';
+import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { Header } from '@/components/header/header';
+import { noop } from '@/helpers/func';
+import { testEnglishDeck } from '@/models/mock/deck.mock';
 import { paths } from '@/routing/paths';
+import { DeckShowcase } from './deck-showcase/deck-showcase';
 import './landing-page.scss';
 
 const headerClassName = 'header-anchor';
 const enum pages {
   topLanding = 'top-landing',
   usingSpeechSynth = 'using-speech-synth',
-  spacedRepetition = 'spaced-reptition',
+  spacedRepetition = 'spaced-repetition',
   sharedDecks = 'shared-decks',
 }
 
 export const LandingPage = () => {
   const navigate = useNavigate();
+  const deckShowcaseAnchorRef = useRef(null); // show DeckShowcase only when this ref is visible
 
   return (
     <>
@@ -58,14 +66,31 @@ export const LandingPage = () => {
           pages.usingSpeechSynth,
           <>
             <div className="showcase-page">
-              <div className="showcase-description">
-                <span className="text-sm-md">using state of the art</span>
-                <span className="text-md-lg">speech</span>
-                <span className="text-md-lg">synthesis,</span>
-                <span className="text-sm-md text-alternate">study as you please</span>
-              </div>
               <div className="showcase-image">
-                <img className="wave-image" src={waveImage} loading="lazy" />
+                <img className="wave-image" src={womanOnPhoneImage} loading="lazy" />
+              </div>
+              <div className="showcase-description text-right-align">
+                <span className="text-sm-md">using state of the art</span>
+                <span className="text-md-lg">speech synthesis</span>
+                <span className="text-alternate">study as you please</span>
+              </div>
+            </div>
+            {getScrollAnchor(fromId(pages.sharedDecks), 'down')}
+          </>
+        )}
+
+        {withFullViewport(
+          pages.sharedDecks,
+          <>
+            <div className="showcase-page dotted">
+              <div id="deck-showcase-anchor" ref={deckShowcaseAnchorRef} />
+              <div className="showcase-description place-left">
+                <span className="text-sm-md">collaborate to reach your goals with</span>
+                <span className="text-md-lg">shared decks</span>
+              </div>
+              <DeckShowcase showWhenVisibleRef={deckShowcaseAnchorRef} />
+              <div id="shared-decks-image" className="showcase-image">
+                <img className="wave-image" src={collaborationImage} loading="lazy" />
               </div>
             </div>
             {getScrollAnchor(fromId(pages.spacedRepetition), 'down')}
@@ -77,27 +102,11 @@ export const LandingPage = () => {
           <>
             <div className="showcase-page">
               <div className="showcase-image">
-                <img className="wave-image" src={waveImage} loading="lazy" />
+                <img className="wave-image" src={retroImage} loading="lazy" />
               </div>
               <div className="showcase-description text-right-align">
                 <span className="text-md-lg">spaced repetition</span>
                 <span className="text-sm-md">to never miss a beat</span>
-              </div>
-            </div>
-            {getScrollAnchor(fromId(pages.sharedDecks), 'down')}
-          </>
-        )}
-
-        {withFullViewport(
-          pages.sharedDecks,
-          <>
-            <div className="showcase-page">
-              <div className="showcase-description">
-                <span className="text-sm-md">collaborate to reach your goals with</span>
-                <span className="text-md-lg">shared decks</span>
-              </div>
-              <div className="showcase-image">
-                <img className="wave-image" src={waveImage} loading="lazy" />
               </div>
             </div>
             {getScrollAnchor(fromClass(headerClassName), 'up')}
