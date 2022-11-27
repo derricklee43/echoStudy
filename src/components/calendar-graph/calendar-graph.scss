@@ -1,0 +1,155 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+$month-label-hight: 20px;
+$vertical-margin: 10px;
+
+@mixin hideable-label {
+  @media screen and (max-width: $small-screen) {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+.calendar-graph {
+  color: white;
+  border-radius: $standard-radius;
+  border: 1px solid $light-blue;
+  padding: 20px;
+  position: relative;
+
+  @media screen and (max-width: $small-screen) {
+    padding: 5px;
+  }
+
+  .cg-loading-icon-container {
+    @include flex-center;
+    background-color: rgb(54 54 54 / 45%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+  }
+
+  .cg-title {
+    margin: 0px;
+    margin-bottom: $vertical-margin;
+    text-align: center;
+  }
+
+  .month-labels {
+    @include hideable-label;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+
+    .month-pair {
+      flex-grow: 1;
+      display: inline-flex;
+      flex-wrap: wrap;
+      height: $month-label-hight;
+      overflow: hidden;
+
+      & > div {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .cg-label {
+    width: 60px;
+    height: $month-label-hight;
+    text-align: center;
+  }
+
+  .calendar-block {
+    display: flex;
+
+    .day-labels {
+      @include hideable-label;
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-right: 3px;
+
+      .day-label {
+        text-align: end;
+      }
+    }
+
+    .cg-cells {
+      flex-grow: 1;
+      display: inline-flex;
+      justify-content: space-evenly;
+
+      .cg-week {
+        flex-grow: 1;
+        display: inline-flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  .cg-base-cell {
+    flex-grow: 1;
+    margin: 1px;
+    aspect-ratio: 1 / 1;
+    background-color: #3e3e3e;
+
+    &.cg-low-cell {
+      background-color: #455b74;
+    }
+
+    &.cg-med-cell {
+      background-color: #3e7aaf;
+    }
+
+    &.cg-high-cell {
+      background-color: #029bed;
+    }
+
+    &.cg-hidden-cell {
+      background-color: transparent;
+    }
+  }
+
+  .cg-footer {
+    display: flex;
+    margin-top: $vertical-margin;
+
+    & > div {
+      flex: 1 1 0px;
+    }
+    .cg-foot-left-placeholder {
+      @include hideable-label;
+    }
+
+    .cg-year-input {
+      display: flex;
+      justify-content: center;
+
+      .cg-left-arrow {
+        transform: rotate(90deg);
+      }
+      .cg-right-arrow {
+        transform: rotate(-90deg);
+      }
+    }
+    .cg-legend {
+      @include hideable-label;
+      display: inline-flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 2px;
+
+      .cg-legend-cell {
+        flex-grow: 0;
+        height: 15px;
+        width: 15px;
+      }
+    }
+  }
+}

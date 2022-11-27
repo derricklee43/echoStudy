@@ -5,6 +5,7 @@ import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { PageHeader } from '@/components/page-header/page-header';
+import { StudyActivityCalendar } from '@/components/study-activity-calendar/study-activity-calendar';
 import { UserDetails } from '@/components/user-details/user-details';
 import { useAccountClient } from '@/hooks/api/use-account-client';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
@@ -23,16 +24,15 @@ export const PersonalProfilePage = () => {
 };
 
 const AsyncPersonalProfilePage = () => {
-  const navigate = useNavigate();
-  const decksClient = useDecksClient();
-
   const setUserDecks = useSetRecoilState(userDecksState);
   const sortedDecks = useRecoilValue(userDecksSortedState);
   const userData = useRecoilValue(userInfoStateAsync);
+  const navigate = useNavigate();
+  const decksClient = useDecksClient();
   const { getProfilePictureUrl } = useAccountClient();
-  const profilePicUrl = getProfilePictureUrl(userData?.email ?? '');
-
   const { privateDecks, publicDecks } = _reduceDecksByAccess();
+
+  const profilePicUrl = getProfilePictureUrl(userData?.email ?? '');
 
   // fetch flashcard decks on load
   useEffect(() => {
@@ -55,6 +55,9 @@ const AsyncPersonalProfilePage = () => {
         email={userData.email}
         dateJoined={userData.dateCreated}
       />
+
+      <StudyActivityCalendar />
+
       <BubbleDivider
         className="decks-divider"
         variantType="drop-down-reveal"
