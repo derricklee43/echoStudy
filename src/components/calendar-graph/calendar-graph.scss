@@ -4,7 +4,7 @@
 $month-label-hight: 20px;
 $vertical-margin: 10px;
 
-@mixin hidable-label {
+@mixin hideable-label {
   @media screen and (max-width: $small-screen) {
     display: none;
     visibility: hidden;
@@ -41,7 +41,7 @@ $vertical-margin: 10px;
   }
 
   .month-labels {
-    @include hidable-label;
+    @include hideable-label;
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
@@ -69,7 +69,7 @@ $vertical-margin: 10px;
     display: flex;
 
     .day-labels {
-      @include hidable-label;
+      @include hideable-label;
       display: inline-flex;
       flex-direction: column;
       justify-content: space-between;
@@ -124,7 +124,7 @@ $vertical-margin: 10px;
       flex: 1 1 0px;
     }
     .cg-foot-left-placeholder {
-      @include hidable-label;
+      @include hideable-label;
     }
 
     .cg-year-input {
@@ -139,7 +139,7 @@ $vertical-margin: 10px;
       }
     }
     .cg-legend {
-      @include hidable-label;
+      @include hideable-label;
       display: inline-flex;
       justify-content: flex-end;
       align-items: center;

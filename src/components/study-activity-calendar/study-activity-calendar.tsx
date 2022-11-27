@@ -18,7 +18,7 @@ export const StudyActivityCalendar = ({ className = '' }: StudyActivityCalendarP
   // fetch annual daily scores, first on load then on current year change
   useEffect(() => {
     fetchAnnualStudyRecordsAndRefresh(currentYear);
-  }, [currentYear, setAnnualDailyScores]);
+  }, [currentYear]);
 
   return (
     <CalendarGraph
