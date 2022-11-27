@@ -1,30 +1,30 @@
 import { useReducer, useState } from 'react';
 import { Card, CardSide, DraftCard, filterBlankCards } from '@/models/card';
-import { Deck, DeckMetaData } from '@/models/deck';
+import { DeckMetaData, DraftDeck } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
 import { useCardsClient } from './api/use-cards-client';
 import { useDecksClient } from './api/use-decks-client';
 
 type CardMap = { [id: string]: DraftCard };
 interface DeckEditorReturn {
-  deck: Deck;
+  deck: DraftDeck;
   hasUnsavedChanges: boolean;
   isSaving: boolean;
   save: () => void;
   discardChanges: () => void;
-  addCard: (card: Card) => void;
-  addCustomAudio: (card: Card, cardSide: CardSide, customAudio: Blob) => void;
-  deleteCard: (card: Card) => void;
-  deleteCustomAudio: (card: Card, cardSide: CardSide) => void;
-  updateCard: (card: Card) => void;
+  addCard: (card: DraftCard) => void;
+  addCustomAudio: (card: DraftCard, cardSide: CardSide, customAudio: Blob) => void;
+  deleteCard: (card: DraftCard) => void;
+  deleteCustomAudio: (card: DraftCard, cardSide: CardSide) => void;
+  updateCard: (card: DraftCard) => void;
   updateMetaData: (metaData: DeckMetaData) => void;
-  reorderCards: (cards: Card[]) => void;
-  setDeck: (newDeck: Deck) => void;
+  reorderCards: (cards: DraftCard[]) => void;
+  setDeck: (newDeck: DraftDeck) => void;
 }
 
 interface DeckReducerState {
-  currentDeck: Deck;
-  savedDeck: Deck;
+  currentDeck: DraftDeck;
+  savedDeck: DraftDeck;
   hasUnsavedChanges: boolean;
   addedCards: CardMap;
   deletedCards: CardMap;
@@ -37,7 +37,7 @@ type DeckReducerDispatch =
   | { type: DECK_REDUCER_TYPE.DELETE_CARD; card: DraftCard }
   | { type: DECK_REDUCER_TYPE.UPDATE_CARD; card: DraftCard }
   | { type: DECK_REDUCER_TYPE.REORDER_CARDS; cards: DraftCard[] }
-  | { type: DECK_REDUCER_TYPE.SET_DECK; deck: Deck };
+  | { type: DECK_REDUCER_TYPE.SET_DECK; deck: DraftDeck };
 
 const enum DECK_REDUCER_TYPE {
   UPDATE_META_DATA = 'UPDATE_META_DATA',
@@ -48,7 +48,7 @@ const enum DECK_REDUCER_TYPE {
   SET_DECK = 'SET_DECK',
 }
 
-export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
+export const useDeckEditor = (deck: DraftDeck): DeckEditorReturn => {
   const [isSaving, setIsSaving] = useState(false);
   const [state, dispatch] = useReducer(deckEditorReducer, {
     currentDeck: deck,
@@ -141,7 +141,7 @@ export const useDeckEditor = (deck: Deck): DeckEditorReturn => {
     updateCard(updatedCard);
   }
 
-  function setDeck(deck: Deck) {
+  function setDeck(deck: DraftDeck) {
     dispatchIfSafe({ type: DECK_REDUCER_TYPE.SET_DECK, deck });
   }
 
@@ -241,20 +241,20 @@ function removeCardFromMap(card: DraftCard, map: CardMap) {
   return newMap;
 }
 
-function removeCardFromDeck(card: DraftCard, deck: Deck) {
+function removeCardFromDeck(card: DraftCard, deck: DraftDeck) {
   const cardIndex = deck.cards.findIndex((deckCard) => card.key === deckCard.key);
   const newCards = [...deck.cards];
   newCards.splice(cardIndex, 1);
   return { ...deck, cards: newCards };
 }
 
-function updateCardInDeck(card: DraftCard, deck: Deck) {
+function updateCardInDeck(card: DraftCard, deck: DraftDeck) {
   const cardIndex = deck.cards.findIndex((deckCard) => card.key === deckCard.key);
   const newCards = [...deck.cards];
   newCards[cardIndex] = card;
   return { ...deck, cards: newCards };
 }
 
-function addCardToDeck(card: DraftCard, deck: Deck) {
+function addCardToDeck(card: DraftCard, deck: DraftDeck) {
   return { ...deck, cards: [...deck.cards, card] };
 }

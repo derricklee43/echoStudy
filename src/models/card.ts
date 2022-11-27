@@ -42,6 +42,16 @@ export function filterBlankCards(card: Card) {
   return !isBlankString(card.front.text) && !isBlankString(card.back.text);
 }
 
+export function swapCardSides(card: DraftCard) {
+  return {
+    ...card,
+    front: card.back,
+    back: card.front,
+    frontAudio: card.backCustomAudio,
+    backAudio: card.frontCustomAudio,
+  };
+}
+
 // TODO: this got messed up; fix it!
 export async function cardToJson(draftCard: DraftCard, deckId?: number) {
   return {

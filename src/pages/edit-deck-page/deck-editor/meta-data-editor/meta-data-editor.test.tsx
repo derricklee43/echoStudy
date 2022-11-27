@@ -19,6 +19,7 @@ describe('MetaDataEditor', () => {
         onDeckMetaDataChange={noop}
         onDeleteClick={noop}
         onImportedCardsAdd={noop}
+        onSwapAllClick={noop}
       />
     );
     expect(screen.queryAllByText('import cards').length).toEqual(2);
@@ -36,6 +37,7 @@ describe('MetaDataEditor', () => {
         onDeckMetaDataChange={noop}
         onDeleteClick={noop}
         onImportedCardsAdd={noop}
+        onSwapAllClick={noop}
       />
     );
 
@@ -57,6 +59,7 @@ describe('MetaDataEditor', () => {
         onDeckMetaDataChange={mockOnDeckChange}
         onDeleteClick={noop}
         onImportedCardsAdd={noop}
+        onSwapAllClick={noop}
       />
     );
     userEvent.type(screen.getByDisplayValue(deck.metaData.title), 't');
@@ -72,6 +75,7 @@ describe('MetaDataEditor', () => {
         onDeckMetaDataChange={noop}
         onDeleteClick={mockOnDeleteClick}
         onImportedCardsAdd={noop}
+        onSwapAllClick={noop}
       />
     );
     userEvent.click(screen.getByText('advanced settings'));

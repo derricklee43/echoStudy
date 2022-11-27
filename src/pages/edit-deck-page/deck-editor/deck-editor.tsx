@@ -9,8 +9,8 @@ import { FlashcardSet } from '@/components/flashcard-set/flashcard-set';
 import { PageHeader } from '@/components/page-header/page-header';
 import { useDeckEditor } from '@/hooks/use-deck-editor';
 import { usePrompt } from '@/hooks/use-prompt';
-import { Card, CardSide, createNewCard } from '@/models/card';
-import { Deck } from '@/models/deck';
+import { Card, CardSide, createNewCard, DraftCard, swapCardSides } from '@/models/card';
+import { DraftDeck } from '@/models/deck';
 import {
   RecordAudioCardSide,
   RecordAudioPopup,
@@ -18,11 +18,11 @@ import {
 import { MetaDataEditor } from './meta-data-editor/meta-data-editor';
 import './deck-editor.scss';
 interface DeckEditorProps {
-  initialDeck: Deck;
+  initialDeck: DraftDeck;
   isNewDeck: boolean;
   onGoBackClick: (event: React.MouseEvent) => void;
   onDeleteDeckClick: (event: React.MouseEvent) => void;
-  onCreateDeckClick: (deck: Deck) => void;
+  onCreateDeckClick: (deck: DraftDeck) => void;
 }
 
 export const DeckEditor = ({
@@ -87,6 +87,7 @@ export const DeckEditor = ({
         onDeckMetaDataChange={updateMetaData}
         onDeleteClick={onDeleteDeckClick}
         onImportedCardsAdd={handleImportedCards}
+        onSwapAllClick={handleSwapAllClick}
       />
       {deck.cards.length > 0 ? getFlashcardSet() : getFlashcardSetPlaceholder()}
       <Button onClick={handleAddClick} size="medium" className="add-card-button">
@@ -171,6 +172,11 @@ export const DeckEditor = ({
     } else {
       save(); // Todo: await and handle errors
     }
+  }
+
+  function handleSwapAllClick() {
+    const swappedCards = deck.cards.map(swapCardSides);
+    swappedCards.forEach(updateCard);
   }
 
   function handleRecordAudioClick(card: Card, side: CardSide) {
