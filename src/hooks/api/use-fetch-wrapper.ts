@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { ECHOSTUDY_API_URL } from '@/helpers/api';
 import { deferredPromise } from '@/helpers/promise';
+import { NotPromise } from '@/helpers/types';
 import { isDefined, objectSchemaSimple } from '@/helpers/validator';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { paths } from '@/routing/paths';
@@ -56,7 +57,11 @@ export function useFetchWrapper(prependApiUrl?: string) {
   };
 
   function request(method: string) {
-    return async function (url: string, body?: object, numRetries = 1) {
+    return async function <TBody extends object>(
+      url: string,
+      body?: NotPromise<TBody>,
+      numRetries = 1
+    ) {
       try {
         return await _retryFetch(url, method, body, numRetries);
       } catch (error) {
