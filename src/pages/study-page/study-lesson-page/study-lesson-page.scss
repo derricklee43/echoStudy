@@ -16,7 +16,9 @@
     margin: auto;
     padding-top: 16px;
 
-    .pulsing-microphone-container {
+    .study-flashcard-header-container {
+      display: flex;
+      align-items: flex-end;
       height: 26px;
       margin-left: 10px;
 
@@ -28,6 +30,37 @@
         border-radius: 50%;
         padding: 5px;
         background-color: $white;
+      }
+
+      .play-intro-button {
+        @include hover-pointer;
+        @include standard-transition;
+        color: white;
+        display: inline-flex;
+        justify-content: left;
+        align-items: center;
+        background-color: $electric-blue;
+        border-radius: 25px;
+        padding-right: 15px;
+        gap: 15px;
+
+        &:hover {
+          background-color: $electric-blue-hover;
+        }
+
+        .play-intro-icon-container {
+          @include flex-center;
+          $container-size: 30px;
+          width: $container-size;
+          height: $container-size;
+          border: 2px solid white;
+          border-radius: 50%;
+
+          .play-intro-play-icon {
+            padding-left: 3px;
+            height: 20px;
+          }
+        }
       }
     }
 

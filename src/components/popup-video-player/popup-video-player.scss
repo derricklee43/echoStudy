@@ -1,0 +1,87 @@
+@import '@/assets/colors';
+@import '@/assets/styles';
+
+.c-pvp-popup-modal {
+  background-color: transparent;
+  width: fit-content;
+
+  .c-pvp-video-container {
+    position: relative;
+
+    &:not(:hover) {
+      .c-pvp-hover-header:not(.is-paused) {
+        opacity: 0;
+        transition: 0.7s;
+      }
+    }
+
+    @media screen and (max-width: $small-screen) {
+      .c-pvp-video {
+        max-width: 100vw;
+      }
+      .c-pvp-video,
+      .c-pvp-hover-header {
+        border-radius: $standard-radius;
+      }
+    }
+
+    @media screen and (min-width: $small-screen) and (max-width: $large-screen) {
+      .c-pvp-video {
+        max-width: 90vw;
+      }
+      .c-pvp-video,
+      .c-pvp-hover-header {
+        border-radius: $standard-radius * 2;
+      }
+    }
+
+    @media screen and (min-width: $large-screen) {
+      .c-pvp-video {
+        max-width: calc(90vw - $sidebar-width);
+      }
+      .c-pvp-video,
+      .c-pvp-hover-header {
+        border-radius: $standard-radius * 3;
+      }
+    }
+
+    .c-pvp-hover-header {
+      @include standard-transition;
+      pointer-events: none;
+      box-sizing: border-box;
+      display: flex;
+      padding: 10px;
+      justify-content: space-between;
+      position: absolute;
+      width: 100%;
+      height: 100px;
+      z-index: 1;
+      pointer-events: all;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+
+      .c-pvp-title {
+        color: white;
+        font-size: 18px;
+        margin-left: 8px;
+      }
+
+      .c-pvp-cancel-button {
+        @include flex-center;
+        @include standard-transition;
+        width: fit-content;
+        height: fit-content;
+        border-radius: 50%;
+        padding: 3px;
+
+        &:hover {
+          background-color: rgba(39, 39, 39, 0.8);
+        }
+
+        .c-pvp-cancel-icon {
+          height: 25px;
+          width: 25px;
+        }
+      }
+    }
+  }
+}

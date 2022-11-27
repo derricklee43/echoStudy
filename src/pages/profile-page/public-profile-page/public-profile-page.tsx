@@ -4,7 +4,7 @@ import { BubbleDivider } from '@/components/bubble-divider/bubble-divider';
 import { DeckTile } from '@/components/deck-tile/deck-tile';
 import { LoadingPage } from '@/components/loading-page/loading-page';
 import { UserDetails } from '@/components/user-details/user-details';
-import { usePublicUsersClient } from '@/hooks/api/use-public-users-client';
+import { usePublicResourcesClient } from '@/hooks/api/use-public-resources';
 import { Deck } from '@/models/deck';
 import { PublicUser } from '@/models/public-user';
 import { paths } from '@/routing/paths';
@@ -13,7 +13,7 @@ import './public-profile-page.scss';
 export const PublicProfilePage = () => {
   const [publicUser, setPublicUser] = useState<PublicUser>();
   const { username } = useParams();
-  const { getPublicUser } = usePublicUsersClient();
+  const { getPublicUser } = usePublicResourcesClient();
   const navigate = useNavigate();
 
   useEffect(() => {
