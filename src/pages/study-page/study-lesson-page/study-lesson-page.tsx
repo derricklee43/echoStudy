@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Fade } from '@/animations/fade';
 import { MicrophoneIcon } from '@/assets/icons/microphone-icon/microphone-icon';
+import { PlayIcon } from '@/assets/icons/play-icon/play-icon';
 import nextCardSound from '@/assets/sounds/next-card.wav';
 import { AudioControlBar } from '@/components/audio-control-bar/audio-control-bar';
+import { Button } from '@/components/button/button';
 import { PageHeader } from '@/components/page-header/page-header';
+import { PopupVideoPlayer } from '@/components/popup-video-player/popup-video-player';
 import { ProgressBar } from '@/components/progress-bar/progress-bar';
 import { StudyFlashcard } from '@/components/study-flashcard/study-flashcard';
 import { stringToBoolean } from '@/helpers/string';
+import { usePublicResourcesClient } from '@/hooks/api/use-public-resources';
 import { useIsFirstRender } from '@/hooks/use-is-first-render';
 import { useLocalStorage } from '@/hooks/use-local-storage';
 import { usePlayLesson } from '@/hooks/use-play-lesson';
@@ -18,7 +22,6 @@ import { LessonCard, LessonCardOutcome } from '@/models/lesson-card';
 import { StudyConfiguration } from '@/pages/_shared/study-config-popup/study-config-popup';
 import { LocalStorageKeys as LSKeys } from '@/state/init';
 import './study-lesson-page.scss';
-
 interface StudyPageLessonProps {
   deck: Deck;
   studyConfig: StudyConfiguration;
@@ -28,8 +31,10 @@ interface StudyPageLessonProps {
 export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPageLessonProps) => {
   const isFirstRender = useIsFirstRender();
   const ls = useLocalStorage();
-
+  const { getLessonIntroVideoUrl } = usePublicResourcesClient();
+  const [introVideoUrl, setIntroVideoUrl] = useState();
   const [isPaused, setIsPaused] = useState(true);
+  const [showIntroVideo, setShowIntroVideo] = useState(false);
   const { startStopWatch, pauseStopWatch, getElapsedTime } = useStopWatch();
   const [hasLessonStarted, setHasLessonStarted] = useState(false);
   const {
@@ -62,6 +67,10 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
     }
   }, [currentCard.key, hasLessonStarted]);
 
+  useEffect(() => {
+    fetchIntroVideoUrlAndRefresh();
+  }, []);
+
   const showCover = !hasLessonStarted;
 
   return (
@@ -69,15 +78,9 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
       <PageHeader className="study-lesson-page-header" label={deck.metaData.title} />
       <div className="study-lesson-page-content">
         <div className="study-flashcard-container">
-          <div className="pulsing-microphone-container">
+          <div className="study-flashcard-header-container">
             <AnimatePresence>
-              {isCapturingSpeech && (
-                <Fade fadeIn={true}>
-                  <div className="pulsing-microphone">
-                    <MicrophoneIcon />
-                  </div>
-                </Fade>
-              )}
+              {hasLessonStarted ? getMicrophoneIcon() : getPlayIntroButton()}
             </AnimatePresence>
           </div>
           {showCover ? getCover() : getCard()}
@@ -88,7 +91,6 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
             className="study-page-progress-bar"
             onAnimationComplete={handleProgressBarAnimationCompletion}
           />
-
           <AudioControlBar
             isPaused={isPaused}
             onNextClick={handleNextClick}
@@ -175,5 +177,50 @@ export const StudyLessonPage = ({ deck, studyConfig, onLessonComplete }: StudyPa
 
   function isLessonComplete() {
     return numCards === completedCards.length;
+  }
+
+  function getMicrophoneIcon() {
+    if (!isCapturingSpeech) {
+      return undefined;
+    }
+    return (
+      <Fade fadeIn={true}>
+        <div className="pulsing-microphone">
+          <MicrophoneIcon />
+        </div>
+      </Fade>
+    );
+  }
+
+  function getPlayIntroButton() {
+    if (introVideoUrl === undefined) {
+      return undefined;
+    }
+    return (
+      <Fade>
+        <Button
+          variant="invisible"
+          className="play-intro-button"
+          onClick={() => setShowIntroVideo(true)}
+        >
+          <div className="play-intro-icon-container">
+            <PlayIcon className="play-intro-play-icon" />
+          </div>
+          watch intro
+        </Button>
+        <PopupVideoPlayer
+          onClose={() => setShowIntroVideo(false)}
+          autoPlay={true}
+          showTrigger={showIntroVideo}
+          title="echoStudy lesson intro"
+          src={introVideoUrl}
+        />
+      </Fade>
+    );
+  }
+
+  async function fetchIntroVideoUrlAndRefresh() {
+    const introVideoUrl = await getLessonIntroVideoUrl();
+    setIntroVideoUrl(introVideoUrl);
   }
 };

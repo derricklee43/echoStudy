@@ -9,7 +9,7 @@ import { publicDecksState } from '@/state/public-decks';
 import { userDecksSortedState, userDecksState } from '@/state/user-decks';
 import { usersState } from '@/state/users';
 import { useDecksClient } from './api/use-decks-client';
-import { usePublicUsersClient } from './api/use-public-users-client';
+import { usePublicResourcesClient } from './api/use-public-resources';
 import { useSearchResultFilter } from './use-search-result-filter';
 
 export interface CategorySearchResults {
@@ -34,7 +34,7 @@ export const useSearchCategories = (isCaseSensitive: boolean) => {
   const decks = useRecoilValue(userDecksSortedState);
 
   // Users
-  const { getPublicUsers } = usePublicUsersClient();
+  const { getPublicUsers } = usePublicResourcesClient();
   const [users, setUsers] = useRecoilState(usersState);
 
   const navigate = useNavigate();
