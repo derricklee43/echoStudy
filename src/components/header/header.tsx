@@ -7,9 +7,11 @@ import { HamburgerMenuIcon } from '@/assets/icons/hamburger-menu-icon/hamburger-
 import { Button } from '@/components/button/button';
 import { CategorySearchBar } from '@/components/search-bar/category-search-bar/category-search-bar';
 import { useAccountClient } from '@/hooks/api/use-account-client';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useSearchCategories } from '@/hooks/use-search-categories';
 import { paths } from '@/routing/paths';
-import { authJwtState, isAuthJwt } from '@/state/auth-jwt';
+import { AuthJwt, authJwtState, isAuthJwt } from '@/state/auth-jwt';
+import { LocalStorageKeys } from '@/state/init';
 import { navToggledState } from '@/state/nav';
 import { WelcomeUser } from './welcome-user/welcome-user';
 import './header.scss';
@@ -55,7 +57,7 @@ export const Header = ({
         )}
 
         <div className="c-header-title">
-          <a className="c-header-anchor" href="/">
+          <a className="c-header-anchor" href={authJwt ? paths.decks : paths.home}>
             <label>
               echo<span>Study</span>
             </label>
