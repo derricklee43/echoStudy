@@ -157,11 +157,14 @@ export const StudyResultsPage = ({
 
     // update card scores
     setIsUpdating(true);
-    await _updateAllCardScores();
-    setIsUpdating(false);
-
-    // navigation is handled with a side effect on `areResultsApplied`
-    setAreResultsApplied(true);
+    try {
+      await _updateAllCardScores();
+      setAreResultsApplied(true); // navigation is handled with a side effect on `areResultsApplied`
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUpdating(false);
+    }
   }
 
   async function _updateAllCardScores() {
