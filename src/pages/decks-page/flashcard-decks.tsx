@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { DropDown } from '@/components/drop-down/drop-down';
+import { LoadingPage } from '@/components/loading-page/loading-page';
 import { noop } from '@/helpers/func';
 import { useDecksClient } from '@/hooks/api/use-decks-client';
 import { createNewDeck, Deck } from '@/models/deck';
@@ -48,16 +49,7 @@ export const FlashcardDecksPage = () => {
             onOptionSelect={(option) => setSortOption(option.id)}
           />
         </div>
-        <div className="deck-tile-container">
-          <DeckCover
-            flippable={false}
-            onClick={onAddDeckClicked}
-            deck={addNewDeckEntity}
-            onStudyClick={noop}
-            onViewClick={noop}
-          />
-          {getDeckCovers()}
-        </div>
+        <div className="deck-tile-container">{getDeckCovers()}</div>
         <div className="footer-page-number">
           {/* no functionality, just text :P */}
           <label>page 1 of 1</label>
@@ -67,15 +59,37 @@ export const FlashcardDecksPage = () => {
   );
 
   function getDeckCovers() {
+    if (!sortedDecks) {
+      return (
+        <LoadingPage
+          className="decks-loading-icon-container"
+          label="loading your decks..."
+          labelDelay={0.0}
+        />
+      );
+    }
+
     const decks = sortedDecks ?? [];
-    return decks.map((deck) => (
-      <DeckCover
-        key={deck.metaData.id}
-        deck={deck}
-        onStudyClick={() => handleStudyClick(deck.metaData.id)}
-        onViewClick={() => handleViewClick(deck.metaData.id)}
-      />
-    ));
+    return (
+      <>
+        <DeckCover
+          flippable={false}
+          onClick={onAddDeckClicked}
+          deck={addNewDeckEntity}
+          onStudyClick={noop}
+          onViewClick={noop}
+        />
+        {decks.map((deck) => (
+          <DeckCover
+            key={deck.metaData.id}
+            deck={deck}
+            onStudyClick={() => handleStudyClick(deck.metaData.id)}
+            onViewClick={() => handleViewClick(deck.metaData.id)}
+          />
+        ))}
+        ;
+      </>
+    );
   }
 
   function handleStudyClick(id: number) {
