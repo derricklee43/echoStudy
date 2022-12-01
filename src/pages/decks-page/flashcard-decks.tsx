@@ -87,7 +87,6 @@ export const FlashcardDecksPage = () => {
             onViewClick={() => handleViewClick(deck.metaData.id)}
           />
         ))}
-        ;
       </>
     );
   }
