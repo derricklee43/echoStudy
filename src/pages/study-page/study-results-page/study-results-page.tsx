@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateOptions, To, useNavigate } from 'react-router-dom';
 import { UpToggle } from '@/animations/up-toggle';
 import { CardStackIcon } from '@/assets/icons/card-stack-icon/card-stack-icon';
 import { ClockIcon } from '@/assets/icons/clock-icon/clock-icon';
@@ -19,6 +19,7 @@ import { paths } from '@/routing/paths';
 import { StudyResultCards } from './study-result-cards/study-result-cards';
 import './study-results-page.scss';
 
+type NavigateParams = { to: To; options?: NavigateOptions };
 interface StudyResultsPageProps {
   deck: Deck;
   lessonCards: LessonCard[];
@@ -38,14 +39,14 @@ export const StudyResultsPage = ({
   const navigate = useNavigate();
 
   // block navigation if finish isn't clicked; otherwise, redirect back to the deck
-  const [areResultsApplied, setAreResultsApplied] = useState(false); // all done?
+  const [navigateParams, setNavigateParams] = useState<NavigateParams | undefined>();
   const [isUpdating, setIsUpdating] = useState(false); // currently sending update request?
-  usePrompt('Are you sure you want to discard the results of this lesson?', !areResultsApplied);
+  usePrompt('Are you sure you want to discard the results of this lesson?', !navigateParams);
   useEffect(() => {
-    if (areResultsApplied) {
-      navigate(`${paths.deck}/${deck.metaData.id}`);
+    if (navigateParams) {
+      navigate(navigateParams.to, navigateParams.options);
     }
-  }, [areResultsApplied]);
+  }, [navigateParams]);
 
   const title = `${deck.metaData.title} Lesson Results`;
 
@@ -73,11 +74,25 @@ export const StudyResultsPage = ({
       <div className="study-results-page-nav-buttons">
         <Button
           size="medium"
-          onClick={() => navigate(`${paths.study}/${deck.metaData.id}`, { state: studyConfig })}
+          disabled={isUpdating}
+          onClick={() => {
+            finishLesson(() =>
+              setNavigateParams({
+                to: `${paths.study}/${deck.metaData.id}`,
+                options: { state: studyConfig },
+              })
+            );
+          }}
         >
           study again
         </Button>
-        <Button size="medium" disabled={isUpdating} onClick={handleFinishClick}>
+        <Button
+          size="medium"
+          disabled={isUpdating}
+          onClick={() => {
+            finishLesson(() => setNavigateParams({ to: `${paths.deck}/${deck.metaData.id}` }));
+          }}
+        >
           <UpToggle
             className="finish-lesson-content-container"
             showDefault={!isUpdating}
@@ -150,7 +165,7 @@ export const StudyResultsPage = ({
     return progress < 1 ? '~1%' : `${Math.round(progress)}%`;
   }
 
-  async function handleFinishClick() {
+  async function finishLesson(onSuccess: () => Promise<void> | void) {
     if (isUpdating) {
       return;
     }
@@ -159,7 +174,7 @@ export const StudyResultsPage = ({
     setIsUpdating(true);
     try {
       await _updateAllCardScores();
-      setAreResultsApplied(true); // navigation is handled with a side effect on `areResultsApplied`
+      return onSuccess();
     } catch (error) {
       console.error(error);
     } finally {
