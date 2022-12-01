@@ -265,7 +265,6 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       // always use Intl.Collator for locale-sensitive string comparisons
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
       if (stringDistance.get(spokenChunkText, expected, { useCollator: true }) <= threshold) {
-        console.log(spokenChunkText, expected);
         return true;
       }
     }
