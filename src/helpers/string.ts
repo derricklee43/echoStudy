@@ -20,3 +20,14 @@ export function stringToBoolean(subject: string | undefined, fallback?: boolean)
       throw new Error(`stringToBoolean tried to convert non-boolean: ${subject}`);
   }
 }
+
+/**
+ * @returns a string only with alphanumeric symbols kept (works for most languages)
+ */
+export function replaceNonAlphanumeric(text: string) {
+  // \p{L} matches any kind of letter from any language
+  // \d matches a digit zero-nine in any non ideographic scripts
+  // <space> matches a space character
+  // gu - regex flags (g) matches globally and (u) in unicode
+  return text.replace(/[^\p{L}\d ]/gu, '');
+}

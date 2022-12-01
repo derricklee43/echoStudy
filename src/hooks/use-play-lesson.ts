@@ -3,7 +3,7 @@ import * as stringDistance from 'fast-levenshtein';
 import correctSound from '@/assets/sounds/correct.mp3';
 import incorrectSound from '@/assets/sounds/incorrect.wav';
 import { compare, shuffle } from '@/helpers/sort';
-import { stringToBoolean } from '@/helpers/string';
+import { replaceNonAlphanumeric, stringToBoolean } from '@/helpers/string';
 import { toNumberOrElse } from '@/helpers/validator';
 import { Card } from '@/models/card';
 import { Deck } from '@/models/deck';
@@ -172,7 +172,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
 
       // grade spoken text with back text and play the outcome chime
       currentLifecycleRef.current = 'grading';
-      const expectedText = currentCard.back.text.trim().toLocaleLowerCase();
+      const expectedText = replaceNonAlphanumeric(currentCard.back.text.trim().toLocaleLowerCase());
       const wasCorrect = _gradeSpokenText(spokenText, expectedText);
 
       if (_shouldPlaySoundEffects()) {
