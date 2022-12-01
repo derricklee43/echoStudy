@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
+import * as stringDistance from 'fast-levenshtein';
 import correctSound from '@/assets/sounds/correct.mp3';
 import incorrectSound from '@/assets/sounds/incorrect.wav';
 import { compare, shuffle } from '@/helpers/sort';
@@ -15,6 +16,8 @@ import { useLocalStorage } from './use-local-storage';
 import { usePlayCardAudio } from './use-play-card-audio';
 import { useSpacedRepetition } from './use-spaced-repetition';
 import { useCaptureSpeech } from './use-speech-recognition';
+
+const STRING_DISTANCE_THRESHOLD = 2;
 
 interface UsePlayLessonSettings {
   deck: Deck;
@@ -170,7 +173,7 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       // grade spoken text with back text and play the outcome chime
       currentLifecycleRef.current = 'grading';
       const expectedText = currentCard.back.text.trim().toLocaleLowerCase();
-      const wasCorrect = spokenText.includes(expectedText);
+      const wasCorrect = _gradeSpokenText(spokenText, expectedText);
 
       if (_shouldPlaySoundEffects()) {
         const outcomeAudio = new LazyAudio(wasCorrect ? correctSound : incorrectSound);
@@ -240,6 +243,34 @@ export function usePlayLesson({ deck, studyConfig }: UsePlayLessonSettings) {
       completedCards: newCompletedCards,
       upcomingCards: newUpcomingCards,
     };
+  }
+
+  /**
+   * Best-effort to grade spoken text using substring match with string similarity (levenshtein) thresholds.
+   *
+   * Given `expected` text of length N, scan the spoken text with a sliding window of length N.
+   * If any text is within the string similarity threshold, then the spoken text was correct.
+   */
+  function _gradeSpokenText(spoken: string, expected: string): boolean {
+    const spokenWords: string[] = spoken.split(' ');
+    const expectedWords: string[] = expected.split(' ');
+
+    const threshold = Math.min(expected.length - 1, STRING_DISTANCE_THRESHOLD);
+    const windowSize = expectedWords.length;
+
+    for (let i = 0; i < spokenWords.length; i++) {
+      const spokenChunk = spokenWords.slice(i, i + windowSize);
+      const spokenChunkText = spokenChunk.join(' ');
+
+      // always use Intl.Collator for locale-sensitive string comparisons
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator
+      if (stringDistance.get(spokenChunkText, expected, { useCollator: true }) <= threshold) {
+        console.log(spokenChunkText, expected);
+        return true;
+      }
+    }
+
+    return false;
   }
 
   async function _getSpeechMaxPauseLength(backContent: LessonCardContent) {

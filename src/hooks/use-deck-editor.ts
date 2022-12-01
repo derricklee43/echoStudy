@@ -1,5 +1,5 @@
 import { useReducer, useState } from 'react';
-import { Card, CardSide, DraftCard, filterBlankCards } from '@/models/card';
+import { CardSide, DraftCard, filterBlankCards } from '@/models/card';
 import { DeckMetaData, DraftDeck } from '@/models/deck';
 import { LazyAudio } from '@/models/lazy-audio';
 import { useCardsClient } from './api/use-cards-client';
