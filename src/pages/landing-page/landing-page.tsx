@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Fade } from '@/animations/fade';
 import { ArrowIcon } from '@/assets/icons/arrow-icon/arrow-icon';
 import collaborationImage from '@/assets/images/collaboration.jpg';
@@ -7,11 +7,11 @@ import retroImage from '@/assets/images/retro-aesthetic.png';
 import waveImage from '@/assets/images/wave.png';
 import womanOnPhoneImage from '@/assets/images/woman-on-phone.png';
 import { Button } from '@/components/button/button';
-import { DeckCover } from '@/components/deck-cover/deck-cover';
 import { Header } from '@/components/header/header';
-import { noop } from '@/helpers/func';
-import { testEnglishDeck } from '@/models/mock/deck.mock';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { paths } from '@/routing/paths';
+import { AuthJwt } from '@/state/auth-jwt';
+import { LocalStorageKeys } from '@/state/init';
 import { DeckShowcase } from './deck-showcase/deck-showcase';
 import './landing-page.scss';
 
@@ -26,6 +26,14 @@ const enum pages {
 export const LandingPage = () => {
   const navigate = useNavigate();
   const deckShowcaseAnchorRef = useRef(null); // show DeckShowcase only when this ref is visible
+
+  const ls = useLocalStorage();
+  const authJwt = ls.getObject<AuthJwt>(LocalStorageKeys.authJwt);
+
+  // redirect if already authenticated
+  if (authJwt) {
+    return <Navigate to={paths.decks} />;
+  }
 
   return (
     <>

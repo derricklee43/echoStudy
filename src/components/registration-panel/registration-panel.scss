@@ -31,7 +31,14 @@
     }
 
     .registration-header {
+      @include standard-transition;
+      &:hover {
+        color: $light-blue;
+      }
+
       font-size: 36px;
+      color: unset;
+      text-decoration: none;
     }
 
     .registration-sub-header {

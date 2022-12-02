@@ -39,7 +39,9 @@ export const RegistrationPanel = ({
     <div className={`registration-component-wrapper ${className}`}>
       <Fade>
         <div className="registration-component">
-          <div className="registration-header">echoStudy</div>
+          <a className="registration-header" href="/">
+            echoStudy
+          </a>
           <div className="registration-sub-header">learn anything. study anywhere.</div>
           <div className="registration-form">
             <div>{formHeader}</div>
