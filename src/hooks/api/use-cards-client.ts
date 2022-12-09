@@ -69,6 +69,7 @@ export function useCardsClient() {
     const cardsData = await fetchWrapper.get(`/public/cards?deckId=${deckId}`);
     return cardsData.map(JsonToCard);
   }
+
   //////////////////////
   /// adds & updates ///
   //////////////////////
@@ -92,7 +93,7 @@ export function useCardsClient() {
 
   // POST: /Cards/Update
   async function updateCards(cards: DraftCard[] | Card[]): Promise<NewCardsResponse> {
-    cards.forEach((card) => assertIdIsNumber(card.id));
+    // cards.forEach((card) => assertIdIsNumber(card.id));
     const cardsToUpdate = await Promise.all(cards.map((card) => cardToJson(card)));
     const response = await fetchWrapper.post(`/cards/update`, cardsToUpdate);
     return response;
@@ -109,13 +110,13 @@ export function useCardsClient() {
 
   // POST: /Cards/Delete
   async function deleteCard(card: Card): Promise<void> {
-    assertIdIsNumber(card.id);
+    // assertIdIsNumber(card.id);
     return deleteCards([card]);
   }
 
   // POST: /Cards/Delete
   async function deleteCards(cards: Card[]): Promise<void> {
-    cards.forEach((card) => assertIdIsNumber(card.id));
+    // cards.forEach((card) => assertIdIsNumber(card.id));
 
     const cardsToDelete = cards.map((card) => card.id).filter(isDefined);
     return fetchWrapper.post(`/cards/delete`, cardsToDelete);

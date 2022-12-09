@@ -166,6 +166,11 @@ export const DeckEditor = ({
   }
 
   function handleSubmitClick() {
+    if (deck.cards.length > 500) {
+      alert('echoStudy does not currently support decks with over 500 cards.');
+      return;
+    }
+
     if (isNewDeck) {
       setIsPromptEnabled(false);
       onCreateDeckClick(deck); // Todo: await and handle errors
